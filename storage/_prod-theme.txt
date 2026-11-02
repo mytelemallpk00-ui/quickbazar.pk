@@ -1,0 +1,64 @@
+﻿<?php
+
+namespace App\Support;
+
+use App\Models\SiteSetting;
+use Illuminate\Support\Facades\Cache;
+
+class SiteSettings
+{
+    /** @return array<string, mixed> */
+    public static function all(): array
+    {
+        return Cache::rememberForever('site_settings.all', function (): array {
+            return SiteSetting::query()
+                ->pluck('value', 'key')
+                ->all();
+        });
+    }
+
+    public static function get(string $key, mixed $default = null): mixed
+    {
+        $all = static::all();
+
+        return array_key_exists($key, $all) ? $all[$key] : $default;
+    }
+
+    public static function set(string $key, mixed $value, string $group = 'general'): void
+    {
+        SiteSetting::query()->updateOrCreate(
+            ['key' => $key],
+            ['group' => $group, 'value' => $value],
+        );
+    }
+
+    /** @return array<string, string> */
+    public static function themeColors(): array
+    {
+        return [
+            'purple' => (string) static::get('theme_color_purple', '#5E1F70'),
+            'purpleDark' => (string) static::get('theme_color_purple_dark', '#3B0764'),
+            'pink' => (string) static::get('theme_color_pink', '#E025A8'),
+            'pinkHover' => (string) static::get('theme_color_pink_hover', '#C21B8F'),
+            'amber' => (string) static::get('theme_color_amber', '#F59E0B'),
+        ];
+    }
+}
+---BLADE---
+<x-filament-panels::page>
+    <div class="beautage-page-intro">
+        <p class="beautage-page-intro-text">
+            Brand identity, theme colors, homepage marquee, and default SEO — changes apply across the storefront after you save.
+        </p>
+    </div>
+
+    <form wire:submit="save" class="beautage-settings-form">
+        {{ $this->form }}
+
+        <div class="beautage-form-actions">
+            <x-filament::button type="submit" size="lg">
+                Save all settings
+            </x-filament::button>
+        </div>
+    </form>
+</x-filament-panels::page>

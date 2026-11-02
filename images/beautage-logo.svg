@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Beautage">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#5E1F70"/>
+      <stop offset="100%" stop-color="#E025A8"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="96" fill="url(#g)"/>
+  <path fill="#fff" d="M168 148h48c44 0 72 24 72 64 0 28-14 48-38 58 32 10 52 36 52 72 0 48-36 78-92 78h-42V148zm48 104c26 0 42-14 42-36s-16-36-42-36h-24v72h24zm-24 104h28c32 0 50-16 50-42 0-26-18-42-50-42h-28v84z"/>
+  <text x="256" y="468" text-anchor="middle" fill="#fff" font-family="Georgia, serif" font-size="42" font-weight="700">BEAUTAGE</text>
+</svg>

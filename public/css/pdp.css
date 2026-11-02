@@ -1,0 +1,65 @@
+/* Product detail — brand contrast + stable layout (CWV-friendly) */
+
+.pdp-bulk-card {
+    border: 2px solid var(--beautage-border, #e9d5ff);
+    background: #fff;
+    border-radius: 0.75rem;
+    padding: 0.875rem 0.75rem;
+    text-align: left;
+    transition: border-color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.pdp-bulk-card:hover {
+    border-color: color-mix(in srgb, var(--beautage-purple, #5e1f70) 35%, #e9d5ff);
+}
+
+.pdp-bulk-card.is-active {
+    border-color: var(--beautage-purple, #5e1f70);
+    background: var(--beautage-surface, #faf5ff);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--beautage-pink, #e025a8) 25%, transparent);
+}
+
+.pdp-bulk-card__title {
+    color: var(--beautage-purple-dark, #3b0764);
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+.pdp-bulk-card__badge {
+    display: inline-block;
+    margin-top: 0.25rem;
+    padding: 0.125rem 0.5rem;
+    border-radius: 9999px;
+    font-size: 0.625rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    background: var(--beautage-pink, #e025a8);
+    color: #fff;
+}
+
+.pdp-bulk-card__total {
+    margin-top: 0.5rem;
+    font-size: 0.6875rem;
+    font-weight: 800;
+    color: var(--beautage-ink, #1e1b4b);
+}
+
+.pdp-text-muted {
+    color: var(--beautage-muted, #475569);
+}
+
+.pdp-gallery-main {
+    content-visibility: auto;
+    contain-intrinsic-size: 520px 520px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pdp-gallery-main,
+    .pdp-no-motion-pulse {
+        transition: none !important;
+        animation: none !important;
+        transform: none !important;
+    }
+}

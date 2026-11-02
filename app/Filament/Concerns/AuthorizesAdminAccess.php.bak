@@ -1,0 +1,54 @@
+<?php
+
+namespace App\Filament\Concerns;
+
+use App\Models\User;
+use App\Support\AdminPermissions;
+
+trait AuthorizesAdminAccess
+{
+    protected static string $adminPermission = AdminPermissions::OVERVIEW;
+
+    protected static function adminAuthUser(): ?User
+    {
+        $user = auth()->user();
+
+        return $user instanceof User ? $user : null;
+    }
+
+    protected static function userCanAccessModule(): bool
+    {
+        $user = static::adminAuthUser();
+
+        if (! $user?->is_admin) {
+            return false;
+        }
+
+        return $user->canAccessAdminModule(static::$adminPermission);
+    }
+
+    public static function canViewAny(): bool
+    {
+        return static::userCanAccessModule();
+    }
+
+    public static function canCreate(): bool
+    {
+        return static::canViewAny();
+    }
+
+    public static function canEdit($record): bool
+    {
+        return static::canViewAny();
+    }
+
+    public static function canDelete($record): bool
+    {
+        return static::canViewAny();
+    }
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return static::canViewAny();
+    }
+}

@@ -1,0 +1,34 @@
+<?php
+
+namespace App\Filament\Concerns;
+
+use App\Models\User;
+use App\Support\AdminPermissions;
+
+trait AuthorizesAdminPage
+{
+    protected static string $adminPermission = AdminPermissions::OVERVIEW;
+
+    protected static function adminAuthUser(): ?User
+    {
+        $user = auth()->user();
+
+        return $user instanceof User ? $user : null;
+    }
+
+    public static function canAccess(): bool
+    {
+        $user = static::adminAuthUser();
+
+        if (! $user?->is_admin) {
+            return false;
+        }
+
+        return $user->canAccessAdminModule(static::$adminPermission);
+    }
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return static::canAccess();
+    }
+}

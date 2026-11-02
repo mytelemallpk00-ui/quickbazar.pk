@@ -1,0 +1,44 @@
+@import 'tailwindcss';
+@import './beautage-storefront.css';
+
+@source '../views/**/*.blade.php';
+@source '../../public/js/**/*.js';
+
+@theme {
+    --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+    --font-serif: 'Playfair Display', ui-serif, Georgia, serif;
+    --default-font-family: var(--font-sans);
+
+    --color-beautage-purple: #5d267d;
+    --color-beautage-purpleDark: #451b5c;
+    --color-beautage-purpleLight: #faf5ff;
+    --color-beautage-purpleBorder: #e9cce8;
+    --color-beautage-pink: #e6007e;
+    --color-beautage-pinkHover: #bf0068;
+    --color-beautage-pinkLight: #fdf2f8;
+    --color-beautage-amber: #f5a623;
+    --color-beautage-gold: #f5a623;
+    --color-beautage-slate: #1e1b4b;
+
+    --animate-marquee: marquee 25s linear infinite;
+    --animate-pulseGlow: pulseGlow 2.5s infinite;
+}
+
+@keyframes marquee {
+    0% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+@keyframes pulseGlow {
+    0%,
+    100% {
+        box-shadow: 0 0 15px rgba(230, 0, 126, 0.35);
+    }
+    50% {
+        box-shadow: 0 0 25px rgba(230, 0, 126, 0.65);
+    }
+}
