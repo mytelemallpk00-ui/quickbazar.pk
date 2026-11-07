@@ -443,7 +443,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
     <!-- Sticky checkout — slides up when inline buy buttons leave the viewport -->
     <div id="pdp-sticky-checkout" class="fixed inset-x-0 z-[45] max-md:bottom-[3.65rem] md:bottom-0 translate-y-full opacity-0 pointer-events-none transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]" aria-hidden="true">
         <div class="border-t border-purple-200/80 bg-white/95 backdrop-blur-xl shadow-[0_-12px_40px_rgba(94,31,112,0.14)]">
-            <div class="w-full px-4 sm:px-12 xl:px-20 py-3 md:py-3.5 max-w-[90rem] mx-auto">
+            <div class="w-full px-4 py-3 sm:px-6 md:py-3.5 lg:px-8">
                 <div class="flex flex-col gap-2.5 md:flex-row md:items-center md:gap-4">
                     <div class="flex items-center gap-3 min-w-0 md:flex-1">
                         <img src="{{ $galleryImages[0] ?? $product->image }}" alt="" class="hidden sm:block w-11 h-11 rounded-xl object-cover border border-purple-100 shadow-sm shrink-0">

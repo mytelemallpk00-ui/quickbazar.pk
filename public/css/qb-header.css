@@ -123,6 +123,20 @@
     padding: 0.45rem 0.75rem;
 }
 .qb-flash:hover { background: #dc2626; }
+#site-header-sticky,
+.qb-nav,
+.qb-footer,
+main {
+    width: 100%;
+    max-width: none;
+}
+main .max-w-7xl,
+main .max-w-6xl,
+main .max-w-5xl,
+main .max-w-\[90rem\] {
+    max-width: none;
+    width: 100%;
+}
 .qb-mega-card {
     background: #fff;
     border-top: 3px solid #f97316;

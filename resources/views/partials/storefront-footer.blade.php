@@ -29,7 +29,7 @@
 <footer class="qb-footer site-storefront-footer mt-auto w-full">
     @if (! empty($footer['trust_enabled']))
     <div class="qb-footer-trust px-4 py-6 sm:px-8">
-        <div class="mx-auto grid max-w-7xl grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
+        <div class="grid w-full grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
             <div class="qb-trust-card">
                 <span class="qb-trust-icon"><i data-lucide="truck" class="h-5 w-5"></i></span>
                 <span>
@@ -62,7 +62,7 @@
     </div>
     @endif
 
-    <div class="mx-auto grid w-full max-w-7xl grid-cols-1 gap-10 px-4 py-12 sm:px-8 md:grid-cols-2 lg:grid-cols-12">
+    <div class="grid w-full grid-cols-1 gap-10 px-4 py-12 sm:px-6 md:grid-cols-2 lg:grid-cols-12 lg:px-8">
         <div class="lg:col-span-4">
             <a href="{{ route('home') }}" class="inline-flex items-center gap-2.5">
                 <span class="qb-logo-mark" aria-hidden="true">
@@ -166,7 +166,7 @@
     </div>
 
     <div class="qb-footer-bar">
-        <div class="mx-auto flex max-w-7xl flex-col items-start justify-between gap-3 px-4 py-4 sm:flex-row sm:items-center sm:px-8">
+        <div class="flex w-full flex-col items-start justify-between gap-3 px-4 py-4 sm:flex-row sm:items-center sm:px-6 lg:px-8">
             <p>© {{ date('Y') }} Quick Bazar. All rights reserved.</p>
             <nav class="flex flex-wrap gap-x-4 gap-y-2" aria-label="Footer policies">
                 <a href="{{ route('help') }}">Privacy policy</a>

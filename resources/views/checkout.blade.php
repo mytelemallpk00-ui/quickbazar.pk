@@ -23,7 +23,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
         </div>
 
         <div class="w-full px-4 sm:px-12 xl:px-20">
-            <div class="max-w-7xl mx-auto">
+            <div class="w-full">
                 @php
                     $shippingMethods = $checkoutConfig['shipping_methods'] ?? [];
                     $paymentMethods = $checkoutConfig['payment_methods'] ?? [];
@@ -321,7 +321,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
 
         <!-- "YOU MAY ALSO LIKE" SECTION RIGHT BEFORE FOOTER -->
         <section class="w-full px-4 sm:px-12 xl:px-20 mt-20 mb-12">
-            <div class="max-w-7xl mx-auto">
+            <div class="w-full">
                 <div class="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 mb-8">
                     <div>
                         <span class="inline-block px-3.5 py-1 rounded-full text-[10px] uppercase font-extrabold tracking-widest bg-pink-50 text-beautage-pink border border-pink-200 mb-2">

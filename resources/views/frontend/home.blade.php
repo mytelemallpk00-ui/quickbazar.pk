@@ -15,7 +15,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
 @endphp
 <main>
     <section class="px-4 py-8 sm:px-8 sm:py-12 lg:px-12" aria-labelledby="home-hero-title">
-        <div class="mx-auto grid max-w-7xl items-center gap-6 lg:grid-cols-12">
+        <div class="mx-auto grid w-full items-center gap-6 lg:grid-cols-12">
             <div class="lg:col-span-7">
                 <p class="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-bold uppercase tracking-wide text-emerald-800">
                     <i data-lucide="badge-check" class="h-3.5 w-3.5" aria-hidden="true"></i>
@@ -108,7 +108,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
     </section>
 
     <section class="border-y border-slate-200 bg-white" aria-label="Why shop with QuickBazar">
-        <ul class="mx-auto grid max-w-7xl grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+        <ul class="mx-auto grid w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
             <li>
                 <a href="{{ route('shipping') }}" class="flex h-full items-start gap-3 px-5 py-5 transition hover:bg-emerald-50">
                     <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-700">
@@ -157,7 +157,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
     </section>
 
     <section id="categories" class="px-4 py-12 sm:px-8 lg:px-12" aria-labelledby="home-categories-title">
-        <div class="mx-auto max-w-7xl">
+        <div class="mx-auto w-full">
             <div class="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
                 <div>
                     <p class="text-xs font-bold uppercase tracking-wide text-emerald-700">Departments</p>
@@ -185,7 +185,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
     </section>
 
     <section class="px-4 pb-12 sm:px-8 lg:px-12" aria-labelledby="home-trending-title">
-        <div class="mx-auto max-w-7xl">
+        <div class="mx-auto w-full">
             <div class="mb-8">
                 <p class="text-xs font-bold uppercase tracking-wide text-emerald-700">{{ $trendingCopy['badge'] }}</p>
                 <h2 id="home-trending-title" class="mt-1 text-2xl font-extrabold text-slate-900 sm:text-3xl">{{ $trendingCopy['heading'] }}</h2>
@@ -246,7 +246,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
 
     @if($latestReviews->isNotEmpty())
     <section class="px-4 pb-12 sm:px-8 lg:px-12" aria-labelledby="home-reviews-title">
-        <div class="mx-auto max-w-7xl">
+        <div class="mx-auto w-full">
             <p class="text-xs font-bold uppercase tracking-wide text-emerald-700">Verified buyers</p>
             <h2 id="home-reviews-title" class="mt-1 text-2xl font-extrabold text-slate-900 sm:text-3xl">Recent reviews</h2>
             <div class="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -272,7 +272,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
 
     @if($journalPosts->isNotEmpty())
     <section class="px-4 pb-12 sm:px-8 lg:px-12" aria-labelledby="home-journal-title">
-        <div class="mx-auto max-w-7xl">
+        <div class="mx-auto w-full">
             <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
                 <div>
                     <p class="text-xs font-bold uppercase tracking-wide text-emerald-700">Journal</p>
@@ -298,7 +298,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
 
     <section class="px-4 pb-14 sm:px-8 lg:px-12" aria-labelledby="home-flash-title">
         <div
-            class="mx-auto grid max-w-7xl items-center gap-8 overflow-hidden rounded-3xl bg-gradient-to-br from-emerald-700 via-emerald-600 to-teal-500 px-5 py-8 text-white shadow-xl sm:px-10 sm:py-12 lg:grid-cols-12"
+            class="mx-auto grid w-full items-center gap-8 overflow-hidden rounded-3xl bg-gradient-to-br from-emerald-700 via-emerald-600 to-teal-500 px-5 py-8 text-white shadow-xl sm:px-10 sm:py-12 lg:grid-cols-12"
             x-data="qbFlashSale(@js($flash['ends_at']), @js($flash['hours']), @js($flash['minutes']), @js($flash['seconds']))"
         >
             <div class="lg:col-span-7">

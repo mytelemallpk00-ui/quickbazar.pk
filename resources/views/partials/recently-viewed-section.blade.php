@@ -8,7 +8,7 @@
     data-recently-viewed-section
     data-exclude-id="{{ $excludeProductId ?? '' }}"
     data-limit="{{ $recentlyLimit }}"
-    class="mx-auto hidden w-full max-w-7xl px-4 py-8 sm:px-8 lg:px-0"
+    class="hidden w-full px-4 py-8 sm:px-6 lg:px-8"
     aria-label="Recently viewed products"
 >
     <div class="mb-5 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">

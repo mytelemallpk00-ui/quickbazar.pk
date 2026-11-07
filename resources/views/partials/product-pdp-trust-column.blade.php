@@ -2,7 +2,7 @@
     $pdpTrust = $pdpTrust ?? \App\Support\ProductTrustSettings::forStorefront();
 @endphp
 @if (! empty($pdpTrust['enabled']))
-<section id="pdp-trust-column" class="mx-auto mt-8 w-full max-w-7xl" aria-label="Store guarantees">
+<section id="pdp-trust-column" class="mt-8 w-full" aria-label="Store guarantees">
     <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
         @foreach (['trust_section', 'quality_section'] as $sectionKey)
             @php

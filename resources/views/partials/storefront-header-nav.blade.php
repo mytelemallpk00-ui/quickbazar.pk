@@ -9,7 +9,7 @@
 @endphp
 <div id="storefront-nav-backdrop" aria-hidden="true"></div>
 <div id="storefront-category-strip" class="qb-nav w-full">
-    <nav class="mx-auto flex w-full max-w-7xl items-center gap-1 px-3 sm:px-6" aria-label="Departments">
+    <nav class="flex w-full items-center gap-1 px-4 sm:px-6 lg:px-8" aria-label="Departments">
         <a href="{{ route('home') }}" class="qb-nav-link {{ request()->routeIs('home') ? 'is-current' : '' }}">
             <i data-lucide="home" class="h-4 w-4 text-orange-400"></i>
             Home
@@ -31,7 +31,7 @@
                         <i data-lucide="chevron-down" class="collections-chevron h-3.5 w-3.5 opacity-70"></i>
                     </button>
                     <div id="mega-{{ $department->id }}" class="nav-dropdown-panel mega-menu-content qb-mega hidden lg:block" role="region" aria-label="{{ $department->displayNavLabel() }}">
-                        <div class="qb-mega-card mx-auto grid max-w-7xl gap-6 px-6 py-6 lg:grid-cols-12">
+                        <div class="qb-mega-card grid w-full gap-6 px-4 py-6 sm:px-6 lg:grid-cols-12 lg:px-8">
                             <div class="lg:col-span-3">
                                 <p class="text-[11px] font-extrabold uppercase tracking-wide text-orange-600">Department</p>
                                 <h3 class="mt-1 text-lg font-extrabold text-slate-900">{{ $department->displayNavLabel() }}</h3>

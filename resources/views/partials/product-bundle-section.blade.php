@@ -1,5 +1,5 @@
 @if (! empty($bundlePayload))
-<section class="mx-auto w-full max-w-7xl px-4 py-8 sm:px-8 lg:px-0" id="frequently-bought-together">
+<section class="w-full px-4 py-8 sm:px-6 lg:px-8" id="frequently-bought-together">
     <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white">
         <div class="border-b border-slate-100 px-5 py-5 sm:px-6">
             <p class="text-[11px] font-bold uppercase tracking-wide text-emerald-700">{{ $bundlePayload['badgeLabel'] }}</p>

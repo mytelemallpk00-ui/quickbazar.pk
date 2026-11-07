@@ -7,7 +7,7 @@
     @php
         use App\Support\StorefrontAssets;
         $storefrontCss = StorefrontAssets::compiledStylesheet();
-        $storefrontCssVersion = '2026110808';
+        $storefrontCssVersion = '2026110809';
         $supportEmail = \App\Support\SiteSettings::get('support_email', 'support@quickbazar.pk');
         if (! is_string($supportEmail) || $supportEmail === '' || str_contains(strtolower($supportEmail), 'beautage')) {
             $supportEmail = 'support@quickbazar.pk';
@@ -65,7 +65,7 @@
 
     <div id="site-header-sticky" class="sticky top-0 z-40 w-full bg-white shadow-sm">
     <div class="qb-topbar">
-        <div class="mx-auto flex max-w-7xl items-center justify-between gap-3 px-3 py-2 sm:px-6">
+        <div class="flex w-full items-center justify-between gap-3 px-4 py-2 sm:px-6 lg:px-8">
             <div class="flex min-w-0 items-center gap-3 sm:gap-4">
                 <a href="tel:{{ $supportPhoneTel }}" class="inline-flex items-center gap-1.5 font-semibold">
                     <i data-lucide="phone" class="h-3.5 w-3.5 text-orange-400"></i>
@@ -92,7 +92,7 @@
     </div>
 
     <header class="site-header-bar w-full border-b border-slate-100 bg-white">
-        <div class="mx-auto w-full max-w-7xl px-3 py-3 sm:px-6">
+        <div class="w-full px-4 py-3 sm:px-6 lg:px-8">
             <div class="flex items-center gap-3">
                 <button onclick="toggleMobileNav()" class="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-slate-800 hover:bg-slate-100 lg:hidden" aria-label="Open Menu">
                     <i data-lucide="menu" class="h-5 w-5"></i>
