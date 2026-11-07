@@ -7,7 +7,7 @@
     @php
         use App\Support\StorefrontAssets;
         $storefrontCss = StorefrontAssets::compiledStylesheet();
-        $storefrontCssVersion = '2026103020';
+        $storefrontCssVersion = '2026110718';
         $siteLogoUrl = \App\Support\SiteSettings::logoUrl();
         $siteFaviconUrl = \App\Support\SiteSettings::faviconUrl();
         $footerLogoUrl = \App\Support\SiteSettings::footerLogoUrl();
@@ -53,6 +53,7 @@
 <!-- Toast Notification Container -->
     <div id="toast-container" class="fixed bottom-28 md:bottom-6 right-4 sm:right-6 z-50 flex flex-col gap-2 pointer-events-none max-w-[90vw] sm:max-w-md"></div>
 
+    @unless ($__env->hasSection('lumiere_homepage'))
     <!-- SMOOTH SLIDING MARQUEE TOP BAR -->
     <div class="bg-gradient-to-r from-beautage-pink via-beautage-purple to-beautage-purpleDark text-white text-[11px] sm:text-xs font-semibold py-2.5 px-0 w-full overflow-hidden shadow-sm relative z-50 border-b border-pink-400/30">
         <div class="flex w-max marquee-track animate-marquee whitespace-nowrap items-center">
@@ -224,6 +225,7 @@
             <a href="tel:+18008886678" class="block text-sm font-bold text-beautage-purple mt-0.5">+1 (800) BEAUTAGE</a>
         </div>
     </div>
+    @endunless
 
     <!-- MAIN HELP CENTER & FAQ CONTENT -->
 
@@ -231,7 +233,9 @@
 
 @yield('below_main')
 
+@unless ($__env->hasSection('lumiere_homepage'))
 @include('partials.storefront-footer', ['footerSettings' => $footerSettings])
+@endunless
 
 <!-- CART DRAWER -->
     <div id="cart-drawer" class="fixed inset-0 z-50 pointer-events-none hidden">

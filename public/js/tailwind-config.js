@@ -18,6 +18,14 @@ tailwind.config = {
                             amber: '#F5A623',
                             gold: '#F5A623',
                             slate: '#1E1B4B'
+                        },
+                        brand: {
+                            navy: '#0B132B',
+                            dark: '#1C2541',
+                            gold: '#D4AF37',
+                            lightgold: '#F4E8C1',
+                            accent: '#4361EE',
+                            light: '#F8F9FA'
                         }
                     },
                     keyframes: {
