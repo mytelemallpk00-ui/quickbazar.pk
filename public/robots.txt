@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /checkout
+Disallow: /account
+
+Sitemap: https://lightgrey-panther-710834.hostingersite.com/sitemap_index.xml
+Sitemap: https://lightgrey-panther-710834.hostingersite.com/feeds/google-merchant.xml

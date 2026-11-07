@@ -12,7 +12,13 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 APP_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 cd "${APP_ROOT}"
 
-PHP_BIN="${PHP_BIN:-/usr/bin/php}"
+if [[ -z "${PHP_BIN:-}" ]]; then
+    if [[ -x /opt/alt/php83/usr/bin/php ]]; then
+        PHP_BIN=/opt/alt/php83/usr/bin/php
+    else
+        PHP_BIN=/usr/bin/php
+    fi
+fi
 COMPOSER_BIN="${COMPOSER_BIN:-/usr/local/bin/composer}"
 GIT_REMOTE="${GIT_REMOTE:-origin}"
 GIT_BRANCH="${GIT_BRANCH:-main}"
@@ -78,6 +84,9 @@ echo "==> Laravel caches"
 "${PHP_BIN}" artisan config:cache
 "${PHP_BIN}" artisan route:cache
 "${PHP_BIN}" artisan view:cache
+
+echo "==> Sitemap"
+"${PHP_BIN}" artisan seo:generate-sitemap
 
 echo "==> Permissions"
 chmod -R 755 storage bootstrap/cache public_html
