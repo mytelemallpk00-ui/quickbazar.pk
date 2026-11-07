@@ -213,6 +213,7 @@
             <a href="tel:{{ $supportPhoneTel }}" class="mt-0.5 block text-sm font-bold text-emerald-800">{{ $supportPhone }}</a>
         </div>
     </div>
+    @endunless
 
     <!-- MAIN HELP CENTER & FAQ CONTENT -->
 
@@ -220,6 +221,7 @@
 
 @yield('below_main')
 
+@unless ($__env->hasSection('lumiere_homepage'))
 @include('partials.storefront-footer', ['footerSettings' => $footerSettings])
 @include('partials.storefront-bottom-nav')
 

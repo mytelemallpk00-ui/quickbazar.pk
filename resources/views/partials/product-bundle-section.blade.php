@@ -39,6 +39,9 @@
                     </div>
                     @endforeach
                 </div>
+                <button type="button" id="bundle-add-btn" onclick="addBundleToCart()" class="w-full bg-[#D4AF37] hover:bg-yellow-500 text-[#0B132B] font-bold py-3 rounded-xl text-xs transition shadow">
+                    Add All {{ count($bundlePayload['items']) }} Items to Bag
+                </button>
             </div>
 
             <div class="flex flex-col items-center justify-center rounded-2xl bg-slate-900 p-6 text-center text-white lg:col-span-4 lg:items-end lg:text-right">
