@@ -19,6 +19,12 @@
     --color-beautage-amber: #f5a623;
     --color-beautage-gold: #f5a623;
     --color-beautage-slate: #1e1b4b;
+    --color-brand-navy: #0b132b;
+    --color-brand-dark: #1c2541;
+    --color-brand-gold: #d4af37;
+    --color-brand-lightgold: #f4e8c1;
+    --color-brand-accent: #4361ee;
+    --color-brand-light: #f8f9fa;
 
     --animate-marquee: marquee 25s linear infinite;
     --animate-pulseGlow: pulseGlow 2.5s infinite;
