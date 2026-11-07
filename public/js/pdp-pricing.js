@@ -27,7 +27,12 @@
     function updateBulkCards() {
         document.querySelectorAll('[data-bulk-tier]').forEach((btn) => {
             const tier = Number(btn.dataset.bulkTier || 0);
-            const active = quantity === tier && bulkDiscountRate > 0;
+            let active = tier === 1;
+            if (quantity === 6 && bulkDiscountRate > 0) {
+                active = tier === 6;
+            } else if (quantity === 12 && bulkDiscountRate > 0) {
+                active = tier === 12;
+            }
             btn.classList.toggle('is-active', active);
             btn.setAttribute('aria-pressed', active ? 'true' : 'false');
         });
