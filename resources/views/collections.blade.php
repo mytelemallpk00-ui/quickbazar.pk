@@ -30,10 +30,9 @@ class="lumiere-v2 bg-gray-50 text-gray-800 font-sans antialiased min-h-screen fl
 @endpush
 
 @section('content')
-<main class="w-full flex-1 flex flex-col py-6">
+<main class="lv2-page">
 
-        <!-- 1. BREADCRUMB & COLLECTION HERO HEADER BANNER -->
-        <div class="lv2-collection">
+        <div class="lv2-wrap lv2-collection">
             <nav class="lv2-crumbs" aria-label="Breadcrumb">
                 <a href="{{ route('home') }}">Home</a>
                 <span aria-hidden="true">/</span>
@@ -56,111 +55,91 @@ class="lumiere-v2 bg-gray-50 text-gray-800 font-sans antialiased min-h-screen fl
         </div>
 
         <!-- 2. MAIN CATALOG SECTION WITH FILTERS & PRODUCTS -->
-        <section class="w-full px-4 sm:px-12 xl:px-20 py-4">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                
-                <!-- SIDEBAR FILTERS (SPAN 3) -->
-                <aside class="lg:col-span-3 bg-white rounded-3xl p-6 border border-purple-100 shadow-xl space-y-6 lg:sticky lg:top-28">
-                    <div class="flex items-center justify-between pb-4 border-b border-purple-100">
-                        <h2 class="text-sm font-bold text-beautage-purple flex items-center gap-2">
-                            <i data-lucide="filter" class="w-4 h-4 text-beautage-pink"></i> Filter & Sort Products
-                        </h2>
-                        <button onclick="resetFilters()" class="text-xs text-beautage-pink hover:underline font-bold">Reset All</button>
+        <section class="lv2-wrap lv2-section">
+            <div class="lv2-catalog">
+                <aside class="lv2-filters">
+                    <div class="lv2-filters-head">
+                        <h2><i data-lucide="filter" class="w-4 h-4"></i> Filter</h2>
+                        <button type="button" onclick="resetFilters()">Reset</button>
                     </div>
 
                     <!-- Department / Category Filter -->
-                    <div class="space-y-3">
-                        <label class="block text-xs font-extrabold text-beautage-purple uppercase tracking-wider">Departments</label>
+                    <div class="lv2-filter-block">
+                        <p class="lv2-filter-label">Departments</p>
                         @php
                             $activeCatSlug = $activeCategorySlug ?? null;
                         @endphp
-                        <div class="space-y-2 text-xs font-semibold text-slate-700">
-                            <label class="flex items-center gap-2 cursor-pointer hover:text-beautage-purple transition">
-                                <input type="radio" name="sidebar-cat" value="all" @checked(! $activeCatSlug) onchange="applySidebarFilters()" class="accent-beautage-pink">
-                                <span>All Departments</span>
+                        <div class="lv2-filter-options">
+                            <label>
+                                <input type="radio" name="sidebar-cat" value="all" @checked(! $activeCatSlug) onchange="applySidebarFilters()">
+                                <span>All departments</span>
                             </label>
                             @foreach ($shopCategories ?? [] as $shopCategory)
-                                <label class="flex items-center gap-2 cursor-pointer hover:text-beautage-purple transition">
-                                    <input type="radio" name="sidebar-cat" value="{{ $shopCategory->slug }}" @checked($activeCatSlug === $shopCategory->slug) onchange="applySidebarFilters()" class="accent-beautage-pink">
+                                <label>
+                                    <input type="radio" name="sidebar-cat" value="{{ $shopCategory->slug }}" @checked($activeCatSlug === $shopCategory->slug) onchange="applySidebarFilters()">
                                     <span>{{ $shopCategory->displayNavLabel() }}</span>
                                 </label>
                             @endforeach
                         </div>
                     </div>
 
-                    <!-- Price Range Slider Filter -->
-                    <div class="space-y-3 pt-4 border-t border-purple-100">
-                        <div class="flex justify-between text-xs font-extrabold text-beautage-purple uppercase tracking-wider">
-                            <span>Max Price</span>
-                            <span id="price-slider-value" class="font-mono text-beautage-pink">{{ \App\Support\MoneyFormat::pkr($priceCeil ?? 0) }}</span>
+                    <div class="lv2-filter-block">
+                        <div class="lv2-filter-label">
+                            <span>Max price</span>
+                            <span id="price-slider-value">{{ \App\Support\MoneyFormat::pkr($priceCeil ?? 0) }}</span>
                         </div>
-                        <input type="range" id="price-range" min="{{ (int) ($priceFloor ?? 0) }}" max="{{ (int) ($priceCeil ?? 1) }}" step="{{ max(1, (int) round((((int) ($priceCeil ?? 1)) - ((int) ($priceFloor ?? 0))) / 40)) }}" value="{{ (int) ($priceCeil ?? 1) }}" oninput="applySidebarFilters()" class="w-full accent-beautage-purple cursor-pointer">
-                        <div class="flex justify-between text-[10px] text-slate-400">
+                        <input type="range" id="price-range" min="{{ (int) ($priceFloor ?? 0) }}" max="{{ (int) ($priceCeil ?? 1) }}" step="{{ max(1, (int) round((((int) ($priceCeil ?? 1)) - ((int) ($priceFloor ?? 0))) / 40)) }}" value="{{ (int) ($priceCeil ?? 1) }}" oninput="applySidebarFilters()">
+                        <div class="lv2-filter-range">
                             <span>{{ \App\Support\MoneyFormat::pkr($priceFloor ?? 0) }}</span>
                             <span>{{ \App\Support\MoneyFormat::pkr($priceCeil ?? 0) }}</span>
                         </div>
                     </div>
 
-                    <!-- Minimum Rating Filter -->
-                    <div class="space-y-3 pt-4 border-t border-purple-100">
-                        <label class="block text-xs font-extrabold text-beautage-purple uppercase tracking-wider">Minimum Rating</label>
-                        <select id="rating-filter" onchange="applySidebarFilters()" class="w-full py-2.5 px-3 bg-purple-50/50 border border-purple-200 rounded-xl text-xs font-semibold text-slate-700 focus:outline-none focus:border-beautage-purple">
-                            <option value="0">All Ratings</option>
-                            <option value="4.5">4.5 & Above ⭐</option>
-                            <option value="4.8">4.8 & Above ⭐</option>
+                    <div class="lv2-filter-block">
+                        <label class="lv2-filter-label" for="rating-filter">Minimum rating</label>
+                        <select id="rating-filter" onchange="applySidebarFilters()">
+                            <option value="0">All ratings</option>
+                            <option value="4.5">4.5 and above</option>
+                            <option value="4.8">4.8 and above</option>
                         </select>
                     </div>
 
-                    <!-- In-Stock Only Checkbox -->
-                    <div class="pt-4 border-t border-purple-100">
-                        <label class="flex items-center gap-2 text-xs font-semibold text-slate-700 cursor-pointer">
-                            <input type="checkbox" id="instock-filter" onchange="applySidebarFilters()" class="accent-beautage-pink w-4 h-4 rounded">
-                            <span>In-Stock Verified Only</span>
+                    <div class="lv2-filter-block">
+                        <label class="lv2-check">
+                            <input type="checkbox" id="instock-filter" onchange="applySidebarFilters()">
+                            <span>In stock only</span>
                         </label>
                     </div>
                 </aside>
 
                 <!-- MAIN PRODUCT CATALOG GRID (SPAN 9) -->
-                <div class="lg:col-span-9 space-y-5">
-                    <div class="lg:hidden flex gap-2 overflow-x-auto pb-1 no-scrollbar">
-                        <button type="button" data-catalog-cat="all" onclick="quickCategoryFilter('all')" class="catalog-quick-cat shrink-0 px-3 py-2 rounded-xl text-[11px] font-bold bg-beautage-purple text-white border border-purple-100">All</button>
+                <div class="lv2-catalog-main">
+                    <div class="lv2-pills lg:hidden">
+                        <button type="button" data-catalog-cat="all" onclick="quickCategoryFilter('all')" class="catalog-quick-cat is-on">All</button>
                         @foreach ($shopCategories ?? [] as $shopCategory)
-                            <button type="button" data-catalog-cat="{{ $shopCategory->slug }}" onclick="quickCategoryFilter(@json($shopCategory->slug))" class="catalog-quick-cat shrink-0 px-3 py-2 rounded-xl text-[11px] font-bold bg-white border border-purple-100 text-slate-700">{{ $shopCategory->displayNavLabel() }}</button>
+                            <button type="button" data-catalog-cat="{{ $shopCategory->slug }}" onclick="quickCategoryFilter(@json($shopCategory->slug))" class="catalog-quick-cat">{{ $shopCategory->displayNavLabel() }}</button>
                         @endforeach
                     </div>
 
-                    <div class="bg-white rounded-2xl p-4 sm:p-5 border border-purple-100 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                        <div>
-                            <p class="text-[10px] uppercase font-extrabold text-beautage-pink tracking-wider">Catalog grid</p>
-                            <p class="text-xs text-slate-600 font-medium mt-0.5">
-                                Showing <span id="product-visible-count" class="font-bold text-beautage-purple">0</span>
-                                of <span id="product-count-label" class="font-bold text-beautage-purple">0</span> results
-                            </p>
-                        </div>
-                        <div class="flex items-center gap-3 w-full sm:w-auto">
-                            <label class="text-xs font-extrabold text-slate-700 whitespace-nowrap">Sort</label>
-                            <select id="sort-select" onchange="applySidebarFilters()" class="py-2.5 px-3 bg-purple-50/80 border border-purple-200 rounded-xl text-xs font-bold text-beautage-purple focus:outline-none focus:border-beautage-purple cursor-pointer w-full sm:min-w-[200px]">
-                                <option value="featured">Featured / Default</option>
-                                <option value="price-low">Price: Low to High</option>
-                                <option value="price-high">Price: High to Low</option>
-                                <option value="rating">Highest Customer Rating</option>
-                                <option value="popularity">Most Popular</option>
+                    <div class="lv2-toolbar">
+                        <p class="lv2-muted">Showing <strong id="product-visible-count">0</strong> of <strong id="product-count-label">0</strong> products</p>
+                        <label class="lv2-sort">
+                            <span>Sort</span>
+                            <select id="sort-select" onchange="applySidebarFilters()">
+                                <option value="featured">Featured</option>
+                                <option value="price-low">Price: low to high</option>
+                                <option value="price-high">Price: high to low</option>
+                                <option value="rating">Highest rating</option>
+                                <option value="popularity">Most popular</option>
                             </select>
-                        </div>
+                        </label>
                     </div>
 
-                    <div id="catalog-product-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3 sm:gap-4 lg:gap-5"></div>
+                    <div id="catalog-product-grid" class="lv2-grid lv2-grid-3"></div>
 
                     <!-- Infinite Scroll Loading Indicator -->
-                    <div id="infinite-scroll-loader" class="hidden py-8 text-center flex flex-col items-center justify-center gap-2">
-                        <div class="w-8 h-8 border-4 border-beautage-pink border-t-transparent rounded-full animate-spin"></div>
-                        <span class="text-xs font-bold text-beautage-purple">Loading more flagship items...</span>
-                    </div>
-
-                    <!-- End of Catalog Notice -->
-                    <div id="catalog-end-message" class="hidden py-8 text-center text-xs text-slate-400 font-semibold">
-                        You have viewed all available flagship products in this collection.
-                    </div>
+                    <div id="infinite-scroll-loader" class="lv2-empty hidden">Loading more products…</div>
+                    <div id="catalog-end-message" class="lv2-empty hidden">You have seen every product in this collection.</div>
 
                 </div>
 
@@ -347,13 +326,7 @@ window.CATALOG_PAGE = {
         function syncQuickCategoryPills(selectedCat) {
             document.querySelectorAll('.catalog-quick-cat').forEach((btn) => {
                 const cat = btn.dataset.catalogCat || 'all';
-                const active = cat === selectedCat;
-                btn.classList.toggle('bg-beautage-purple', active);
-                btn.classList.toggle('text-white', active);
-                btn.classList.toggle('border-transparent', active);
-                btn.classList.toggle('bg-white', !active);
-                btn.classList.toggle('text-slate-700', !active);
-                btn.classList.toggle('border-purple-100', !active);
+                btn.classList.toggle('is-on', cat === selectedCat);
             });
         }
 
@@ -376,7 +349,7 @@ window.CATALOG_PAGE = {
             document.getElementById('product-visible-count').innerText = Math.min(displayedCount, items.length);
 
             if(items.length === 0) {
-                container.innerHTML = `<div class="col-span-full py-16 text-center text-slate-400 text-sm bg-white rounded-3xl border border-purple-100">No products match your selected filters. Try adjusting price range or department.</div>`;
+                container.innerHTML = `<p class="lv2-empty">No products match these filters. Try another department or a higher price.</p>`;
                 endMessage.classList.add('hidden');
                 return;
             }
@@ -384,47 +357,30 @@ window.CATALOG_PAGE = {
             const visibleItems = items.slice(0, displayedCount);
 
             container.innerHTML = visibleItems.map(p => {
-                const isWishlisted = wishlist.some(item => item.id === p.id);
+                const price = Number(p.price || 0);
+                const oldPrice = Number(p.oldPrice || 0);
+                const save = oldPrice > price && oldPrice > 0 ? Math.round((1 - price / oldPrice) * 100) : 0;
+                const full = Math.max(0, Math.min(5, Math.round(Number(p.rating) || 0)));
+                const stars = '★'.repeat(full) + '☆'.repeat(5 - full);
+                const inStock = p.inStock !== false && p.inStock !== 0 && p.inStock !== '0';
+                const image = p.image || 'https://placehold.co/640x640/0B132B/D4AF37?text=Quick+Bazar';
                 return `
-                    <div class="bg-white rounded-2xl p-4 border border-purple-100 hover:border-beautage-pink transition-all duration-300 shadow-sm hover:shadow-2xl hover:-translate-y-1.5 flex flex-col justify-between group">
-                        <div class="relative rounded-xl overflow-hidden bg-purple-50 mb-4 aspect-square cursor-pointer" onclick="openQuickView(${p.id})">
-                            <img src="${p.image}" alt="${p.name}" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out group-hover:opacity-0" onerror="this.onerror=null; this.src='https://placehold.co/400x400/5E1F70/FFFFFF?text=Beautage';">
-                            <img src="${p.hoverImage}" alt="${p.name} Alt" class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500 ease-in-out group-hover:opacity-100 group-hover:scale-105" onerror="this.onerror=null; this.src='https://placehold.co/400x400/3B0764/FFFFFF?text=Beautage+Alt';">
-                            
-                            <span class="absolute top-2.5 left-2.5 bg-beautage-purple text-white text-[10px] font-extrabold px-2.5 py-1 rounded-full uppercase tracking-wider shadow z-10">
-                                ${p.badge}
-                            </span>
-                            <button onclick="event.stopPropagation(); toggleWishlist(${p.id})" class="absolute top-2.5 right-2.5 p-2 rounded-xl bg-white/90 backdrop-blur-sm text-slate-700 hover:text-beautage-pink shadow transition z-10">
-                                <i data-lucide="heart" class="w-4 h-4 ${isWishlisted ? 'fill-beautage-pink text-beautage-pink' : ''}"></i>
-                            </button>
-                        </div>
-
+                    <article class="lv2-product">
+                        <a href="/products/${p.slug}" class="lv2-product-media">
+                            <img src="${image}" alt="${p.name}" width="480" height="480" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/640x640/0B132B/D4AF37?text=Quick+Bazar';">
+                            ${save ? `<span class="lv2-save">SAVE ${save}%</span>` : ''}
+                        </a>
                         <div>
-                            <div class="flex items-center justify-between text-[10px] font-bold text-beautage-pink uppercase tracking-widest mb-1">
-                                <span>${p.category}</span>
-                                <span class="text-amber-500">⭐ ${p.rating} (${p.reviews})</span>
-                            </div>
-                            <h3 class="text-sm font-bold text-beautage-purple mt-1 line-clamp-1 group-hover:text-beautage-pink transition"><a href="/products/${p.slug}">${p.name}</a></h3>
-                            <p class="text-xs text-slate-500 mt-1 line-clamp-2">${p.desc}</p>
+                            ${p.category ? `<p class="lv2-muted">${p.category}</p>` : ''}
+                            <h3><a href="/products/${p.slug}">${p.name}</a></h3>
+                            ${Number(p.reviews) > 0 ? `<p class="lv2-stars">${stars} <span class="lv2-muted">(${p.reviews})</span></p>` : ''}
+                            <p class="lv2-price-row">
+                                <span class="lv2-price">${BeautageMoney.formatDecimal(price)}</span>
+                                ${oldPrice > price ? `<span class="lv2-old">${BeautageMoney.formatDecimal(oldPrice)}</span>` : ''}
+                            </p>
                         </div>
-
-                        <div class="mt-4 pt-3 border-t border-purple-50 flex items-center justify-between">
-                            <div>
-                                <div class="flex items-baseline gap-1.5">
-                                    <span class="text-base font-black text-slate-800">${BeautageMoney.formatDecimal(p.price)}</span>
-                                    <span class="text-xs text-slate-400 line-through">${BeautageMoney.formatDecimal(p.oldPrice)}</span>
-                                </div>
-                            </div>
-                            <div class="flex items-center gap-1.5">
-                                <button onclick="openQuickView(${p.id})" class="p-2 rounded-xl bg-purple-50 hover:bg-purple-100 text-beautage-purple transition" title="Quick View">
-                                    <i data-lucide="eye" class="w-4 h-4"></i>
-                                </button>
-                                <button onclick="addToCart(${p.id})" class="px-3.5 py-2 rounded-xl bg-beautage-pink hover:bg-beautage-pinkHover text-white text-xs font-bold transition shadow-sm shadow-pink-500/20 flex items-center gap-1">
-                                    <i data-lucide="shopping-bag" class="w-3.5 h-3.5"></i> Add
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                        <button type="button" class="lv2-btn-navy" style="margin-top:0.8rem" onclick="addToCart(${p.id})" ${inStock ? '' : 'disabled'}>${inStock ? 'Add to cart' : 'Out of stock'}</button>
+                    </article>
                 `;
             }).join('');
 

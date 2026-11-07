@@ -598,3 +598,168 @@ body.lumiere-v2 .qb-nav {
     background: #fff;
     color: #6b7280;
 }
+
+.lv2-wrap.lv2-collection {
+    width: min(1600px, calc(100% - 1rem));
+    margin: 1rem auto 0;
+}
+
+@media (min-width: 640px) {
+    .lv2-wrap.lv2-collection { width: min(1600px, calc(100% - 3rem)); }
+}
+
+.lv2-catalog {
+    display: grid;
+    gap: 1.25rem;
+    align-items: start;
+}
+
+@media (min-width: 1024px) {
+    .lv2-catalog { grid-template-columns: 16.5rem minmax(0, 1fr); }
+}
+
+.lv2-filters,
+.lv2-toolbar {
+    border: 1px solid #f3f4f6;
+    border-radius: 1.25rem;
+    background: #fff;
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.04);
+}
+
+.lv2-filters {
+    padding: 1.1rem 1.15rem 1.25rem;
+}
+
+@media (min-width: 1024px) {
+    .lv2-filters { position: sticky; top: 7.5rem; }
+}
+
+.lv2-filters-head,
+.lv2-toolbar,
+.lv2-filter-label,
+.lv2-filter-range {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+}
+
+.lv2-filters-head {
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.lv2-filters-head h2 {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin: 0;
+    color: #0b132b;
+    font-size: 0.95rem;
+}
+
+.lv2-filters-head button,
+.lv2-filter-label span:last-child {
+    border: 0;
+    background: none;
+    color: #d4af37;
+    font-size: 0.78rem;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.lv2-filter-block { margin-top: 1rem; }
+
+.lv2-filter-label {
+    margin: 0 0 0.55rem;
+    color: #0b132b;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.lv2-filter-options,
+.lv2-check {
+    display: grid;
+    gap: 0.45rem;
+}
+
+.lv2-filter-options label,
+.lv2-check {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #374151;
+    font-size: 0.86rem;
+    font-weight: 600;
+}
+
+.lv2-filters input[type="radio"],
+.lv2-filters input[type="checkbox"] { accent-color: #0b132b; }
+
+.lv2-filters input[type="range"] { width: 100%; accent-color: #d4af37; }
+
+.lv2-filters select,
+.lv2-sort select {
+    width: 100%;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.75rem;
+    background: #f9fafb;
+    color: #0b132b;
+    font-weight: 700;
+    padding: 0.65rem 0.75rem;
+}
+
+.lv2-filter-range {
+    margin-top: 0.35rem;
+    color: #6b7280;
+    font-size: 0.72rem;
+}
+
+.lv2-pills {
+    display: flex;
+    gap: 0.45rem;
+    overflow-x: auto;
+    margin-bottom: 0.8rem;
+}
+
+.catalog-quick-cat {
+    flex: 0 0 auto;
+    border: 1px solid #e5e7eb;
+    border-radius: 999px;
+    background: #fff;
+    color: #0b132b;
+    font-size: 0.75rem;
+    font-weight: 800;
+    padding: 0.45rem 0.8rem;
+}
+
+.catalog-quick-cat.is-on {
+    border-color: #0b132b;
+    background: #0b132b;
+    color: #d4af37;
+}
+
+.lv2-toolbar {
+    margin-bottom: 1rem;
+    padding: 0.9rem 1rem;
+}
+
+.lv2-sort {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #0b132b;
+    font-size: 0.78rem;
+    font-weight: 800;
+}
+
+.lv2-sort select { min-width: 11rem; }
+
+.lv2-grid > .lv2-empty { grid-column: 1 / -1; }
+
+.lv2-catalog-main .lv2-product .lv2-btn-navy:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
