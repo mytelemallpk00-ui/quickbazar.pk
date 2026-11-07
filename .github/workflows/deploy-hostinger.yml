@@ -1,0 +1,28 @@
+name: Deploy to Hostinger
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: hostinger-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pull main on Hostinger and refresh Laravel
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: 187.124.193.196
+          username: u662960912
+          port: 65002
+          password: ${{ secrets.HOSTINGER_SSH_PASSWORD }}
+          command_timeout: 20m
+          script: |
+            set -euo pipefail
+            cd /home/u662960912/domains/lightgrey-panther-710834.hostingersite.com
+            git fetch origin main
+            git reset --hard origin/main
+            bash scripts/deploy-hostinger.sh --no-seed

@@ -3,6 +3,7 @@
 # Hostinger production deploy for Beautage Laravel.
 # Run from the project root (domain folder), e.g.:
 #   bash scripts/deploy-hostinger.sh
+#   bash scripts/deploy-hostinger.sh --no-seed
 #   bash scripts/deploy-hostinger.sh --no-migrate
 #
 set -euo pipefail
@@ -17,12 +18,15 @@ GIT_REMOTE="${GIT_REMOTE:-origin}"
 GIT_BRANCH="${GIT_BRANCH:-main}"
 
 RUN_MIGRATE=1
+RUN_SEED=1
 for arg in "$@"; do
     case "${arg}" in
         --no-migrate) RUN_MIGRATE=0 ;;
+        --no-seed) RUN_SEED=0 ;;
         -h | --help)
-            echo "Usage: bash scripts/deploy-hostinger.sh [--no-migrate]"
+            echo "Usage: bash scripts/deploy-hostinger.sh [--no-migrate] [--no-seed]"
             echo "Environment: PHP_BIN, COMPOSER_BIN, GIT_REMOTE, GIT_BRANCH"
+            echo "Auto-deploy uses --no-seed so live products, orders, and admin passwords stay as they are."
             exit 0
             ;;
         *)
@@ -54,8 +58,12 @@ echo "==> Storage symlink for public_html"
 ln -sfn "${APP_ROOT}/storage/app/public" "${APP_ROOT}/public_html/storage"
 
 if [[ "${RUN_MIGRATE}" -eq 1 ]]; then
-    echo "==> Database migrations & seeders"
+    echo "==> Database migrations"
     "${PHP_BIN}" artisan migrate --force
+fi
+
+if [[ "${RUN_SEED}" -eq 1 ]]; then
+    echo "==> Database seeders"
     "${PHP_BIN}" artisan db:seed --force
 fi
 
