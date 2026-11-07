@@ -3,7 +3,7 @@
     <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white">
         <div class="border-b border-slate-100 px-5 py-5 sm:px-6">
             <p class="text-[11px] font-bold uppercase tracking-wide text-emerald-700">{{ $bundlePayload['badgeLabel'] }}</p>
-            <h2 class="mt-1 text-xl font-bold text-slate-900 sm:text-2xl">Frequently bought together</h2>
+            <h2 class="mt-1 text-xl font-bold text-slate-900 sm:text-2xl">Frequently Bought Together</h2>
             @if (! empty($bundlePayload['subtitle']))
             <p class="mt-1 text-sm text-slate-500">{{ $bundlePayload['subtitle'] }}</p>
             @endif

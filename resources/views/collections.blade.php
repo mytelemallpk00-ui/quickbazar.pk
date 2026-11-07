@@ -3,46 +3,56 @@
 @section('title', ($pageSeo['title'] ?? null) ?: 'Product Collections & Catalog — Beautage Flagship Store')
 
 @section('body_attrs')
-class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-beautage-pink selection:text-white pb-36 md:pb-0 overflow-x-hidden"
+class="lumiere-v2 bg-gray-50 text-gray-800 font-sans antialiased min-h-screen flex flex-col selection:bg-amber-200 selection:text-slate-900 pb-36 md:pb-0 overflow-x-hidden"
 @endsection
+
+@push('structured-data')
+@php
+    $crumbs = [
+        ['name' => 'Home', 'url' => route('home')],
+        ['name' => 'Collections & Categories', 'url' => route('collections')],
+    ];
+    if (filled($activeCategorySlug ?? null) && filled($heroCrumb ?? null) && ($heroCrumb ?? '') !== 'All departments') {
+        $crumbs[] = ['name' => $heroCrumb, 'url' => route('collections', ['cat' => $activeCategorySlug])];
+    }
+    $collectionJsonLd = [
+        '@context' => 'https://schema.org',
+        '@type' => 'BreadcrumbList',
+        'itemListElement' => collect($crumbs)->values()->map(fn ($crumb, $index) => [
+            '@type' => 'ListItem',
+            'position' => $index + 1,
+            'name' => $crumb['name'],
+            'item' => $crumb['url'],
+        ])->all(),
+    ];
+@endphp
+@include('partials.json-ld-script', ['jsonLd' => $collectionJsonLd])
+@endpush
 
 @section('content')
 <main class="w-full flex-1 flex flex-col py-6">
 
         <!-- 1. BREADCRUMB & COLLECTION HERO HEADER BANNER -->
-        <div class="w-full px-4 sm:px-12 xl:px-20 mb-6">
-            <nav class="flex items-center gap-2 text-xs font-semibold text-slate-500 whitespace-nowrap mb-4 overflow-x-auto no-scrollbar">
-                <a href="{{ route('home') }}" class="hover:text-beautage-purple transition flex items-center gap-1">
-                    <i data-lucide="home" class="w-3.5 h-3.5"></i> Home
-                </a>
-                <i data-lucide="chevron-right" class="w-3 h-3 text-purple-300"></i>
-                <span class="text-beautage-purple font-bold">Product Collections & Catalog</span>
+        <div class="lv2-collection">
+            <nav class="lv2-crumbs" aria-label="Breadcrumb">
+                <a href="{{ route('home') }}">Home</a>
+                <span aria-hidden="true">/</span>
+                <a href="{{ route('collections') }}">Collections & Categories</a>
+                @if (filled($activeCategorySlug ?? null) && ($heroCrumb ?? '') !== 'All departments')
+                    <span aria-hidden="true">/</span>
+                    <span>{{ $heroCrumb }}</span>
+                @endif
             </nav>
-
-            <div class="rounded-3xl bg-gradient-to-br from-purple-950 via-beautage-purple to-purple-900 text-white p-6 sm:p-10 shadow-2xl relative overflow-hidden">
-                <div class="absolute -right-16 -top-16 w-72 h-72 bg-beautage-pink/25 rounded-full blur-3xl pointer-events-none"></div>
-                <div class="absolute -left-10 bottom-0 w-48 h-48 bg-amber-400/10 rounded-full blur-2xl pointer-events-none"></div>
-                <div class="relative z-10 flex flex-col lg:flex-row lg:items-end justify-between gap-6">
-                    <div class="max-w-2xl space-y-3 text-center lg:text-left">
-                        <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] uppercase font-extrabold tracking-widest bg-white/10 text-pink-100 border border-white/20">
-                            <i data-lucide="shield-check" class="w-3.5 h-3.5"></i> Verified flagship catalog
-                        </span>
-                        <h1 class="text-2xl sm:text-4xl font-serif font-bold tracking-tight">Shop Quick Bazar</h1>
-                        <p class="text-xs sm:text-sm text-purple-100/95 leading-relaxed max-w-xl mx-auto lg:mx-0">
-                            Filter by department, compare ratings, and browse our full catalog — six products per row on desktop for quick scanning.
-                        </p>
-                    </div>
-                    <div class="flex flex-wrap items-center justify-center lg:justify-end gap-3">
-                        <div class="px-5 py-3 rounded-2xl bg-white/10 border border-white/20 text-center min-w-[120px]">
-                            <span id="header-product-count" class="text-2xl font-black text-white block leading-none">0</span>
-                            <span class="text-[10px] uppercase tracking-wider text-purple-200 mt-1 block">Products</span>
-                        </div>
-                        <a href="{{ route('exclusive-offers') }}" class="px-4 py-3 rounded-2xl bg-beautage-pink hover:bg-beautage-pinkHover text-white text-xs font-bold uppercase tracking-wider shadow-lg shadow-pink-900/30 transition">
-                            Bundle offers
-                        </a>
-                    </div>
+            <section class="lv2-collection-hero" aria-labelledby="collection-heading">
+                <span class="lv2-kicker">Professional Botanical Collection</span>
+                <h1 id="collection-heading">{{ $heroTitle ?? 'Collections & Categories' }}</h1>
+                <p>{{ $heroBlurb ?? 'Browse the live catalog. Filter by department, price, rating, and availability.' }}</p>
+                <div class="lv2-meta">
+                    <span><strong id="header-product-count">0</strong> products</span>
+                    <span>Original catalog prices</span>
+                    <span>Nationwide shipping</span>
                 </div>
-            </div>
+            </section>
         </div>
 
         <!-- 2. MAIN CATALOG SECTION WITH FILTERS & PRODUCTS -->
@@ -52,9 +62,9 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
                 <!-- SIDEBAR FILTERS (SPAN 3) -->
                 <aside class="lg:col-span-3 bg-white rounded-3xl p-6 border border-purple-100 shadow-xl space-y-6 lg:sticky lg:top-28">
                     <div class="flex items-center justify-between pb-4 border-b border-purple-100">
-                        <h3 class="text-sm font-bold text-beautage-purple flex items-center gap-2">
-                            <i data-lucide="filter" class="w-4 h-4 text-beautage-pink"></i> Filters & Sort
-                        </h3>
+                        <h2 class="text-sm font-bold text-beautage-purple flex items-center gap-2">
+                            <i data-lucide="filter" class="w-4 h-4 text-beautage-pink"></i> Filter & Sort Products
+                        </h2>
                         <button onclick="resetFilters()" class="text-xs text-beautage-pink hover:underline font-bold">Reset All</button>
                     </div>
 
@@ -82,12 +92,12 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
                     <div class="space-y-3 pt-4 border-t border-purple-100">
                         <div class="flex justify-between text-xs font-extrabold text-beautage-purple uppercase tracking-wider">
                             <span>Max Price</span>
-                            <span id="price-slider-value" class="font-mono text-beautage-pink">Rs 300</span>
+                            <span id="price-slider-value" class="font-mono text-beautage-pink">{{ \App\Support\MoneyFormat::pkr($priceCeil ?? 0) }}</span>
                         </div>
-                        <input type="range" id="price-range" min="50" max="300" step="10" value="300" oninput="applySidebarFilters()" class="w-full accent-beautage-purple cursor-pointer">
+                        <input type="range" id="price-range" min="{{ (int) ($priceFloor ?? 0) }}" max="{{ (int) ($priceCeil ?? 1) }}" step="{{ max(1, (int) round((((int) ($priceCeil ?? 1)) - ((int) ($priceFloor ?? 0))) / 40)) }}" value="{{ (int) ($priceCeil ?? 1) }}" oninput="applySidebarFilters()" class="w-full accent-beautage-purple cursor-pointer">
                         <div class="flex justify-between text-[10px] text-slate-400">
-                            <span>Rs 50</span>
-                            <span>Rs 300</span>
+                            <span>{{ \App\Support\MoneyFormat::pkr($priceFloor ?? 0) }}</span>
+                            <span>{{ \App\Support\MoneyFormat::pkr($priceCeil ?? 0) }}</span>
                         </div>
                     </div>
 
@@ -172,6 +182,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
 window.CATALOG_PAGE = {
     activeSlug: @json($activeCategorySlug ?? null),
     categories: @json($catalogCategories ?? []),
+    priceCeil: @json((int) ($priceCeil ?? 1)),
 };
 </script>
 @verbatim
@@ -348,7 +359,7 @@ window.CATALOG_PAGE = {
 
         function resetFilters() {
             document.querySelector('input[name="sidebar-cat"][value="all"]').checked = true;
-            document.getElementById('price-range').value = 300;
+            document.getElementById('price-range').value = window.CATALOG_PAGE.priceCeil || 300;
             document.getElementById('rating-filter').value = "0";
             document.getElementById('instock-filter').checked = false;
             document.getElementById('sort-select').value = "featured";
@@ -610,7 +621,8 @@ window.CATALOG_PAGE = {
                 const h = Math.floor(totalSeconds / 3600).toString().padStart(2, '0');
                 const m = Math.floor((totalSeconds % 3600) / 60).toString().padStart(2, '0');
                 const s = (totalSeconds % 60).toString().padStart(2, '0');
-                document.getElementById('announcement-timer').innerText = `${h}:${m}:${s}`;
+                const announcement = document.getElementById('announcement-timer');
+                if (announcement) announcement.innerText = `${h}:${m}:${s}`;
             }, 1000);
         }
     </script>

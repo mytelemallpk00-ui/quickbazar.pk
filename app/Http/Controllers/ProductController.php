@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Support\ProductFaqGenerator;
 use App\Support\ProductFrequentlyBoughtTogether;
+use App\Support\SiteSettings;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\View\View;
 
@@ -21,7 +22,16 @@ class ProductController extends Controller
         $publishedReviews = $product->publishedReviews()->latest()->get();
         $bundlePayload = ProductFrequentlyBoughtTogether::payloadFor($product);
 
+        $product->loadMissing('productCategory');
         $pageSeo = $product->toSeoArray();
+        $brand = trim((string) SiteSettings::get('site_name', 'Beautage')) ?: 'Beautage';
+        if (blank($product->meta_title) && blank($product->seo_title)) {
+            $pageSeo['title'] = $product->name.' | '.$brand;
+        }
+        $pageSeo['og_title'] = filled($pageSeo['og_title'] ?? null) ? $pageSeo['og_title'] : $pageSeo['title'];
+        if (blank($pageSeo['description'])) {
+            $pageSeo['description'] = $product->short_description ?: strip_tags((string) $product->description);
+        }
         $pageSeo['canonical'] = $pageSeo['canonical'] ?: route('product.show', $product);
         if (blank($pageSeo['og_image']) && filled($product->image)) {
             $pageSeo['og_image'] = $product->image;

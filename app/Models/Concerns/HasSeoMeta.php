@@ -31,8 +31,11 @@ trait HasSeoMeta
     /** @return array<string, mixed> */
     public function toSeoArray(): array
     {
-        $title = $this->meta_title
-            ?: ($this->title ?? $this->name ?? config('app.name'));
+        $title = filled($this->meta_title)
+            ? $this->meta_title
+            : (filled($this->seo_title ?? null)
+                ? $this->seo_title
+                : ($this->title ?? $this->name ?? config('app.name')));
 
         $description = $this->meta_description
             ?: ($this->snippet ?? $this->excerpt ?? $this->description ?? null);

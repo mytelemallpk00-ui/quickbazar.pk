@@ -55,4 +55,3 @@
 @if (filled($ogImage))
 <meta name="twitter:image" content="{{ e($ogImage) }}">
 @endif
-@stack('structured-data')

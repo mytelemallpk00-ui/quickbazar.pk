@@ -98,9 +98,35 @@ class HomeController extends Controller
                 'journal' => filter_var(data_get($homepage, 'layout.journal', true), FILTER_VALIDATE_BOOLEAN),
                 'flash' => filter_var(data_get($homepage, 'layout.flash', true), FILTER_VALIDATE_BOOLEAN),
             ],
+            'pageSeo' => $this->homeSeo(),
             'whatsappUrl' => LiveChatSettings::whatsappUrl('Hi, I need help with an order on QuickBazar.'),
             'alpineAlreadyLoaded' => LiveChatSettings::isEnabled(),
         ]);
+    }
+
+    /** @return array<string, string> */
+    private function homeSeo(): array
+    {
+        $brand = trim((string) SiteSettings::get('site_name', 'Beautage')) ?: 'Beautage';
+        $title = trim((string) SiteSettings::get('default_meta_title', ''));
+        $description = trim((string) SiteSettings::get('default_meta_description', ''));
+
+        if ($title === '') {
+            $title = $brand.' — Elevate Your Natural Elegance';
+        }
+        if ($description === '') {
+            $description = 'Shop '.$brand.' with PKR prices, cash on delivery, nationwide shipping, and verified customer reviews.';
+        }
+
+        return [
+            'title' => $title,
+            'description' => $description,
+            'canonical' => route('home'),
+            'og_type' => 'website',
+            'og_title' => $title,
+            'og_description' => $description,
+            'og_image' => SiteSettings::logoUrl(),
+        ];
     }
 
     /** @return array{average: float, count: int, bars: list<array{label: string, count: int, percent: int}>} */
