@@ -1,6 +1,5 @@
 @if (! empty($bundlePayload))
 @php
-    use App\Support\MoneyFormat;
     $bundleDiscount = (float) ($bundlePayload['discountValue'] ?? 0);
     $bundleIsPercent = ($bundlePayload['discountType'] ?? 'percent') !== 'fixed';
 @endphp
@@ -32,7 +31,7 @@
                         <div class="min-w-0">
                             <span class="text-[10px] {{ $index === 0 ? 'text-gray-400' : 'text-[#4361EE]' }} font-bold uppercase block">{{ $index === 0 ? 'This Item' : 'Add-on '.$index }}</span>
                             <h4 class="font-bold text-xs text-[#0B132B] line-clamp-2">{{ $item['name'] }}</h4>
-                            <span class="text-xs font-extrabold text-[#0B132B]">{{ MoneyFormat::pkr($item['price']) }}</span>
+                            <span class="text-xs font-extrabold text-[#0B132B]">{{ \App\Support\MoneyFormat::pkr($item['price']) }}</span>
                         </div>
                     </div>
                 @endforeach
@@ -41,8 +40,8 @@
             <div class="bg-gray-50 p-6 rounded-2xl border border-gray-200 text-center lg:w-72 flex-shrink-0 w-full space-y-3">
                 <div>
                     <span class="text-xs text-gray-500 block">Total Bundle Price:</span>
-                    <span id="bundle-total-price" class="text-2xl font-black text-[#0B132B]">{{ MoneyFormat::pkr(0) }}</span>
-                    <span id="bundle-compare-price" class="text-xs text-gray-400 line-through block">{{ MoneyFormat::pkr(0) }}</span>
+                    <span id="bundle-total-price" class="text-2xl font-black text-[#0B132B]">{{ \App\Support\MoneyFormat::pkr(0) }}</span>
+                    <span id="bundle-compare-price" class="text-xs text-gray-400 line-through block">{{ \App\Support\MoneyFormat::pkr(0) }}</span>
                     <span id="bundle-savings-label" class="text-[10px] text-emerald-600 font-bold block">
                         @if ($bundleDiscount > 0)
                             {{ $bundleIsPercent ? 'Save an extra '.(int) $bundleDiscount.'% on this bundle' : 'Bundle savings applied at checkout' }}
