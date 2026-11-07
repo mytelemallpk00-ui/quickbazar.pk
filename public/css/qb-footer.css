@@ -1,0 +1,100 @@
+.qb-footer {
+    background: #0b1220;
+    color: #cbd5e1;
+}
+.qb-footer-trust {
+    background: #0b1220;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+.qb-trust-card {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: #121a2b;
+    border-radius: 0.9rem;
+    padding: 0.9rem 1rem;
+}
+.qb-trust-icon {
+    display: flex;
+    height: 2.5rem;
+    width: 2.5rem;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.7rem;
+    background: rgba(249, 115, 22, 0.15);
+    color: #fb923c;
+}
+.qb-footer .qb-wordmark { color: #fff; }
+.qb-footer .qb-kicker { color: #94a3b8; }
+.qb-footer .qb-logo-mark { background: #f97316; color: #fff; }
+.qb-footer-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: #cbd5e1;
+    font-size: 13px;
+    font-weight: 600;
+}
+.qb-footer-link:hover { color: #fff; }
+.qb-footer-link i { color: #fb923c; }
+.qb-footer-social {
+    display: flex;
+    height: 2.1rem;
+    width: 2.1rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #e2e8f0;
+}
+.qb-footer-social:hover {
+    background: #f97316;
+    border-color: #f97316;
+    color: #fff;
+}
+.qb-footer-news {
+    display: flex;
+    overflow: hidden;
+    border-radius: 0.65rem;
+    background: #fff;
+}
+.qb-footer-news input {
+    min-width: 0;
+    flex: 1;
+    border: 0;
+    padding: 0.75rem 0.9rem;
+    font-size: 14px;
+    outline: none;
+    color: #0f172a;
+}
+.qb-footer-news button {
+    border: 0;
+    background: #f97316;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 800;
+    padding: 0 0.9rem;
+    white-space: nowrap;
+}
+.qb-footer-news button:hover { background: #ea580c; }
+.qb-pay-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    border-radius: 0.4rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.04);
+    padding: 0.25rem 0.45rem;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    color: #e2e8f0;
+}
+.qb-footer-bar {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    color: #94a3b8;
+    font-size: 12px;
+}
+.qb-footer-bar a:hover { color: #fff; }

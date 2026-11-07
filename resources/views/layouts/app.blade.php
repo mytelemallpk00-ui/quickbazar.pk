@@ -7,7 +7,11 @@
     @php
         use App\Support\StorefrontAssets;
         $storefrontCss = StorefrontAssets::compiledStylesheet();
-        $storefrontCssVersion = '2026110804';
+        $storefrontCssVersion = '2026110808';
+        $supportEmail = \App\Support\SiteSettings::get('support_email', 'support@quickbazar.pk');
+        if (! is_string($supportEmail) || $supportEmail === '' || str_contains(strtolower($supportEmail), 'beautage')) {
+            $supportEmail = 'support@quickbazar.pk';
+        }
         $siteLogoUrl = \App\Support\SiteSettings::logoUrl();
         $siteFaviconUrl = \App\Support\SiteSettings::faviconUrl();
         $footerLogoUrl = \App\Support\SiteSettings::footerLogoUrl();
@@ -21,7 +25,10 @@
                 ['text' => 'Cash on Delivery Available Across Pakistan'],
             ];
         }
-        $supportPhone = \App\Support\SiteSettings::get('support_phone', '+1 (800) BEAUTAGE');
+        $supportPhone = \App\Support\SiteSettings::get('support_phone', '+92 300 5550199');
+        if (! is_string($supportPhone) || $supportPhone === '' || str_contains(strtolower($supportPhone), 'beautage')) {
+            $supportPhone = '+92 300 5550199';
+        }
         $supportPhoneTel = preg_replace('/[^\d+]/', '', (string) $supportPhone) ?: '+18008886678';
         $footerSettings = \App\Support\FooterSettings::forStorefront();
     @endphp
@@ -41,6 +48,8 @@
         <script src="{{ asset('js/tailwind-config.js') }}?v={{ $storefrontCssVersion }}"></script>
     @endif
     <link rel="stylesheet" href="{{ asset('css/beautage.css') }}?v={{ $storefrontCssVersion }}">
+    <link rel="stylesheet" href="{{ asset('css/qb-header.css') }}?v={{ $storefrontCssVersion }}">
+    <link rel="stylesheet" href="{{ asset('css/qb-footer.css') }}?v={{ $storefrontCssVersion }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Playfair+Display:wght@600;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
@@ -54,119 +63,114 @@
 <!-- Toast Notification Container -->
     <div id="toast-container" class="fixed bottom-28 md:bottom-6 right-4 sm:right-6 z-50 flex flex-col gap-2 pointer-events-none max-w-[90vw] sm:max-w-md"></div>
 
-    <div class="relative z-50 w-full overflow-hidden bg-emerald-800 text-[11px] font-semibold text-white sm:text-xs">
-        <div class="flex w-max items-center whitespace-nowrap marquee-track animate-marquee">
-            @foreach([false, true] as $marqueeDuplicate)
-            <div class="flex shrink-0 items-center gap-8 px-6 sm:gap-12" @if($marqueeDuplicate) aria-hidden="true" @endif>
-                @foreach($marqueeItems as $index => $item)
-                    @if(filled($item['text'] ?? null))
-                        @if($index > 0)<span class="text-emerald-200">•</span>@endif
-                        <span class="flex items-center gap-2">{{ $item['text'] }}</span>
-                    @endif
-                @endforeach
-                @if(count($marqueeItems) > 0)<span class="text-emerald-200">•</span>@endif
+    <div id="site-header-sticky" class="sticky top-0 z-40 w-full bg-white shadow-sm">
+    <div class="qb-topbar">
+        <div class="mx-auto flex max-w-7xl items-center justify-between gap-3 px-3 py-2 sm:px-6">
+            <div class="flex min-w-0 items-center gap-3 sm:gap-4">
+                <a href="tel:{{ $supportPhoneTel }}" class="inline-flex items-center gap-1.5 font-semibold">
+                    <i data-lucide="phone" class="h-3.5 w-3.5 text-orange-400"></i>
+                    <span class="truncate">{{ $supportPhone }}</span>
+                </a>
+                <a href="mailto:{{ $supportEmail }}" class="hidden items-center gap-1.5 font-semibold sm:inline-flex">
+                    <i data-lucide="mail" class="h-3.5 w-3.5 text-orange-400"></i>
+                    {{ $supportEmail }}
+                </a>
             </div>
-            @endforeach
+            <p class="qb-hot hidden md:inline-flex">
+                <span class="qb-hot-badge">HOT</span>
+                Free nationwide delivery on orders over Rs. 2,500
+            </p>
+            <div class="flex items-center gap-3">
+                <a href="{{ route('track-order') }}" class="inline-flex items-center gap-1 font-semibold">
+                    <i data-lucide="map-pin" class="h-3.5 w-3.5 text-orange-400"></i>
+                    <span class="hidden sm:inline">Track order</span>
+                </a>
+                <span class="hidden font-semibold lg:inline">PKR (Rs)</span>
+                <span class="hidden font-semibold lg:inline">ENG</span>
+            </div>
         </div>
     </div>
 
-    <!-- 2. PROFESSIONAL MAIN HEADER (category strip sits outside header so mobile dropdowns aren't clipped) -->
-    <div id="site-header-sticky" class="sticky top-0 z-40 w-full border-b border-slate-200 bg-white">
-    <header class="glass-nav site-header-bar w-full">
-        <div class="mx-auto w-full max-w-7xl px-4 py-2.5 sm:px-8">
-            <div class="flex items-center justify-between gap-2 lg:hidden">
-                <div class="flex items-center gap-1">
-                    <button onclick="toggleMobileNav()" class="flex h-11 w-11 items-center justify-center rounded-full text-slate-800 transition hover:bg-emerald-50 hover:text-emerald-800" aria-label="Open Menu">
-                        <i data-lucide="menu" class="h-5 w-5"></i>
-                    </button>
-                    <button onclick="toggleMobileSearch()" class="flex h-11 w-11 items-center justify-center rounded-full text-slate-800 transition hover:bg-emerald-50 hover:text-emerald-800" aria-label="Toggle Search">
-                        <i data-lucide="search" class="h-5 w-5"></i>
-                    </button>
-                </div>
-
-                <a href="{{ route('home') }}" class="flex items-center justify-center focus:outline-none">
-                    <img src="{{ $siteLogoUrl }}" alt="QuickBazar" width="140" height="56" class="h-9 w-auto object-contain" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/140x50/047857/FFFFFF?text=QuickBazar';">
+    <header class="site-header-bar w-full border-b border-slate-100 bg-white">
+        <div class="mx-auto w-full max-w-7xl px-3 py-3 sm:px-6">
+            <div class="flex items-center gap-3">
+                <button onclick="toggleMobileNav()" class="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-slate-800 hover:bg-slate-100 lg:hidden" aria-label="Open Menu">
+                    <i data-lucide="menu" class="h-5 w-5"></i>
+                </button>
+                <a href="{{ route('home') }}" class="flex min-w-0 items-center gap-2.5">
+                    <span class="qb-logo-mark" aria-hidden="true">
+                        <i data-lucide="shopping-bag" class="h-5 w-5"></i>
+                    </span>
+                    <span class="min-w-0">
+                        <span class="qb-wordmark block text-lg sm:text-xl">QuickBazar<span>.pk</span></span>
+                        <span class="qb-kicker hidden sm:block">Express shopping</span>
+                    </span>
                 </a>
 
-                <div class="flex items-center gap-1">
-                    <button onclick="toggleWishlistDrawer()" class="relative flex h-11 w-11 items-center justify-center rounded-full text-slate-800 transition hover:bg-emerald-50 hover:text-emerald-800" title="Wishlist" aria-label="Wishlist">
-                        <i data-lucide="heart" class="h-5 w-5"></i>
-                        <span id="wishlist-badge" class="absolute right-1 top-1 flex h-4 w-4 items-center justify-center rounded-full bg-emerald-600 text-[9px] font-bold text-white">0</span>
-                    </button>
-                    <button onclick="toggleCartDrawer()" class="relative flex h-11 w-11 items-center justify-center rounded-full bg-emerald-600 text-white shadow-md shadow-emerald-600/25 transition hover:bg-emerald-700" title="Shopping Bag" aria-label="Shopping Bag">
-                        <i data-lucide="shopping-bag" class="h-5 w-5"></i>
-                        <span id="cart-badge" class="absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-slate-900 text-[9px] font-extrabold text-white">0</span>
-                    </button>
-                </div>
-            </div>
-
-            <div class="hidden items-center gap-6 lg:grid lg:grid-cols-12">
-                <div class="col-span-2 flex items-center">
-                    <a href="{{ route('home') }}" class="focus:outline-none">
-                        <img src="{{ $siteLogoUrl }}" alt="QuickBazar" class="h-11 w-auto object-contain" onerror="this.onerror=null; this.src='https://placehold.co/180x48/047857/FFFFFF?text=QuickBazar';">
-                    </a>
-                </div>
-
-                <div class="relative col-span-6 w-full">
-                    <div class="relative flex items-center overflow-hidden rounded-full border border-slate-200 bg-slate-50 transition focus-within:border-emerald-500 focus-within:bg-white focus-within:ring-4 focus-within:ring-emerald-100">
-                        <select id="search-category" class="h-full cursor-pointer border-r border-slate-200 bg-transparent py-3 pl-4 pr-2 text-xs font-bold text-slate-700 focus:outline-none">
-                            <option value="all">All</option>
+                <div class="relative hidden min-w-0 flex-1 lg:block">
+                    <div class="qb-search">
+                        <select id="search-category" aria-label="Search category">
+                            <option value="all">All categories</option>
                             @foreach(\App\Models\Category::query()->where('is_active', true)->orderBy('sort_order')->orderBy('name')->get() as $searchCategory)
                             <option value="{{ $searchCategory->slug }}">{{ $searchCategory->displayNavLabel() }}</option>
                             @endforeach
                         </select>
-                        <input type="text" id="main-search-input" placeholder="Search products, brands, categories..."
-                               class="w-full bg-transparent px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none">
-                        <button id="clear-search" class="mr-1 hidden text-slate-400 hover:text-slate-600" type="button">
+                        <input type="text" id="main-search-input" placeholder="Search for products, brands, or categories" autocomplete="off">
+                        <button id="clear-search" class="hidden px-2 text-slate-400" type="button" aria-label="Clear search">
                             <i data-lucide="x" class="h-4 w-4"></i>
                         </button>
-                        <button class="m-1 flex h-9 w-9 items-center justify-center rounded-full bg-emerald-600 text-white transition hover:bg-emerald-700" type="button" aria-label="Search">
+                        <button class="qb-search-go" type="button" aria-label="Search">
                             <i data-lucide="search" class="h-4 w-4"></i>
                         </button>
                     </div>
-                    <div id="search-results" class="absolute left-0 right-0 top-full z-50 mt-2 hidden overflow-hidden rounded-2xl border border-slate-200 bg-white p-2 shadow-xl"></div>
+                    <div id="search-results" class="absolute left-0 right-0 top-full z-50 mt-2 hidden overflow-hidden rounded-xl border border-slate-200 bg-white p-2 shadow-xl"></div>
                 </div>
 
-                <div class="col-span-4 flex items-center justify-end gap-1">
-                    <a href="{{ route('track-order') }}" class="hidden items-center gap-1.5 rounded-full px-3 py-2 text-xs font-bold text-slate-600 transition hover:bg-emerald-50 hover:text-emerald-800 xl:flex">
-                        <i data-lucide="package-search" class="h-4 w-4 text-emerald-600"></i>
-                        Track
-                    </a>
-                    <a href="{{ route('help') }}" class="hidden items-center gap-1.5 rounded-full px-3 py-2 text-xs font-bold text-slate-600 transition hover:bg-emerald-50 hover:text-emerald-800 xl:flex">
-                        <i data-lucide="life-buoy" class="h-4 w-4 text-emerald-600"></i>
-                        Help
-                    </a>
+                <div class="ml-auto flex items-center gap-1 sm:gap-2">
                     @auth
-                        <a href="{{ route('account.index') }}" class="flex h-11 w-11 items-center justify-center rounded-full text-slate-800 transition hover:bg-emerald-50 hover:text-emerald-800" title="My account">
-                            <i data-lucide="user" class="h-5 w-5"></i>
+                        <a href="{{ route('account.index') }}" class="hidden items-center gap-2 rounded-lg px-2 py-1.5 text-left hover:bg-slate-50 lg:flex">
+                            <i data-lucide="user" class="h-5 w-5 text-slate-700"></i>
+                            <span>
+                                <span class="block text-[11px] text-slate-500">Hello, {{ \Illuminate\Support\Str::before(auth()->user()->name, ' ') }}</span>
+                                <span class="block text-xs font-extrabold text-slate-900">Account &amp; orders</span>
+                            </span>
                         </a>
                     @else
-                        <a href="{{ route('login') }}" class="flex items-center gap-2 rounded-full px-3 py-2 text-xs font-bold text-slate-800 transition hover:bg-emerald-50 hover:text-emerald-800">
-                            <i data-lucide="user" class="h-4 w-4"></i> Sign in
+                        <a href="{{ route('login') }}" class="hidden items-center gap-2 rounded-lg px-2 py-1.5 text-left hover:bg-slate-50 lg:flex">
+                            <i data-lucide="user" class="h-5 w-5 text-slate-700"></i>
+                            <span>
+                                <span class="block text-[11px] text-slate-500">Hello, sign in</span>
+                                <span class="block text-xs font-extrabold text-slate-900">Account &amp; orders</span>
+                            </span>
                         </a>
                     @endauth
-                    <button onclick="toggleWishlistDrawer()" class="relative flex h-11 w-11 items-center justify-center rounded-full text-slate-800 transition hover:bg-emerald-50 hover:text-emerald-800" title="Wishlist">
+                    <button onclick="toggleWishlistDrawer()" class="relative hidden h-11 items-center gap-1.5 rounded-lg px-2 text-sm font-bold text-slate-800 hover:bg-slate-50 sm:flex" aria-label="Wishlist">
                         <i data-lucide="heart" class="h-5 w-5"></i>
-                        <span id="wishlist-badge-desktop" class="absolute right-1 top-1 flex h-4 w-4 items-center justify-center rounded-full bg-emerald-600 text-[10px] font-bold text-white">0</span>
+                        <span class="hidden xl:inline">Wishlist</span>
+                        <span id="wishlist-badge-desktop" class="flex h-5 min-w-5 items-center justify-center rounded-full bg-orange-500 px-1 text-[10px] font-extrabold text-white">0</span>
                     </button>
-                    <button onclick="toggleCartDrawer()" class="relative ml-1 flex items-center gap-2.5 rounded-full bg-emerald-600 py-2 pl-3 pr-4 text-white shadow-md shadow-emerald-600/25 transition hover:bg-emerald-700">
+                    <button onclick="toggleWishlistDrawer()" class="relative flex h-11 w-11 items-center justify-center rounded-lg text-slate-800 sm:hidden" aria-label="Wishlist">
+                        <i data-lucide="heart" class="h-5 w-5"></i>
+                        <span id="wishlist-badge" class="absolute right-1 top-1 flex h-4 w-4 items-center justify-center rounded-full bg-orange-500 text-[9px] font-bold text-white">0</span>
+                    </button>
+                    <button onclick="toggleCartDrawer()" class="relative flex h-11 items-center gap-2 rounded-lg px-2 text-slate-900 hover:bg-slate-50" aria-label="Shopping Bag">
                         <span class="relative">
-                            <i data-lucide="shopping-bag" class="h-5 w-5"></i>
-                            <span id="cart-badge-desktop" class="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-slate-900 text-[10px] font-extrabold text-white">0</span>
+                            <i data-lucide="shopping-cart" class="h-5 w-5"></i>
+                            <span id="cart-badge" class="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-orange-500 text-[9px] font-extrabold text-white sm:hidden">0</span>
+                            <span id="cart-badge-desktop" class="absolute -right-2 -top-2 hidden h-4 min-w-4 items-center justify-center rounded-full bg-orange-500 px-1 text-[9px] font-extrabold text-white sm:flex">0</span>
                         </span>
-                        <span class="text-left">
-                            <span class="block text-[9px] font-bold uppercase leading-none text-emerald-100">Bag</span>
-                            <span id="cart-total-header" class="mt-0.5 block text-xs font-black leading-tight">Rs. 0</span>
+                        <span class="hidden text-left sm:block">
+                            <span class="block text-[11px] text-slate-500">Cart</span>
+                            <span id="cart-total-header" class="block text-sm font-extrabold leading-tight">Rs. 0</span>
                         </span>
                     </button>
                 </div>
             </div>
 
-            <div id="mobile-search-container" class="mt-3 hidden border-t border-slate-100 pt-3 lg:hidden">
-                <div class="flex items-center overflow-hidden rounded-full border border-slate-200 bg-slate-50">
-                    <input type="text" id="mobile-search-input" placeholder="Search products..."
-                           class="w-full bg-transparent px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none">
-                    <button class="m-1 flex h-9 w-9 items-center justify-center rounded-full bg-emerald-600 text-white" type="button" aria-label="Search">
+            <div id="mobile-search-container" class="relative mt-3 lg:hidden">
+                <div class="qb-search">
+                    <input type="text" id="mobile-search-input" placeholder="Search products, brands, categories" autocomplete="off">
+                    <button class="qb-search-go" type="button" aria-label="Search">
                         <i data-lucide="search" class="h-4 w-4"></i>
                     </button>
                 </div>
@@ -188,16 +192,15 @@
                 </button>
             </div>
             <nav class="space-y-1 py-4 text-sm font-semibold text-slate-700" aria-label="Mobile">
-                <a href="{{ route('home') }}" onclick="toggleMobileNav()" class="flex items-center gap-3 rounded-xl px-3 py-2.5 hover:bg-emerald-50 hover:text-emerald-800"><i data-lucide="home" class="h-4 w-4 text-emerald-600"></i> Home</a>
-                <a href="{{ route('collections') }}" onclick="toggleMobileNav()" class="flex items-center gap-3 rounded-xl px-3 py-2.5 hover:bg-emerald-50 hover:text-emerald-800"><i data-lucide="layout-grid" class="h-4 w-4 text-emerald-600"></i> Shop all</a>
-                @foreach(($storefrontNav['mainNavItems'] ?? []) as $drawerItem)
-                    @if(filled($drawerItem['url'] ?? null) && filled($drawerItem['label'] ?? null))
-                    <a href="{{ $drawerItem['url'] }}" onclick="toggleMobileNav()" class="flex items-center gap-3 rounded-xl px-3 py-2.5 hover:bg-emerald-50 hover:text-emerald-800">
-                        <i data-lucide="{{ $drawerItem['icon'] ?? 'chevron-right' }}" class="h-4 w-4 text-emerald-600"></i>
-                        {{ $drawerItem['label'] }}
+                <a href="{{ route('home') }}" onclick="toggleMobileNav()" class="flex items-center gap-3 rounded-xl px-3 py-2.5 hover:bg-orange-50 hover:text-orange-700"><i data-lucide="home" class="h-4 w-4 text-orange-500"></i> Home</a>
+                <a href="{{ route('collections') }}" onclick="toggleMobileNav()" class="flex items-center gap-3 rounded-xl px-3 py-2.5 hover:bg-orange-50 hover:text-orange-700"><i data-lucide="layout-grid" class="h-4 w-4 text-orange-500"></i> Shop all</a>
+                @foreach(\App\Models\Category::query()->where('is_active', true)->orderBy('sort_order')->orderBy('name')->get() as $drawerCategory)
+                    <a href="{{ $drawerCategory->collectionsUrl() }}" onclick="toggleMobileNav()" class="flex items-center gap-3 rounded-xl px-3 py-2.5 hover:bg-orange-50 hover:text-orange-700">
+                        <i data-lucide="{{ $drawerCategory->iconName() }}" class="h-4 w-4 text-orange-500"></i>
+                        {{ $drawerCategory->displayNavLabel() }}
                     </a>
-                    @endif
                 @endforeach
+                <a href="{{ route('exclusive-offers') }}" onclick="toggleMobileNav()" class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-red-600 hover:bg-red-50"><i data-lucide="zap" class="h-4 w-4"></i> Flash deals</a>
                 <a href="{{ route('track-order') }}" onclick="toggleMobileNav()" class="flex items-center gap-3 rounded-xl px-3 py-2.5 hover:bg-emerald-50 hover:text-emerald-800"><i data-lucide="package-search" class="h-4 w-4 text-emerald-600"></i> Track order</a>
                 <a href="{{ route('help') }}" onclick="toggleMobileNav()" class="flex items-center gap-3 rounded-xl px-3 py-2.5 hover:bg-emerald-50 hover:text-emerald-800"><i data-lucide="life-buoy" class="h-4 w-4 text-emerald-600"></i> Help</a>
                 <a href="{{ route('blog.index') }}" onclick="toggleMobileNav()" class="flex items-center gap-3 rounded-xl px-3 py-2.5 hover:bg-emerald-50 hover:text-emerald-800"><i data-lucide="newspaper" class="h-4 w-4 text-emerald-600"></i> Journal</a>

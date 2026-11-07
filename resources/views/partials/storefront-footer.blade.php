@@ -1,185 +1,178 @@
 @php
+    use App\Models\Category;
+    use App\Support\CheckoutSettings;
     use App\Support\FooterSettings;
+    use App\Support\SiteSettings;
 
     $footer = $footerSettings ?? FooterSettings::forStorefront();
+    $supportEmail = SiteSettings::get('support_email', 'support@quickbazar.pk');
+    if (! is_string($supportEmail) || $supportEmail === '' || str_contains(strtolower($supportEmail), 'beautage')) {
+        $supportEmail = 'support@quickbazar.pk';
+    }
+    $supportPhone = SiteSettings::get('support_phone', '+92 300 5550199');
+    if (! is_string($supportPhone) || $supportPhone === '' || str_contains(strtolower($supportPhone), 'beautage')) {
+        $supportPhone = '+92 300 5550199';
+    }
+    $supportPhoneTel = preg_replace('/[^\d+]/', '', (string) $supportPhone) ?: '+923005550199';
+    $departments = Category::query()->where('is_active', true)->orderBy('sort_order')->orderBy('name')->get();
+    $payments = collect(CheckoutSettings::all()['payment_methods'] ?? [])->filter(fn ($method) => ! empty($method['enabled']))->values();
+    $quickLinks = [
+        ['label' => 'About us', 'href' => route('our-story')],
+        ['label' => 'Contact us', 'href' => route('help')],
+        ['label' => 'Careers', 'href' => route('careers')],
+        ['label' => 'Track your order', 'href' => route('track-order')],
+        ['label' => 'Shipping & delivery', 'href' => route('shipping')],
+        ['label' => 'Returns & exchanges', 'href' => route('returns')],
+        ['label' => 'Journal', 'href' => route('blog.index')],
+    ];
 @endphp
-<footer class="site-storefront-footer mt-auto w-full border-t border-slate-200 bg-white text-sm text-slate-700">
-
+<footer class="qb-footer site-storefront-footer mt-auto w-full">
     @if (! empty($footer['trust_enabled']))
-    <div class="w-full border-b border-slate-200 bg-slate-50 px-4 py-6 sm:px-8">
-        <div class="mx-auto grid max-w-7xl grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            @foreach ($footer['trust_badges'] ?? [] as $badge)
-                @if (! empty($badge['enabled']))
-                <div class="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3">
-                    <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700">
-                        <i data-lucide="{{ $badge['icon'] ?? 'shield-check' }}" class="h-5 w-5" aria-hidden="true"></i>
-                    </div>
-                    <div>
-                        <h4 class="text-xs font-bold text-slate-900">{{ $badge['title'] ?? '' }}</h4>
-                        @if (filled($badge['subtitle'] ?? null))
-                        <p class="mt-0.5 text-[11px] font-medium text-slate-500">{{ $badge['subtitle'] }}</p>
-                        @endif
-                    </div>
-                </div>
-                @endif
-            @endforeach
-        </div>
-    </div>
-    @endif
-
-    @if (! empty($footer['newsletter_enabled']))
-    <div class="w-full bg-emerald-700 px-4 py-8 text-white sm:px-8">
-        <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 lg:flex-row">
-            <div class="max-w-xl space-y-1 text-center lg:text-left">
-                @if (filled($footer['newsletter_badge'] ?? null))
-                <span class="mb-1 inline-block rounded-full bg-white/15 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-emerald-50">
-                    {{ $footer['newsletter_badge'] }}
+    <div class="qb-footer-trust px-4 py-6 sm:px-8">
+        <div class="mx-auto grid max-w-7xl grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
+            <div class="qb-trust-card">
+                <span class="qb-trust-icon"><i data-lucide="truck" class="h-5 w-5"></i></span>
+                <span>
+                    <span class="block text-sm font-extrabold text-white">Nationwide delivery</span>
+                    <span class="mt-0.5 block text-xs text-slate-400">Fast shipping across Pakistan</span>
                 </span>
-                @endif
-                @if (filled($footer['newsletter_heading'] ?? null))
-                <h3 class="text-2xl font-extrabold tracking-tight text-white">{{ $footer['newsletter_heading'] }}</h3>
-                @endif
-                @if (filled($footer['newsletter_description'] ?? null))
-                <p class="text-sm leading-relaxed text-emerald-50">{{ $footer['newsletter_description'] }}</p>
-                @endif
             </div>
-            <form id="newsletter-form" data-newsletter-list="store" onsubmit="handleNewsletterSubmit(event)" class="flex w-full flex-col items-center gap-3 sm:flex-row lg:w-auto">
-                <div class="relative w-full sm:w-80">
-                    <label for="newsletter-email" class="sr-only">Email address for newsletter</label>
-                    <span class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400" aria-hidden="true">
-                        <i data-lucide="mail" class="h-4 w-4"></i>
-                    </span>
-                    <input type="email" id="newsletter-email" name="email" required autocomplete="email"
-                           placeholder="{{ $footer['newsletter_placeholder'] ?? 'Enter your email address...' }}"
-                           class="w-full rounded-full border-0 bg-white py-3.5 pl-10 pr-4 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-emerald-300">
-                </div>
-                <button type="submit" class="flex w-full shrink-0 items-center justify-center gap-2 rounded-full bg-slate-900 px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-white transition hover:bg-slate-800 sm:w-auto">
-                    <span>{{ $footer['newsletter_button'] ?? 'Subscribe' }}</span>
-                    <i data-lucide="arrow-right" class="h-4 w-4" aria-hidden="true"></i>
-                </button>
-            </form>
+            <div class="qb-trust-card">
+                <span class="qb-trust-icon"><i data-lucide="shield-check" class="h-5 w-5"></i></span>
+                <span>
+                    <span class="block text-sm font-extrabold text-white">Secure checkout</span>
+                    <span class="mt-0.5 block text-xs text-slate-400">Cash, wallet, card, and bank transfer</span>
+                </span>
+            </div>
+            <div class="qb-trust-card">
+                <span class="qb-trust-icon"><i data-lucide="rotate-ccw" class="h-5 w-5"></i></span>
+                <span>
+                    <span class="block text-sm font-extrabold text-white">Easy returns</span>
+                    <span class="mt-0.5 block text-xs text-slate-400">30-day refund on eligible items</span>
+                </span>
+            </div>
+            <div class="qb-trust-card">
+                <span class="qb-trust-icon"><i data-lucide="headphones" class="h-5 w-5"></i></span>
+                <span>
+                    <span class="block text-sm font-extrabold text-white">24/7 support</span>
+                    <span class="mt-0.5 block text-xs text-slate-400">WhatsApp and live chat</span>
+                </span>
+            </div>
         </div>
     </div>
     @endif
 
-    @include('partials.footer-partner-hub', ['footer' => $footer])
-
-    @php
-        $policyLinks = collect($footer['policy_links'] ?? [])->filter(fn ($link) => ! empty($link['enabled']));
-    @endphp
-    @if ($policyLinks->isNotEmpty())
-    <div class="w-full border-b border-slate-800 bg-slate-900 px-4 py-4 sm:px-8">
-        <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-6 gap-y-3 text-xs font-semibold lg:justify-between">
-            @foreach ($policyLinks as $link)
-                @php
-                    $policyHref = FooterSettings::resolveHref($link['href'] ?? null);
-                @endphp
-                @if ($policyHref)
-                <a href="{{ $policyHref }}" @if (FooterSettings::isExternalUrl($policyHref)) target="_blank" rel="noopener noreferrer" @endif class="flex items-center gap-2 text-slate-300 hover:text-white transition group py-1">
-                    <i data-lucide="{{ $link['icon'] ?? 'link' }}" class="w-4 h-4 text-emerald-400 group-hover:scale-110 transition" aria-hidden="true"></i>
-                    <span>{{ $link['label'] ?? '' }}</span>
-                </a>
-                @endif
-            @endforeach
-        </div>
-    </div>
-    @endif
-
-    <div class="w-full bg-slate-950 text-slate-300">
-    <div class="mx-auto grid w-full max-w-7xl grid-cols-1 gap-8 px-4 py-12 sm:px-8 md:grid-cols-2 lg:grid-cols-5">
-        <div class="w-full min-w-0 max-w-sm space-y-4 lg:col-span-1 lg:max-w-none">
-            <a href="{{ route('home') }}" class="group inline-flex flex-col items-start gap-2">
-                <img
-                    src="{{ $footerLogoUrl }}"
-                    alt="QuickBazar — {{ $siteTagline }}"
-                    width="160"
-                    height="56"
-                    class="h-12 w-auto object-contain"
-                    loading="lazy"
-                    decoding="async"
-                >
-                @if (! empty($footer['show_tagline_under_logo']))
-                <span class="text-[11px] font-serif italic text-slate-300/95 tracking-wide pl-1">{{ $siteTagline }}</span>
-                @endif
+    <div class="mx-auto grid w-full max-w-7xl grid-cols-1 gap-10 px-4 py-12 sm:px-8 md:grid-cols-2 lg:grid-cols-12">
+        <div class="lg:col-span-4">
+            <a href="{{ route('home') }}" class="inline-flex items-center gap-2.5">
+                <span class="qb-logo-mark" aria-hidden="true">
+                    <i data-lucide="shopping-bag" class="h-5 w-5"></i>
+                </span>
+                <span>
+                    <span class="qb-wordmark block text-xl">QuickBazar<span>.pk</span></span>
+                    <span class="qb-kicker">Express shopping</span>
+                </span>
             </a>
-            @if (filled($footer['about_text'] ?? null))
-            <p class="text-xs text-slate-300 leading-relaxed font-semibold">{{ $footer['about_text'] }}</p>
-            @endif
-            <div class="flex items-center gap-2 pt-1 flex-wrap">
+            <p class="mt-4 max-w-sm text-sm leading-relaxed text-slate-400">Verified products delivered across Pakistan, with cash on delivery and tracked door-to-door shipping.</p>
+            <ul class="mt-5 space-y-2 text-sm">
+                <li>
+                    <a href="tel:{{ $supportPhoneTel }}" class="qb-footer-link">
+                        <i data-lucide="phone" class="h-4 w-4"></i>
+                        {{ $supportPhone }}
+                    </a>
+                </li>
+                <li>
+                    <a href="mailto:{{ $supportEmail }}" class="qb-footer-link">
+                        <i data-lucide="mail" class="h-4 w-4"></i>
+                        {{ $supportEmail }}
+                    </a>
+                </li>
+                <li class="qb-footer-link">
+                    <i data-lucide="map-pin" class="h-4 w-4"></i>
+                    Delivery across Pakistan
+                </li>
+            </ul>
+            <div class="mt-5 flex flex-wrap gap-2">
                 @foreach ($footer['social_links'] ?? [] as $social)
                     @if (empty($social['enabled']) || blank($social['href'] ?? null))
                         @continue
                     @endif
                     @php $socialHref = FooterSettings::resolveHref($social['href']); @endphp
                     @if ($socialHref)
-                    <a href="{{ $socialHref }}" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-xl border border-slate-700 bg-slate-800 hover:bg-emerald-600 text-white flex items-center justify-center transition shadow-sm" aria-label="QuickBazar on {{ $social['platform'] ?? 'Social' }}">
-                        <i data-lucide="{{ $social['icon'] ?? 'link' }}" class="w-4 h-4" aria-hidden="true"></i>
+                    <a href="{{ $socialHref }}" target="_blank" rel="noopener noreferrer" class="qb-footer-social" aria-label="Quick Bazar on {{ $social['platform'] ?? 'social' }}">
+                        <i data-lucide="{{ $social['icon'] ?? 'link' }}" class="h-4 w-4"></i>
                     </a>
                     @endif
                 @endforeach
             </div>
         </div>
 
-        @foreach ($footer['link_columns'] ?? [] as $column)
-        <div>
-            @if (filled($column['title'] ?? null))
-            <h4 class="text-white font-extrabold uppercase text-xs tracking-wider mb-4 border-b border-slate-800 pb-2">{{ $column['title'] }}</h4>
-            @endif
-            <ul class="space-y-3 text-xs text-slate-300 font-semibold">
-                @foreach ($column['links'] ?? [] as $link)
-                    @if (empty($link['enabled']))
-                        @continue
-                    @endif
-                    @php $linkHref = FooterSettings::resolveHref($link['href'] ?? null); @endphp
-                    @if ($linkHref)
-                    <li>
-                        <a href="{{ $linkHref }}" @if (FooterSettings::isExternalUrl($linkHref)) target="_blank" rel="noopener noreferrer" @endif class="hover:text-white hover:underline transition flex items-center gap-2">
-                            <i data-lucide="{{ $link['icon'] ?? 'chevron-right' }}" class="w-3.5 h-3.5 text-emerald-400" aria-hidden="true"></i>
-                            {{ $link['label'] ?? '' }}
-                        </a>
-                    </li>
-                    @endif
+        <div class="lg:col-span-2">
+            <h2 class="text-xs font-extrabold uppercase tracking-wider text-white">Quick links</h2>
+            <ul class="mt-4 space-y-2.5">
+                @foreach ($quickLinks as $link)
+                <li>
+                    <a href="{{ $link['href'] }}" class="qb-footer-link">
+                        <i data-lucide="chevron-right" class="h-3.5 w-3.5"></i>
+                        {{ $link['label'] }}
+                    </a>
+                </li>
                 @endforeach
             </ul>
         </div>
-        @endforeach
 
-        @if (! empty($footer['mobile_app_enabled']))
-        <div class="space-y-3">
-            @if (filled($footer['mobile_app_title'] ?? null))
-            <h4 class="text-white font-extrabold uppercase text-xs tracking-wider mb-4 border-b border-slate-800 pb-2">{{ $footer['mobile_app_title'] }}</h4>
-            @endif
-            @if (filled($footer['mobile_app_description'] ?? null))
-            <p class="text-xs text-slate-300 font-semibold leading-relaxed">{{ $footer['mobile_app_description'] }}</p>
-            @endif
-            <div class="space-y-2.5 pt-1">
-                @if (filled($footer['mobile_app_ios_href'] ?? null))
-                <a href="{{ $footer['mobile_app_ios_href'] }}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 border border-slate-700 bg-slate-800 hover:bg-slate-700 p-2.5 rounded-xl transition text-white shadow-sm">
-                    <i data-lucide="apple" class="w-5 h-5 shrink-0" aria-hidden="true"></i>
-                    <div class="text-left leading-none">
-                        <span class="text-[9px] uppercase tracking-wider text-slate-400 block">Download on</span>
-                        <span class="text-xs font-bold text-white block mt-0.5">App Store</span>
-                    </div>
-                </a>
-                @endif
-                @if (filled($footer['mobile_app_android_href'] ?? null))
-                <a href="{{ $footer['mobile_app_android_href'] }}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 border border-slate-700 bg-slate-800 hover:bg-slate-700 p-2.5 rounded-xl transition text-white shadow-sm">
-                    <i data-lucide="play" class="w-5 h-5 shrink-0 fill-current" aria-hidden="true"></i>
-                    <div class="text-left leading-none">
-                        <span class="text-[9px] uppercase tracking-wider text-slate-400 block">Get it on</span>
-                        <span class="text-xs font-bold text-white block mt-0.5">Google Play</span>
-                    </div>
-                </a>
-                @endif
-            </div>
+        <div class="lg:col-span-3">
+            <h2 class="text-xs font-extrabold uppercase tracking-wider text-white">Top categories</h2>
+            <ul class="mt-4 space-y-2.5">
+                @foreach ($departments as $department)
+                <li>
+                    <a href="{{ $department->collectionsUrl() }}" class="qb-footer-link">
+                        <i data-lucide="chevron-right" class="h-3.5 w-3.5"></i>
+                        {{ $department->displayNavLabel() }}
+                    </a>
+                </li>
+                @endforeach
+                <li>
+                    <a href="{{ route('collections') }}" class="qb-footer-link">
+                        <i data-lucide="chevron-right" class="h-3.5 w-3.5"></i>
+                        Shop all
+                    </a>
+                </li>
+            </ul>
         </div>
-        @endif
+
+        <div class="lg:col-span-3">
+            @if (! empty($footer['newsletter_enabled']))
+            <h2 class="text-xs font-extrabold uppercase tracking-wider text-white">Newsletter</h2>
+            <p class="mt-3 text-sm leading-relaxed text-slate-400">Subscribe for new arrivals, offers, and delivery updates.</p>
+            <form id="newsletter-form" data-newsletter-list="store" onsubmit="handleNewsletterSubmit(event)" class="qb-footer-news mt-4">
+                <label for="newsletter-email" class="sr-only">Email address for newsletter</label>
+                <input type="email" id="newsletter-email" name="email" required autocomplete="email" placeholder="Enter your email address">
+                <button type="submit">Subscribe now</button>
+            </form>
+            @endif
+            @if ($payments->isNotEmpty())
+            <p class="mb-2 mt-6 text-[11px] font-extrabold uppercase tracking-wider text-slate-400">Accepted payments</p>
+            <div class="flex flex-wrap gap-2">
+                @foreach ($payments as $method)
+                <span class="qb-pay-chip">
+                    <i data-lucide="{{ $method['icon'] ?? 'wallet' }}" class="h-3.5 w-3.5 text-orange-400"></i>
+                    {{ $method['short_label'] ?? $method['label'] ?? 'Payment' }}
+                </span>
+                @endforeach
+            </div>
+            @endif
+        </div>
     </div>
 
-    @if (filled($footer['copyright_line'] ?? null))
-    <div class="border-t border-slate-800 py-5 text-center text-xs font-semibold text-slate-400">
-        <p>{{ $footer['copyright_line'] }}</p>
-    </div>
-    @endif
+    <div class="qb-footer-bar">
+        <div class="mx-auto flex max-w-7xl flex-col items-start justify-between gap-3 px-4 py-4 sm:flex-row sm:items-center sm:px-8">
+            <p>© {{ date('Y') }} Quick Bazar. All rights reserved.</p>
+            <nav class="flex flex-wrap gap-x-4 gap-y-2" aria-label="Footer policies">
+                <a href="{{ route('help') }}">Privacy policy</a>
+                <a href="{{ route('help') }}">Terms of use</a>
+                <a href="{{ url('/sitemap_index.xml') }}">Sitemap</a>
+            </nav>
+        </div>
     </div>
 </footer>
