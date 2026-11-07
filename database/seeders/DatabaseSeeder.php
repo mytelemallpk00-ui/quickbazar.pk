@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
             CareerOpeningSeeder::class,
             ProductSeeder::class,
             BlogPostSeeder::class,
+            StorefrontDemoSeeder::class,
         ]);
     }
 }

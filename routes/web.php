@@ -26,6 +26,24 @@ use App\Http\Controllers\ProductReviewController;
 use App\Http\Middleware\RecordStoreTraffic;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/robots.txt', function () {
+    $base = rtrim((string) (config('app.url') ?: url('/')), '/');
+
+    $lines = [
+        'User-agent: *',
+        'Allow: /',
+        'Disallow: /admin',
+        'Disallow: /checkout',
+        'Disallow: /account',
+        '',
+        'Sitemap: '.$base.'/sitemap_index.xml',
+        'Sitemap: '.$base.'/feeds/google-merchant.xml',
+        '',
+    ];
+
+    return response(implode("\n", $lines), 200, ['Content-Type' => 'text/plain; charset=UTF-8']);
+})->name('robots');
+
 Route::get('/_deploy/flush-cache', DeployFlushController::class)
     ->middleware('throttle:6,1');
 

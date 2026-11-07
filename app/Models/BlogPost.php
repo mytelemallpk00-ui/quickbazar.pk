@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasSeoMeta;
 use Illuminate\Database\Eloquent\Model;
 
 class BlogPost extends Model
 {
+    use HasSeoMeta;
+
     protected $fillable = [
         'slug',
         'title',

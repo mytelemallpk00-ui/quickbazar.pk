@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Flagship Blog & Journal — Beautage Store')
+@section('title', ($pageSeo['title'] ?? null) ?: 'Journal — Quick Bazar')
 
 @section('body_attrs')
 class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-beautage-pink selection:text-white pb-36 md:pb-0 overflow-x-hidden"
@@ -23,16 +23,16 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
                 <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-beautage-pink/20 rounded-full blur-3xl pointer-events-none"></div>
                 <div class="max-w-2xl relative z-10 space-y-3 text-center md:text-left">
                     <span class="inline-block px-3.5 py-1 rounded-full text-[10px] uppercase font-extrabold tracking-widest bg-pink-500/30 text-pink-200 border border-pink-400/40">
-                        BEAUTAGE EXPERT JOURNAL
+                        QUICK BAZAR JOURNAL
                     </span>
-                    <h1 class="text-2xl sm:text-4xl lg:text-5xl font-serif font-bold text-white tracking-tight">Science, Luxury & Skincare Insights</h1>
+                    <h1 class="text-2xl sm:text-4xl lg:text-5xl font-serif font-bold text-white tracking-tight">Guides for everyday shopping</h1>
                     <p class="text-xs sm:text-sm text-purple-100 leading-relaxed">
                         Discover expert guides on photon light therapy, botanical organic elixirs, and celebrity skincare routines directly from our dermatological research team.
                     </p>
                 </div>
                 <div class="relative z-10 w-full md:w-auto">
                     <div class="bg-white/10 backdrop-blur-md border border-white/20 p-5 rounded-2xl text-center shadow-lg">
-                        <span id="article-count-badge" class="text-2xl sm:text-3xl font-black text-amber-300 block">6</span>
+                        <span id="article-count-badge" class="text-2xl sm:text-3xl font-black text-amber-300 block">{{ $articlesCatalog->count() }}</span>
                         <span class="text-[10px] uppercase tracking-wider text-purple-200 font-bold">Expert Articles</span>
                     </div>
                 </div>
@@ -40,41 +40,41 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
         </div>
 
         <!-- 2. FEATURED HERO ARTICLE ("The Science of 7-Spectrum LED Light Therapy...") -->
-        <section class="w-full px-4 sm:px-12 xl:px-20 mb-10">
-            <div onclick="openArticleModal('featured')" class="bg-white rounded-3xl border-2 border-purple-200 hover:border-beautage-pink shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden cursor-pointer group grid grid-cols-1 lg:grid-cols-12 items-center">
-                <div class="lg:col-span-7 relative h-72 sm:h-96 overflow-hidden bg-purple-50">
-                    <img src="https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&q=80&w=1000" alt="Featured Article LED Mask" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.onerror=null; this.src='https://placehold.co/800x600/5E1F70/FFFFFF?text=LED+Light+Therapy';">
-                    <span class="absolute top-4 left-4 bg-beautage-pink text-white text-xs font-extrabold px-3.5 py-1.5 rounded-full uppercase tracking-wider shadow-lg">
-                        FEATURED COVER STORY
+        @if($featuredPost)
+        <section class="w-full px-4 sm:px-8 xl:px-20 mb-10">
+            <a href="{{ route('blog.show', $featuredPost) }}" class="bg-white rounded-3xl border-2 border-purple-200 hover:border-emerald-400 shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden group grid grid-cols-1 lg:grid-cols-12 items-center">
+                <div class="lg:col-span-7 relative h-56 sm:h-80 lg:h-96 overflow-hidden bg-slate-100">
+                    <img src="{{ $featuredPost->image }}" alt="{{ $featuredPost->title }}" width="1000" height="640" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                    <span class="absolute top-4 left-4 bg-emerald-600 text-white text-xs font-extrabold px-3.5 py-1.5 rounded-full uppercase tracking-wider shadow-lg">
+                        Featured
                     </span>
                 </div>
-                <div class="lg:col-span-5 p-6 sm:p-10 space-y-4">
-                    <div class="flex items-center gap-3 text-xs font-bold text-beautage-purple">
-                        <span class="px-3 py-1 bg-purple-50 rounded-full text-beautage-pink uppercase tracking-widest text-[10px]">Beauty Tech</span>
+                <div class="lg:col-span-5 p-5 sm:p-8 lg:p-10 space-y-4">
+                    <div class="flex flex-wrap items-center gap-3 text-xs font-bold text-slate-700">
+                        <span class="px-3 py-1 bg-emerald-50 rounded-full text-emerald-800 uppercase tracking-widest text-[10px]">{{ $featuredPost->category }}</span>
                         <span class="text-slate-400">•</span>
-                        <span class="text-slate-500 flex items-center gap-1"><i data-lucide="clock" class="w-3.5 h-3.5"></i> 6 min read</span>
+                        <span class="text-slate-500 flex items-center gap-1"><i data-lucide="clock" class="w-3.5 h-3.5"></i> {{ $featuredPost->read_time }}</span>
                     </div>
-                    <h2 class="text-xl sm:text-2xl lg:text-3xl font-serif font-bold text-beautage-purple group-hover:text-beautage-pink transition">
-                        The Science of 7-Spectrum LED Light Therapy for Cellular Rejuvenation
+                    <h2 class="text-xl sm:text-2xl lg:text-3xl font-serif font-bold text-slate-900 group-hover:text-emerald-800 transition">
+                        {{ $featuredPost->title }}
                     </h2>
-                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                        Explore how NASA-originated photon wavelength technology penetrates dermal layers to stimulate collagen synthesis, eliminate acne-causing bacteria, and reverse oxidative skin stress.
-                    </p>
-                    <div class="flex items-center justify-between pt-4 border-t border-purple-100">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-full bg-beautage-purple text-white font-bold flex items-center justify-center text-xs">Dr</div>
-                            <div>
-                                <h4 class="text-xs font-bold text-slate-800">Dr. Aliza Thorne</h4>
-                                <span class="text-[10px] text-slate-400">Chief Dermatological Researcher</span>
+                    <p class="text-sm text-slate-600 leading-relaxed">{{ $featuredPost->snippet }}</p>
+                    <div class="flex items-center justify-between gap-3 pt-4 border-t border-slate-100">
+                        <div class="flex items-center gap-3 min-w-0">
+                            <div class="w-10 h-10 rounded-full bg-emerald-700 text-white font-bold flex items-center justify-center text-xs shrink-0">{{ $featuredPost->author_avatar }}</div>
+                            <div class="min-w-0">
+                                <h3 class="text-xs font-bold text-slate-800 truncate">{{ $featuredPost->author }}</h3>
+                                <span class="text-[10px] text-slate-400">{{ $featuredPost->author_role }}</span>
                             </div>
                         </div>
-                        <span class="text-xs font-bold text-beautage-pink flex items-center gap-1 group-hover:translate-x-1 transition">
-                            Read Story <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        <span class="text-xs font-bold text-emerald-700 flex items-center gap-1 shrink-0">
+                            Read <i data-lucide="arrow-right" class="w-4 h-4"></i>
                         </span>
                     </div>
                 </div>
-            </div>
+            </a>
         </section>
+        @endif
 
         <!-- 3. SEARCH & CATEGORY FILTER TABS -->
         <section class="w-full px-4 sm:px-12 xl:px-20 mb-8">
@@ -82,11 +82,10 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
                 
                 <!-- Category Filter Tabs -->
                 <div class="flex items-center gap-2 overflow-x-auto no-scrollbar w-full md:w-auto pb-2 md:pb-0">
-                    <button onclick="filterArticles('All', this)" class="blog-tab px-4 py-2 rounded-xl bg-beautage-purple text-white text-xs font-bold uppercase tracking-wider transition shrink-0 shadow-sm">All Articles</button>
-                    <button onclick="filterArticles('Skincare Secrets', this)" class="blog-tab px-4 py-2 rounded-xl bg-purple-50 text-slate-700 hover:bg-purple-100 text-xs font-bold uppercase tracking-wider transition shrink-0">Skincare Secrets</button>
-                    <button onclick="filterArticles('Beauty Tech', this)" class="blog-tab px-4 py-2 rounded-xl bg-purple-50 text-slate-700 hover:bg-purple-100 text-xs font-bold uppercase tracking-wider transition shrink-0">Beauty Tech</button>
-                    <button onclick="filterArticles('Hair Care & Wellness', this)" class="blog-tab px-4 py-2 rounded-xl bg-purple-50 text-slate-700 hover:bg-purple-100 text-xs font-bold uppercase tracking-wider transition shrink-0">Hair Care & Wellness</button>
-                    <button onclick="filterArticles('Celebrity Routines', this)" class="blog-tab px-4 py-2 rounded-xl bg-purple-50 text-slate-700 hover:bg-purple-100 text-xs font-bold uppercase tracking-wider transition shrink-0">Celebrity Routines</button>
+                    <button onclick="filterArticles('All', this)" class="blog-tab px-4 py-2 rounded-xl bg-emerald-700 text-white text-xs font-bold uppercase tracking-wider transition shrink-0 shadow-sm">All</button>
+                    @foreach ($blogCategories as $blogCategory)
+                    <button onclick="filterArticles(@js($blogCategory), this)" class="blog-tab px-4 py-2 rounded-xl bg-slate-100 text-slate-700 hover:bg-emerald-50 text-xs font-bold uppercase tracking-wider transition shrink-0">{{ $blogCategory }}</button>
+                    @endforeach
                 </div>
 
                 <!-- Search Bar -->
@@ -103,7 +102,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
 
         <!-- 4. GRID OF ENGAGING ARTICLES -->
         <section class="w-full px-4 sm:px-12 xl:px-20 mb-16">
-            <div id="blog-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            <div id="blog-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"></div>
         </section>
 
         <!-- 5. NEWSLETTER SUBSCRIPTION BOX -->

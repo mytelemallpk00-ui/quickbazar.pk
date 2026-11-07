@@ -30,10 +30,18 @@ Place source HTML files in the uploads directory configured in that script.
 
 ## Hostinger deploy
 
-On the server, from the project root (your domain folder):
+Pushes to `main` deploy the live site `https://lightgrey-panther-710834.hostingersite.com` through `.github/workflows/deploy-hostinger.yml`. The workflow resets that domain folder to `origin/main` and runs `bash scripts/deploy-hostinger.sh --no-seed`.
+
+On the server, from the project root (the domain folder, not `public_html`):
 
 ```bash
 bash scripts/deploy-hostinger.sh
+```
+
+Seeders stay off so live products, orders, and admin passwords are not reset. For an empty database only:
+
+```bash
+bash scripts/deploy-hostinger.sh --seed
 ```
 
 Skip migrations if this release has none:
@@ -44,7 +52,7 @@ bash scripts/deploy-hostinger.sh --no-migrate
 
 Override binaries if needed: `PHP_BIN=/usr/bin/php COMPOSER_BIN=/usr/local/bin/composer bash scripts/deploy-hostinger.sh`
 
-The script pulls `main`, runs Composer, copies `public/*` into `public_html/`, links `public_html/storage`, caches config/routes/views, and sets permissions. Do not edit `public_html/index.php` paths; Laravel’s default `../vendor` paths are correct.
+The script pulls `main`, runs Composer without prompts, copies `public/` including `.htaccess` into `public_html/`, links `public_html/storage`, caches config/routes/views, and sets permissions. Do not edit `public_html/index.php` paths; Laravel’s default `../vendor` paths are correct.
 
 ## Routes
 

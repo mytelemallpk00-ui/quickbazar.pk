@@ -6,7 +6,7 @@
 #
 set -euo pipefail
 
-DOMAIN_ROOT="${DOMAIN_ROOT:-/home/u662960912/domains/beige-ape-286733.hostingersite.com}"
+DOMAIN_ROOT="${DOMAIN_ROOT:-/home/u662960912/domains/lightgrey-panther-710834.hostingersite.com}"
 GITHUB_REPO="${GITHUB_REPO:-https://github.com/mytelemallpk00-ui/beautage-laravel.git}"
 PHP_BIN="${PHP_BIN:-/usr/bin/php}"
 COMPOSER_BIN="${COMPOSER_BIN:-/usr/local/bin/composer}"
@@ -49,18 +49,22 @@ echo "==> Ensure .env uses MySQL (hPanel) and APP_URL before continuing if this 
 echo "    APP_DEBUG=false, DB_CONNECTION=mysql, DB_HOST, DB_DATABASE, DB_USERNAME, DB_PASSWORD"
 
 echo "==> Migrate & seed catalog"
-"$PHP_BIN" artisan migrate --force
-"$PHP_BIN" artisan db:seed --force
+"$PHP_BIN" artisan migrate --force --no-interaction
+"$PHP_BIN" artisan db:seed --force --no-interaction
 
-echo "==> public_html = Laravel public/ only"
+echo "==> public_html = Laravel public/ only (including .htaccess)"
 rm -rf public_html
 mkdir -p public_html
-cp -r public/* public_html/
-ln -sfn "$DOMAIN_ROOT/storage/app/public" "$DOMAIN_ROOT/public_html/storage"
+cp -a public/. public_html/
+if [[ ! -f public_html/.htaccess ]]; then
+  echo "ERROR: public_html/.htaccess is missing. Apache would 404 every route except /index.php." >&2
+  exit 1
+fi
 
 for bad in resources vendor app bootstrap config database routes storage artisan .env .git; do
   rm -rf "public_html/$bad"
 done
+ln -sfn "$DOMAIN_ROOT/storage/app/public" "$DOMAIN_ROOT/public_html/storage"
 
 echo "==> Cache & permissions"
 "$PHP_BIN" artisan config:clear
@@ -70,5 +74,5 @@ echo "==> Cache & permissions"
 chmod -R 755 storage bootstrap/cache public_html
 
 APP_URL=$(grep -E '^APP_URL=' .env | cut -d= -f2- | tr -d '"' | tr -d "'")
-echo "==> DONE. Visit: ${APP_URL:-https://beige-ape-286733.hostingersite.com}"
+echo "==> DONE. Visit: ${APP_URL:-https://lightgrey-panther-710834.hostingersite.com}"
 echo "    File Manager: public_html should contain index.php, css/, js/ — NOT resources/"

@@ -2,9 +2,12 @@
 
 namespace App\Services\Seo;
 
+use App\Models\BlogPost;
+use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProgrammaticSeoLanding;
 use App\Support\SeoAutomationSettings;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
 
 class SitemapGenerator
@@ -73,7 +76,14 @@ class SitemapGenerator
         $urls = [];
         $urls[] = $this->entry($base.'/', now(), 'daily', '1.0');
         $urls[] = $this->entry($base.route('collections', [], false), now(), 'daily', '0.9');
-        $urls[] = $this->entry($base.route('checkout', [], false), now(), 'monthly', '0.5');
+        $urls[] = $this->entry($base.route('blog.index', [], false), now(), 'weekly', '0.7');
+        $urls[] = $this->entry($base.route('exclusive-offers', [], false), now(), 'daily', '0.7');
+
+        foreach (['help', 'shipping', 'returns', 'our-story', 'track-order'] as $page) {
+            if (Route::has($page)) {
+                $urls[] = $this->entry($base.route($page, [], false), now(), 'monthly', '0.4');
+            }
+        }
 
         if (! empty($settings['sitemap_include_products']) && Schema::hasTable('products')) {
             Product::query()->orderBy('id')->chunk(500, function ($products) use (&$urls, $base): void {
@@ -108,6 +118,34 @@ class SitemapGenerator
         if (! empty($settings['sitemap_include_cms'])) {
             foreach (['/press-releases', '/faq', '/events'] as $path) {
                 $urls[] = $this->entry($base.$path, now(), 'monthly', '0.6');
+            }
+
+            if (Schema::hasTable('categories')) {
+                Category::query()->where('is_active', true)->orderBy('sort_order')->each(function (Category $category) use (&$urls, $base): void {
+                    if (! filled($category->slug)) {
+                        return;
+                    }
+                    $urls[] = $this->entry(
+                        $base.route('collections', ['cat' => $category->slug], false),
+                        $category->updated_at ?? now(),
+                        'weekly',
+                        '0.7'
+                    );
+                });
+            }
+
+            if (Schema::hasTable('blog_posts')) {
+                BlogPost::query()->orderBy('id')->each(function (BlogPost $post) use (&$urls, $base): void {
+                    if (! filled($post->slug)) {
+                        return;
+                    }
+                    $urls[] = $this->entry(
+                        $base.route('blog.show', $post, false),
+                        $post->updated_at ?? now(),
+                        'monthly',
+                        '0.6'
+                    );
+                });
             }
         }
 

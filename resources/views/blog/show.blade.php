@@ -1,6 +1,22 @@
 @extends('layouts.app')
 
-@section('title', $post->title . ' — Beautage Journal')
+@section('title', ($pageSeo['title'] ?? null) ?: ($post->title.' — Quick Bazar Journal'))
+
+@push('structured-data')
+<script type="application/ld+json">
+{!! json_encode([
+    '@context' => 'https://schema.org',
+    '@type' => 'Article',
+    'headline' => $post->title,
+    'description' => $post->snippet,
+    'image' => [$post->image],
+    'datePublished' => optional($post->published_at)->toDateString(),
+    'author' => ['@type' => 'Person', 'name' => $post->author],
+    'publisher' => ['@type' => 'Organization', 'name' => 'Quick Bazar'],
+    'mainEntityOfPage' => route('blog.show', $post),
+], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
+</script>
+@endpush
 
 @section('body_attrs')
 class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-beautage-pink selection:text-white pb-36 md:pb-0 overflow-x-hidden"

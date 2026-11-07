@@ -25,7 +25,7 @@ final class FooterSettings
             'newsletter_button' => 'Subscribe',
             'partner_hub_enabled' => true,
             'partner_hub_badge' => 'CORPORATE & PARTNERS',
-            'partner_hub_title' => 'Beautage PVT Ltd. Partner',
+            'partner_hub_title' => 'Quick Bazar Partner',
             'partner_hub_subtitle' => 'Media and partner resources — separate from customer shopping.',
             'partner_hub_buttons' => [
                 ['enabled' => true, 'label' => 'Press Releases', 'icon' => 'newspaper', 'style' => 'outline', 'link_type' => 'href', 'href' => 'press-releases'],
@@ -77,7 +77,7 @@ final class FooterSettings
                     ],
                 ],
                 [
-                    'title' => 'About Beautage',
+                    'title' => 'About Quick Bazar',
                     'links' => [
                         ['enabled' => true, 'icon' => 'book-open', 'label' => 'Our Story', 'href' => 'our-story'],
                         ['enabled' => true, 'icon' => 'briefcase', 'label' => 'Careers', 'href' => 'careers'],
@@ -91,7 +91,7 @@ final class FooterSettings
             'mobile_app_description' => 'Download our app for exclusive mobile-only discounts.',
             'mobile_app_ios_href' => 'https://apple.com',
             'mobile_app_android_href' => 'https://google.com',
-            'copyright_line' => '© '.date('Y').' Beautage PVT Ltd. All rights reserved. Elevate Your Natural Elegance.',
+            'copyright_line' => '© '.date('Y').' Quick Bazar. All rights reserved.',
         ];
     }
 

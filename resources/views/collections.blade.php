@@ -27,7 +27,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
                         <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] uppercase font-extrabold tracking-widest bg-white/10 text-pink-100 border border-white/20">
                             <i data-lucide="shield-check" class="w-3.5 h-3.5"></i> Verified flagship catalog
                         </span>
-                        <h1 class="text-2xl sm:text-4xl font-serif font-bold tracking-tight">Shop the Beautage Collection</h1>
+                        <h1 class="text-2xl sm:text-4xl font-serif font-bold tracking-tight">Shop Quick Bazar</h1>
                         <p class="text-xs sm:text-sm text-purple-100/95 leading-relaxed max-w-xl mx-auto lg:mx-0">
                             Filter by department, compare ratings, and browse our full catalog — six products per row on desktop for quick scanning.
                         </p>

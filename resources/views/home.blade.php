@@ -232,35 +232,6 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
     </main>
 @endsection
 
-@section('below_main')
-<!-- MOBILE BOTTOM NAVIGATION -->
-    <nav class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-purple-100 shadow-2xl px-3 py-2 flex items-center justify-around">
-        <a href="#hero" onclick="setActiveBottomNav(this)" class="bottom-nav-item flex flex-col items-center justify-center text-beautage-pink transition py-1 px-2">
-            <i data-lucide="home" class="w-5 h-5"></i>
-            <span class="text-[10px] font-bold mt-1">Home</span>
-        </a>
-        <a href="{{ route('collections') }}" class="bottom-nav-item flex flex-col items-center justify-center text-slate-500 hover:text-beautage-purple transition py-1 px-2">
-            <i data-lucide="layout-grid" class="w-5 h-5"></i>
-            <span class="text-[10px] font-semibold mt-1">Categories</span>
-        </a>
-        <div class="relative -top-3">
-            <button type="button" onclick="toggleMobileNav()" aria-label="Open menu" class="w-14 h-14 rounded-full bg-gradient-to-tr from-beautage-purpleDark via-beautage-purple to-beautage-pink shadow-xl shadow-purple-900/30 flex items-center justify-center border-4 border-white transition transform hover:scale-105 active:scale-95 group">
-                <img src="{{ \App\Support\SiteSettings::logoUrl() }}" alt="" width="32" height="32" class="w-8 h-8 object-contain brightness-200 invert drop-shadow-md group-hover:rotate-12 transition" onerror="this.onerror=null; this.src='https://placehold.co/100x100/5E1F70/FFFFFF?text=B';">
-            </button>
-        </div>
-        <button type="button" onclick="toggleWishlistDrawer(); setActiveBottomNav(this);" aria-label="Open wishlist" class="bottom-nav-item relative flex flex-col items-center justify-center text-slate-500 hover:text-beautage-purple transition py-1 px-2 bg-transparent border-0">
-            <i data-lucide="heart" class="w-5 h-5" aria-hidden="true"></i>
-            <span class="text-[10px] font-semibold mt-1">Wishlist</span>
-            <span id="mobile-wishlist-badge" class="absolute top-0 right-2 bg-beautage-pink text-white text-[9px] font-bold w-3.5 h-3.5 rounded-full flex items-center justify-center shadow" aria-hidden="true">0</span>
-        </button>
-        <button type="button" onclick="toggleCartDrawer(); setActiveBottomNav(this);" aria-label="Open shopping bag" class="bottom-nav-item relative flex flex-col items-center justify-center text-slate-500 hover:text-beautage-purple transition py-1 px-2 bg-transparent border-0">
-            <i data-lucide="shopping-bag" class="w-5 h-5" aria-hidden="true"></i>
-            <span class="text-[10px] font-semibold mt-1">Bag</span>
-            <span id="mobile-cart-badge" class="absolute top-0 right-2 bg-beautage-purple text-white text-[9px] font-bold w-3.5 h-3.5 rounded-full flex items-center justify-center shadow" aria-hidden="true">0</span>
-        </button>
-    </nav>
-@endsection
-
 @push('scripts')
 @include('partials.scripts.products-catalog')
 <script>

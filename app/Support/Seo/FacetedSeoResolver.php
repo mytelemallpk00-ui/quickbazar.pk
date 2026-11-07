@@ -3,6 +3,7 @@
 namespace App\Support\Seo;
 
 use App\Support\SeoAutomationSettings;
+use App\Support\SiteSettings;
 use Illuminate\Http\Request;
 
 final class FacetedSeoResolver
@@ -40,13 +41,15 @@ final class FacetedSeoResolver
             ];
         }
 
+        $brand = trim((string) SiteSettings::get('site_name', 'Quick Bazar')) ?: 'Quick Bazar';
         $cat = $request->query('cat');
-        $title = 'Product Collections & Catalog — Beautage';
-        $description = 'Browse Beautage categories, ratings, and flagship skincare.';
+        $title = 'Shop all products — '.$brand;
+        $description = 'Browse '.$brand.' categories with PKR prices, ratings, and cash on delivery across Pakistan.';
 
         if (is_string($cat) && $cat !== '') {
-            $title = ucfirst(str_replace('-', ' ', $cat)).' — Beautage collection';
-            $description = 'Shop '.str_replace('-', ' ', $cat).' products with verified reviews and COD across Pakistan.';
+            $label = ucfirst(str_replace('-', ' ', $cat));
+            $title = $label.' — '.$brand;
+            $description = 'Shop '.$label.' on '.$brand.' with verified reviews and cash on delivery across Pakistan.';
         }
 
         return [

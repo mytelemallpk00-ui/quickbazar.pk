@@ -125,19 +125,19 @@
                 : '<span class="text-[9px] font-bold text-amber-600">Out of stock</span>';
 
             return `
-                <article class="group bg-white rounded-2xl border border-purple-100 shadow-md hover:shadow-xl hover:border-pink-200 transition overflow-hidden flex flex-col">
-                    <a href="${href}" class="block aspect-square bg-purple-50 overflow-hidden relative">
-                        <img src="${img}" alt="${name}" width="400" height="400" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                        <span class="absolute top-2 left-2 px-2 py-0.5 rounded-md bg-white/90 text-[8px] font-extrabold uppercase tracking-wider text-beautage-purple">Viewed</span>
+                <article class="group flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white transition hover:border-emerald-200 hover:shadow-lg">
+                    <a href="${href}" class="relative block aspect-square overflow-hidden bg-slate-50">
+                        <img src="${img}" alt="${name}" width="400" height="400" loading="lazy" decoding="async" class="h-full w-full object-cover transition duration-500 group-hover:scale-105">
+                        <span class="absolute left-2 top-2 rounded-md bg-white/90 px-2 py-0.5 text-[8px] font-extrabold uppercase tracking-wider text-emerald-800">Viewed</span>
                     </a>
-                    <div class="p-3 flex flex-col flex-1 gap-2">
-                        <a href="${href}" class="text-xs font-bold text-slate-800 line-clamp-2 group-hover:text-beautage-purple transition">${name}</a>
+                    <div class="flex flex-1 flex-col gap-2 p-3">
+                        <a href="${href}" class="line-clamp-2 text-xs font-bold text-slate-800 transition group-hover:text-emerald-800">${name}</a>
                         <div class="flex items-baseline gap-2">
-                            <span class="text-sm font-black text-beautage-purple">${formatMoney(item.price)}</span>
+                            <span class="text-sm font-extrabold text-slate-900">${formatMoney(item.price)}</span>
                             ${item.oldPrice && item.oldPrice > item.price ? `<span class="text-[10px] text-slate-400 line-through">${formatMoney(item.oldPrice)}</span>` : ''}
                         </div>
                         ${stockBadge}
-                        <button type="button" data-recently-add="${Number(item.id)}" class="mt-auto w-full py-2.5 rounded-xl bg-beautage-pink hover:bg-beautage-pinkHover text-white text-[10px] font-extrabold uppercase tracking-wider transition min-h-[40px]">
+                        <button type="button" data-recently-add="${Number(item.id)}" class="mt-auto min-h-10 w-full rounded-xl bg-emerald-600 py-2.5 text-[11px] font-bold text-white transition hover:bg-emerald-700">
                             Add to bag
                         </button>
                     </div>
