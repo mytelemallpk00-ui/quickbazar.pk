@@ -51,6 +51,8 @@ class HeaderNavigationSettings extends Page implements HasForms
     {
         $nav = SiteSettings::headerNavigation();
         $this->form->fill([
+            'collections_button_label' => $nav['collections_button_label'] ?? 'Collections & categories',
+            'topbar_text' => $nav['topbar_text'] ?? 'Free nationwide delivery on orders over Rs. 2,500',
             'collections_category_ids' => collect($nav['collections_category_ids'] ?? [])
                 ->map(fn ($id) => ['category_id' => (int) $id])
                 ->values()
@@ -65,17 +67,32 @@ class HeaderNavigationSettings extends Page implements HasForms
         return $form
             ->schema([
                 Section::make('How this works')
-                    ->description('Control the purple category strip under the site header.')
+                    ->description('This page controls the storefront header bar and the category mega menu.')
                     ->schema([
                         \Filament\Forms\Components\Placeholder::make('help')
                             ->label('')
                             ->content(new HtmlString(
                                 '<ul class="text-sm text-gray-600 dark:text-gray-400 list-disc ps-4 space-y-1">'
-                                .'<li><strong>Collections</strong> button → mega menu columns from the list below.</li>'
-                                .'<li><strong>Main menu bar</strong> → simple links only (no mega menus). Categories can show a small dropdown from quick links.</li>'
-                                .'<li>Edit category names, icons, and quick links under <strong>Categories → All categories → Header menu</strong>.</li>'
+                                .'<li><strong>Collections button</strong> opens the mega menu. Each column is a category you pick below.</li>'
+                                .'<li><strong>Bar links</strong> sit beside that button. Use Hot deals, categories, or any custom URL.</li>'
+                                .'<li>Each category’s links and icon are edited under <strong>Categories → Header menu</strong>.</li>'
+                                .'<li>Homepage blocks (hero, reviews, journal, and the rest) are switched under <strong>Settings → Homepage banners</strong>.</li>'
+                                .'<li>Colors for the header, buttons, and footer are under <strong>Settings → Theme & site</strong>.</li>'
                                 .'</ul>'
                             )),
+                    ]),
+                Section::make('Header bar')
+                    ->schema([
+                        TextInput::make('topbar_text')
+                            ->label('Top bar message')
+                            ->helperText('Shown next to the HOT badge. Example: Free nationwide delivery on orders over Rs. 2,500')
+                            ->maxLength(160)
+                            ->columnSpanFull(),
+                        TextInput::make('collections_button_label')
+                            ->label('Collections button label')
+                            ->default('Collections & categories')
+                            ->maxLength(48)
+                            ->required(),
                     ]),
                 Section::make('Collections mega menu')
                     ->description('Choose which categories appear as columns inside the Collections dropdown.')
@@ -105,7 +122,7 @@ class HeaderNavigationSettings extends Page implements HasForms
                         TextInput::make('collections_featured.button_url')->label('Button URL')->url(),
                     ])->columns(2),
                 Section::make('Main navigation bar')
-                    ->description('Items shown next to the Collections button (e.g. Skincare, Beauty Tech, Exclusive Offers).')
+                    ->description('Links shown to the right of the Collections button.')
                     ->schema([
                         Repeater::make('main_nav_items')
                             ->label('Menu items')
@@ -146,7 +163,7 @@ class HeaderNavigationSettings extends Page implements HasForms
                                     ->visible(fn (Get $get): bool => $get('type') === 'custom')
                                     ->required(fn (Get $get): bool => $get('type') === 'custom'),
                                 Toggle::make('highlight')
-                                    ->label('Highlight in pink (e.g. Exclusive Offers)')
+                                    ->label('Highlight this link')
                                     ->visible(fn (Get $get): bool => $get('type') === 'custom'),
                             ])
                             ->defaultItems(0)
@@ -163,6 +180,8 @@ class HeaderNavigationSettings extends Page implements HasForms
         $state = $this->form->getState();
 
         SiteSettings::setHeaderNavigation([
+            'collections_button_label' => (string) ($state['collections_button_label'] ?? 'Collections & categories'),
+            'topbar_text' => (string) ($state['topbar_text'] ?? ''),
             'collections_category_ids' => collect($state['collections_category_ids'] ?? [])
                 ->pluck('category_id')
                 ->filter()

@@ -12,6 +12,16 @@ class HomepageContent
     public static function defaults(): array
     {
         return [
+            'layout' => [
+                'hero' => true,
+                'steps' => true,
+                'trust' => true,
+                'categories' => true,
+                'trending' => true,
+                'reviews' => true,
+                'journal' => true,
+                'flash' => true,
+            ],
             'hero' => [
                 'enabled' => true,
                 'background_from' => null,

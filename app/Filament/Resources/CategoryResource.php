@@ -55,7 +55,7 @@ class CategoryResource extends Resource
                             ->schema([
                                 Forms\Components\Placeholder::make('nav_hint')
                                     ->label('')
-                                    ->content('Add this category under Categories → Header menu (main bar). Quick links power the small dropdown on the strip; promo card is only used inside the Collections mega menu.')
+                                    ->content('These links fill this category’s column inside the Collections mega menu. Add the category as a column under Categories → Header menu.')
                                     ->columnSpanFull(),
                                 Forms\Components\TextInput::make('nav_label')
                                     ->label('Menu label override')

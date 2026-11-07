@@ -83,13 +83,51 @@ class HomeController extends Controller
             'journalPosts' => BlogPost::query()->orderByDesc('is_featured')->orderByDesc('published_at')->limit(3)->get(),
             'latestReviews' => ProductReview::query()
                 ->where('is_published', true)
-                ->with('product:id,name,slug')
+                ->with('product:id,name,slug,image')
                 ->latest()
-                ->limit(4)
+                ->limit(3)
                 ->get(),
+            'reviewSummary' => $this->reviewSummary(),
+            'sections' => [
+                'hero' => filter_var(data_get($homepage, 'layout.hero', true), FILTER_VALIDATE_BOOLEAN),
+                'steps' => filter_var(data_get($homepage, 'layout.steps', true), FILTER_VALIDATE_BOOLEAN),
+                'trust' => filter_var(data_get($homepage, 'layout.trust', true), FILTER_VALIDATE_BOOLEAN),
+                'categories' => filter_var(data_get($homepage, 'layout.categories', true), FILTER_VALIDATE_BOOLEAN),
+                'trending' => filter_var(data_get($homepage, 'layout.trending', true), FILTER_VALIDATE_BOOLEAN),
+                'reviews' => filter_var(data_get($homepage, 'layout.reviews', true), FILTER_VALIDATE_BOOLEAN),
+                'journal' => filter_var(data_get($homepage, 'layout.journal', true), FILTER_VALIDATE_BOOLEAN),
+                'flash' => filter_var(data_get($homepage, 'layout.flash', true), FILTER_VALIDATE_BOOLEAN),
+            ],
             'whatsappUrl' => LiveChatSettings::whatsappUrl('Hi, I need help with an order on QuickBazar.'),
             'alpineAlreadyLoaded' => LiveChatSettings::isEnabled(),
         ]);
+    }
+
+    /** @return array{average: float, count: int, bars: list<array{label: string, count: int, percent: int}>} */
+    private function reviewSummary(): array
+    {
+        $base = ProductReview::query()->where('is_published', true);
+        $count = (clone $base)->count();
+        $counts = (clone $base)
+            ->selectRaw('rating, COUNT(*) as total')
+            ->groupBy('rating')
+            ->pluck('total', 'rating');
+        $bars = [];
+
+        for ($star = 5; $star >= 1; $star--) {
+            $total = (int) ($counts[$star] ?? 0);
+            $bars[] = [
+                'label' => $star.' star',
+                'count' => $total,
+                'percent' => $count > 0 ? (int) round(($total / $count) * 100) : 0,
+            ];
+        }
+
+        return [
+            'average' => $count > 0 ? round((float) (clone $base)->avg('rating'), 1) : 0,
+            'count' => $count,
+            'bars' => $bars,
+        ];
     }
 
     /** @return Collection<int, Product> */

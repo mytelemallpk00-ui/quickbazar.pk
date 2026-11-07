@@ -7,7 +7,7 @@
     @php
         use App\Support\StorefrontAssets;
         $storefrontCss = StorefrontAssets::compiledStylesheet();
-        $storefrontCssVersion = '2026110810';
+        $storefrontCssVersion = '2026110815';
         $supportEmail = \App\Support\SiteSettings::get('support_email', 'support@quickbazar.pk');
         if (! is_string($supportEmail) || $supportEmail === '' || str_contains(strtolower($supportEmail), 'beautage')) {
             $supportEmail = 'support@quickbazar.pk';
@@ -79,7 +79,7 @@
             </div>
             <p class="qb-hot hidden md:inline-flex">
                 <span class="qb-hot-badge">HOT</span>
-                Free nationwide delivery on orders over Rs. 2,500
+                {{ $storefrontNav['topbarText'] ?? 'Free nationwide delivery on orders over Rs. 2,500' }}
             </p>
             <div class="flex items-center gap-3">
                 <a href="{{ route('track-order') }}" class="inline-flex items-center gap-1 font-semibold">

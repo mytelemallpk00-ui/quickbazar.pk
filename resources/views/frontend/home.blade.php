@@ -28,6 +28,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
     }
 @endphp
 <main class="qb-page">
+    @if ($sections['hero'] ?? true)
     <section class="px-4 py-5 sm:px-6 sm:py-8 lg:px-8" aria-labelledby="home-hero-title">
         <div class="qb-hero w-full">
             <div>
@@ -81,7 +82,9 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
             </div>
         </div>
     </section>
+    @endif
 
+    @if ($sections['steps'] ?? true)
     <section class="px-4 pb-4 sm:px-6 lg:px-8" aria-labelledby="home-steps-title">
         <div class="w-full">
             <h2 id="home-steps-title" class="sr-only">How to order</h2>
@@ -110,7 +113,9 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
             </ol>
         </div>
     </section>
+    @endif
 
+    @if ($sections['trust'] ?? true)
     <section class="border-y border-slate-200 bg-white" aria-label="Why shop with Quick Bazar">
         <ul class="grid w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
             <li><a href="{{ route('shipping') }}" class="flex h-full items-start gap-3 px-4 py-5 transition hover:bg-[var(--qb-soft)] sm:px-6"><span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl" style="background: var(--qb-soft); color: var(--qb-orange)"><i data-lucide="truck" class="h-5 w-5"></i></span><span><span class="block text-sm font-bold text-slate-900">Nationwide shipping</span><span class="mt-0.5 block text-xs text-slate-500">Delivery across Pakistan, tracked from checkout.</span></span></a></li>
@@ -119,7 +124,9 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
             <li><a href="{{ $whatsappUrl }}" target="_blank" rel="noopener noreferrer" class="flex h-full items-start gap-3 px-4 py-5 transition hover:bg-[var(--qb-soft)] sm:px-6"><span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl" style="background: var(--qb-soft); color: var(--qb-orange)"><i data-lucide="message-circle" class="h-5 w-5"></i></span><span><span class="block text-sm font-bold text-slate-900">24/7 support</span><span class="mt-0.5 block text-xs text-slate-500">WhatsApp and live chat when you need a hand.</span></span></a></li>
         </ul>
     </section>
+    @endif
 
+    @if ($sections['categories'] ?? true)
     <section id="categories" class="px-4 py-10 sm:px-6 lg:px-8" aria-labelledby="home-categories-title">
         <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
@@ -144,7 +151,9 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
             </div>
         @endif
     </section>
+    @endif
 
+    @if ($sections['trending'] ?? true)
     <section class="px-4 pb-10 sm:px-6 lg:px-8" aria-labelledby="home-trending-title">
         <div class="mb-6">
             <p class="qb-eyebrow">{{ $trendingCopy['badge'] }}</p>
@@ -183,32 +192,69 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
             </div>
         @endif
     </section>
+    @endif
 
-    @if($latestReviews->isNotEmpty())
+    @if (($sections['reviews'] ?? true) && $latestReviews->isNotEmpty())
     <section class="px-4 pb-10 sm:px-6 lg:px-8" aria-labelledby="home-reviews-title">
-        <p class="qb-eyebrow">Verified buyers</p>
-        <h2 id="home-reviews-title" class="mt-1 text-2xl font-extrabold text-slate-900 sm:text-3xl">Recent reviews</h2>
-        <div class="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
-            @foreach($latestReviews as $review)
-                <article class="qb-card p-5">
-                    <div class="flex items-center justify-between gap-3">
-                        <p class="text-sm font-bold text-slate-900">{{ $review->author_name }}</p>
-                        <p class="text-xs font-bold" style="color: var(--qb-orange)">{{ $review->rating }}/5</p>
-                    </div>
-                    @if($review->title)
-                        <h3 class="mt-2 text-sm font-bold text-slate-800">{{ $review->title }}</h3>
-                    @endif
-                    <p class="mt-2 text-sm leading-relaxed text-slate-600">{{ $review->body }}</p>
-                    @if($review->product)
-                        <a href="{{ route('product.show', $review->product) }}" class="mt-3 inline-block text-xs font-bold" style="color: var(--qb-navy)">{{ $review->product->name }}</a>
-                    @endif
-                </article>
-            @endforeach
+        <div class="qb-reviews">
+            <h2 id="home-reviews-title" class="text-lg font-extrabold text-slate-900">Reviews</h2>
+            <div class="mt-4 grid gap-6 lg:grid-cols-12 lg:items-center">
+                <div class="lg:col-span-4">
+                    <p class="text-4xl font-extrabold leading-none text-slate-900">{{ number_format($reviewSummary['average'], 1) }}</p>
+                    <p class="qb-stars mt-2" aria-hidden="true">
+                        @for($star = 1; $star <= 5; $star++)
+                            <span class="{{ $star <= round($reviewSummary['average']) ? 'is-on' : '' }}">★</span>
+                        @endfor
+                    </p>
+                    <p class="mt-1 text-xs font-semibold text-slate-500">{{ number_format($reviewSummary['count']) }} {{ $reviewSummary['count'] === 1 ? 'rating' : 'ratings' }}</p>
+                </div>
+                <ul class="space-y-2 lg:col-span-8">
+                    @foreach($reviewSummary['bars'] as $bar)
+                        <li class="grid grid-cols-[4.5rem_1fr_2.5rem] items-center gap-2 text-xs font-semibold text-slate-600">
+                            <span>{{ $bar['label'] }}</span>
+                            <span class="qb-bar" aria-hidden="true"><span style="width: {{ $bar['percent'] }}%"></span></span>
+                            <span class="text-right">{{ $bar['count'] }}</span>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+            <div class="mt-6 divide-y divide-slate-100">
+                @foreach($latestReviews as $review)
+                    <article class="grid grid-cols-1 gap-3 py-4 sm:grid-cols-[auto_1fr_auto] sm:items-start">
+                        <span class="qb-avatar" aria-hidden="true">{{ $review->authorInitials() }}</span>
+                        <div class="min-w-0">
+                            <p class="text-sm font-extrabold text-slate-900">{{ $review->author_name }}</p>
+                            <p class="text-[11px] font-semibold text-slate-400">{{ $review->created_at?->diffForHumans() }} @if($review->is_verified_buyer) · Verified buyer @endif</p>
+                            @if($review->title)
+                                <h3 class="mt-2 text-sm font-bold text-slate-800">{{ $review->title }}</h3>
+                            @endif
+                            <p class="mt-1 text-sm leading-relaxed text-slate-600">{{ $review->body }}</p>
+                            @if($review->product)
+                                <a href="{{ route('product.show', $review->product) }}" class="mt-2 inline-flex items-center gap-2 text-xs font-bold" style="color: var(--qb-navy)">
+                                    @if(filled($review->product->image))
+                                        <img src="{{ $review->product->image }}" alt="" width="36" height="36" loading="lazy" decoding="async" class="h-9 w-9 rounded-md object-cover">
+                                    @endif
+                                    {{ $review->product->name }}
+                                </a>
+                            @endif
+                        </div>
+                        <p class="flex items-center gap-1 text-sm font-extrabold text-slate-900 sm:justify-end">
+                            {{ number_format($review->rating, 1) }}
+                            <span class="qb-stars" aria-label="{{ $review->rating }} out of 5">
+                                @for($star = 1; $star <= 5; $star++)
+                                    <span class="{{ $star <= $review->rating ? 'is-on' : '' }}">★</span>
+                                @endfor
+                            </span>
+                        </p>
+                    </article>
+                @endforeach
+            </div>
+            <a href="{{ route('collections') }}" class="mt-2 inline-flex text-sm font-extrabold" style="color: var(--qb-orange)">Shop reviewed products</a>
         </div>
     </section>
     @endif
 
-    @if($journalPosts->isNotEmpty())
+    @if (($sections['journal'] ?? true) && $journalPosts->isNotEmpty())
     <section class="px-4 pb-10 sm:px-6 lg:px-8" aria-labelledby="home-journal-title">
         <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
@@ -232,6 +278,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
     </section>
     @endif
 
+    @if ($sections['flash'] ?? true)
     <section class="px-4 pb-12 sm:px-6 lg:px-8" aria-labelledby="home-flash-title">
         <div class="grid w-full items-center gap-6 overflow-hidden rounded-2xl px-5 py-8 text-white sm:rounded-3xl sm:px-10 sm:py-12 lg:grid-cols-12" style="background: linear-gradient(135deg, var(--qb-navy), var(--qb-navy-deep) 70%)" x-data="qbFlashSale(@js($flash['ends_at']), @js($flash['hours']), @js($flash['minutes']), @js($flash['seconds']))">
             <div class="lg:col-span-7">
@@ -266,6 +313,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
             @endif
         </div>
     </section>
+    @endif
 </main>
 @endsection
 

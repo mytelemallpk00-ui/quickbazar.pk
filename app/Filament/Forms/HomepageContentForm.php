@@ -29,6 +29,19 @@ class HomepageContentForm
                     .'</p>'
                 ))
                 ->columnSpanFull(),
+            Section::make('Homepage sections')
+                ->description('Turn each block of the homepage on or off. The header, mega menu, and footer stay in place.')
+                ->schema([
+                    Toggle::make('homepage_content.layout.hero')->label('Hero')->default(true),
+                    Toggle::make('homepage_content.layout.steps')->label('How to order')->default(true),
+                    Toggle::make('homepage_content.layout.trust')->label('Trust row')->default(true),
+                    Toggle::make('homepage_content.layout.categories')->label('Categories')->default(true),
+                    Toggle::make('homepage_content.layout.trending')->label('Trending products')->default(true),
+                    Toggle::make('homepage_content.layout.reviews')->label('Reviews')->default(true),
+                    Toggle::make('homepage_content.layout.journal')->label('Journal')->default(true),
+                    Toggle::make('homepage_content.layout.flash')->label('Flash deals')->default(true),
+                ])
+                ->columns(2),
             Section::make('Main hero banner')
                 ->description('Purple banner: badge, headline, prices, CTA, and right-side product image.')
                 ->schema([

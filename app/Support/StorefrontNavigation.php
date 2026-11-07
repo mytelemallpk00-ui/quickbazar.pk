@@ -19,18 +19,48 @@ class StorefrontNavigation
             ->get()
             ->keyBy('id');
 
+        $columnIds = $config['collections_category_ids'] ?? [];
+        if ($columnIds === []) {
+            $columnIds = $categories->pluck('id')->all();
+        }
+
+        $mainItems = $config['main_nav_items'] ?? [];
+        if ($mainItems === []) {
+            $mainItems = [
+                [
+                    'type' => 'custom',
+                    'label' => 'Hot deals',
+                    'icon' => 'flame',
+                    'icon_color' => 'text-orange-300',
+                    'url' => route('exclusive-offers'),
+                    'highlight' => true,
+                ],
+                [
+                    'type' => 'custom',
+                    'label' => 'Journal',
+                    'icon' => 'book-open',
+                    'icon_color' => 'text-slate-200',
+                    'url' => route('blog.index'),
+                    'highlight' => false,
+                ],
+            ];
+        }
+
+        $featured = is_array($config['collections_featured'] ?? null) ? $config['collections_featured'] : [];
+
         return [
-            'collectionsColumns' => static::resolveCategoryColumns(
-                $config['collections_category_ids'] ?? [],
-                $categories
-            ),
-            'collectionsFeatured' => static::normalizeFeatured($config['collections_featured'] ?? []),
+            'collectionsButton' => filled($config['collections_button_label'] ?? null)
+                ? (string) $config['collections_button_label']
+                : 'Collections & categories',
+            'topbarText' => filled($config['topbar_text'] ?? null)
+                ? (string) $config['topbar_text']
+                : 'Free nationwide delivery on orders over Rs. 2,500',
+            'collectionsColumns' => static::resolveCategoryColumns($columnIds, $categories),
+            'collectionsFeatured' => static::normalizeFeatured($featured),
+            'showFeatured' => filled($featured['title'] ?? null),
             'mainNavItems' => static::ensureExclusiveOffersNavItem(
                 static::normalizeMainNavConfig(
-                    static::resolveMainNavItems(
-                        $config['main_nav_items'] ?? [],
-                        $categories
-                    )
+                    static::resolveMainNavItems($mainItems, $categories)
                 )
             ),
         ];
