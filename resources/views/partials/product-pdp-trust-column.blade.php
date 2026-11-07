@@ -2,7 +2,7 @@
     $pdpTrust = $pdpTrust ?? \App\Support\ProductTrustSettings::forStorefront();
 @endphp
 @if (! empty($pdpTrust['enabled']))
-<section id="pdp-trust-column" class="mt-8 w-full" aria-label="Store guarantees">
+<section id="pdp-trust-column" class="mt-8 w-full px-4 sm:px-6 lg:px-8" aria-label="Store guarantees">
     <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
         @foreach (['trust_section', 'quality_section'] as $sectionKey)
             @php
@@ -18,7 +18,7 @@
                     @endif
                     <h2 class="mt-1 text-base font-bold text-slate-900">{{ $section['heading'] ?? '' }}</h2>
                     @if (filled($section['intro'] ?? null))
-                    <p class="mt-1 text-xs leading-relaxed text-slate-500">{{ $section['intro'] }}</p>
+                    <p class="mt-1 text-xs leading-relaxed text-slate-500">{{ str_ireplace('Beautage', 'Quick Bazar', (string) $section['intro']) }}</p>
                     @endif
                 </div>
                 <ul class="divide-y divide-slate-100">

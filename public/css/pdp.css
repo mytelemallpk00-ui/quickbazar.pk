@@ -58,6 +58,23 @@
     contain-intrinsic-size: 520px 520px;
 }
 
+#pdp-main-grid {
+    align-items: start;
+}
+
+#pdp-buy-column {
+    max-height: none;
+    overflow: visible;
+}
+
+#pdp-gallery-pin {
+    align-items: flex-start;
+}
+
+.pdp-bulk-card {
+    height: 100%;
+}
+
 @media (prefers-reduced-motion: reduce) {
     .pdp-gallery-main,
     .pdp-no-motion-pulse {

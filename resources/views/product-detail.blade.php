@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $product->name . ' — Beautage Flagship Store')
+@section('title', $product->name . ' — Quick Bazar')
 
 @section('body_attrs')
 class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-emerald-200 selection:text-slate-900"
@@ -16,7 +16,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
 @endpush
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/pdp.css') }}?v=2026110805">
+    <link rel="stylesheet" href="{{ asset('css/pdp.css') }}?v=2026110816">
 @endpush
 
 @push('structured-data')
@@ -27,11 +27,12 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
 @php
     use App\Support\MoneyFormat;
     $productSave = max(0, (float) $product->old_price - (float) $product->price);
+    $freeShipAt = (float) \App\Support\CheckoutSettings::all()['free_shipping_threshold'];
 @endphp
 <main class="w-full flex-1 flex flex-col py-6">
 
         <!-- 1. BREADCRUMB NAVIGATION -->
-        <div class="w-full px-4 sm:px-12 xl:px-20 mb-4 sm:mb-6 overflow-x-auto no-scrollbar">
+        <div class="w-full px-4 sm:px-6 lg:px-8 mb-4 sm:mb-6 overflow-x-auto no-scrollbar">
             <nav class="flex items-center gap-2 text-xs font-semibold text-slate-600 whitespace-nowrap">
                 <a href="{{ route('home') }}" class="hover:text-beautage-purple transition flex items-center gap-1">
                     <i data-lucide="home" class="w-3.5 h-3.5"></i> Home
@@ -44,12 +45,12 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
         </div>
 
         <!-- PRODUCT MAIN SECTION (GALLERY + BUY BOX) -->
-        <section id="pdp-main-section" class="w-full px-4 sm:px-12 xl:px-20">
-            <div id="pdp-main-grid" class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start lg:items-stretch">
+        <section id="pdp-main-section" class="w-full px-4 sm:px-6 lg:px-8">
+            <div id="pdp-main-grid" class="grid grid-cols-1 items-start gap-6 lg:grid-cols-2 lg:gap-10">
                 
                 <!-- 2. IMAGE GALLERY (SPAN 5) — square; pins on desktop while buy column scrolls -->
-                <div id="pdp-gallery-col" class="lg:col-span-5 min-w-0 lg:self-stretch">
-                    <div id="pdp-gallery-pin" class="flex flex-col-reverse sm:flex-row gap-4 w-full lg:sticky lg:top-[5.75rem] lg:z-[1]">
+                <div id="pdp-gallery-col" class="min-w-0">
+                    <div id="pdp-gallery-pin" class="flex w-full flex-col-reverse gap-3 sm:flex-row sm:items-start lg:sticky lg:top-40 lg:z-[1]">
                     <div class="flex sm:flex-col gap-3 overflow-x-auto sm:overflow-y-auto no-scrollbar shrink-0 py-1 max-h-[360px] sm:max-h-[420px] lg:max-h-[min(520px,calc(100vh-12rem))]">
                         @foreach ($galleryImages as $index => $galleryUrl)
                         <button type="button" onclick="switchMainImage({{ $index }})" aria-label="Show product image {{ $index + 1 }}" aria-pressed="{{ $index === 0 ? 'true' : 'false' }}" class="thumb-btn w-14 h-14 sm:w-16 sm:h-16 lg:w-[4.5rem] lg:h-[4.5rem] rounded-2xl border-2 {{ $index === 0 ? 'border-beautage-purple' : 'border-transparent hover:border-purple-300' }} overflow-hidden bg-purple-50 shadow-sm shrink-0 transition">
@@ -64,7 +65,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
                         @endif
                     </div>
 
-                    <div id="pdp-gallery-stage" class="pdp-gallery-main flex-1 relative rounded-3xl overflow-hidden bg-purple-50/50 border border-purple-100 shadow-xl w-full min-w-0 aspect-square">
+                    <div id="pdp-gallery-stage" class="pdp-gallery-main relative aspect-square w-full min-w-0 flex-1 overflow-hidden rounded-2xl border border-slate-200 bg-white">
                         <img id="main-product-img" src="{{ $galleryImages[0] ?? $product->image }}" alt="{{ $product->name }}" class="w-full h-full object-cover cursor-zoom-in" width="800" height="800" fetchpriority="high" decoding="async" onclick="openLightbox()">
                         @if ($product->badge)
                         <div class="absolute top-4 left-4 bg-beautage-purple text-white text-[10px] sm:text-xs font-black uppercase tracking-widest px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full shadow-lg">
@@ -79,7 +80,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
                 </div>
 
                 <!-- 3. PRODUCT HEADER, PRICING & BUY (SPAN 4) -->
-                <div id="pdp-buy-column" class="lg:col-span-4 space-y-5 sm:space-y-6 min-w-0 lg:max-h-[calc(100svh-5.75rem)] lg:overflow-y-auto lg:overscroll-y-contain no-scrollbar [scrollbar-gutter:stable]">
+                <div id="pdp-buy-column" class="min-w-0 space-y-5 rounded-2xl border border-slate-200 bg-white p-4 sm:space-y-6 sm:p-6">
                     
                     <div>
                         <div class="flex items-center gap-2 mb-2 flex-wrap">
@@ -92,7 +93,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
                             </span>
                             @endif
                         </div>
-                        <h1 class="text-2xl sm:text-3xl xl:text-4xl font-serif font-bold text-beautage-purple tracking-tight leading-tight">
+                        <h1 class="text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
                             {{ $product->name }}
                         </h1>
                         @if ($product->short_description)
@@ -167,7 +168,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
                             </div>
                             <div class="flex-1">
                                 <h4 class="text-xs font-bold text-beautage-purple">Cash on Delivery Available Across Pakistan</h4>
-                                <p class="text-[11px] text-slate-600">Free Express Shipping on all orders over Rs 7,500</p>
+                                <p class="text-[11px] text-slate-600">{{ $freeShipAt > 0 ? 'Free delivery on orders over '.MoneyFormat::pkr($freeShipAt) : 'Delivery charges are shown at checkout' }}</p>
                             </div>
                         </div>
 
@@ -198,10 +199,10 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
 
                 </div>
 
-                @include('partials.product-pdp-trust-column')
-
             </div>
         </section>
+
+        @include('partials.product-pdp-trust-column')
 
         @include('partials.product-bundle-section', ['bundlePayload' => $bundlePayload ?? null])
 
@@ -212,7 +213,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
         ])
 
         <!-- COMPREHENSIVE TABS / ACCORDIONS FOR PRODUCT DETAILS -->
-        <section class="w-full px-4 sm:px-12 xl:px-20 py-8" aria-labelledby="pdp-details-heading">
+        <section class="w-full px-4 sm:px-6 lg:px-8 py-8" aria-labelledby="pdp-details-heading">
             <h2 id="pdp-details-heading" class="sr-only">Product details, specifications, and reviews</h2>
             <div class="w-full bg-white rounded-3xl border border-purple-100 shadow-xl overflow-hidden">
                 <div class="grid grid-cols-2 md:grid-cols-4 bg-purple-50/70 border-b border-purple-100" role="tablist" aria-label="Product information tabs">
@@ -268,16 +269,24 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
                         </div>
                         <div class="space-y-3">
                             @foreach ($productFaqs as $faqIndex => $faq)
+                            @php
+                                $faqQuestion = str_ireplace('Beautage', 'Quick Bazar', (string) ($faq['question'] ?? ''));
+                                $faqAnswer = str_ireplace(
+                                    ['Beautage', 'Rs 7,500', 'Rs. 7,500'],
+                                    ['Quick Bazar', MoneyFormat::pkr($freeShipAt), MoneyFormat::pkr($freeShipAt)],
+                                    (string) ($faq['answer'] ?? '')
+                                );
+                            @endphp
                             <div class="rounded-2xl border border-purple-100 bg-purple-50/30 overflow-hidden shadow-sm">
                                 <button type="button" onclick="toggleProductFaq({{ $faqIndex }})" class="w-full p-4 sm:p-5 text-left flex items-center justify-between gap-4 hover:bg-purple-50/80 transition focus:outline-none">
                                     <span class="text-xs sm:text-sm font-bold text-beautage-purple flex items-start gap-3">
                                         <span class="w-6 h-6 rounded-full bg-white border border-purple-100 text-beautage-pink flex items-center justify-center text-[10px] font-extrabold shrink-0 mt-0.5">Q</span>
-                                        <span>{{ $faq['question'] ?? '' }}</span>
+                                        <span>{{ $faqQuestion }}</span>
                                     </span>
                                     <i data-lucide="chevron-down" id="product-faq-chevron-{{ $faqIndex }}" class="w-4 h-4 text-slate-400 shrink-0 transition-transform duration-300"></i>
                                 </button>
                                 <div id="product-faq-answer-{{ $faqIndex }}" class="hidden px-5 sm:px-6 pb-5 pt-0 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-purple-100/80 bg-white/70">
-                                    <p class="pt-3">{{ $faq['answer'] ?? '' }}</p>
+                                    <p class="pt-3">{{ $faqAnswer }}</p>
                                 </div>
                             </div>
                             @endforeach
@@ -424,16 +433,16 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
         </section>
 
         <!-- RELATED / YOU MAY ALSO LIKE PRODUCTS GRID -->
-        <section class="w-full px-4 sm:px-12 xl:px-20 py-12">
+        <section class="w-full px-4 sm:px-6 lg:px-8 py-12">
             <div class="text-center max-w-2xl mx-auto mb-8">
                 <span class="inline-block px-3 py-1 rounded-full text-[10px] uppercase font-extrabold tracking-widest bg-purple-100 text-beautage-purple border border-purple-200 mb-2">
                     COMPLETE YOUR ROUTINE
                 </span>
                 <h2 class="text-2xl sm:text-3xl font-serif font-bold text-beautage-purple">You May Also Like</h2>
-                <p class="text-xs text-slate-500 mt-1">Explore complementary flagship elixirs and dermal devices.</p>
+                <p class="mt-1 text-sm text-slate-500">More from this department, with the same PKR prices.</p>
             </div>
 
-            <div id="related-product-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3 sm:gap-4 lg:gap-5"></div>
+            <div id="related-product-grid" class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4"></div>
         </section>
 
     </main>

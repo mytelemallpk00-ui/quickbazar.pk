@@ -11,7 +11,7 @@
         </h2>
         <span class="text-[11px] font-semibold text-slate-500">Or set your own quantity below</span>
     </div>
-    <div class="grid grid-cols-3 gap-2 sm:gap-3" role="group" aria-label="Pack size">
+    <div class="grid grid-cols-1 gap-2 min-[420px]:grid-cols-3 sm:gap-3" role="group" aria-label="Pack size">
         <button type="button" onclick="selectBulkTier(1, 0)" data-bulk-tier="1" aria-pressed="true" class="pdp-bulk-card is-active">
             <span class="pdp-bulk-card__title">1 Piece</span>
             <span class="pdp-bulk-card__badge">Standard</span>

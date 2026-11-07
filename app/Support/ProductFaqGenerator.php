@@ -35,10 +35,15 @@ class ProductFaqGenerator
         $shortName = Str::limit($name, 52, '…');
         $category = trim($category) !== '' ? trim($category) : 'General';
         $priceLabel = MoneyFormat::pkr(max(0, $price));
+        $store = self::storeName();
         $usage = self::usageHint($name, $category, $description);
         $stockLine = $inStock
-            ? 'It is currently listed as in stock on Beautage.'
+            ? "It is currently listed as in stock on {$store}."
             : 'Availability can change quickly—use the Add to Bag button to see live stock status.';
+        $threshold = (float) CheckoutSettings::all()['free_shipping_threshold'];
+        $shippingLine = $threshold > 0
+            ? ' Free delivery applies on orders over '.MoneyFormat::pkr($threshold).' where offered at checkout.'
+            : '';
 
         return [
             [
@@ -46,8 +51,8 @@ class ProductFaqGenerator
                 'answer' => self::introAnswer($shortName, $category, $description),
             ],
             [
-                'question' => 'Is this product 100% original on Beautage?',
-                'answer' => "Yes. Beautage is an authorized storefront. {$shortName} is sourced for authentic quality with secure checkout and customer support if you need help with your order.",
+                'question' => "Is this product 100% original on {$store}?",
+                'answer' => "Yes. {$store} lists this item for authentic quality, with secure checkout and customer support if you need help with your order.",
             ],
             [
                 'question' => "How fast is delivery for {$shortName} in Pakistan?",
@@ -55,11 +60,11 @@ class ProductFaqGenerator
             ],
             [
                 'question' => 'Can I pay Cash on Delivery (COD)?',
-                'answer' => "Cash on Delivery is available across Pakistan on eligible orders. Your order total for this item starts at {$priceLabel}; free express shipping applies on orders over Rs 7,500 where offered at checkout.",
+                'answer' => "Cash on Delivery is available across Pakistan on eligible orders. Your order total for this item starts at {$priceLabel}.{$shippingLine}",
             ],
             [
                 'question' => "What is the return policy for {$shortName}?",
-                'answer' => 'Unused items in original packaging may be returned within 30 days of delivery for a refund or exchange, subject to Beautage return guidelines. Contact support with your order ID if something arrives damaged or incorrect.',
+                'answer' => "Unused items in original packaging may be returned within 30 days of delivery for a refund or exchange, subject to {$store} return guidelines. Contact support with your order ID if something arrives damaged or incorrect.",
             ],
             [
                 'question' => "How should I use or care for {$shortName}?",
@@ -68,16 +73,26 @@ class ProductFaqGenerator
         ];
     }
 
+    private static function storeName(): string
+    {
+        $name = trim((string) SiteSettings::get('site_name', 'Quick Bazar'));
+        if ($name === '' || str_contains(strtolower($name), 'beautage')) {
+            return 'Quick Bazar';
+        }
+
+        return $name;
+    }
+
     private static function introAnswer(string $shortName, string $category, string $description): string
     {
         $desc = trim(strip_tags($description));
         if ($desc !== '') {
             $snippet = Str::limit($desc, 220);
 
-            return "{$shortName} is listed under {$category} at Beautage. {$snippet}";
+            return "{$shortName} is listed under {$category} at ".self::storeName().". {$snippet}";
         }
 
-        return "{$shortName} is a {$category} pick on Beautage, chosen for everyday value, reliable delivery across Pakistan, and secure checkout including COD where available.";
+        return "{$shortName} is a {$category} pick on ".self::storeName().", chosen for everyday value, reliable delivery across Pakistan, and secure checkout including COD where available.";
     }
 
     private static function usageHint(string $name, string $category, string $description): string
