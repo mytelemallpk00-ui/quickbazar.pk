@@ -3,15 +3,22 @@
 @endphp
 <style id="beautage-brand-vars">
     :root {
-        --beautage-purple: {{ $brand['purple'] }};
-        --beautage-purple-dark: {{ $brand['purpleDark'] }};
-        --beautage-pink: {{ $brand['pink'] }};
-        --beautage-pink-hover: {{ $brand['pinkHover'] }};
-        --beautage-amber: {{ $brand['amber'] }};
-        --beautage-gold: {{ $brand['gold'] ?? $brand['amber'] }};
-        --beautage-ink: #1e1b4b;
+        --qb-navy: {{ $brand['purple'] }};
+        --qb-navy-deep: {{ $brand['purpleDark'] }};
+        --qb-orange: {{ $brand['pink'] }};
+        --qb-orange-hover: {{ $brand['pinkHover'] }};
+        --qb-highlight: {{ $brand['amber'] }};
+        --qb-soft: color-mix(in srgb, var(--qb-orange) 12%, white);
+        --qb-line: color-mix(in srgb, var(--qb-orange) 28%, white);
+        --beautage-purple: var(--qb-navy);
+        --beautage-purple-dark: var(--qb-navy-deep);
+        --beautage-pink: var(--qb-orange);
+        --beautage-pink-hover: var(--qb-orange-hover);
+        --beautage-amber: var(--qb-highlight);
+        --beautage-gold: var(--qb-highlight);
+        --beautage-ink: var(--qb-navy);
         --beautage-muted: #475569;
-        --beautage-surface: #faf5ff;
-        --beautage-border: #e9cce8;
+        --beautage-surface: var(--qb-soft);
+        --beautage-border: var(--qb-line);
     }
 </style>

@@ -1,0 +1,177 @@
+/* Storefront body follows the header and footer colors. */
+body .bg-emerald-500,
+body .bg-emerald-600,
+body .bg-emerald-700,
+body .bg-beautage-pink {
+    background-color: var(--qb-orange);
+}
+body .hover\:bg-emerald-600:hover,
+body .hover\:bg-emerald-700:hover,
+body .hover\:bg-emerald-800:hover,
+body .hover\:bg-beautage-pinkHover:hover {
+    background-color: var(--qb-orange-hover);
+}
+body .text-emerald-600,
+body .text-teal-600,
+body .text-teal-700,
+body .text-beautage-pink {
+    color: var(--qb-orange);
+}
+body .text-emerald-700,
+body .text-emerald-800,
+body .text-beautage-purple,
+body .hover\:text-emerald-800:hover,
+body .hover\:text-beautage-purple:hover {
+    color: var(--qb-navy);
+}
+body .bg-emerald-50,
+body .bg-teal-50,
+body .bg-pink-50,
+body .bg-purple-50,
+body .bg-purple-50\/50,
+body .bg-purple-50\/60,
+body .bg-purple-50\/80,
+body .hover\:bg-emerald-50:hover,
+body .hover\:bg-purple-50:hover {
+    background-color: var(--qb-soft);
+}
+body .bg-emerald-100,
+body .bg-emerald-200,
+body .border-emerald-100,
+body .border-emerald-200,
+body .border-emerald-300,
+body .border-purple-100,
+body .border-purple-200,
+body .hover\:border-emerald-200:hover,
+body .hover\:border-emerald-300:hover {
+    border-color: var(--qb-line);
+}
+body .bg-emerald-100,
+body .bg-emerald-200 {
+    background-color: var(--qb-soft);
+}
+body .text-purple-100,
+body .text-purple-200,
+body .text-pink-100,
+body .text-emerald-50,
+body .text-emerald-100 {
+    color: #e2e8f0;
+}
+body .bg-beautage-pink\/20,
+body .bg-beautage-pink\/25,
+body .bg-beautage-pink\/30,
+body .bg-beautage-pink\/90 {
+    background-color: color-mix(in srgb, var(--qb-orange) 28%, transparent);
+}
+body [class*="from-purple-"],
+body [class*="from-emerald-"],
+body [class*="from-beautage-purple"],
+body [class*="via-beautage-purple"],
+body [class*="to-purple-"] {
+    background-image: linear-gradient(135deg, var(--qb-navy) 0%, var(--qb-navy-deep) 62%, color-mix(in srgb, var(--qb-orange) 72%, var(--qb-navy)) 100%);
+}
+body .shadow-emerald-600\/25,
+body .shadow-emerald-500\/30,
+body .shadow-pink-500\/30,
+body .shadow-pink-900\/30 {
+    --tw-shadow-color: color-mix(in srgb, var(--qb-orange) 35%, transparent);
+}
+
+.qb-page {
+    width: 100%;
+}
+.qb-hero {
+    display: grid;
+    gap: 1.25rem;
+    overflow: hidden;
+    border-radius: 1.25rem;
+    background: var(--qb-navy);
+    color: #fff;
+    padding: 1.25rem;
+}
+.qb-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    border-radius: 999px;
+    background: var(--qb-orange);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.28rem 0.6rem;
+}
+.qb-btn,
+.qb-btn-line,
+.qb-btn-dark {
+    display: inline-flex;
+    min-height: 3rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    border-radius: 0.8rem;
+    padding: 0.7rem 1.1rem;
+    font-size: 0.875rem;
+    font-weight: 800;
+}
+.qb-btn {
+    background: var(--qb-orange);
+    color: #fff;
+}
+.qb-btn:hover { background: var(--qb-orange-hover); }
+.qb-btn-line {
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    color: #fff;
+}
+.qb-btn-line:hover { background: rgba(255, 255, 255, 0.08); }
+.qb-btn-dark {
+    background: var(--qb-navy);
+    color: #fff;
+}
+.qb-btn-dark:hover { background: var(--qb-navy-deep); }
+.qb-hero-card {
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.06);
+    padding: 0.9rem;
+}
+.qb-card {
+    border: 1px solid #e2e8f0;
+    border-radius: 1rem;
+    background: #fff;
+}
+.qb-card:hover { border-color: var(--qb-line); }
+.qb-eyebrow {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--qb-orange);
+}
+.qb-step-no {
+    display: inline-flex;
+    height: 2rem;
+    width: 2rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    background: var(--qb-orange);
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 800;
+}
+.qb-highlights {
+    background: #fff;
+    border-top: 1px solid #e2e8f0;
+    border-bottom: 1px solid #e2e8f0;
+}
+@media (min-width: 1024px) {
+    .qb-hero {
+        grid-template-columns: 1.3fr 0.7fr;
+        align-items: center;
+        gap: 2rem;
+        padding: 2.5rem;
+        border-radius: 1.5rem;
+    }
+}

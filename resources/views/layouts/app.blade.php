@@ -7,7 +7,7 @@
     @php
         use App\Support\StorefrontAssets;
         $storefrontCss = StorefrontAssets::compiledStylesheet();
-        $storefrontCssVersion = '2026110809';
+        $storefrontCssVersion = '2026110810';
         $supportEmail = \App\Support\SiteSettings::get('support_email', 'support@quickbazar.pk');
         if (! is_string($supportEmail) || $supportEmail === '' || str_contains(strtolower($supportEmail), 'beautage')) {
             $supportEmail = 'support@quickbazar.pk';
@@ -50,6 +50,7 @@
     <link rel="stylesheet" href="{{ asset('css/beautage.css') }}?v={{ $storefrontCssVersion }}">
     <link rel="stylesheet" href="{{ asset('css/qb-header.css') }}?v={{ $storefrontCssVersion }}">
     <link rel="stylesheet" href="{{ asset('css/qb-footer.css') }}?v={{ $storefrontCssVersion }}">
+    <link rel="stylesheet" href="{{ asset('css/qb-theme.css') }}?v={{ $storefrontCssVersion }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Playfair+Display:wght@600;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
@@ -220,6 +221,10 @@
 @yield('content')
 
 @yield('below_main')
+
+@unless(request()->routeIs('home', 'checkout'))
+    @include('partials.storefront-highlights')
+@endunless
 
 @include('partials.storefront-footer', ['footerSettings' => $footerSettings])
 @include('partials.storefront-bottom-nav')

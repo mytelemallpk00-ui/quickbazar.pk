@@ -13,13 +13,13 @@
 }
 
 .pdp-bulk-card:hover {
-    border-color: #6ee7b7;
+    border-color: var(--qb-line, #fed7aa);
 }
 
 .pdp-bulk-card.is-active {
-    border-color: #059669;
-    background: #ecfdf5;
-    box-shadow: 0 0 0 1px #059669;
+    border-color: var(--qb-orange, #f97316);
+    background: var(--qb-soft, #fff7ed);
+    box-shadow: 0 0 0 1px var(--qb-orange, #f97316);
 }
 
 .pdp-bulk-card__title {
@@ -38,7 +38,7 @@
     font-weight: 800;
     letter-spacing: 0.02em;
     text-transform: uppercase;
-    background: #059669;
+    background: var(--qb-orange, #f97316);
     color: #fff;
 }
 

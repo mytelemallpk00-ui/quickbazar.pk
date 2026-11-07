@@ -237,15 +237,29 @@ class SiteSettings
     public static function themeColors(): array
     {
         $defaults = BrandPalette::themeDefaults();
+        $legacy = BrandPalette::legacyColors();
+
+        $amber = static::resolveThemeColor('theme_color_amber', $defaults['amber'], $legacy['amber']);
 
         return [
-            'purple' => (string) static::get('theme_color_purple', $defaults['purple']),
-            'purpleDark' => (string) static::get('theme_color_purple_dark', $defaults['purpleDark']),
-            'pink' => (string) static::get('theme_color_pink', $defaults['pink']),
-            'pinkHover' => (string) static::get('theme_color_pink_hover', $defaults['pinkHover']),
-            'amber' => (string) static::get('theme_color_amber', $defaults['amber']),
-            'gold' => (string) static::get('theme_color_amber', $defaults['gold']),
+            'purple' => static::resolveThemeColor('theme_color_purple', $defaults['purple'], $legacy['purple']),
+            'purpleDark' => static::resolveThemeColor('theme_color_purple_dark', $defaults['purpleDark'], $legacy['purpleDark']),
+            'pink' => static::resolveThemeColor('theme_color_pink', $defaults['pink'], $legacy['pink']),
+            'pinkHover' => static::resolveThemeColor('theme_color_pink_hover', $defaults['pinkHover'], $legacy['pinkHover']),
+            'amber' => $amber,
+            'gold' => $amber,
         ];
+    }
+
+    /** @param  list<string>  $legacy */
+    private static function resolveThemeColor(string $key, string $fallback, array $legacy): string
+    {
+        $value = trim((string) static::get($key, ''));
+        if ($value === '' || in_array(strtolower($value), $legacy, true)) {
+            return $fallback;
+        }
+
+        return $value;
     }
 
     /** @return array<string, mixed> */

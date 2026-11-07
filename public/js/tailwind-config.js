@@ -8,16 +8,16 @@ tailwind.config = {
                     },
                     colors: {
                         beautage: {
-                            purple: '#5D267D',
-                            purpleDark: '#451B5C',
-                            purpleLight: '#FAF5FF',
-                            purpleBorder: '#E9CCE8',
-                            pink: '#E6007E',
-                            pinkHover: '#BF0068',
-                            pinkLight: '#FDF2F8',
-                            amber: '#F5A623',
-                            gold: '#F5A623',
-                            slate: '#1E1B4B'
+                            purple: 'var(--qb-navy)',
+                            purpleDark: 'var(--qb-navy-deep)',
+                            purpleLight: 'var(--qb-soft)',
+                            purpleBorder: 'var(--qb-line)',
+                            pink: 'var(--qb-orange)',
+                            pinkHover: 'var(--qb-orange-hover)',
+                            pinkLight: 'var(--qb-soft)',
+                            amber: 'var(--qb-highlight)',
+                            gold: 'var(--qb-highlight)',
+                            slate: 'var(--qb-navy)'
                         },
                         brand: {
                             navy: '#0B132B',

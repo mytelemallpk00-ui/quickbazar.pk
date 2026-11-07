@@ -1,9 +1,9 @@
 .qb-footer {
-    background: #0b1220;
+    background: var(--qb-navy, #0b1220);
     color: #cbd5e1;
 }
 .qb-footer-trust {
-    background: #0b1220;
+    background: var(--qb-navy, #0b1220);
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 .qb-trust-card {
@@ -28,7 +28,7 @@
 }
 .qb-footer .qb-wordmark { color: #fff; }
 .qb-footer .qb-kicker { color: #94a3b8; }
-.qb-footer .qb-logo-mark { background: #f97316; color: #fff; }
+.qb-footer .qb-logo-mark { background: var(--qb-orange, #f97316); color: #fff; }
 .qb-footer-link {
     display: inline-flex;
     align-items: center;
@@ -50,7 +50,7 @@
     color: #e2e8f0;
 }
 .qb-footer-social:hover {
-    background: #f97316;
+    background: var(--qb-orange, #f97316);
     border-color: #f97316;
     color: #fff;
 }
@@ -71,14 +71,14 @@
 }
 .qb-footer-news button {
     border: 0;
-    background: #f97316;
+    background: var(--qb-orange, #f97316);
     color: #fff;
     font-size: 12px;
     font-weight: 800;
     padding: 0 0.9rem;
     white-space: nowrap;
 }
-.qb-footer-news button:hover { background: #ea580c; }
+.qb-footer-news button:hover { background: var(--qb-orange-hover, #ea580c); }
 .qb-pay-chip {
     display: inline-flex;
     align-items: center;

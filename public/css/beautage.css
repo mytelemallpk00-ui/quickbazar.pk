@@ -45,11 +45,11 @@ html {
             background: #f8fafc;
         }
         ::-webkit-scrollbar-thumb {
-            background: #047857;
+            background: var(--qb-orange, #f97316);
             border-radius: 4px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #065f46;
+            background: var(--qb-orange-hover, #ea580c);
         }
         /* Glassmorphism Navigation */
         .glass-nav {

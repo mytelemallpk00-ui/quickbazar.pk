@@ -67,6 +67,8 @@ class ThemeSettings extends Page implements HasForms
             $marqueeItems = [];
         }
 
+        $themeColors = SiteSettings::themeColors();
+
         $this->form->fill([
             'site_name' => SiteSettings::get('site_name', 'Beautage'),
             'site_tagline' => SiteSettings::get('site_tagline', 'Elevate Your Natural Elegance'),
@@ -74,11 +76,11 @@ class ThemeSettings extends Page implements HasForms
             'support_email' => SiteSettings::get('support_email', 'hello@beautage.com.pk'),
             'logo_url' => SiteSettings::fileUploadFormState(SiteSettings::get('logo_url')),
             'favicon_url' => SiteSettings::fileUploadFormState(SiteSettings::get('favicon_url')),
-            'theme_color_purple' => SiteSettings::get('theme_color_purple', BrandPalette::PURPLE),
-            'theme_color_purple_dark' => SiteSettings::get('theme_color_purple_dark', BrandPalette::PURPLE_DARK),
-            'theme_color_pink' => SiteSettings::get('theme_color_pink', BrandPalette::PINK),
-            'theme_color_pink_hover' => SiteSettings::get('theme_color_pink_hover', BrandPalette::PINK_HOVER),
-            'theme_color_amber' => SiteSettings::get('theme_color_amber', BrandPalette::GOLD),
+            'theme_color_purple' => $themeColors['purple'],
+            'theme_color_purple_dark' => $themeColors['purpleDark'],
+            'theme_color_pink' => $themeColors['pink'],
+            'theme_color_pink_hover' => $themeColors['pinkHover'],
+            'theme_color_amber' => $themeColors['amber'],
             'marquee_items' => $marqueeItems,
             'footer_settings' => FooterSettings::forStorefront(),
             'footer_logo_url' => SiteSettings::fileUploadFormState(SiteSettings::get('footer_logo_url')),
@@ -121,11 +123,11 @@ class ThemeSettings extends Page implements HasForms
                         Tabs\Tab::make('Colors')
                             ->icon('heroicon-o-swatch')
                             ->schema([
-                                ColorPicker::make('theme_color_purple')->label('Primary purple'),
-                                ColorPicker::make('theme_color_purple_dark')->label('Dark purple'),
-                                ColorPicker::make('theme_color_pink')->label('Accent pink'),
-                                ColorPicker::make('theme_color_pink_hover')->label('Pink hover'),
-                                ColorPicker::make('theme_color_amber')->label('Highlight amber'),
+                                ColorPicker::make('theme_color_purple')->label('Navy'),
+                                ColorPicker::make('theme_color_purple_dark')->label('Deep navy'),
+                                ColorPicker::make('theme_color_pink')->label('Accent'),
+                                ColorPicker::make('theme_color_pink_hover')->label('Accent hover'),
+                                ColorPicker::make('theme_color_amber')->label('Highlight'),
                             ])->columns(2),
                         Tabs\Tab::make('Marquee')
                             ->icon('heroicon-o-megaphone')

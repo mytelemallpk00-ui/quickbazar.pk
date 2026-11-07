@@ -1,6 +1,6 @@
 /* Quick Bazar marketplace header */
 .qb-topbar {
-    background: #0b1220;
+    background: var(--qb-navy, #0b1220);
     color: #e2e8f0;
     font-size: 12px;
 }
@@ -13,7 +13,7 @@
     font-weight: 700;
 }
 .qb-hot-badge {
-    background: #f97316;
+    background: var(--qb-orange, #f97316);
     color: #fff;
     font-size: 10px;
     font-weight: 800;
@@ -28,7 +28,7 @@
     align-items: center;
     justify-content: center;
     border-radius: 0.7rem;
-    background: #0b1220;
+    background: var(--qb-navy, #0b1220);
     color: #fff;
     flex-shrink: 0;
 }
@@ -38,7 +38,7 @@
     color: #0f172a;
     line-height: 1;
 }
-.qb-wordmark span { color: #f97316; }
+.qb-wordmark span { color: var(--qb-orange, #f97316); }
 .qb-kicker {
     margin-top: 0.15rem;
     font-size: 9px;
@@ -56,7 +56,7 @@
     min-height: 2.75rem;
 }
 .qb-search:focus-within {
-    border-color: #f97316;
+    border-color: var(--qb-orange, #f97316);
     box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15);
 }
 .qb-search select {
@@ -83,13 +83,13 @@
     width: 2.75rem;
     align-items: center;
     justify-content: center;
-    background: #f97316;
+    background: var(--qb-orange, #f97316);
     color: #fff;
     border: 0;
 }
-.qb-search .qb-search-go:hover { background: #ea580c; }
+.qb-search .qb-search-go:hover { background: var(--qb-orange-hover, #ea580c); }
 .qb-nav {
-    background: #0b1220;
+    background: var(--qb-navy, #0b1220);
     color: #fff;
     position: relative;
 }
@@ -139,7 +139,7 @@ main .max-w-\[90rem\] {
 }
 .qb-mega-card {
     background: #fff;
-    border-top: 3px solid #f97316;
+    border-top: 3px solid var(--qb-orange, #f97316);
     box-shadow: 0 24px 50px rgba(15, 23, 42, 0.18);
 }
 @media (min-width: 1024px) {
