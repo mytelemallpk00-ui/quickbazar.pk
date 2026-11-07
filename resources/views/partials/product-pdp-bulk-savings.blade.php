@@ -19,12 +19,12 @@
         </button>
         <button type="button" onclick="selectBulkTier(6, 0.10)" data-bulk-tier="6" aria-pressed="false" class="pdp-bulk-card">
             <span class="pdp-bulk-card__title">6 Pieces</span>
-            <span class="pdp-bulk-card__badge">Save 10%</span>
+            <span class="pdp-bulk-card__badge">10% off</span>
             <span class="pdp-bulk-card__total">{{ MoneyFormat::pkr($bulkSixTotal) }}</span>
         </button>
         <button type="button" onclick="selectBulkTier(12, 0.20)" data-bulk-tier="12" aria-pressed="false" class="pdp-bulk-card">
             <span class="pdp-bulk-card__title">12 Pieces</span>
-            <span class="pdp-bulk-card__badge">Save 20%</span>
+            <span class="pdp-bulk-card__badge">20% off</span>
             <span class="pdp-bulk-card__total">{{ MoneyFormat::pkr($bulkTwelveTotal) }}</span>
         </button>
     </div>

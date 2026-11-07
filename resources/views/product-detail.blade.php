@@ -26,194 +26,180 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
 @section('content')
 @php
     use App\Support\MoneyFormat;
-    $productPrice = (float) $product->price;
-    $productOld = (float) $product->old_price;
-    $productSave = max(0, $productOld - $productPrice);
-    $savePercent = ($productOld > $productPrice && $productOld > 0) ? (int) round(($productSave / $productOld) * 100) : 0;
-    $categoryName = $product->productCategory?->name ?? ($product->category ?: 'Shop');
-    $skuLabel = $product->external_sku ?: strtoupper($product->slug);
-    $benefitLines = collect($product->detail_highlights ?? [])
-        ->map(fn ($row) => trim((string) ($row['title'] ?? '')))
-        ->filter()
-        ->take(3)
-        ->values();
-    if ($benefitLines->isEmpty() && filled($product->short_description)) {
-        $benefitLines = collect(preg_split('/\r\n|\n|•/', (string) $product->short_description))
-            ->map(fn ($line) => trim($line, " \t\n\r\0\x0B-"))
-            ->filter()
-            ->take(3)
-            ->values();
-    }
-    $pdpTrust = \App\Support\ProductTrustSettings::forStorefront();
-    $trustBoxes = collect();
-    if (! empty($pdpTrust['enabled'])) {
-        foreach (['quality_section', 'trust_section'] as $trustKey) {
-            foreach ($pdpTrust[$trustKey]['items'] ?? [] as $trustItem) {
-                $trustBoxes->push($trustItem);
-            }
-        }
-    }
-    $trustBoxes = $trustBoxes->filter(fn ($item) => filled($item['title'] ?? null))->take(3)->values();
-    if ($trustBoxes->isEmpty()) {
-        $trustBoxes = collect([
-            ['icon' => 'truck', 'title' => 'Free Shipping', 'description' => 'Orders over Rs 7,500'],
-            ['icon' => 'rotate-ccw', 'title' => '30-Day Returns', 'description' => 'Hassle-free guarantee'],
-            ['icon' => 'shield-check', 'title' => 'Authorized Store', 'description' => '100% original products'],
-        ]);
-    }
-    $highlightIcons = ['leaf', 'zap', 'shield-check', 'sparkles', 'droplet', 'award'];
-    $routineSteps = collect(preg_split('/\r\n|\n/', (string) ($product->routine_body ?? '')))
-        ->map(fn ($line) => trim($line))
-        ->filter()
-        ->values();
-    $inStock = (bool) ($product->in_stock ?? true);
+    $productSave = max(0, (float) $product->old_price - (float) $product->price);
 @endphp
-<main class="pdp-page w-full flex-1 flex flex-col pb-8">
+<main class="w-full flex-1 flex flex-col py-6">
 
-        <div class="w-full max-w-[1600px] mx-auto px-4 sm:px-8 py-4">
-            <nav class="flex text-xs font-medium text-gray-500 space-x-2 items-center overflow-x-auto no-scrollbar" aria-label="Breadcrumb">
-                <a href="{{ route('home') }}" class="hover:text-[#0B132B] transition whitespace-nowrap">Home</a>
-                <i data-lucide="chevron-right" class="w-3 h-3 text-gray-400 shrink-0"></i>
-                <a href="{{ route('collections') }}" class="hover:text-[#0B132B] transition whitespace-nowrap">{{ $categoryName }}</a>
-                <i data-lucide="chevron-right" class="w-3 h-3 text-gray-400 shrink-0"></i>
-                <span class="text-[#0B132B] font-semibold truncate max-w-[200px] sm:max-w-none">{{ $product->name }}</span>
+        <!-- 1. BREADCRUMB NAVIGATION -->
+        <div class="w-full px-4 sm:px-12 xl:px-20 mb-4 sm:mb-6 overflow-x-auto no-scrollbar">
+            <nav class="flex items-center gap-2 text-xs font-semibold text-slate-600 whitespace-nowrap">
+                <a href="{{ route('home') }}" class="hover:text-beautage-purple transition flex items-center gap-1">
+                    <i data-lucide="home" class="w-3.5 h-3.5"></i> Home
+                </a>
+                <i data-lucide="chevron-right" class="w-3 h-3 text-purple-300"></i>
+                <a href="{{ route('collections') }}" class="hover:text-beautage-purple transition">{{ $product->category ?: 'Shop' }}</a>
+                <i data-lucide="chevron-right" class="w-3 h-3 text-purple-300"></i>
+                <span class="text-beautage-purple font-bold">{{ $product->name }}</span>
             </nav>
         </div>
 
-        <section id="pdp-main-section" class="w-full max-w-[1600px] mx-auto px-4 sm:px-8">
-            <div id="pdp-main-grid" class="grid grid-cols-1 lg:grid-cols-12 gap-10 bg-white p-6 sm:p-10 rounded-3xl shadow-sm border border-gray-100">
-
-                <div id="pdp-gallery-col" class="lg:col-span-6 space-y-4 min-w-0">
-                    <div id="pdp-gallery-stage" class="pdp-gallery-main relative w-full h-[380px] sm:h-[540px] bg-gray-50 rounded-2xl overflow-hidden border border-gray-100 group shadow-inner">
-                        @if ($product->badge)
-                        <span class="absolute top-4 left-4 z-10 bg-[#D4AF37] text-[#0B132B] text-xs font-extrabold px-3 py-1 rounded-full shadow">{{ $product->badge }}</span>
-                        @elseif ($savePercent > 0)
-                        <span class="absolute top-4 left-4 z-10 bg-[#D4AF37] text-[#0B132B] text-xs font-extrabold px-3 py-1 rounded-full shadow">SAVE {{ $savePercent }}%</span>
-                        @endif
-                        @if ($product->promo_label)
-                        <span class="absolute top-4 right-4 z-10 bg-emerald-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow">{{ $product->promo_label }}</span>
-                        @elseif ($inStock)
-                        <span class="absolute top-4 right-4 z-10 bg-emerald-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow">IN STOCK</span>
-                        @endif
-
-                        <img id="main-product-img" src="{{ $galleryImages[0] ?? $product->image }}" alt="{{ $product->name }}" class="w-full h-full object-cover transition duration-500 group-hover:scale-105 cursor-zoom-in" width="800" height="800" fetchpriority="high" decoding="async" onclick="openLightbox()">
-
-                        <button type="button" onclick="openLightbox()" class="absolute bottom-4 right-4 bg-white/90 hover:bg-white text-[#0B132B] p-3 rounded-xl shadow-md transition flex items-center gap-2 text-xs font-bold">
-                            <i data-lucide="expand" class="w-4 h-4"></i> Click to Zoom
-                        </button>
-                    </div>
-
-                    <div class="grid grid-cols-4 gap-3 sm:gap-4">
+        <!-- PRODUCT MAIN SECTION (GALLERY + BUY BOX) -->
+        <section id="pdp-main-section" class="w-full px-4 sm:px-12 xl:px-20">
+            <div id="pdp-main-grid" class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start lg:items-stretch">
+                
+                <!-- 2. IMAGE GALLERY (SPAN 5) — square; pins on desktop while buy column scrolls -->
+                <div id="pdp-gallery-col" class="lg:col-span-5 min-w-0 lg:self-stretch">
+                    <div id="pdp-gallery-pin" class="flex flex-col-reverse sm:flex-row gap-4 w-full lg:sticky lg:top-[5.75rem] lg:z-[1]">
+                    <div class="flex sm:flex-col gap-3 overflow-x-auto sm:overflow-y-auto no-scrollbar shrink-0 py-1 max-h-[360px] sm:max-h-[420px] lg:max-h-[min(520px,calc(100vh-12rem))]">
                         @foreach ($galleryImages as $index => $galleryUrl)
-                        <button type="button" onclick="switchMainImage({{ $index }})" aria-label="Show product image {{ $index + 1 }}" aria-pressed="{{ $index === 0 ? 'true' : 'false' }}" class="thumb-btn {{ $index === 0 ? 'is-active' : '' }} border-2 border-transparent rounded-xl overflow-hidden h-20 sm:h-24 bg-gray-50 shadow-sm transition">
-                            <img src="{{ $galleryUrl }}" alt="{{ $product->name }} — view {{ $index + 1 }}" class="w-full h-full object-cover" width="150" height="150" loading="lazy" decoding="async">
+                        <button type="button" onclick="switchMainImage({{ $index }})" aria-label="Show product image {{ $index + 1 }}" aria-pressed="{{ $index === 0 ? 'true' : 'false' }}" class="thumb-btn w-14 h-14 sm:w-16 sm:h-16 lg:w-[4.5rem] lg:h-[4.5rem] rounded-2xl border-2 {{ $index === 0 ? 'border-beautage-purple' : 'border-transparent hover:border-purple-300' }} overflow-hidden bg-purple-50 shadow-sm shrink-0 transition">
+                            <img src="{{ $galleryUrl }}" alt="{{ $product->name }} — view {{ $index + 1 }}" class="w-full h-full object-cover" width="72" height="72" loading="lazy" decoding="async">
                         </button>
                         @endforeach
                         @if ($product->video_url)
-                        <button type="button" onclick="openVideoModal()" aria-label="Play product video" class="border-2 border-dashed border-[#D4AF37] rounded-xl overflow-hidden h-20 sm:h-24 bg-gray-50 flex flex-col items-center justify-center text-[#0B132B] transition">
-                            <i data-lucide="play-circle" class="w-6 h-6 text-[#D4AF37]"></i>
-                            <span class="text-[10px] font-bold uppercase tracking-wider mt-1">Video</span>
+                        <button type="button" onclick="openVideoModal()" aria-label="Play product video" class="w-14 h-14 sm:w-16 sm:h-16 lg:w-[4.5rem] lg:h-[4.5rem] rounded-2xl border-2 border-dashed border-pink-400 bg-pink-50 hover:bg-pink-100 flex flex-col items-center justify-center text-beautage-pink shrink-0 transition shadow-sm group">
+                            <i data-lucide="play-circle" class="w-5 h-5 sm:w-6 sm:h-6 group-hover:scale-110 transition"></i>
+                            <span class="text-[8px] sm:text-[9px] font-black uppercase tracking-wider mt-0.5">Video</span>
                         </button>
                         @endif
                     </div>
 
-                    <div class="grid grid-cols-3 gap-3 sm:gap-4 pt-4 border-t border-gray-100 text-center">
-                        @foreach ($trustBoxes as $trustBox)
-                        <div class="p-3 bg-gray-50 rounded-xl">
-                            <i data-lucide="{{ $trustBox['icon'] ?? 'shield-check' }}" class="w-5 h-5 text-[#D4AF37] mx-auto mb-1"></i>
-                            <h5 class="text-xs font-bold text-gray-800">{{ $trustBox['title'] ?? '' }}</h5>
-                            @if (filled($trustBox['description'] ?? null))
-                            <p class="text-[10px] text-gray-400 line-clamp-2">{{ $trustBox['description'] }}</p>
-                            @endif
+                    <div id="pdp-gallery-stage" class="pdp-gallery-main flex-1 relative rounded-3xl overflow-hidden bg-purple-50/50 border border-purple-100 shadow-xl w-full min-w-0 aspect-square">
+                        <img id="main-product-img" src="{{ $galleryImages[0] ?? $product->image }}" alt="{{ $product->name }}" class="w-full h-full object-cover cursor-zoom-in" width="800" height="800" fetchpriority="high" decoding="async" onclick="openLightbox()">
+                        @if ($product->badge)
+                        <div class="absolute top-4 left-4 bg-beautage-purple text-white text-[10px] sm:text-xs font-black uppercase tracking-widest px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full shadow-lg">
+                            {{ $product->badge }}
                         </div>
-                        @endforeach
+                        @endif
+                        <button type="button" onclick="openLightbox()" class="absolute bottom-4 right-4 p-2.5 sm:p-3 rounded-2xl bg-white/90 backdrop-blur-md text-beautage-purple hover:bg-white shadow-lg transition flex items-center gap-2 text-xs font-bold">
+                            <i data-lucide="maximize-2" class="w-4 h-4"></i> Zoom
+                        </button>
+                    </div>
                     </div>
                 </div>
 
-                <div id="pdp-buy-column" class="lg:col-span-6 space-y-6 min-w-0">
+                <!-- 3. PRODUCT HEADER, PRICING & BUY (SPAN 4) -->
+                <div id="pdp-buy-column" class="lg:col-span-4 space-y-5 sm:space-y-6 min-w-0 lg:max-h-[calc(100svh-5.75rem)] lg:overflow-y-auto lg:overscroll-y-contain no-scrollbar [scrollbar-gutter:stable]">
+                    
                     <div>
-                        <span class="text-xs font-bold text-[#4361EE] uppercase tracking-wider">{{ $categoryName }}</span>
-                        <h1 class="text-2xl sm:text-4xl font-extrabold text-[#0B132B] mt-1 leading-tight">{{ $product->name }}</h1>
-                        <div class="flex items-center justify-between mt-3 gap-3 flex-wrap">
-                            <div class="flex items-center space-x-2">
-                                @include('partials.product-star-rating', ['rating' => $product->rating, 'size' => 'w-4 h-4'])
-                                <a href="#customer-reviews" onclick="switchTab('reviews')" class="text-xs font-semibold text-[#4361EE] hover:underline">({{ number_format((int) $product->reviews) }} Customer Reviews)</a>
-                            </div>
-                            <span class="text-xs text-gray-400">SKU: {{ $skuLabel }}</span>
-                        </div>
-                    </div>
-
-                    <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100 flex items-center justify-between gap-3">
-                        <div class="flex items-baseline space-x-3 flex-wrap">
-                            <span class="text-3xl sm:text-4xl font-black text-[#0B132B]">{{ MoneyFormat::pkr($product->price) }}</span>
-                            @if ($productOld > $productPrice)
-                            <span class="text-base text-gray-400 line-through">{{ MoneyFormat::pkr($product->old_price) }}</span>
-                            <span class="bg-red-500 text-white text-xs font-extrabold px-2.5 py-1 rounded-full shadow">SAVE {{ $savePercent }}%</span>
-                            @endif
-                        </div>
-                        <div class="text-right shrink-0">
-                            @if ($inStock)
-                            <span class="text-xs text-emerald-600 font-bold flex items-center gap-1 justify-end"><i data-lucide="check-circle" class="w-3.5 h-3.5"></i> In Stock</span>
-                            @else
-                            <span class="text-xs text-rose-600 font-bold flex items-center gap-1 justify-end"><i data-lucide="x-circle" class="w-3.5 h-3.5"></i> Out of Stock</span>
-                            @endif
-                            <span class="text-[10px] text-gray-500 block">
-                                @if ($product->units_left)
-                                Only {{ $product->units_left }} left · ships soon
-                                @else
-                                Cash on delivery nationwide
-                                @endif
+                        <div class="flex items-center gap-2 mb-2 flex-wrap">
+                            <span class="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-700 border border-emerald-200 px-3 py-1 rounded-full text-xs font-extrabold">
+                                <i data-lucide="shield-check" class="w-3.5 h-3.5"></i> 100% Original • Authorized Store
                             </span>
+                            @if ($product->promo_label)
+                            <span class="bg-pink-50 text-beautage-pink border border-pink-200 px-3 py-1 rounded-full text-xs font-extrabold uppercase">
+                                {{ $product->promo_label }}
+                            </span>
+                            @endif
+                        </div>
+                        <h1 class="text-2xl sm:text-3xl xl:text-4xl font-serif font-bold text-beautage-purple tracking-tight leading-tight">
+                            {{ $product->name }}
+                        </h1>
+                        @if ($product->short_description)
+                        <p class="text-sm text-slate-700 mt-2 leading-relaxed line-clamp-6">{{ $product->short_description }}</p>
+                        @elseif ($product->description)
+                        <p class="text-sm text-slate-700 mt-2 leading-relaxed line-clamp-4">{{ \Illuminate\Support\Str::limit(strip_tags($product->description), 280) }}</p>
+                        @endif
+                        <div class="flex items-center gap-3 mt-3 flex-wrap">
+                            @include('partials.product-star-rating', ['rating' => $product->rating, 'size' => 'w-4 h-4', 'showValue' => true])
+                            <span class="text-slate-300">•</span>
+                            <a href="#customer-reviews" onclick="switchTab('reviews')" class="text-xs font-semibold text-beautage-purple hover:underline">{{ number_format((int) $product->reviews) }} Verified Reviews</a>
                         </div>
                     </div>
 
-                    @if ($benefitLines->isNotEmpty())
-                    <div class="space-y-2 text-xs sm:text-sm text-gray-600">
-                        @foreach ($benefitLines as $benefit)
-                        <p class="flex items-start gap-2.5"><i data-lucide="check" class="w-4 h-4 text-emerald-600 shrink-0 mt-0.5"></i> <span>{{ $benefit }}</span></p>
-                        @endforeach
+                    <!-- Pricing Row -->
+                    <div class="p-4 rounded-2xl bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 flex items-center justify-between">
+                        <div>
+                            <span class="text-[10px] text-slate-600 uppercase font-extrabold tracking-wider block">Special Introductory Price</span>
+                            <div class="flex items-baseline gap-3 mt-0.5">
+                                <span class="text-3xl font-black text-slate-900">{{ MoneyFormat::pkr($product->price) }}</span>
+                                <span class="text-base text-slate-400 line-through font-bold">{{ MoneyFormat::pkr($product->old_price) }}</span>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-xs font-bold text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full">You Save {{ MoneyFormat::pkr($productSave) }}</span>
+                        </div>
                     </div>
-                    @elseif ($product->short_description)
-                    <p class="text-sm text-gray-600 leading-relaxed">{{ $product->short_description }}</p>
-                    @endif
+
+                    <!-- Urgency & Scarcity Tracker -->
+                    <div class="p-4 rounded-2xl bg-amber-50/80 border border-amber-200 space-y-2">
+                        <div class="flex items-center justify-between text-xs font-extrabold text-amber-900">
+                            @if ($product->units_left)
+                            <span class="flex items-center gap-1.5"><i data-lucide="flame" class="w-4 h-4 text-amber-600 fill-current"></i> Only {{ $product->units_left }} units left in stock</span>
+                            @endif
+                            @if ($product->claimed_percent)
+                            <span class="text-beautage-pink">{{ (int) $product->claimed_percent }}% claimed today</span>
+                            @endif
+                        </div>
+                        <div class="w-full h-2 rounded-full bg-amber-200 overflow-hidden">
+                            <div class="pdp-no-motion-pulse h-full bg-gradient-to-r from-beautage-pink to-amber-500 rounded-full animate-pulse" style="width: {{ min(100, max(0, (int) ($product->claimed_percent ?? 0))) }}%"></div>
+                        </div>
+                        <div class="flex items-center gap-2 text-[11px] text-amber-800 pt-1">
+                            <i data-lucide="timer" class="w-3.5 h-3.5"></i>
+                            <span>Flash deal timer: <strong id="pdp-countdown" class="font-mono text-beautage-purple">04:32:19</strong> (Order soon)</span>
+                        </div>
+                    </div>
 
                     @include('partials.product-pdp-bulk-savings')
 
-                    <div id="pdp-buy-actions" class="flex flex-col sm:flex-row items-center gap-4 pt-2">
-                        <div class="flex items-center border-2 border-gray-200 rounded-xl bg-white p-1">
-                            <button type="button" onclick="adjustQty(-1)" aria-label="Decrease quantity" class="w-10 h-10 rounded-lg hover:bg-gray-100 flex items-center justify-center font-bold text-gray-600 transition">−</button>
-                            <span id="product-qty" class="w-12 text-center font-extrabold text-[#0B132B] text-base" aria-live="polite">1</span>
-                            <button type="button" onclick="adjustQty(1)" aria-label="Increase quantity" class="w-10 h-10 rounded-lg hover:bg-gray-100 flex items-center justify-center font-bold text-gray-600 transition">+</button>
+                    <!-- Quantity Selector & Add to Bag -->
+                    <div id="pdp-buy-actions" class="space-y-3 pt-2">
+                        <div class="flex items-center gap-4">
+                            <div class="flex items-center border-2 border-purple-200 rounded-2xl bg-white overflow-hidden shadow-sm">
+                                <button type="button" onclick="adjustQty(-1)" aria-label="Decrease quantity" class="px-4 py-3.5 text-sm font-extrabold text-slate-600 hover:bg-purple-50 transition min-h-[44px] min-w-[44px]">-</button>
+                                <span id="product-qty" class="w-10 text-center text-sm font-bold text-slate-800" aria-live="polite" aria-label="Quantity">1</span>
+                                <button type="button" onclick="adjustQty(1)" aria-label="Increase quantity" class="px-4 py-3.5 text-sm font-extrabold text-slate-600 hover:bg-purple-50 transition min-h-[44px] min-w-[44px]">+</button>
+                            </div>
+                            <button onclick="addCurrentProductToCart()" class="flex-1 bg-beautage-pink hover:bg-beautage-pinkHover text-white font-black py-4 px-6 rounded-2xl transition shadow-xl shadow-pink-500/30 flex items-center justify-center gap-3 text-xs uppercase tracking-wider">
+                                <i data-lucide="shopping-bag" class="w-5 h-5"></i> Add To Bag — <span id="btn-total-price">{{ MoneyFormat::pkr($product->price) }}</span>
+                            </button>
                         </div>
-                        <button type="button" onclick="addCurrentProductToCart()" class="flex-1 w-full bg-[#0B132B] hover:bg-[#4361EE] text-white font-bold py-4 px-6 rounded-xl shadow-lg transition flex items-center justify-center gap-2 text-sm sm:text-base">
-                            <i data-lucide="shopping-bag" class="w-5 h-5 text-[#D4AF37]"></i>
-                            <span>Add to Bag — <span id="btn-total-price">{{ MoneyFormat::pkr($product->price) }}</span></span>
+                        <button onclick="buyNow()" class="w-full bg-beautage-purple hover:bg-beautage-purpleDark text-white font-extrabold py-3.5 px-6 rounded-2xl transition shadow-lg flex items-center justify-center gap-2 text-xs uppercase tracking-wider">
+                            <i data-lucide="zap" class="w-4 h-4 text-beautage-amber"></i> Buy Now with Express Checkout
                         </button>
                     </div>
 
-                    <button type="button" onclick="buyNow()" class="w-full bg-[#1C2541] hover:bg-[#4361EE] text-white font-bold py-3.5 rounded-xl transition shadow flex items-center justify-center gap-2 text-sm">
-                        <i data-lucide="zap" class="w-4 h-4 text-[#D4AF37]"></i>
-                        <span>Buy Now with Express Checkout</span>
-                    </button>
+                    <!-- Trust Badges & Delivery Checker -->
+                    <div class="p-5 rounded-2xl bg-white border border-purple-100 shadow-sm space-y-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-9 h-9 rounded-xl bg-purple-50 text-beautage-purple flex items-center justify-center shrink-0">
+                                <i data-lucide="truck" class="w-4 h-4"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="text-xs font-bold text-beautage-purple">Cash on Delivery Available Across Pakistan</h4>
+                                <p class="text-[11px] text-slate-600">Free Express Shipping on all orders over Rs 7,500</p>
+                            </div>
+                        </div>
 
-                    <div class="pt-4 border-t border-gray-100 flex flex-wrap items-center justify-between text-xs text-gray-400 gap-2">
-                        <span class="flex items-center gap-1 text-gray-500"><i data-lucide="lock" class="w-3.5 h-3.5 text-emerald-600"></i> Guaranteed Safe &amp; Secure Checkout</span>
-                        <div class="flex items-center gap-2 text-[11px] font-bold text-gray-500">
-                            <span class="px-2 py-1 rounded-md bg-gray-50 border border-gray-200">Visa</span>
-                            <span class="px-2 py-1 rounded-md bg-gray-50 border border-gray-200">Mastercard</span>
-                            <span class="px-2 py-1 rounded-md bg-gray-50 border border-gray-200">COD</span>
+                        <div class="pt-3 border-t border-purple-50 space-y-2">
+                            <label for="postal-input" class="block text-[11px] font-extrabold text-slate-700 uppercase">Check Delivery / Postal Code:</label>
+                            <div class="flex items-center gap-2">
+                                <input type="text" id="postal-input" name="postal_code" inputmode="numeric" autocomplete="postal-code" placeholder="e.g. 54000 (Lahore / Karachi)" class="flex-1 py-2.5 px-3 bg-purple-50/50 border border-purple-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-beautage-purple">
+                                <button type="button" onclick="checkDelivery()" class="px-4 py-2.5 bg-beautage-purple text-white text-xs font-bold rounded-xl hover:bg-beautage-purpleDark transition min-h-[44px]">Check</button>
+                            </div>
+                            <div id="delivery-result" class="text-xs font-semibold text-emerald-600 hidden"></div>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-2 pt-2 text-center text-[10px] font-bold text-slate-600 border-t border-purple-50">
+                            <div class="p-2 rounded-xl bg-purple-50/50 flex flex-col items-center gap-1">
+                                <i data-lucide="shield-check" class="w-4 h-4 text-beautage-pink"></i>
+                                <span>100% Original</span>
+                            </div>
+                            <div class="p-2 rounded-xl bg-purple-50/50 flex flex-col items-center gap-1">
+                                <i data-lucide="rotate-ccw" class="w-4 h-4 text-emerald-600"></i>
+                                <span>30-Day Returns</span>
+                            </div>
+                            <div class="p-2 rounded-xl bg-purple-50/50 flex flex-col items-center gap-1">
+                                <i data-lucide="headphones" class="w-4 h-4 text-amber-600"></i>
+                                <span>24/7 Support</span>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="space-y-2">
-                        <label for="postal-input" class="block text-[11px] font-extrabold text-gray-700 uppercase tracking-wide">Check Delivery / Postal Code</label>
-                        <div class="flex items-center gap-2">
-                            <input type="text" id="postal-input" name="postal_code" inputmode="numeric" autocomplete="postal-code" placeholder="e.g. 54000 (Lahore / Karachi)" class="flex-1 py-2.5 px-3 bg-gray-50 border border-gray-200 rounded-xl text-xs text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[#0B132B]">
-                            <button type="button" onclick="checkDelivery()" class="px-4 py-2.5 bg-[#0B132B] text-white text-xs font-bold rounded-xl hover:bg-[#4361EE] transition min-h-[44px]">Check</button>
-                        </div>
-                        <div id="delivery-result" class="text-xs font-semibold text-emerald-600 hidden"></div>
-                    </div>
                 </div>
+
+                @include('partials.product-pdp-trust-column')
+
             </div>
         </section>
 
@@ -225,249 +211,262 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
             'recentlyLimit' => 5,
         ])
 
-        <section class="w-full max-w-[1600px] mx-auto px-4 sm:px-8 mt-12" aria-labelledby="pdp-details-heading">
+        <!-- COMPREHENSIVE TABS / ACCORDIONS FOR PRODUCT DETAILS -->
+        <section class="w-full px-4 sm:px-12 xl:px-20 py-8" aria-labelledby="pdp-details-heading">
             <h2 id="pdp-details-heading" class="sr-only">Product details, specifications, and reviews</h2>
-            <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
-                <div class="flex flex-wrap border-b border-gray-100 bg-gray-50/50" role="tablist" aria-label="Product information tabs">
-                    <button type="button" role="tab" aria-selected="true" aria-controls="tab-content-desc" onclick="switchTab('desc')" id="tab-btn-desc" class="tab-btn is-active flex-1 min-w-[150px] py-4 px-4 sm:px-6 text-center font-bold text-xs sm:text-sm border-b-2 transition">
-                        1. Description &amp; Benefits
+            <div class="w-full bg-white rounded-3xl border border-purple-100 shadow-xl overflow-hidden">
+                <div class="grid grid-cols-2 md:grid-cols-4 bg-purple-50/70 border-b border-purple-100" role="tablist" aria-label="Product information tabs">
+                    <button type="button" role="tab" aria-selected="true" aria-controls="tab-content-desc" onclick="switchTab('desc')" id="tab-btn-desc" class="p-3.5 sm:p-4 text-xs font-bold text-beautage-purple border-b-2 border-beautage-purple bg-white transition flex items-center justify-center gap-2 text-center">
+                        <i data-lucide="file-text" class="w-4 h-4 text-beautage-pink shrink-0"></i> <span>Description</span>
                     </button>
-                    <button type="button" role="tab" aria-selected="false" aria-controls="tab-content-specs" onclick="switchTab('specs')" id="tab-btn-specs" class="tab-btn flex-1 min-w-[150px] py-4 px-4 sm:px-6 text-center font-bold text-xs sm:text-sm border-b-2 transition">
-                        2. Ingredients &amp; Formula
+                    <button type="button" role="tab" aria-selected="false" aria-controls="tab-content-specs" onclick="switchTab('specs')" id="tab-btn-specs" class="p-3.5 sm:p-4 text-xs font-semibold text-slate-600 hover:text-beautage-purple transition flex items-center justify-center gap-2 text-center">
+                        <i data-lucide="cpu" class="w-4 h-4 text-purple-600 shrink-0"></i> <span>Specs</span>
                     </button>
-                    <button type="button" role="tab" aria-selected="false" aria-controls="tab-content-routine" onclick="switchTab('routine')" id="tab-btn-routine" class="tab-btn flex-1 min-w-[150px] py-4 px-4 sm:px-6 text-center font-bold text-xs sm:text-sm border-b-2 transition">
-                        3. How to Use Guide
+                    <button type="button" role="tab" aria-selected="false" aria-controls="tab-content-routine" onclick="switchTab('routine')" id="tab-btn-routine" class="p-3.5 sm:p-4 text-xs font-semibold text-slate-600 hover:text-beautage-purple transition flex items-center justify-center gap-2 text-center">
+                        <i data-lucide="sparkles" class="w-4 h-4 text-amber-500 shrink-0"></i> <span>Routine</span>
                     </button>
-                    <button type="button" role="tab" aria-selected="false" aria-controls="tab-content-reviews" onclick="switchTab('reviews')" id="tab-btn-reviews" class="tab-btn flex-1 min-w-[150px] py-4 px-4 sm:px-6 text-center font-bold text-xs sm:text-sm border-b-2 transition">
-                        4. Customer Reviews ({{ number_format((int) $product->reviews) }})
+                    <button type="button" role="tab" aria-selected="false" aria-controls="tab-content-reviews" onclick="switchTab('reviews')" id="tab-btn-reviews" class="p-3.5 sm:p-4 text-xs font-semibold text-slate-600 hover:text-beautage-purple transition flex items-center justify-center gap-2 text-center">
+                        <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-current shrink-0"></i> <span>Reviews ({{ number_format((int) $product->reviews) }})</span>
                     </button>
                 </div>
 
-                <div class="p-6 sm:p-10">
-                    <div id="tab-content-desc" role="tabpanel" aria-labelledby="tab-btn-desc" class="tab-panel space-y-6">
-                        <h3 class="text-xl font-extrabold text-[#0B132B]">{{ $product->detail_heading ?: $product->name }}</h3>
-                        @if ($product->detail_body)
-                        <p class="text-gray-600 text-sm sm:text-base leading-relaxed whitespace-pre-line">{{ $product->detail_body }}</p>
-                        @elseif ($product->short_description)
-                        <p class="text-gray-600 text-sm sm:text-base leading-relaxed whitespace-pre-line">{{ $product->short_description }}</p>
-                        @elseif ($product->description)
-                        <p class="text-gray-600 text-sm sm:text-base leading-relaxed">{{ $product->description }}</p>
-                        @else
-                        <p class="text-sm text-gray-400">Detailed description coming soon.</p>
-                        @endif
-                        @if (filled($product->detail_highlights))
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
-                            @foreach ($product->detail_highlights as $highlightIndex => $highlight)
-                            <div class="bg-gray-50 p-6 rounded-2xl border border-gray-100">
-                                <i data-lucide="{{ $highlightIcons[$highlightIndex % count($highlightIcons)] }}" class="w-6 h-6 text-[#D4AF37] mb-3"></i>
-                                <h4 class="font-bold text-sm text-[#0B132B] mb-1">{{ $highlight['title'] ?? '' }}</h4>
-                                <p class="text-xs text-gray-500">{{ $highlight['description'] ?? '' }}</p>
-                            </div>
-                            @endforeach
-                        </div>
-                        @endif
-
-                        @php
-                            $productFaqs = collect($product->faq_items ?? [])->filter(fn ($row) => filled($row['question'] ?? null));
-                        @endphp
-                        @if ($productFaqs->isNotEmpty())
-                        <div class="pt-6 mt-2 border-t border-gray-100 space-y-4">
-                            <h3 class="text-xl font-extrabold text-[#0B132B]">Frequently Asked Questions</h3>
-                            <div class="space-y-3">
-                                @foreach ($productFaqs as $faqIndex => $faq)
-                                <div class="rounded-2xl border border-gray-100 bg-gray-50 overflow-hidden">
-                                    <button type="button" onclick="toggleProductFaq({{ $faqIndex }})" class="w-full p-4 sm:p-5 text-left flex items-center justify-between gap-4 hover:bg-gray-100 transition focus:outline-none">
-                                        <span class="text-xs sm:text-sm font-bold text-[#0B132B]">{{ $faq['question'] ?? '' }}</span>
-                                        <i data-lucide="chevron-down" id="product-faq-chevron-{{ $faqIndex }}" class="w-4 h-4 text-gray-400 shrink-0 transition-transform duration-300"></i>
-                                    </button>
-                                    <div id="product-faq-answer-{{ $faqIndex }}" class="hidden px-5 sm:px-6 pb-5 pt-0 text-xs sm:text-sm text-gray-600 leading-relaxed border-t border-gray-100 bg-white">
-                                        <p class="pt-3">{{ $faq['answer'] ?? '' }}</p>
-                                    </div>
-                                </div>
-                                @endforeach
-                            </div>
-                        </div>
-                        @endif
-                    </div>
-
-                    <div id="tab-content-specs" role="tabpanel" aria-labelledby="tab-btn-specs" hidden class="tab-panel hidden space-y-6">
-                        <h3 class="text-xl font-extrabold text-[#0B132B]">{{ $product->specs_heading ?: 'Specifications & Formula' }}</h3>
-                        @if (filled($product->specs_rows))
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            @foreach ($product->specs_rows as $row)
-                            <div class="flex items-start space-x-3 bg-gray-50 p-4 rounded-2xl border border-gray-100">
-                                <i data-lucide="droplet" class="w-5 h-5 text-[#4361EE] mt-0.5 shrink-0"></i>
-                                <div>
-                                    <h4 class="font-bold text-sm text-[#0B132B]">{{ $row['label'] ?? '' }}</h4>
-                                    <p class="text-xs text-gray-500 mt-1">{{ $row['value'] ?? '' }}</p>
-                                </div>
-                            </div>
-                            @endforeach
-                        </div>
-                        @else
-                        <p class="text-sm text-gray-400">Specifications will be added soon.</p>
-                        @endif
-                    </div>
-
-                    <div id="tab-content-routine" role="tabpanel" aria-labelledby="tab-btn-routine" hidden class="tab-panel hidden space-y-6">
-                        <h3 class="text-xl font-extrabold text-[#0B132B]">{{ $product->routine_heading ?: 'Step-by-Step Application Guide' }}</h3>
-                        @if ($routineSteps->isNotEmpty())
-                        <div class="space-y-4">
-                            @foreach ($routineSteps as $stepIndex => $step)
-                            <div class="flex items-start space-x-4 bg-gray-50 p-5 rounded-2xl border border-gray-100">
-                                <div class="w-8 h-8 rounded-full bg-[#0B132B] text-[#D4AF37] font-bold flex items-center justify-center flex-shrink-0 text-sm">{{ $stepIndex + 1 }}</div>
-                                <p class="text-sm text-gray-600 leading-relaxed">{{ $step }}</p>
-                            </div>
-                            @endforeach
-                        </div>
-                        @else
-                        <p class="text-sm text-gray-400">Routine instructions coming soon.</p>
-                        @endif
-                    </div>
-
-                    <div id="tab-content-reviews" role="tabpanel" aria-labelledby="tab-btn-reviews" hidden class="tab-panel hidden space-y-6">
-                        <div id="customer-reviews" class="scroll-mt-28"></div>
-                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-6 border-b border-gray-100">
+                <div id="tab-content-desc" role="tabpanel" aria-labelledby="tab-btn-desc" class="p-6 sm:p-8 space-y-6 tab-pane">
+                    @if ($product->detail_heading)
+                    <h3 class="text-lg sm:text-xl font-serif font-bold text-beautage-purple">{{ $product->detail_heading }}</h3>
+                    @endif
+                    @if ($product->detail_body)
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed whitespace-pre-line">{{ $product->detail_body }}</p>
+                    @elseif ($product->short_description)
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed whitespace-pre-line">{{ $product->short_description }}</p>
+                    @elseif ($product->description)
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">{{ $product->description }}</p>
+                    @else
+                    <p class="text-xs text-slate-400">Detailed description coming soon.</p>
+                    @endif
+                    @if (filled($product->detail_highlights))
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
+                        @foreach ($product->detail_highlights as $highlight)
+                        <div class="flex items-start gap-3 p-4 rounded-2xl bg-purple-50/50 border border-purple-100">
+                            <i data-lucide="check-circle-2" class="w-5 h-5 text-beautage-pink shrink-0 mt-0.5"></i>
                             <div>
-                                <h3 class="text-xl font-extrabold text-[#0B132B]">Customer Reviews &amp; Ratings</h3>
-                                <div class="flex items-center space-x-2 mt-1 flex-wrap">
-                                    @include('partials.product-star-rating', ['rating' => $product->rating, 'size' => 'w-4 h-4'])
-                                    <span class="text-sm font-bold text-[#0B132B]">{{ number_format((float) $product->rating, 1) }} out of 5.0</span>
-                                    <span class="text-xs text-gray-400">(Based on {{ number_format((int) $product->reviews) }} verified reviews)</span>
+                                <h4 class="text-xs font-bold text-beautage-purple">{{ $highlight['title'] ?? '' }}</h4>
+                                <p class="text-[11px] text-slate-600 mt-1">{{ $highlight['description'] ?? '' }}</p>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+                    @endif
+
+                    @php
+                        $productFaqs = collect($product->faq_items ?? [])->filter(fn ($row) => filled($row['question'] ?? null));
+                    @endphp
+                    @if ($productFaqs->isNotEmpty())
+                    <div class="pt-6 mt-2 border-t border-purple-100 space-y-4">
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="help-circle" class="w-5 h-5 text-beautage-pink shrink-0"></i>
+                            <h3 class="text-lg sm:text-xl font-serif font-bold text-beautage-purple">Frequently Asked Questions</h3>
+                        </div>
+                        <div class="space-y-3">
+                            @foreach ($productFaqs as $faqIndex => $faq)
+                            <div class="rounded-2xl border border-purple-100 bg-purple-50/30 overflow-hidden shadow-sm">
+                                <button type="button" onclick="toggleProductFaq({{ $faqIndex }})" class="w-full p-4 sm:p-5 text-left flex items-center justify-between gap-4 hover:bg-purple-50/80 transition focus:outline-none">
+                                    <span class="text-xs sm:text-sm font-bold text-beautage-purple flex items-start gap-3">
+                                        <span class="w-6 h-6 rounded-full bg-white border border-purple-100 text-beautage-pink flex items-center justify-center text-[10px] font-extrabold shrink-0 mt-0.5">Q</span>
+                                        <span>{{ $faq['question'] ?? '' }}</span>
+                                    </span>
+                                    <i data-lucide="chevron-down" id="product-faq-chevron-{{ $faqIndex }}" class="w-4 h-4 text-slate-400 shrink-0 transition-transform duration-300"></i>
+                                </button>
+                                <div id="product-faq-answer-{{ $faqIndex }}" class="hidden px-5 sm:px-6 pb-5 pt-0 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-purple-100/80 bg-white/70">
+                                    <p class="pt-3">{{ $faq['answer'] ?? '' }}</p>
                                 </div>
                             </div>
-                            <button type="button" onclick="openReviewModal()" class="bg-[#0B132B] hover:bg-[#4361EE] text-white font-bold px-6 py-3 rounded-xl text-xs transition shadow">
+                            @endforeach
+                        </div>
+                    </div>
+                    @endif
+                </div>
+
+                <div id="tab-content-specs" role="tabpanel" aria-labelledby="tab-btn-specs" hidden class="p-6 sm:p-8 space-y-6 tab-pane hidden">
+                    <h3 class="text-lg sm:text-xl font-serif font-bold text-beautage-purple">{{ $product->specs_heading ?: 'Specifications' }}</h3>
+                    @if (filled($product->specs_rows))
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs">
+                            <tbody class="divide-y divide-purple-100">
+                                @foreach ($product->specs_rows as $row)
+                                <tr>
+                                    <td class="py-3 font-bold text-beautage-purple w-1/3">{{ $row['label'] ?? '' }}</td>
+                                    <td class="py-3 text-slate-600">{{ $row['value'] ?? '' }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    @else
+                    <p class="text-xs text-slate-400">Specifications will be added soon.</p>
+                    @endif
+                </div>
+
+                <div id="tab-content-routine" role="tabpanel" aria-labelledby="tab-btn-routine" hidden class="p-6 sm:p-8 space-y-6 tab-pane hidden">
+                    <h3 class="text-lg sm:text-xl font-serif font-bold text-beautage-purple">{{ $product->routine_heading ?: 'How to use' }}</h3>
+                    @if ($product->routine_body)
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed whitespace-pre-line">{{ $product->routine_body }}</p>
+                    @else
+                    <p class="text-xs text-slate-400">Routine instructions coming soon.</p>
+                    @endif
+                </div>
+
+                <div id="tab-content-reviews" role="tabpanel" aria-labelledby="tab-btn-reviews" hidden class="p-6 sm:p-8 space-y-6 tab-pane hidden">
+                    <div id="customer-reviews" class="scroll-mt-28"></div>
+                    <div class="flex flex-col lg:flex-row gap-8">
+                        <div class="lg:w-1/3 space-y-4">
+                            <div>
+                                <h3 class="text-lg sm:text-xl font-serif font-bold text-beautage-purple">Customer Reviews</h3>
+                                <div class="flex items-center gap-2 mt-2">
+                                    @include('partials.product-star-rating', ['rating' => $product->rating, 'size' => 'w-5 h-5'])
+                                </div>
+                                <p class="text-xs font-bold text-slate-700 mt-1">{{ number_format((float) $product->rating, 1) }} out of 5 · {{ number_format((int) $product->reviews) }} reviews</p>
+                            </div>
+                            <button type="button" onclick="openReviewModal()" class="w-full px-5 py-2.5 bg-beautage-purple hover:bg-beautage-purpleDark text-white font-bold text-xs uppercase tracking-wider rounded-xl transition shadow-md">
                                 Write a Review
                             </button>
                         </div>
 
-                        <form id="product-review-form" class="p-5 rounded-2xl border border-gray-100 bg-gray-50 space-y-4" onsubmit="handleReviewSubmit(event)">
-                            <h4 class="text-sm font-bold text-[#0B132B]">Share your experience</h4>
-                            <div>
-                                <span id="review-rating-label" class="text-[11px] font-bold text-gray-600 uppercase tracking-wide">Your rating</span>
-                                <div class="flex gap-1 mt-1" id="review-star-picker" role="group" aria-labelledby="review-rating-label">
-                                    @for ($s = 1; $s <= 5; $s++)
-                                    <button type="button" data-review-star="{{ $s }}" onclick="setReviewRating({{ $s }})" aria-label="Rate {{ $s }} out of 5 stars" class="review-star-btn p-1 text-amber-300 hover:text-amber-400 transition min-h-[44px] min-w-[44px]">
-                                        <i data-lucide="star" class="w-6 h-6" aria-hidden="true"></i>
-                                    </button>
-                                    @endfor
-                                </div>
-                                <input type="hidden" name="rating" id="review-rating-input" value="5" required>
-                            </div>
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div class="lg:w-2/3 space-y-6">
+                            <form id="product-review-form" class="p-5 rounded-2xl border border-purple-100 bg-gradient-to-br from-purple-50/80 to-white space-y-4 shadow-sm" onsubmit="handleReviewSubmit(event)">
+                                <h4 class="text-sm font-bold text-beautage-purple">Share your experience</h4>
                                 <div>
-                                    <label for="review-author-name" class="text-[11px] font-bold text-gray-600">Name</label>
-                                    <input id="review-author-name" name="author_name" type="text" required maxlength="120" class="mt-1 w-full rounded-xl border border-gray-200 px-3 py-2 text-xs focus:border-[#0B132B] focus:outline-none">
-                                </div>
-                                <div>
-                                    <label for="review-author-email" class="text-[11px] font-bold text-gray-600">Email (optional)</label>
-                                    <input id="review-author-email" name="author_email" type="email" maxlength="255" class="mt-1 w-full rounded-xl border border-gray-200 px-3 py-2 text-xs focus:border-[#0B132B] focus:outline-none">
-                                </div>
-                            </div>
-                            <div>
-                                <label for="review-title" class="text-[11px] font-bold text-gray-600">Review title (optional)</label>
-                                <input id="review-title" name="title" type="text" maxlength="200" class="mt-1 w-full rounded-xl border border-gray-200 px-3 py-2 text-xs focus:border-[#0B132B] focus:outline-none">
-                            </div>
-                            <div>
-                                <label for="review-body" class="text-[11px] font-bold text-gray-600">Your review</label>
-                                <textarea id="review-body" name="body" required minlength="10" rows="4" class="mt-1 w-full rounded-xl border border-gray-200 px-3 py-2 text-xs focus:border-[#0B132B] focus:outline-none" placeholder="Tell others what you loved about this product…"></textarea>
-                            </div>
-                            <div>
-                                <label for="review-photos" class="text-[11px] font-bold text-gray-600 uppercase tracking-wide">Add photos (optional)</label>
-                                <p class="text-[10px] text-gray-500 mt-0.5 mb-2">Up to 3 images — JPG, PNG, or WebP, max 4 MB each.</p>
-                                <label for="review-photos" class="flex flex-col items-center justify-center gap-2 w-full rounded-2xl border-2 border-dashed border-gray-200 bg-white px-4 py-6 cursor-pointer hover:border-[#0B132B] transition">
-                                    <i data-lucide="image-plus" class="w-8 h-8 text-[#0B132B]"></i>
-                                    <span class="text-xs font-bold text-[#0B132B]">Tap to upload photos</span>
-                                </label>
-                                <input id="review-photos" name="photos[]" type="file" accept="image/jpeg,image/png,image/webp" multiple class="sr-only" onchange="previewReviewPhotos(this)">
-                                <div id="review-photo-preview" class="grid grid-cols-3 gap-2 mt-3 empty:hidden"></div>
-                            </div>
-                            <button type="submit" id="review-submit-btn" class="w-full sm:w-auto px-6 py-2.5 bg-[#D4AF37] hover:bg-yellow-500 text-[#0B132B] font-bold text-xs uppercase tracking-wider rounded-xl transition shadow">
-                                Submit Review
-                            </button>
-                        </form>
-
-                        <div id="product-reviews-list" class="space-y-4">
-                            @forelse ($publishedReviews as $review)
-                            <article class="bg-gray-50 p-6 rounded-2xl border border-gray-100">
-                                <div class="flex justify-between items-center mb-2 gap-3">
-                                    <div class="flex items-center space-x-2 min-w-0">
-                                        <span class="font-bold text-sm text-[#0B132B] truncate">{{ $review->author_name }}</span>
-                                        @if ($review->is_verified_buyer)
-                                        <span class="text-xs text-emerald-600 flex items-center gap-1 shrink-0"><i data-lucide="check-circle" class="w-3.5 h-3.5"></i> Verified Buyer</span>
-                                        @endif
+                                    <span id="review-rating-label" class="text-[11px] font-bold text-slate-600 uppercase tracking-wide">Your rating</span>
+                                    <div class="flex gap-1 mt-1" id="review-star-picker" role="group" aria-labelledby="review-rating-label">
+                                        @for ($s = 1; $s <= 5; $s++)
+                                        <button type="button" data-review-star="{{ $s }}" onclick="setReviewRating({{ $s }})" aria-label="Rate {{ $s }} out of 5 stars" class="review-star-btn p-1 text-amber-300 hover:text-amber-400 transition min-h-[44px] min-w-[44px]">
+                                            <i data-lucide="star" class="w-6 h-6" aria-hidden="true"></i>
+                                        </button>
+                                        @endfor
                                     </div>
-                                    <time class="text-xs text-gray-400 shrink-0" datetime="{{ $review->created_at->toIso8601String() }}">{{ $review->created_at->diffForHumans() }}</time>
+                                    <input type="hidden" name="rating" id="review-rating-input" value="5" required>
                                 </div>
-                                @include('partials.product-star-rating', ['rating' => $review->rating, 'size' => 'w-3.5 h-3.5'])
-                                @if ($review->title)
-                                <p class="text-xs font-bold text-[#0B132B] mt-2">{{ $review->title }}</p>
-                                @endif
-                                <p class="text-gray-600 text-sm italic mt-2">"{{ $review->body }}"</p>
-                                @if (count($review->photoUrls()) > 0)
-                                <div class="flex flex-wrap gap-2 pt-3">
-                                    @foreach ($review->photoUrls() as $photoUrl)
-                                    <a href="{{ $photoUrl }}" target="_blank" rel="noopener" class="block w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden border border-gray-200">
-                                        <img src="{{ $photoUrl }}" alt="Review photo" class="w-full h-full object-cover">
-                                    </a>
-                                    @endforeach
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    <div>
+                                        <label for="review-author-name" class="text-[11px] font-bold text-slate-600">Name</label>
+                                        <input id="review-author-name" name="author_name" type="text" required maxlength="120" class="mt-1 w-full rounded-xl border border-purple-200 px-3 py-2 text-xs focus:border-beautage-purple focus:ring-beautage-purple">
+                                    </div>
+                                    <div>
+                                        <label for="review-author-email" class="text-[11px] font-bold text-slate-600">Email (optional)</label>
+                                        <input id="review-author-email" name="author_email" type="email" maxlength="255" class="mt-1 w-full rounded-xl border border-purple-200 px-3 py-2 text-xs focus:border-beautage-purple focus:ring-beautage-purple">
+                                    </div>
                                 </div>
-                                @endif
-                            </article>
-                            @empty
-                            <div class="text-center py-8 text-gray-400 text-sm border border-dashed border-gray-200 rounded-2xl">
-                                No reviews yet. Be the first to share your experience.
+                                <div>
+                                    <label for="review-title" class="text-[11px] font-bold text-slate-600">Review title (optional)</label>
+                                    <input id="review-title" name="title" type="text" maxlength="200" class="mt-1 w-full rounded-xl border border-purple-200 px-3 py-2 text-xs focus:border-beautage-purple focus:ring-beautage-purple">
+                                </div>
+                                <div>
+                                    <label for="review-body" class="text-[11px] font-bold text-slate-600">Your review</label>
+                                    <textarea id="review-body" name="body" required minlength="10" rows="4" class="mt-1 w-full rounded-xl border border-purple-200 px-3 py-2 text-xs focus:border-beautage-purple focus:ring-beautage-purple" placeholder="Tell others what you loved about this product…"></textarea>
+                                </div>
+                                <div>
+                                    <label for="review-photos" class="text-[11px] font-bold text-slate-600 uppercase tracking-wide">Add photos (optional)</label>
+                                    <p class="text-[10px] text-slate-500 mt-0.5 mb-2">Up to 3 images — JPG, PNG, or WebP, max 4 MB each.</p>
+                                    <label for="review-photos" class="flex flex-col items-center justify-center gap-2 w-full rounded-2xl border-2 border-dashed border-purple-200 bg-white/80 px-4 py-6 cursor-pointer hover:border-beautage-pink hover:bg-pink-50/30 transition">
+                                        <i data-lucide="image-plus" class="w-8 h-8 text-beautage-purple"></i>
+                                        <span class="text-xs font-bold text-beautage-purple">Tap to upload photos</span>
+                                        <span class="text-[10px] text-slate-500">Show your results or product in use</span>
+                                    </label>
+                                    <input id="review-photos" name="photos[]" type="file" accept="image/jpeg,image/png,image/webp" multiple class="sr-only" onchange="previewReviewPhotos(this)">
+                                    <div id="review-photo-preview" class="grid grid-cols-3 gap-2 mt-3 empty:hidden"></div>
+                                </div>
+                                <button type="submit" id="review-submit-btn" class="w-full sm:w-auto px-6 py-2.5 bg-beautage-pink hover:bg-beautage-pinkHover text-white font-bold text-xs uppercase tracking-wider rounded-xl transition shadow-md">
+                                    Submit Review
+                                </button>
+                            </form>
+
+                            <div id="product-reviews-list" class="space-y-4">
+                                @forelse ($publishedReviews as $review)
+                                <article class="p-4 rounded-2xl bg-purple-50/40 border border-purple-100 space-y-2">
+                                    <div class="flex items-start justify-between gap-3">
+                                        <div class="flex items-center gap-2 min-w-0">
+                                            <span class="w-9 h-9 rounded-full bg-beautage-pink text-white font-bold text-xs flex items-center justify-center shrink-0">{{ $review->authorInitials() }}</span>
+                                            <div class="min-w-0">
+                                                <h4 class="text-xs font-bold text-beautage-purple truncate">
+                                                    {{ $review->author_name }}
+                                                    @if ($review->is_verified_buyer)
+                                                    <span class="text-[10px] text-emerald-600 font-extrabold ml-1">✓ Verified Buyer</span>
+                                                    @endif
+                                                </h4>
+                                                @include('partials.product-star-rating', ['rating' => $review->rating, 'size' => 'w-3 h-3'])
+                                            </div>
+                                        </div>
+                                        <time class="text-[10px] text-slate-400 shrink-0" datetime="{{ $review->created_at->toIso8601String() }}">{{ $review->created_at->diffForHumans() }}</time>
+                                    </div>
+                                    @if ($review->title)
+                                    <p class="text-xs font-bold text-slate-800">{{ $review->title }}</p>
+                                    @endif
+                                    <p class="text-xs text-slate-600 leading-relaxed">"{{ $review->body }}"</p>
+                                    @if (count($review->photoUrls()) > 0)
+                                    <div class="flex flex-wrap gap-2 pt-1">
+                                        @foreach ($review->photoUrls() as $photoUrl)
+                                        <a href="{{ $photoUrl }}" target="_blank" rel="noopener" class="block w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden border border-purple-100 shadow-sm hover:ring-2 hover:ring-beautage-pink transition">
+                                            <img src="{{ $photoUrl }}" alt="Review photo" class="w-full h-full object-cover">
+                                        </a>
+                                        @endforeach
+                                    </div>
+                                    @endif
+                                </article>
+                                @empty
+                                <div class="text-center py-8 text-slate-400 text-xs border border-dashed border-purple-200 rounded-2xl">
+                                    No reviews yet. Be the first to share your experience!
+                                </div>
+                                @endforelse
                             </div>
-                            @endforelse
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="w-full max-w-[1600px] mx-auto px-4 sm:px-8 mt-16">
-            <div class="flex items-center justify-between mb-8 gap-4">
-                <div>
-                    <h2 class="text-2xl sm:text-3xl font-extrabold text-[#0B132B]">You May Also Like</h2>
-                    <p class="text-sm text-gray-500">Pair with our top-rated complementary formulas</p>
-                </div>
-                <a href="{{ route('collections') }}" class="text-xs font-bold text-[#4361EE] hover:underline flex items-center gap-1 shrink-0">View All <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></a>
+        <!-- RELATED / YOU MAY ALSO LIKE PRODUCTS GRID -->
+        <section class="w-full px-4 sm:px-12 xl:px-20 py-12">
+            <div class="text-center max-w-2xl mx-auto mb-8">
+                <span class="inline-block px-3 py-1 rounded-full text-[10px] uppercase font-extrabold tracking-widest bg-purple-100 text-beautage-purple border border-purple-200 mb-2">
+                    COMPLETE YOUR ROUTINE
+                </span>
+                <h2 class="text-2xl sm:text-3xl font-serif font-bold text-beautage-purple">You May Also Like</h2>
+                <p class="text-xs text-slate-500 mt-1">Explore complementary flagship elixirs and dermal devices.</p>
             </div>
-            <div id="related-product-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6"></div>
+
+            <div id="related-product-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3 sm:gap-4 lg:gap-5"></div>
         </section>
 
     </main>
 @endsection
 
-
 @section('below_main')
     <!-- Sticky checkout — slides up when inline buy buttons leave the viewport -->
     <div id="pdp-sticky-checkout" class="fixed inset-x-0 z-[45] max-md:bottom-[3.65rem] md:bottom-0 translate-y-full opacity-0 pointer-events-none transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]" aria-hidden="true">
-        <div class="border-t border-gray-200 bg-white/95 backdrop-blur-xl shadow-[0_-12px_40px_rgba(11,19,43,0.12)]">
-            <div class="w-full px-4 sm:px-8 py-3 md:py-3.5 max-w-[1600px] mx-auto">
+        <div class="border-t border-purple-200/80 bg-white/95 backdrop-blur-xl shadow-[0_-12px_40px_rgba(94,31,112,0.14)]">
+            <div class="w-full px-4 sm:px-12 xl:px-20 py-3 md:py-3.5 max-w-[90rem] mx-auto">
                 <div class="flex flex-col gap-2.5 md:flex-row md:items-center md:gap-4">
                     <div class="flex items-center gap-3 min-w-0 md:flex-1">
-                        <img src="{{ $galleryImages[0] ?? $product->image }}" alt="" class="hidden sm:block w-11 h-11 rounded-xl object-cover border border-gray-100 shadow-sm shrink-0">
+                        <img src="{{ $galleryImages[0] ?? $product->image }}" alt="" class="hidden sm:block w-11 h-11 rounded-xl object-cover border border-purple-100 shadow-sm shrink-0">
                         <div class="min-w-0 flex-1">
-                            <p class="text-[10px] uppercase tracking-wider font-bold text-[#D4AF37] leading-none mb-0.5">Ready to order</p>
-                            <p class="text-xs sm:text-sm font-bold text-[#0B132B] truncate">{{ $product->name }}</p>
-                            <p class="text-sm font-black text-[#0B132B] mt-0.5"><span id="sticky-btn-total-price">{{ MoneyFormat::pkr($product->price) }}</span></p>
+                            <p class="text-[10px] uppercase tracking-wider font-bold text-beautage-pink leading-none mb-0.5">Ready to order</p>
+                            <p class="text-xs sm:text-sm font-bold text-beautage-purple truncate">{{ $product->name }}</p>
+                            <p class="text-sm font-black text-slate-900 mt-0.5"><span id="sticky-btn-total-price">{{ MoneyFormat::pkr($product->price) }}</span></p>
                         </div>
                     </div>
                     <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3 w-full md:w-auto md:shrink-0">
                         <div class="flex items-center gap-2 sm:gap-3">
-                            <div class="flex items-center border-2 border-gray-200 rounded-xl bg-white overflow-hidden shadow-sm shrink-0">
-                                <button type="button" onclick="adjustQty(-1)" class="px-3 py-2.5 text-sm font-extrabold text-gray-600 hover:bg-gray-50 transition" aria-label="Decrease quantity">−</button>
-                                <span id="sticky-product-qty" class="w-8 text-center text-sm font-bold text-[#0B132B]">1</span>
-                                <button type="button" onclick="adjustQty(1)" class="px-3 py-2.5 text-sm font-extrabold text-gray-600 hover:bg-gray-50 transition" aria-label="Increase quantity">+</button>
+                            <div class="flex items-center border-2 border-purple-200 rounded-xl bg-white overflow-hidden shadow-sm shrink-0">
+                                <button type="button" onclick="adjustQty(-1)" class="px-3 py-2.5 text-sm font-extrabold text-slate-600 hover:bg-purple-50 transition" aria-label="Decrease quantity">−</button>
+                                <span id="sticky-product-qty" class="w-8 text-center text-sm font-bold text-slate-800">1</span>
+                                <button type="button" onclick="adjustQty(1)" class="px-3 py-2.5 text-sm font-extrabold text-slate-600 hover:bg-purple-50 transition" aria-label="Increase quantity">+</button>
                             </div>
-                            <button type="button" onclick="addCurrentProductToCart()" class="flex-1 sm:flex-none sm:min-w-[11rem] bg-[#0B132B] hover:bg-[#4361EE] text-white font-bold py-3 px-4 sm:px-5 rounded-xl transition shadow-lg flex items-center justify-center gap-2 text-[11px] sm:text-xs uppercase tracking-wider">
-                                <i data-lucide="shopping-bag" class="w-4 h-4 text-[#D4AF37] shrink-0"></i>
-                                <span class="truncate">Add to Bag</span>
+                            <button type="button" onclick="addCurrentProductToCart()" class="flex-1 sm:flex-none sm:min-w-[11rem] bg-beautage-pink hover:bg-beautage-pinkHover text-white font-black py-3 px-4 sm:px-5 rounded-xl transition shadow-lg shadow-pink-500/25 flex items-center justify-center gap-2 text-[11px] sm:text-xs uppercase tracking-wider">
+                                <i data-lucide="shopping-bag" class="w-4 h-4 shrink-0"></i>
+                                <span class="truncate">Add To Bag</span>
                             </button>
                         </div>
-                        <button type="button" onclick="buyNow()" class="w-full sm:w-auto sm:min-w-[14rem] bg-[#1C2541] hover:bg-[#4361EE] text-white font-bold py-3 px-5 rounded-xl transition shadow-lg flex items-center justify-center gap-2 text-[11px] sm:text-xs uppercase tracking-wider">
-                            <i data-lucide="zap" class="w-4 h-4 text-[#D4AF37] shrink-0"></i>
+                        <button type="button" onclick="buyNow()" class="w-full sm:w-auto sm:min-w-[14rem] bg-gradient-to-r from-beautage-purple to-beautage-purpleDark hover:from-beautage-purpleDark hover:to-beautage-purple text-white font-extrabold py-3 px-5 rounded-xl transition shadow-lg flex items-center justify-center gap-2 text-[11px] sm:text-xs uppercase tracking-wider">
+                            <i data-lucide="zap" class="w-4 h-4 text-amber-300 shrink-0"></i>
                             <span class="truncate">Buy Now — Express</span>
                         </button>
                     </div>
@@ -497,13 +496,12 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
 
 @push('scripts')
 @include('partials.scripts.product-detail-data')
-<script src="{{ asset('js/pdp-pricing.js') }}?v=20261107pdp1" defer></script>
+<script src="{{ asset('js/pdp-pricing.js') }}?v=2026102823" defer></script>
 <script>
     const BEAUTAGE_REVIEW_STORE_URL = @json(route('product.reviews.store', $product));
     const BEAUTAGE_PRODUCT_VIDEO_URL = @json($product->video_url);
     const BEAUTAGE_BUNDLE = @json($bundlePayload ?? null);
     window.BEAUTAGE_PRODUCT_SLUG = @json($product->slug);
-    window.galleryImages = galleryImages;
 </script>
 @verbatim
 <script>
@@ -669,15 +667,19 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
 
         function switchMainImage(index) {
             const mainImg = document.getElementById('main-product-img');
-            const images = window.galleryImages || (typeof galleryImages !== 'undefined' ? galleryImages : []);
+            const images = window.galleryImages || [];
             if (!images[index]) {
                 return;
             }
             mainImg.src = images[index];
             document.querySelectorAll('.thumb-btn').forEach((btn, idx) => {
-                const active = idx === index;
-                btn.classList.toggle('is-active', active);
-                btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+                if (idx === index) {
+                    btn.classList.add('border-beautage-purple');
+                    btn.classList.remove('border-transparent');
+                } else {
+                    btn.classList.remove('border-beautage-purple');
+                    btn.classList.add('border-transparent');
+                }
             });
         }
 
@@ -1054,56 +1056,51 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
         function switchTab(tabKey) {
             ['desc', 'specs', 'routine', 'reviews'].forEach(k => {
                 const panel = document.getElementById(`tab-content-${k}`);
+                panel.classList.add('hidden');
+                panel.hidden = true;
                 const btn = document.getElementById(`tab-btn-${k}`);
-                if (!panel || !btn) {
-                    return;
-                }
-                const active = k === tabKey;
-                panel.classList.toggle('hidden', !active);
-                panel.hidden = !active;
-                btn.classList.toggle('is-active', active);
-                btn.setAttribute('aria-selected', active ? 'true' : 'false');
+                btn.classList.remove('border-b-2', 'border-beautage-purple', 'bg-white', 'text-beautage-purple', 'font-bold');
+                btn.classList.add('text-slate-600', 'font-semibold');
+                btn.setAttribute('aria-selected', 'false');
             });
+            const activePanel = document.getElementById(`tab-content-${tabKey}`);
+            activePanel.classList.remove('hidden');
+            activePanel.hidden = false;
+            const activeBtn = document.getElementById(`tab-btn-${tabKey}`);
+            activeBtn.classList.add('border-b-2', 'border-beautage-purple', 'bg-white', 'text-beautage-purple', 'font-bold');
+            activeBtn.classList.remove('text-slate-600', 'font-semibold');
+            activeBtn.setAttribute('aria-selected', 'true');
         }
 
         function renderRelatedProducts() {
             const container = document.getElementById('related-product-grid');
-            if (!container) {
-                return;
-            }
-            const items = (relatedProducts || []).slice(0, 4);
+            const items = (relatedProducts || []).slice(0, 6);
             if (items.length === 0) {
-                container.innerHTML = '<p class="col-span-full text-center text-sm text-gray-500 py-8">More products in this category coming soon.</p>';
+                container.innerHTML = '<p class="col-span-full text-center text-sm text-slate-500 py-8">More products in this category coming soon.</p>';
                 return;
             }
             container.innerHTML = items.map(p => {
-                const productUrl = p.slug ? `/products/${encodeURIComponent(p.slug)}` : '/collections';
-                const safeName = (p.name || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'");
-                const safeImage = (p.image || '').replace(/'/g, '');
-                const compare = Number(p.oldPrice || 0) > Number(p.price || 0)
-                    ? `<span class="pdp-related-compare">${BeautageMoney.formatDecimal(p.oldPrice)}</span>`
-                    : '';
-                const badge = p.badge || (Number(p.oldPrice || 0) > Number(p.price || 0) ? 'SALE' : 'POPULAR');
+                const productUrl = p.slug ? `/products/${p.slug}` : '/collections';
+                const safeName = (p.name || '').replace(/'/g, "\\'");
                 return `
-                <article class="pdp-related-card group">
-                    <a href="${productUrl}" class="pdp-related-media">
-                        <span class="pdp-related-badge">${badge}</span>
-                        <img src="${safeImage}" alt="${safeName}">
+                <div class="bg-white rounded-2xl p-3 sm:p-4 border border-purple-100 hover:border-beautage-pink transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-y-1 flex flex-col justify-between group">
+                    <a href="${productUrl}" class="relative rounded-xl overflow-hidden bg-purple-50 mb-3 aspect-square block">
+                        <img src="${p.image}" alt="" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0">
+                        <img src="${p.hoverImage || p.image}" alt="" class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500 group-hover:opacity-100 group-hover:scale-105">
+                        <span class="absolute top-2 left-2 bg-beautage-purple text-white text-[9px] font-extrabold px-2 py-0.5 rounded-full uppercase">${p.badge || 'Flagship'}</span>
                     </a>
                     <div>
-                        <span class="pdp-related-cat">${p.category || ''}</span>
-                        <h3 class="line-clamp-2"><a href="${productUrl}">${p.name || ''}</a></h3>
-                        <div class="pdp-related-row">
-                            <div>
-                                <span class="pdp-related-price">${BeautageMoney.formatDecimal(p.price)}</span>
-                                ${compare}
-                            </div>
-                            <button type="button" onclick="addToCartDirect({id: ${Number(p.id)}, name: '${safeName}', price: ${Number(p.price)}, image: '${safeImage}', qty: 1}); showToast('Added to bag');" class="pdp-related-add">+ Add</button>
-                        </div>
+                        <span class="text-[9px] uppercase font-bold text-beautage-pink tracking-widest">${p.category}</span>
+                        <h3 class="text-xs sm:text-sm font-bold text-beautage-purple mt-1 line-clamp-2 min-h-[2.5rem]"><a href="${productUrl}" class="hover:text-beautage-pink transition">${p.name}</a></h3>
                     </div>
-                </article>
+                    <div class="mt-3 pt-3 border-t border-purple-50 flex items-center justify-between gap-2">
+                        <span class="text-sm font-black text-slate-800">${BeautageMoney.formatDecimal(p.price)}</span>
+                        <button type="button" onclick="addToCartDirect({id: ${p.id}, name: '${safeName}', price: ${p.price}, image: '${p.image}', qty: 1}); showToast('Added to bag');" class="px-3 py-2 rounded-xl bg-beautage-pink hover:bg-beautage-pinkHover text-white text-[11px] font-bold transition shadow-sm shrink-0">Add</button>
+                    </div>
+                </div>
             `;
             }).join('');
+            lucide.createIcons();
         }
 
         function startCountdownTimer() {
@@ -1113,14 +1110,8 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
                 const h = Math.floor(totalSeconds / 3600).toString().padStart(2, '0');
                 const m = Math.floor((totalSeconds % 3600) / 60).toString().padStart(2, '0');
                 const s = (totalSeconds % 60).toString().padStart(2, '0');
-                const announcement = document.getElementById('announcement-timer');
-                if (announcement) {
-                    announcement.innerText = `${h}:${m}:${s}`;
-                }
-                const countdown = document.getElementById('pdp-countdown');
-                if (countdown) {
-                    countdown.innerText = `${h}:${m}:${s}`;
-                }
+                document.getElementById('announcement-timer').innerText = `${h}:${m}:${s}`;
+                document.getElementById('pdp-countdown').innerText = `${h}:${m}:${s}`;
             }, 1000);
         }
 
