@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
-@section('title', $product->name . ' — Quick Bazar')
+@section('title', ($pageSeo['title'] ?? null) ?: ($product->name.' | Beautage'))
 
 @section('body_attrs')
-class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-emerald-200 selection:text-slate-900"
+class="lumiere-v2 bg-gray-50 text-gray-800 font-sans antialiased min-h-screen flex flex-col selection:bg-amber-200 selection:text-slate-900"
 @endsection
 
 @push('head-preload')
@@ -21,6 +21,32 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
 
 @push('structured-data')
 @include('partials.product-json-ld', ['product' => $product, 'pageSeo' => $pageSeo, 'galleryImages' => $galleryImages ?? []])
+@php
+    $breadcrumbCrumbs = [
+        ['name' => 'Home', 'url' => route('home')],
+        ['name' => 'Collections & Categories', 'url' => route('collections')],
+    ];
+    if ($product->productCategory) {
+        $breadcrumbCrumbs[] = [
+            'name' => $product->productCategory->displayNavLabel(),
+            'url' => $product->productCategory->collectionsUrl(),
+        ];
+    } elseif (filled($product->category)) {
+        $breadcrumbCrumbs[] = ['name' => $product->category, 'url' => route('collections')];
+    }
+    $breadcrumbCrumbs[] = ['name' => $product->name, 'url' => route('product.show', $product)];
+    $breadcrumbJsonLd = [
+        '@context' => 'https://schema.org',
+        '@type' => 'BreadcrumbList',
+        'itemListElement' => collect($breadcrumbCrumbs)->values()->map(fn ($crumb, $index) => [
+            '@type' => 'ListItem',
+            'position' => $index + 1,
+            'name' => $crumb['name'],
+            'item' => $crumb['url'],
+        ])->all(),
+    ];
+@endphp
+@include('partials.json-ld-script', ['jsonLd' => $breadcrumbJsonLd])
 @endpush
 
 @section('content')
@@ -38,7 +64,14 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
                     <i data-lucide="home" class="w-3.5 h-3.5"></i> Home
                 </a>
                 <i data-lucide="chevron-right" class="w-3 h-3 text-purple-300"></i>
-                <a href="{{ route('collections') }}" class="hover:text-beautage-purple transition">{{ $product->category ?: 'Shop' }}</a>
+                <a href="{{ route('collections') }}" class="hover:text-beautage-purple transition">Collections</a>
+                @if ($product->productCategory)
+                    <i data-lucide="chevron-right" class="w-3 h-3 text-purple-300"></i>
+                    <a href="{{ $product->productCategory->collectionsUrl() }}" class="hover:text-beautage-purple transition">{{ $product->productCategory->displayNavLabel() }}</a>
+                @elseif (filled($product->category))
+                    <i data-lucide="chevron-right" class="w-3 h-3 text-purple-300"></i>
+                    <a href="{{ route('collections') }}" class="hover:text-beautage-purple transition">{{ $product->category }}</a>
+                @endif
                 <i data-lucide="chevron-right" class="w-3 h-3 text-purple-300"></i>
                 <span class="text-beautage-purple font-bold">{{ $product->name }}</span>
             </nav>
@@ -73,7 +106,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
                         </div>
                         @endif
                         <button type="button" onclick="openLightbox()" class="absolute bottom-4 right-4 p-2.5 sm:p-3 rounded-2xl bg-white/90 backdrop-blur-md text-beautage-purple hover:bg-white shadow-lg transition flex items-center gap-2 text-xs font-bold">
-                            <i data-lucide="maximize-2" class="w-4 h-4"></i> Zoom
+                            <i data-lucide="maximize-2" class="w-4 h-4"></i> Click to Zoom
                         </button>
                     </div>
                     </div>
@@ -152,12 +185,16 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
                                 <button type="button" onclick="adjustQty(1)" aria-label="Increase quantity" class="px-4 py-3.5 text-sm font-extrabold text-slate-600 hover:bg-purple-50 transition min-h-[44px] min-w-[44px]">+</button>
                             </div>
                             <button onclick="addCurrentProductToCart()" class="flex-1 bg-beautage-pink hover:bg-beautage-pinkHover text-white font-black py-4 px-6 rounded-2xl transition shadow-xl shadow-pink-500/30 flex items-center justify-center gap-3 text-xs uppercase tracking-wider">
-                                <i data-lucide="shopping-bag" class="w-5 h-5"></i> Add To Bag — <span id="btn-total-price">{{ MoneyFormat::pkr($product->price) }}</span>
+                                <i data-lucide="shopping-bag" class="w-5 h-5"></i> Add to Bag — <span id="btn-total-price">{{ MoneyFormat::pkr($product->price) }}</span>
                             </button>
                         </div>
                         <button onclick="buyNow()" class="w-full bg-beautage-purple hover:bg-beautage-purpleDark text-white font-extrabold py-3.5 px-6 rounded-2xl transition shadow-lg flex items-center justify-center gap-2 text-xs uppercase tracking-wider">
                             <i data-lucide="zap" class="w-4 h-4 text-beautage-amber"></i> Buy Now with Express Checkout
                         </button>
+                        <p class="flex items-center gap-2 text-xs font-semibold text-slate-500">
+                            <i data-lucide="lock" class="w-3.5 h-3.5 text-emerald-600"></i>
+                            Guaranteed Safe &amp; Secure Checkout
+                        </p>
                     </div>
 
                     <!-- Trust Badges & Delivery Checker -->
@@ -183,16 +220,16 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
 
                         <div class="grid grid-cols-3 gap-2 pt-2 text-center text-[10px] font-bold text-slate-600 border-t border-purple-50">
                             <div class="p-2 rounded-xl bg-purple-50/50 flex flex-col items-center gap-1">
-                                <i data-lucide="shield-check" class="w-4 h-4 text-beautage-pink"></i>
-                                <span>100% Original</span>
+                                <i data-lucide="truck" class="w-4 h-4 text-beautage-pink"></i>
+                                <span>Free Shipping</span>
                             </div>
                             <div class="p-2 rounded-xl bg-purple-50/50 flex flex-col items-center gap-1">
                                 <i data-lucide="rotate-ccw" class="w-4 h-4 text-emerald-600"></i>
                                 <span>30-Day Returns</span>
                             </div>
                             <div class="p-2 rounded-xl bg-purple-50/50 flex flex-col items-center gap-1">
-                                <i data-lucide="headphones" class="w-4 h-4 text-amber-600"></i>
-                                <span>24/7 Support</span>
+                                <i data-lucide="award" class="w-4 h-4 text-amber-600"></i>
+                                <span>Certified Safe</span>
                             </div>
                         </div>
                     </div>
@@ -316,7 +353,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
                 </div>
 
                 <div id="tab-content-routine" role="tabpanel" aria-labelledby="tab-btn-routine" hidden class="p-6 sm:p-8 space-y-6 tab-pane hidden">
-                    <h3 class="text-lg sm:text-xl font-serif font-bold text-beautage-purple">{{ $product->routine_heading ?: 'How to use' }}</h3>
+                    <h3 class="text-lg sm:text-xl font-serif font-bold text-beautage-purple">{{ $product->routine_heading ?: 'Step-by-Step Application Guide' }}</h3>
                     @if ($product->routine_body)
                     <p class="text-xs sm:text-sm text-slate-600 leading-relaxed whitespace-pre-line">{{ $product->routine_body }}</p>
                     @else
@@ -329,7 +366,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
                     <div class="flex flex-col lg:flex-row gap-8">
                         <div class="lg:w-1/3 space-y-4">
                             <div>
-                                <h3 class="text-lg sm:text-xl font-serif font-bold text-beautage-purple">Customer Reviews</h3>
+                                <h3 class="text-lg sm:text-xl font-serif font-bold text-beautage-purple">Customer Reviews &amp; Ratings</h3>
                                 <div class="flex items-center gap-2 mt-2">
                                     @include('partials.product-star-rating', ['rating' => $product->rating, 'size' => 'w-5 h-5'])
                                 </div>
@@ -432,6 +469,27 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
             </div>
         </section>
 
+        <section class="lv2-ship" aria-labelledby="pdp-shipping-title">
+            <h2 id="pdp-shipping-title">Shipping and returns</h2>
+            <div class="lv2-ship-grid">
+                <article class="lv2-ship-card">
+                    <h3>Shipping {{ $product->name }}</h3>
+                    <p class="lv2-muted">This item ships nationwide in Pakistan. Cash on delivery is available when checkout offers it for your city.</p>
+                    <a class="lv2-link" href="{{ route('shipping') }}">Shipping details</a>
+                </article>
+                <article class="lv2-ship-card">
+                    <h3>30-day returns</h3>
+                    <p class="lv2-muted">If {{ $product->name }} is not right, start a return within 30 days and keep the order number.</p>
+                    <a class="lv2-link" href="{{ route('returns') }}">Returns policy</a>
+                </article>
+                <article class="lv2-ship-card">
+                    <h3>Secure checkout</h3>
+                    <p class="lv2-muted">Prices on this page are the catalog price in PKR. The bag and checkout use the same product record.</p>
+                    <a class="lv2-link" href="{{ route('checkout') }}">Go to checkout</a>
+                </article>
+            </div>
+        </section>
+
         <!-- RELATED / YOU MAY ALSO LIKE PRODUCTS GRID -->
         <section class="w-full px-4 sm:px-6 lg:px-8 py-12">
             <div class="text-center max-w-2xl mx-auto mb-8">
@@ -455,7 +513,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
             <div class="w-full px-4 py-3 sm:px-6 md:py-3.5 lg:px-8">
                 <div class="flex flex-col gap-2.5 md:flex-row md:items-center md:gap-4">
                     <div class="flex items-center gap-3 min-w-0 md:flex-1">
-                        <img src="{{ $galleryImages[0] ?? $product->image }}" alt="" class="hidden sm:block w-11 h-11 rounded-xl object-cover border border-purple-100 shadow-sm shrink-0">
+                        <img src="{{ $galleryImages[0] ?? $product->image }}" alt="{{ $product->name }}" class="hidden sm:block w-11 h-11 rounded-xl object-cover border border-purple-100 shadow-sm shrink-0">
                         <div class="min-w-0 flex-1">
                             <p class="text-[10px] uppercase tracking-wider font-bold text-beautage-pink leading-none mb-0.5">Ready to order</p>
                             <p class="text-xs sm:text-sm font-bold text-beautage-purple truncate">{{ $product->name }}</p>
@@ -1091,11 +1149,12 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
             container.innerHTML = items.map(p => {
                 const productUrl = p.slug ? `/products/${p.slug}` : '/collections';
                 const safeName = (p.name || '').replace(/'/g, "\\'");
+                const safeAlt = (p.name || 'Product').replace(/"/g, '&quot;');
                 return `
                 <div class="bg-white rounded-2xl p-3 sm:p-4 border border-purple-100 hover:border-beautage-pink transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-y-1 flex flex-col justify-between group">
                     <a href="${productUrl}" class="relative rounded-xl overflow-hidden bg-purple-50 mb-3 aspect-square block">
-                        <img src="${p.image}" alt="" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0">
-                        <img src="${p.hoverImage || p.image}" alt="" class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500 group-hover:opacity-100 group-hover:scale-105">
+                        <img src="${p.image}" alt="${safeAlt}" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0">
+                        <img src="${p.hoverImage || p.image}" alt="${safeAlt}" class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500 group-hover:opacity-100 group-hover:scale-105">
                         <span class="absolute top-2 left-2 bg-beautage-purple text-white text-[9px] font-extrabold px-2 py-0.5 rounded-full uppercase">${p.badge || 'Flagship'}</span>
                     </a>
                     <div>
@@ -1119,8 +1178,10 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
                 const h = Math.floor(totalSeconds / 3600).toString().padStart(2, '0');
                 const m = Math.floor((totalSeconds % 3600) / 60).toString().padStart(2, '0');
                 const s = (totalSeconds % 60).toString().padStart(2, '0');
-                document.getElementById('announcement-timer').innerText = `${h}:${m}:${s}`;
-                document.getElementById('pdp-countdown').innerText = `${h}:${m}:${s}`;
+                const announcement = document.getElementById('announcement-timer');
+                const countdown = document.getElementById('pdp-countdown');
+                if (announcement) announcement.innerText = `${h}:${m}:${s}`;
+                if (countdown) countdown.innerText = `${h}:${m}:${s}`;
             }, 1000);
         }
 

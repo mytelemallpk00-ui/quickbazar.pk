@@ -2,13 +2,15 @@
 
 namespace App\Support\Seo;
 
+use App\Models\Category;
 use App\Support\SeoAutomationSettings;
 use App\Support\SiteSettings;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 final class FacetedSeoResolver
 {
-    /** @return array{title?: string, description?: string, canonical: string, robots: string} */
+    /** @return array{title?: string, description?: string, canonical: string, robots: string, og_title?: string, og_description?: string, og_image?: mixed, og_type?: string} */
     public static function forCollections(Request $request): array
     {
         $indexed = SeoAutomationSettings::facetedIndexedParams();
@@ -33,30 +35,56 @@ final class FacetedSeoResolver
         }
 
         $canonical = route('collections', $canonicalQuery);
+        $brand = trim((string) SiteSettings::get('site_name', 'Beautage')) ?: 'Beautage';
+        $noindexExtras = (bool) (SeoAutomationSettings::all()['faceted_noindex_when_extra_filters'] ?? true);
+        $cat = $request->query('cat');
+        $category = null;
 
-        if ($extraFilters && SeoAutomationSettings::all()['faceted_noindex_when_extra_filters'] ?? true) {
+        if (is_string($cat) && $cat !== '' && ! str_contains($cat, ',')) {
+            $category = Category::query()->where('slug', $cat)->where('is_active', true)->first();
+        }
+
+        if ($category) {
+            $title = filled($category->meta_title)
+                ? (string) $category->meta_title
+                : ($category->displayNavLabel().' — '.$brand);
+            $description = filled($category->meta_description)
+                ? (string) $category->meta_description
+                : ('Shop '.$category->displayNavLabel().' at '.$brand.'. Compare PKR prices, ratings, and availability.');
+            $robots = ($extraFilters && $noindexExtras)
+                ? 'noindex,follow'
+                : (filled($category->robots) ? (string) $category->robots : 'index,follow');
+
             return [
-                'canonical' => route('collections'),
-                'robots' => 'noindex,follow',
+                'title' => $title,
+                'description' => Str::limit(trim(preg_replace('/\s+/', ' ', strip_tags($description)) ?? ''), 160, ''),
+                'canonical' => filled($category->canonical_url) && ! ($extraFilters && $noindexExtras)
+                    ? (string) $category->canonical_url
+                    : route('collections', ['cat' => $category->slug]),
+                'robots' => $robots,
+                'og_title' => filled($category->og_title) ? (string) $category->og_title : $title,
+                'og_description' => filled($category->og_description) ? (string) $category->og_description : $description,
+                'og_image' => $category->og_image ?: $category->image_url,
+                'og_type' => 'website',
             ];
         }
 
-        $brand = trim((string) SiteSettings::get('site_name', 'Quick Bazar')) ?: 'Quick Bazar';
-        $cat = $request->query('cat');
-        $title = 'Shop all products — '.$brand;
-        $description = 'Browse '.$brand.' categories with PKR prices, ratings, and cash on delivery across Pakistan.';
-
-        if (is_string($cat) && $cat !== '') {
-            $label = ucfirst(str_replace('-', ' ', $cat));
-            $title = $label.' — '.$brand;
-            $description = 'Shop '.$label.' on '.$brand.' with verified reviews and cash on delivery across Pakistan.';
+        if ($extraFilters && $noindexExtras) {
+            return [
+                'title' => 'Collections & Categories — '.$brand,
+                'description' => 'Browse '.$brand.' collections with PKR prices, ratings, and cash on delivery across Pakistan.',
+                'canonical' => route('collections'),
+                'robots' => 'noindex,follow',
+                'og_type' => 'website',
+            ];
         }
 
         return [
-            'title' => $title,
-            'description' => $description,
+            'title' => 'Collections & Categories — '.$brand,
+            'description' => 'Browse '.$brand.' collections. Filter by department, price, rating, and availability, then add products to your bag.',
             'canonical' => $canonical,
             'robots' => 'index,follow',
+            'og_type' => 'website',
         ];
     }
 }
