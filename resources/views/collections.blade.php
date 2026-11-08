@@ -135,7 +135,7 @@ class="lumiere-v2 bg-gray-50 text-gray-800 font-sans antialiased min-h-screen fl
                         </label>
                     </div>
 
-                    <div id="catalog-product-grid" class="lv2-grid lv2-grid-3"></div>
+                    <div id="catalog-product-grid" class="lv2-grid lv2-grid-4"></div>
 
                     <!-- Infinite Scroll Loading Indicator -->
                     <div id="infinite-scroll-loader" class="lv2-empty hidden">Loading more products…</div>

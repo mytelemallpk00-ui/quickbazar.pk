@@ -428,8 +428,12 @@ body.lumiere-v2 .qb-nav {
 }
 
 @media (min-width: 900px) {
-    .lv2-grid-4 { grid-template-columns: repeat(4, 1fr); }
+    .lv2-grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
     .lv2-grid-3 { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 639px) {
+    .lv2-catalog-main .lv2-grid-4 { grid-template-columns: 1fr 1fr; }
 }
 
 .lv2-product {
