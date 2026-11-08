@@ -166,13 +166,13 @@ class HomeController extends Controller
             ->orderBy('sort_order')
             ->orderBy('id');
 
-        $inStock = (clone $base)->where('in_stock', true)->limit(8)->get();
+        $inStock = (clone $base)->where('in_stock', true)->limit(12)->get();
 
         if ($inStock->isNotEmpty()) {
             return $inStock;
         }
 
-        return $base->limit(8)->get();
+        return $base->limit(12)->get();
     }
 
     /** @return array<string, mixed> */
@@ -209,7 +209,8 @@ class HomeController extends Controller
             'url' => route('product.show', $product),
             'price' => $price,
             'old_price' => $old > $price ? $old : null,
-            'short' => $product->cardExcerpt(),
+            'short' => $product->cardExcerpt(160),
+            'sku' => filled($product->external_sku) ? (string) $product->external_sku : null,
         ];
     }
 
