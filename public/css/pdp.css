@@ -1,54 +1,5 @@
 /* Product detail — brand contrast + stable layout (CWV-friendly) */
 
-.pdp-bulk-card {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    border: 1px solid #e2e8f0;
-    background: #fff;
-    border-radius: 0.875rem;
-    padding: 0.875rem 0.75rem;
-    text-align: left;
-    transition: border-color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
-}
-
-.pdp-bulk-card:hover {
-    border-color: var(--qb-line, #fed7aa);
-}
-
-.pdp-bulk-card.is-active {
-    border-color: var(--qb-orange, #f97316);
-    background: var(--qb-soft, #fff7ed);
-    box-shadow: 0 0 0 1px var(--qb-orange, #f97316);
-}
-
-.pdp-bulk-card__title {
-    color: #0f172a;
-    font-size: 0.8125rem;
-    font-weight: 700;
-    line-height: 1.25;
-}
-
-.pdp-bulk-card__badge {
-    display: inline-block;
-    margin-top: 0.35rem;
-    padding: 0.125rem 0.5rem;
-    border-radius: 9999px;
-    font-size: 0.625rem;
-    font-weight: 800;
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
-    background: var(--qb-orange, #f97316);
-    color: #fff;
-}
-
-.pdp-bulk-card__total {
-    margin-top: 0.5rem;
-    font-size: 0.8125rem;
-    font-weight: 800;
-    color: #0f172a;
-}
-
 .pdp-text-muted {
     color: var(--beautage-muted, #475569);
 }
@@ -69,10 +20,6 @@
 
 #pdp-gallery-pin {
     align-items: flex-start;
-}
-
-.pdp-bulk-card {
-    height: 100%;
 }
 
 @media (prefers-reduced-motion: reduce) {

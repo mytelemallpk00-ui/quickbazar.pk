@@ -16,7 +16,7 @@ class="lumiere-v2 bg-gray-50 text-gray-800 font-sans antialiased min-h-screen fl
 @endpush
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/pdp.css') }}?v=2026110816">
+    <link rel="stylesheet" href="{{ asset('css/pdp.css') }}?v=2026110817">
 @endpush
 
 @push('structured-data')
@@ -173,8 +173,6 @@ class="lumiere-v2 bg-gray-50 text-gray-800 font-sans antialiased min-h-screen fl
                             <span>Flash deal timer: <strong id="pdp-countdown" class="font-mono text-beautage-purple">04:32:19</strong> (Order soon)</span>
                         </div>
                     </div>
-
-                    @include('partials.product-pdp-bulk-savings')
 
                     <!-- Quantity Selector & Add to Bag -->
                     <div id="pdp-buy-actions" class="space-y-3 pt-2">
@@ -563,7 +561,7 @@ class="lumiere-v2 bg-gray-50 text-gray-800 font-sans antialiased min-h-screen fl
 
 @push('scripts')
 @include('partials.scripts.product-detail-data')
-<script src="{{ asset('js/pdp-pricing.js') }}?v=2026102823" defer></script>
+<script src="{{ asset('js/pdp-pricing.js') }}?v=2026110817" defer></script>
 <script>
     const BEAUTAGE_REVIEW_STORE_URL = @json(route('product.reviews.store', $product));
     const BEAUTAGE_PRODUCT_VIDEO_URL = @json($product->video_url);
