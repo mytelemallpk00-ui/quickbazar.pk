@@ -190,6 +190,9 @@ class HomeController extends Controller
         }
 
         $image = trim((string) $product->image);
+        $hover = trim((string) $product->hover_image);
+        $imageUrl = $image !== '' ? $this->productImage($image) : null;
+        $hoverUrl = $hover !== '' ? $this->productImage($hover) : null;
 
         return [
             'id' => $product->id,
@@ -198,7 +201,8 @@ class HomeController extends Controller
             'price_label' => MoneyFormat::pkr($price),
             'old_price_label' => $old > $price ? MoneyFormat::pkr($old) : null,
             'discount_percent' => $percent,
-            'image' => $image !== '' ? $this->productImage($image) : null,
+            'image' => $imageUrl,
+            'hover_image' => ($hoverUrl && $hoverUrl !== $imageUrl) ? $hoverUrl : null,
             'rating' => $product->rating,
             'reviews' => (int) $product->reviews,
             'in_stock' => (bool) $product->in_stock,

@@ -3,6 +3,10 @@
     $name = (string) ($card['name'] ?? 'Product');
     $url = (string) ($card['url'] ?? route('collections'));
     $image = $card['image'] ?: ($placeholder ?? 'https://placehold.co/640x640/0B132B/D4AF37?text=Shop+Pakistan');
+    $hover = trim((string) ($card['hover_image'] ?? ''));
+    if ($hover === $image) {
+        $hover = '';
+    }
     $rating = max(0, min(5, (float) ($card['rating'] ?? 0)));
     $full = (int) round($rating);
     $short = trim((string) ($card['short'] ?? ''));
@@ -12,7 +16,10 @@
 @endphp
 <article class="lv2-product">
     <a href="{{ $url }}" class="lv2-product-media">
-        <img src="{{ $image }}" alt="{{ $name }}" width="640" height="640" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://placehold.co/640x640/0B132B/D4AF37?text=Shop+Pakistan';">
+        <img class="lv2-card-photo" src="{{ $image }}" alt="{{ $name }}" width="640" height="640" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://placehold.co/640x640/0B132B/D4AF37?text=Shop+Pakistan';">
+        @if ($hover !== '')
+            <img class="lv2-card-photo lv2-card-photo--alt" src="{{ $hover }}" alt="" width="640" height="640" loading="lazy" decoding="async">
+        @endif
         @if (! empty($card['discount_percent']))
             <span class="lv2-save">SAVE {{ (int) $card['discount_percent'] }}%</span>
         @endif

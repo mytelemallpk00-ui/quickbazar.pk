@@ -498,7 +498,7 @@ class="lumiere-v2 bg-gray-50 text-gray-800 font-sans antialiased min-h-screen fl
                 <p class="mt-1 text-sm text-slate-500">More from this department, with the same PKR prices.</p>
             </div>
 
-            <div id="related-product-grid" class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4"></div>
+            <div id="related-product-grid" class="lv2-grid lv2-grid-4"></div>
         </section>
 
     </main>

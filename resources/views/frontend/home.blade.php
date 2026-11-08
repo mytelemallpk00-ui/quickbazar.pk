@@ -208,8 +208,8 @@ class="lumiere-v2 bg-gray-50 text-gray-800 font-sans antialiased min-h-screen fl
         @if (collect($trendingProducts)->isEmpty())
             <p class="lv2-empty">No products are published yet.</p>
         @else
-            <div class="lv2-grid lv2-grid-3">
-                @foreach (collect($trendingProducts)->take(3) as $product)
+            <div class="lv2-grid lv2-grid-4">
+                @foreach (collect($trendingProducts)->take(8) as $product)
                     @include('partials.home.lv2-product-card', ['product' => $product, 'placeholder' => $placeholder])
                 @endforeach
             </div>

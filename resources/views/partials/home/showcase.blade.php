@@ -24,5 +24,5 @@
         </div>
         @endif
     </div>
-    <div id="showcase-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 sm:gap-6"></div>
+    <div id="showcase-grid" class="lv2-grid lv2-grid-4"></div>
 </section>

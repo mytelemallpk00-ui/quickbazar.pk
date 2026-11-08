@@ -34,7 +34,7 @@
             <h2 class="text-lg font-bold text-beautage-purple">Shop this collection</h2>
             <a href="{{ route('collections', $activeCategorySlug ? ['cat' => $activeCategorySlug] : []) }}" class="text-xs font-bold text-beautage-pink hover:underline">View all →</a>
         </div>
-        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+        <div class="lv2-grid lv2-grid-4">
             @forelse($featuredProducts as $product)
             <a href="{{ route('product.show', $product) }}" class="group bg-white rounded-2xl border border-purple-100 p-3 shadow-sm hover:shadow-md transition">
                 <img src="{{ $product->image }}" alt="{{ $product->name }}" class="w-full aspect-square object-cover rounded-xl mb-2" loading="lazy">

@@ -20,5 +20,5 @@
             <p class="mt-1 max-w-xl text-sm text-slate-500">Products you browsed recently.</p>
         </div>
     </div>
-    <div data-recently-viewed-grid class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-5"></div>
+    <div data-recently-viewed-grid class="lv2-grid lv2-grid-4"></div>
 </section>

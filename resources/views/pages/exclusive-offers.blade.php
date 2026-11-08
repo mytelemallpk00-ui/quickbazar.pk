@@ -42,7 +42,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
                 </a>
             </div>
         @else
-            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 max-w-6xl mx-auto">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 max-w-6xl mx-auto">
                 @foreach ($deals as $deal)
                 <a href="{{ $deal['url'] }}" class="group bg-white rounded-3xl border border-purple-100 shadow-lg hover:shadow-xl hover:border-pink-200 transition overflow-hidden flex flex-col">
                     <div class="aspect-[4/3] bg-purple-50 relative overflow-hidden">

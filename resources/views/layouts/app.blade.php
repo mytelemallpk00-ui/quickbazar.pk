@@ -51,9 +51,7 @@
     <link rel="stylesheet" href="{{ asset('css/qb-header.css') }}?v={{ $storefrontCssVersion }}">
     <link rel="stylesheet" href="{{ asset('css/qb-footer.css') }}?v={{ $storefrontCssVersion }}">
     <link rel="stylesheet" href="{{ asset('css/qb-theme.css') }}?v={{ $storefrontCssVersion }}">
-    @if (request()->routeIs('home', 'collections', 'product.show'))
-        <link rel="stylesheet" href="{{ asset('css/lumiere-v2.css') }}?v=2026110822">
-    @endif
+    <link rel="stylesheet" href="{{ asset('css/lumiere-v2.css') }}?v=2026110823">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Playfair+Display:wght@600;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
@@ -297,8 +295,8 @@
 <script src="{{ asset('js/beautage-money.js') }}?v=2026102917" defer></script>
 <script src="{{ asset('js/beautage-dom.js') }}?v=2026102917" defer></script>
 <script src="{{ asset('js/beautage-cart.js') }}?v=2026102917" defer></script>
-<script src="{{ asset('js/shop-product-card.js') }}?v=2026110821" defer></script>
-<script src="{{ asset('js/beautage-recently-viewed.js') }}?v=2026110821" defer></script>
+<script src="{{ asset('js/shop-product-card.js') }}?v=2026110823" defer></script>
+<script src="{{ asset('js/beautage-recently-viewed.js') }}?v=2026110823" defer></script>
 <script src="{{ asset('js/beautage-header-nav.js') }}?v=2026110804" defer></script>
 <script src="{{ asset('js/beautage-chrome.js') }}?v=2026110804" defer></script>
 @php

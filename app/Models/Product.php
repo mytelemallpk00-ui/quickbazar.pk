@@ -243,6 +243,7 @@ class Product extends Model
             'price' => $this->price,
             'oldPrice' => $this->old_price,
             'image' => $this->image,
+            'hoverImage' => $this->hover_image,
             'badge' => $this->badge,
             'desc' => $this->description,
             'short' => $this->cardExcerpt(),

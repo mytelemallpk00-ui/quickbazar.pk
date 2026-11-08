@@ -48,6 +48,7 @@
             price: Number(product.price || 0),
             oldPrice: product.oldPrice != null ? Number(product.oldPrice) : null,
             image: product.image || product.hoverImage || '',
+            hoverImage: product.hoverImage || product.hover_image || '',
             category: product.category || '',
             short: product.short || product.short_description || '',
             inStock: product.inStock !== false && product.in_stock !== false,

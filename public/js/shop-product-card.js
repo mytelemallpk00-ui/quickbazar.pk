@@ -42,6 +42,8 @@
         const name = esc(product.name || 'Product');
         const href = esc(productUrl(product));
         const image = esc(product.image || PLACEHOLDER);
+        const hoverRaw = String(product.hoverImage || product.hover_image || '').trim();
+        const hover = hoverRaw && hoverRaw !== (product.image || '') ? esc(hoverRaw) : '';
         const category = product.category ? '<p class="lv2-muted">' + esc(product.category) + '</p>' : '';
         const blurb = excerpt(product);
         const desc = blurb ? '<p class="lv2-card-desc">' + esc(blurb) + '</p>' : '';
@@ -69,7 +71,8 @@
         return ''
             + '<article class="lv2-product">'
             + '<a href="' + href + '" class="lv2-product-media">'
-            + '<img src="' + image + '" alt="' + name + '" width="640" height="640" loading="lazy" decoding="async" onerror="this.onerror=null;this.src=\'' + PLACEHOLDER + '\';">'
+            + '<img class="lv2-card-photo" src="' + image + '" alt="' + name + '" width="640" height="640" loading="lazy" decoding="async" onerror="this.onerror=null;this.src=\'' + PLACEHOLDER + '\';">'
+            + (hover ? '<img class="lv2-card-photo lv2-card-photo--alt" src="' + hover + '" alt="" width="640" height="640" loading="lazy" decoding="async">' : '')
             + (save ? '<span class="lv2-save">SAVE ' + save + '%</span>' : '')
             + '</a>'
             + '<div class="lv2-product-copy">'
