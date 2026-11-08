@@ -1144,35 +1144,7 @@ class="lumiere-v2 bg-gray-50 text-gray-800 font-sans antialiased min-h-screen fl
                 container.innerHTML = '<p class="col-span-full text-center text-sm text-slate-500 py-8">More products in this category coming soon.</p>';
                 return;
             }
-            container.innerHTML = items.map(p => {
-                const productUrl = p.slug ? `/products/${p.slug}` : '/collections';
-                const price = Number(p.price || 0);
-                const oldPrice = Number(p.oldPrice || 0);
-                const save = oldPrice > price && oldPrice > 0 ? Math.round((1 - price / oldPrice) * 100) : 0;
-                const full = Math.max(0, Math.min(5, Math.round(Number(p.rating) || 0)));
-                const stars = '★'.repeat(full) + '☆'.repeat(5 - full);
-                const inStock = p.inStock !== false && p.inStock !== 0 && p.inStock !== '0';
-                const image = p.image || 'https://placehold.co/640x640/0B132B/D4AF37?text=Shop+Pakistan';
-                const safeAlt = String(p.name || 'Product').replace(/"/g, '&quot;');
-                return `
-                <article class="lv2-product">
-                    <a href="${productUrl}" class="lv2-product-media">
-                        <img src="${image}" alt="${safeAlt}" width="480" height="480" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/640x640/0B132B/D4AF37?text=Shop+Pakistan';">
-                        ${save ? `<span class="lv2-save">SAVE ${save}%</span>` : ''}
-                    </a>
-                    <div>
-                        ${p.category ? `<p class="lv2-muted">${p.category}</p>` : ''}
-                        <h3><a href="${productUrl}">${p.name || 'Product'}</a></h3>
-                        ${Number(p.reviews) > 0 ? `<p class="lv2-stars">${stars} <span class="lv2-muted">(${p.reviews})</span></p>` : ''}
-                        <p class="lv2-price-row">
-                            <span class="lv2-price">${BeautageMoney.formatDecimal(price)}</span>
-                            ${oldPrice > price ? `<span class="lv2-old">${BeautageMoney.formatDecimal(oldPrice)}</span>` : ''}
-                        </p>
-                    </div>
-                    <button type="button" class="lv2-btn-navy" style="margin-top:0.8rem" onclick="addToCart(${p.id})" ${inStock ? '' : 'disabled'}>${inStock ? 'Add to cart' : 'Out of stock'}</button>
-                </article>
-            `;
-            }).join('');
+            container.innerHTML = items.map(p => window.ShopProductCard.html(p)).join('');
             lucide.createIcons();
         }
 

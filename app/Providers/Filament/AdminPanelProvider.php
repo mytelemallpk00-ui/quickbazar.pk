@@ -42,6 +42,10 @@ class AdminPanelProvider extends PanelProvider
                 'beautage-admin-theme',
                 asset('css/filament-beautage-admin.css?v=2026103112'),
             ),
+            Css::make(
+                'shop-pakistan-admin-login',
+                asset('css/filament-admin-login.css?v=2026110816'),
+            ),
             Js::make(
                 'chartjs',
                 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js',

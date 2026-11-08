@@ -52,7 +52,7 @@
     <link rel="stylesheet" href="{{ asset('css/qb-footer.css') }}?v={{ $storefrontCssVersion }}">
     <link rel="stylesheet" href="{{ asset('css/qb-theme.css') }}?v={{ $storefrontCssVersion }}">
     @if (request()->routeIs('home', 'collections', 'product.show'))
-        <link rel="stylesheet" href="{{ asset('css/lumiere-v2.css') }}?v=2026110817">
+        <link rel="stylesheet" href="{{ asset('css/lumiere-v2.css') }}?v=2026110821">
     @endif
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -297,7 +297,8 @@
 <script src="{{ asset('js/beautage-money.js') }}?v=2026102917" defer></script>
 <script src="{{ asset('js/beautage-dom.js') }}?v=2026102917" defer></script>
 <script src="{{ asset('js/beautage-cart.js') }}?v=2026102917" defer></script>
-<script src="{{ asset('js/beautage-recently-viewed.js') }}?v=2026110820" defer></script>
+<script src="{{ asset('js/shop-product-card.js') }}?v=2026110821" defer></script>
+<script src="{{ asset('js/beautage-recently-viewed.js') }}?v=2026110821" defer></script>
 <script src="{{ asset('js/beautage-header-nav.js') }}?v=2026110804" defer></script>
 <script src="{{ asset('js/beautage-chrome.js') }}?v=2026110804" defer></script>
 @php

@@ -203,6 +203,9 @@ class HomeController extends Controller
             'reviews' => (int) $product->reviews,
             'in_stock' => (bool) $product->in_stock,
             'url' => route('product.show', $product),
+            'price' => $price,
+            'old_price' => $old > $price ? $old : null,
+            'short' => $product->cardExcerpt(),
         ];
     }
 

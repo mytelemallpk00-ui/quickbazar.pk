@@ -36,7 +36,7 @@ class Login extends BaseLogin
 
     public function getTitle(): string | Htmlable
     {
-        return 'Admin Portal — Beautage Flagship Store';
+        return 'Admin sign in — Shop Pakistan';
     }
 
     public function getMaxWidth(): MaxWidth | string | null
@@ -56,19 +56,19 @@ class Login extends BaseLogin
     protected function getEmailFormComponent(): Component
     {
         return TextInput::make('email')
-            ->label('Admin Email or Username')
+            ->label('Email')
             ->email()
             ->required()
             ->autocomplete('username')
             ->autofocus()
-            ->placeholder('admin@beautage.com.pk')
+            ->placeholder('name@email.com')
             ->extraInputAttributes(['tabindex' => 1]);
     }
 
     protected function getPasswordFormComponent(): Component
     {
         return TextInput::make('password')
-            ->label('Secure Password')
+            ->label('Password')
             ->password()
             ->revealable(filament()->arePasswordsRevealable())
             ->autocomplete('current-password')
@@ -79,7 +79,7 @@ class Login extends BaseLogin
     protected function getAuthenticateFormAction(): \Filament\Actions\Action
     {
         return parent::getAuthenticateFormAction()
-            ->label('Access Admin Dashboard');
+            ->label('Sign in');
     }
 
     public function form(Form $form): Form

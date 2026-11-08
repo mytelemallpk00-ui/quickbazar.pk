@@ -198,7 +198,15 @@ class Product extends Model
             'claimedPercent' => $this->claimed_percent,
             'claimedText' => $this->claimed_text,
             'desc' => $this->description,
+            'short' => $this->cardExcerpt(),
         ];
+    }
+
+    public function cardExcerpt(int $limit = 110): string
+    {
+        $text = trim(preg_replace('/\s+/u', ' ', strip_tags((string) ($this->short_description ?: $this->description ?: ''))) ?? '');
+
+        return Str::limit($text, $limit, '…');
     }
 
     /** @return array<string, mixed> */
@@ -220,6 +228,7 @@ class Product extends Model
             'badge' => $this->badge,
             'inStock' => $this->in_stock,
             'desc' => $this->description,
+            'short' => $this->cardExcerpt(),
         ];
     }
 
@@ -236,6 +245,7 @@ class Product extends Model
             'image' => $this->image,
             'badge' => $this->badge,
             'desc' => $this->description,
+            'short' => $this->cardExcerpt(),
             'inStock' => (bool) $this->in_stock,
         ];
     }
@@ -262,6 +272,7 @@ class Product extends Model
                 'image' => $product->image,
                 'hoverImage' => $product->hover_image,
                 'badge' => $product->badge,
+                'short' => $product->cardExcerpt(),
             ])
             ->values()
             ->all();

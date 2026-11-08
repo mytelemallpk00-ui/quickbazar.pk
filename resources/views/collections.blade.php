@@ -356,33 +356,7 @@ window.CATALOG_PAGE = {
 
             const visibleItems = items.slice(0, displayedCount);
 
-            container.innerHTML = visibleItems.map(p => {
-                const price = Number(p.price || 0);
-                const oldPrice = Number(p.oldPrice || 0);
-                const save = oldPrice > price && oldPrice > 0 ? Math.round((1 - price / oldPrice) * 100) : 0;
-                const full = Math.max(0, Math.min(5, Math.round(Number(p.rating) || 0)));
-                const stars = '★'.repeat(full) + '☆'.repeat(5 - full);
-                const inStock = p.inStock !== false && p.inStock !== 0 && p.inStock !== '0';
-                const image = p.image || 'https://placehold.co/640x640/0B132B/D4AF37?text=Shop+Pakistan';
-                return `
-                    <article class="lv2-product">
-                        <a href="/products/${p.slug}" class="lv2-product-media">
-                            <img src="${image}" alt="${p.name}" width="480" height="480" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/640x640/0B132B/D4AF37?text=Shop+Pakistan';">
-                            ${save ? `<span class="lv2-save">SAVE ${save}%</span>` : ''}
-                        </a>
-                        <div>
-                            ${p.category ? `<p class="lv2-muted">${p.category}</p>` : ''}
-                            <h3><a href="/products/${p.slug}">${p.name}</a></h3>
-                            ${Number(p.reviews) > 0 ? `<p class="lv2-stars">${stars} <span class="lv2-muted">(${p.reviews})</span></p>` : ''}
-                            <p class="lv2-price-row">
-                                <span class="lv2-price">${BeautageMoney.formatDecimal(price)}</span>
-                                ${oldPrice > price ? `<span class="lv2-old">${BeautageMoney.formatDecimal(oldPrice)}</span>` : ''}
-                            </p>
-                        </div>
-                        <button type="button" class="lv2-btn-navy" style="margin-top:0.8rem" onclick="addToCart(${p.id})" ${inStock ? '' : 'disabled'}>${inStock ? 'Add to cart' : 'Out of stock'}</button>
-                    </article>
-                `;
-            }).join('');
+            container.innerHTML = visibleItems.map(p => window.ShopProductCard.html(p)).join('');
 
             if (displayedCount >= items.length) {
                 endMessage.classList.remove('hidden');

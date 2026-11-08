@@ -446,11 +446,144 @@ body.lumiere-v2 .qb-nav {
 .lv2-product-media {
     position: relative;
     display: block;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border-radius: 1rem;
+    background: #f4f1ea;
+}
+
+.lv2-product .lv2-product-media img {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 0;
+    background: #f4f1ea;
 }
 
 .lv2-product img {
     height: 11rem;
     background: #f3f4f6;
+}
+
+.lv2-product-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    flex: 1;
+}
+
+.lv2-card-desc {
+    margin: 0.25rem 0 0;
+    color: #5c6578;
+    font-size: 0.78rem;
+    line-height: 1.45;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.lv2-card-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.45rem;
+    margin-top: 0.85rem;
+}
+
+.lv2-card-quick {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 2.7rem;
+    padding: 0.55rem 0.4rem;
+    border-radius: 0.85rem;
+    border: 1px solid #0b132b;
+    background: #fff;
+    color: #0b132b;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.lv2-card-quick:hover {
+    background: #0b132b;
+    color: #d4af37;
+}
+
+.lv2-card-actions .lv2-btn-navy {
+    min-height: 2.7rem;
+    margin-top: 0;
+    padding: 0.55rem 0.4rem;
+    font-size: 0.75rem;
+}
+
+.sp-qv-media {
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border-radius: 1rem;
+    background: #f4f1ea;
+}
+
+.sp-qv-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.sp-qv-cat {
+    margin: 0;
+    color: #8a7340;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.sp-qv-copy h2 {
+    margin: 0.35rem 0 0;
+    color: #0b132b;
+    font-size: 1.35rem;
+    line-height: 1.25;
+}
+
+.sp-qv-price {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.55rem;
+    margin: 0.75rem 0 0;
+    color: #0b132b;
+}
+
+.sp-qv-price strong { font-size: 1.35rem; }
+.sp-qv-price s { color: #98a0ae; font-size: 0.9rem; }
+
+.sp-qv-stock {
+    color: #047857;
+    background: #ecfdf5;
+    border-radius: 999px;
+    padding: 0.15rem 0.5rem;
+    font-size: 0.72rem;
+    font-weight: 800;
+}
+
+.sp-qv-stock--out { color: #92400e; background: #fffbeb; }
+
+.sp-qv-desc {
+    margin: 0.75rem 0 0;
+    color: #4b5563;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.sp-qv-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.55rem;
+    margin-top: 1.1rem;
 }
 
 .lv2-product h3 {

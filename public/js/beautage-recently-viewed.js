@@ -49,6 +49,7 @@
             oldPrice: product.oldPrice != null ? Number(product.oldPrice) : null,
             image: product.image || product.hoverImage || '',
             category: product.category || '',
+            short: product.short || product.short_description || '',
             inStock: product.inStock !== false && product.in_stock !== false,
             viewedAt: Date.now(),
         };
@@ -103,7 +104,6 @@
             return;
         }
 
-        const { escapeHtml, escapeAttr, PLACEHOLDER_PRODUCT } = dom();
         const excludeId = sectionEl.dataset.excludeId ? Number(sectionEl.dataset.excludeId) : null;
         const limit = sectionEl.dataset.limit ? Number(sectionEl.dataset.limit) : 8;
         const items = list({ excludeId, limit });
@@ -116,37 +116,7 @@
 
         sectionEl.classList.remove('hidden');
 
-        grid.innerHTML = items.map((item) => {
-            const name = escapeHtml(item.name);
-            const href = escapeAttr(productUrl(item));
-            const img = escapeAttr(item.image || PLACEHOLDER_PRODUCT);
-            const stockBadge = item.inStock
-                ? '<span class="text-[9px] font-bold text-emerald-600">In stock</span>'
-                : '<span class="text-[9px] font-bold text-amber-600">Out of stock</span>';
-
-            const price = Number(item.price || 0);
-            const oldPrice = Number(item.oldPrice || 0);
-            const save = oldPrice > price && oldPrice > 0 ? Math.round((1 - price / oldPrice) * 100) : 0;
-            const inStock = item.inStock !== false && item.inStock !== 0 && item.inStock !== '0';
-
-            return `
-                <article class="lv2-product">
-                    <a href="${href}" class="lv2-product-media">
-                        <img src="${img}" alt="${name}" width="480" height="480" loading="lazy" decoding="async">
-                        ${save ? `<span class="lv2-save">SAVE ${save}%</span>` : ''}
-                    </a>
-                    <div>
-                        <h3><a href="${href}">${name}</a></h3>
-                        <p class="lv2-price-row">
-                            <span class="lv2-price">${formatMoney(price)}</span>
-                            ${oldPrice > price ? `<span class="lv2-old">${formatMoney(oldPrice)}</span>` : ''}
-                        </p>
-                        ${stockBadge}
-                    </div>
-                    <button type="button" data-recently-add="${Number(item.id)}" class="lv2-btn-navy" style="margin-top:0.8rem" ${inStock ? '' : 'disabled'}>${inStock ? 'Add to cart' : 'Out of stock'}</button>
-                </article>
-            `;
-        }).join('');
+        grid.innerHTML = items.map((item) => window.ShopProductCard.html(item)).join('');
 
         if (typeof lucide !== 'undefined') {
             lucide.createIcons();

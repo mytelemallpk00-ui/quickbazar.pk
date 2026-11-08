@@ -1,0 +1,256 @@
+.beautage-auth-layout {
+    min-height: 100vh;
+    background: #0b132b;
+}
+
+.sp-login {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: minmax(280px, 0.9fr) minmax(340px, 1.1fr);
+    color: #0b132b;
+    font-family: inherit;
+}
+
+.sp-login-brand {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 2.5rem;
+    padding: 3rem 3.25rem;
+    color: #f8f5ea;
+    background:
+        radial-gradient(circle at 12% 18%, rgba(212, 175, 55, 0.22), transparent 32%),
+        linear-gradient(165deg, #121a36 0%, #0b132b 58%, #080e20 100%);
+    overflow: hidden;
+}
+
+.sp-login-brand::after {
+    content: "";
+    position: absolute;
+    right: -4rem;
+    bottom: -4rem;
+    width: 16rem;
+    height: 16rem;
+    border: 1px solid rgba(212, 175, 55, 0.28);
+    border-radius: 50%;
+}
+
+.sp-login-mark {
+    display: inline-block;
+    color: #fff;
+    font-size: 1.35rem;
+    font-weight: 650;
+    letter-spacing: -0.03em;
+    text-decoration: none;
+}
+
+.sp-login-mark span {
+    color: #d4af37;
+}
+
+.sp-login-eyebrow {
+    margin: 3.5rem 0 0.75rem;
+    color: #d4af37;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+}
+
+.sp-login-brand h1 {
+    max-width: 12ch;
+    margin: 0;
+    color: #fff;
+    font-size: clamp(2.4rem, 4vw, 3.6rem);
+    font-weight: 650;
+    letter-spacing: -0.045em;
+    line-height: 0.98;
+}
+
+.sp-login-brand-copy {
+    max-width: 28rem;
+    margin: 1.1rem 0 0;
+    color: rgba(248, 245, 234, 0.78);
+    font-size: 1.05rem;
+    line-height: 1.55;
+}
+
+.sp-login-points {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: 0.75rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.sp-login-points li {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: rgba(248, 245, 234, 0.92);
+    font-size: 0.95rem;
+}
+
+.sp-login-points li::before {
+    content: "";
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+    background: #d4af37;
+    box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.16);
+}
+
+.sp-login-back {
+    position: relative;
+    z-index: 1;
+    width: fit-content;
+    color: #d4af37;
+    font-size: 0.92rem;
+    font-weight: 650;
+    text-decoration: none;
+}
+
+.sp-login-back:hover {
+    color: #fff;
+}
+
+.sp-login-panel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2.5rem 1.5rem;
+    background: #f7f4ee;
+}
+
+.sp-login-card {
+    width: min(100%, 26.5rem);
+}
+
+.sp-login-kicker {
+    margin: 0 0 0.55rem;
+    color: #8a7340;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+}
+
+.sp-login-title {
+    margin: 0;
+    color: #0b132b;
+    font-size: 2rem;
+    font-weight: 680;
+    letter-spacing: -0.04em;
+}
+
+.sp-login-lead {
+    margin: 0.65rem 0 1.75rem;
+    color: #5c6578;
+    font-size: 0.98rem;
+    line-height: 1.5;
+}
+
+.sp-login-form {
+    display: grid;
+    gap: 0.15rem;
+}
+
+.sp-login .fi-fo-field-wrp {
+    margin-bottom: 0.85rem;
+}
+
+.sp-login .fi-fo-field-wrp-label span,
+.sp-login label {
+    color: #0b132b !important;
+    font-size: 0.82rem !important;
+    font-weight: 650 !important;
+}
+
+.sp-login .fi-input-wrp {
+    border-radius: 0.9rem !important;
+    background: #fff !important;
+    border-color: #e4dece !important;
+    box-shadow: none !important;
+}
+
+.sp-login .fi-input-wrp:focus-within {
+    border-color: #d4af37 !important;
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.28) !important;
+}
+
+.sp-login .fi-input {
+    color: #0b132b !important;
+    min-height: 2.85rem;
+}
+
+.sp-login .fi-input::placeholder {
+    color: #98a0ae;
+}
+
+.sp-login .fi-btn,
+.sp-login button[type="submit"] {
+    width: 100%;
+    min-height: 3rem;
+    margin-top: 0.45rem;
+    border: 0 !important;
+    border-radius: 999px !important;
+    background: #0b132b !important;
+    color: #fff !important;
+    font-weight: 680 !important;
+    letter-spacing: 0.01em;
+    box-shadow: none !important;
+}
+
+.sp-login .fi-btn:hover,
+.sp-login button[type="submit"]:hover {
+    background: #d4af37 !important;
+    color: #0b132b !important;
+}
+
+.sp-login .fi-icon,
+.sp-login svg {
+    width: 1.15rem;
+    height: 1.15rem;
+}
+
+.sp-login-note {
+    margin: 1.25rem 0 0;
+    color: #7b8494;
+    font-size: 0.78rem;
+    line-height: 1.45;
+}
+
+@media (max-width: 860px) {
+    .sp-login {
+        grid-template-columns: 1fr;
+    }
+
+    .sp-login-brand {
+        gap: 1.25rem;
+        padding: 1.75rem 1.35rem 1.5rem;
+    }
+
+    .sp-login-eyebrow,
+    .sp-login-points,
+    .sp-login-brand::after {
+        display: none;
+    }
+
+    .sp-login-brand h1 {
+        max-width: none;
+        margin-top: 1.25rem;
+        font-size: 2rem;
+    }
+
+    .sp-login-brand-copy {
+        margin-top: 0.65rem;
+        font-size: 0.95rem;
+    }
+
+    .sp-login-panel {
+        padding: 1.75rem 1.15rem 2.5rem;
+    }
+}
