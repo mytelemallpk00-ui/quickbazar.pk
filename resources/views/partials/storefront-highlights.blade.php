@@ -9,7 +9,7 @@
 <section class="qb-highlights px-4 py-8 sm:px-6 lg:px-8" aria-labelledby="store-highlights-title">
     <div class="grid w-full gap-8 lg:grid-cols-12 lg:items-start">
         <div class="lg:col-span-5">
-            <p class="qb-eyebrow">Quick Bazar</p>
+            <p class="qb-eyebrow">Shop Pakistan</p>
             <h2 id="store-highlights-title" class="mt-1 text-2xl font-extrabold text-slate-900">Shop with confidence</h2>
             <ol class="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3 lg:grid-cols-1">
                 <li class="flex items-start gap-3">

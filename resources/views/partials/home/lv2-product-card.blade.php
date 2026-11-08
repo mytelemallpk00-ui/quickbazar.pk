@@ -2,13 +2,13 @@
     $card = $product ?? [];
     $name = (string) ($card['name'] ?? 'Product');
     $url = (string) ($card['url'] ?? route('collections'));
-    $image = $card['image'] ?: ($placeholder ?? 'https://placehold.co/640x640/0B132B/D4AF37?text=Beautage');
+    $image = $card['image'] ?: ($placeholder ?? 'https://placehold.co/640x640/0B132B/D4AF37?text=Shop+Pakistan');
     $rating = max(0, min(5, (float) ($card['rating'] ?? 0)));
     $full = (int) round($rating);
 @endphp
 <article class="lv2-product">
     <a href="{{ $url }}" class="lv2-product-media">
-        <img src="{{ $image }}" alt="{{ $name }}" width="480" height="480" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://placehold.co/640x640/0B132B/D4AF37?text=Beautage';">
+        <img src="{{ $image }}" alt="{{ $name }}" width="480" height="480" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://placehold.co/640x640/0B132B/D4AF37?text=Shop+Pakistan';">
         @if (! empty($card['discount_percent']))
             <span class="lv2-save">SAVE {{ (int) $card['discount_percent'] }}%</span>
         @endif

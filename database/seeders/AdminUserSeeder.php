@@ -13,7 +13,7 @@ class AdminUserSeeder extends Seeder
         User::query()->updateOrCreate(
             ['email' => 'admin@beautage.com.pk'],
             [
-                'name' => 'Quick Bazar Admin',
+                'name' => 'Shop Pakistan Admin',
                 'password' => Hash::make('Qb#Admin2026'),
                 'is_admin' => true,
                 'is_super_admin' => true,

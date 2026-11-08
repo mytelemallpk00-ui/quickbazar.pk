@@ -19,8 +19,8 @@ class BlogController extends Controller
             'featuredPost' => $posts->firstWhere('is_featured', true) ?? $posts->first(),
             'blogCategories' => $posts->pluck('category')->filter()->unique()->values(),
             'pageSeo' => [
-                'title' => 'Journal — Quick Bazar',
-                'description' => 'Guides on skincare, hair, fragrance, and delivery from the Quick Bazar journal.',
+                'title' => 'Journal — Shop Pakistan',
+                'description' => 'Guides on skincare, hair, fragrance, and delivery from the Shop Pakistan journal.',
                 'canonical' => route('blog.index'),
                 'robots' => 'index,follow',
                 'og_type' => 'website',

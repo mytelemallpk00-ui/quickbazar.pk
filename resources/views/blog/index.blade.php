@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', ($pageSeo['title'] ?? null) ?: 'Journal — Quick Bazar')
+@section('title', ($pageSeo['title'] ?? null) ?: 'Journal — Shop Pakistan')
 
 @section('body_attrs')
 class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-beautage-pink selection:text-white pb-36 md:pb-0 overflow-x-hidden"
@@ -23,7 +23,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
                 <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-beautage-pink/20 rounded-full blur-3xl pointer-events-none"></div>
                 <div class="max-w-2xl relative z-10 space-y-3 text-center md:text-left">
                     <span class="inline-block px-3.5 py-1 rounded-full text-[10px] uppercase font-extrabold tracking-widest bg-pink-500/30 text-pink-200 border border-pink-400/40">
-                        QUICK BAZAR JOURNAL
+                        SHOP PAKISTAN JOURNAL
                     </span>
                     <h1 class="text-2xl sm:text-4xl lg:text-5xl font-serif font-bold text-white tracking-tight">Guides for everyday shopping</h1>
                     <p class="text-xs sm:text-sm text-purple-100 leading-relaxed">

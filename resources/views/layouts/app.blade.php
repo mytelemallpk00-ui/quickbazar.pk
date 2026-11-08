@@ -32,7 +32,7 @@
         $supportPhoneTel = preg_replace('/[^\d+]/', '', (string) $supportPhone) ?: '+18008886678';
         $footerSettings = \App\Support\FooterSettings::forStorefront();
     @endphp
-    <title>@yield('title', \App\Support\SiteSettings::get('default_meta_title', 'Quick Bazar'))</title>
+    <title>@yield('title', \App\Support\SiteSettings::get('default_meta_title', 'Shop Pakistan'))</title>
     @stack('structured-data')
     @include('partials.seo-head', ['seo' => $pageSeo ?? null])
     @include('partials.site-analytics-head')
@@ -106,7 +106,7 @@
                         <i data-lucide="shopping-bag" class="h-5 w-5"></i>
                     </span>
                     <span class="min-w-0">
-                        <span class="qb-wordmark block text-lg sm:text-xl">QuickBazar<span>.pk</span></span>
+                        <span class="qb-wordmark block text-lg sm:text-xl">Shop <span>Pakistan</span></span>
                         <span class="qb-kicker hidden sm:block">Express shopping</span>
                     </span>
                 </a>
@@ -190,7 +190,7 @@
     <div id="mobile-nav-drawer" class="fixed left-0 top-0 z-50 flex h-full w-[min(100%,20rem)] -translate-x-full flex-col justify-between border-r border-slate-200 bg-white p-5 shadow-2xl transition-transform duration-300 ease-in-out lg:hidden">
         <div class="min-h-0 overflow-y-auto">
             <div class="flex items-center justify-between border-b border-slate-200 pb-4">
-                <img src="{{ $siteLogoUrl }}" alt="QuickBazar" class="h-9 w-auto" onerror="this.onerror=null; this.src='https://placehold.co/120x40/047857/FFFFFF?text=QuickBazar';">
+                <img src="{{ $siteLogoUrl }}" alt="Shop Pakistan" class="h-9 w-auto" onerror="this.onerror=null; this.src='https://placehold.co/120x40/047857/FFFFFF?text=Shop+Pakistan';">
                 <button type="button" onclick="toggleMobileNav()" class="flex h-11 w-11 items-center justify-center rounded-full text-slate-500 hover:bg-slate-100 hover:text-slate-800" aria-label="Close menu">
                     <i data-lucide="x" class="h-5 w-5" aria-hidden="true"></i>
                 </button>
@@ -297,7 +297,7 @@
 <script src="{{ asset('js/beautage-money.js') }}?v=2026102917" defer></script>
 <script src="{{ asset('js/beautage-dom.js') }}?v=2026102917" defer></script>
 <script src="{{ asset('js/beautage-cart.js') }}?v=2026102917" defer></script>
-<script src="{{ asset('js/beautage-recently-viewed.js') }}?v=2026102917" defer></script>
+<script src="{{ asset('js/beautage-recently-viewed.js') }}?v=2026110820" defer></script>
 <script src="{{ asset('js/beautage-header-nav.js') }}?v=2026110804" defer></script>
 <script src="{{ asset('js/beautage-chrome.js') }}?v=2026110804" defer></script>
 @php

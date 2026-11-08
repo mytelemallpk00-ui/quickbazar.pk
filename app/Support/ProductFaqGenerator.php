@@ -75,9 +75,9 @@ class ProductFaqGenerator
 
     private static function storeName(): string
     {
-        $name = trim((string) SiteSettings::get('site_name', 'Quick Bazar'));
+        $name = trim((string) SiteSettings::get('site_name', 'Shop Pakistan'));
         if ($name === '' || str_contains(strtolower($name), 'beautage')) {
-            return 'Quick Bazar';
+            return 'Shop Pakistan';
         }
 
         return $name;

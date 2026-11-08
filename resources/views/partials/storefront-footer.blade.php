@@ -69,7 +69,7 @@
                     <i data-lucide="shopping-bag" class="h-5 w-5"></i>
                 </span>
                 <span>
-                    <span class="qb-wordmark block text-xl">QuickBazar<span>.pk</span></span>
+                    <span class="qb-wordmark block text-xl">Shop <span>Pakistan</span></span>
                     <span class="qb-kicker">Express shopping</span>
                 </span>
             </a>
@@ -99,7 +99,7 @@
                     @endif
                     @php $socialHref = FooterSettings::resolveHref($social['href']); @endphp
                     @if ($socialHref)
-                    <a href="{{ $socialHref }}" target="_blank" rel="noopener noreferrer" class="qb-footer-social" aria-label="Quick Bazar on {{ $social['platform'] ?? 'social' }}">
+                    <a href="{{ $socialHref }}" target="_blank" rel="noopener noreferrer" class="qb-footer-social" aria-label="Shop Pakistan on {{ $social['platform'] ?? 'social' }}">
                         <i data-lucide="{{ $social['icon'] ?? 'link' }}" class="h-4 w-4"></i>
                     </a>
                     @endif
@@ -167,7 +167,7 @@
 
     <div class="qb-footer-bar">
         <div class="flex w-full flex-col items-start justify-between gap-3 px-4 py-4 sm:flex-row sm:items-center sm:px-6 lg:px-8">
-            <p>© {{ date('Y') }} Quick Bazar. All rights reserved.</p>
+            <p>© {{ date('Y') }} Shop Pakistan. All rights reserved.</p>
             <nav class="flex flex-wrap gap-x-4 gap-y-2" aria-label="Footer policies">
                 <a href="{{ route('help') }}">Privacy policy</a>
                 <a href="{{ route('help') }}">Terms of use</a>

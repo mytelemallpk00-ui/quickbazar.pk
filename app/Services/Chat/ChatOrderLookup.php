@@ -67,7 +67,7 @@ class ChatOrderLookup
         $fulfillKey = (string) $order->fulfillment_status;
 
         $lines = [
-            'QuickBazar.pk order (database):',
+            'Shop Pakistan order (database):',
             '',
             'Order #: '.($order->order_number ?? '—'),
             'Placed: '.($order->created_at?->timezone($tz)->format('d M Y, h:i A') ?? '—'),
@@ -129,7 +129,7 @@ class ChatOrderLookup
         }
 
         $lines[] = '';
-        $lines[] = 'Source: QuickBazar.pk orders database (updated when your order is processed).';
+        $lines[] = 'Source: Shop Pakistan orders database (updated when your order is processed).';
 
         return implode("\n", $lines);
     }

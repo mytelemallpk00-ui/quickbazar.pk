@@ -1,5 +1,12 @@
 /* Product detail — brand contrast + stable layout (CWV-friendly) */
 
+body.lumiere-v2 main {
+    width: 80%;
+    max-width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .pdp-text-muted {
     color: var(--beautage-muted, #475569);
 }
@@ -20,6 +27,63 @@
 
 #pdp-gallery-pin {
     align-items: flex-start;
+}
+
+@media (max-width: 639px) {
+    body.lumiere-v2 main {
+        width: 100%;
+        max-width: 100%;
+    }
+}
+
+body.lumiere-v2 .text-beautage-purple,
+body.lumiere-v2 .hover\:text-beautage-purple:hover {
+    color: #0b132b;
+}
+
+body.lumiere-v2 .text-beautage-pink {
+    color: #b45309;
+}
+
+body.lumiere-v2 .bg-beautage-purple,
+body.lumiere-v2 .bg-beautage-pink,
+body.lumiere-v2 .hover\:bg-beautage-purpleDark:hover,
+body.lumiere-v2 .hover\:bg-beautage-pinkHover:hover {
+    background-color: #0b132b;
+    color: #fff;
+}
+
+body.lumiere-v2 .bg-beautage-purple:hover,
+body.lumiere-v2 .bg-beautage-pink:hover {
+    background-color: #1c2541;
+}
+
+body.lumiere-v2 .border-beautage-purple,
+body.lumiere-v2 .thumb-btn.border-beautage-purple {
+    border-color: #d4af37;
+}
+
+body.lumiere-v2 .bg-purple-50,
+body.lumiere-v2 .bg-purple-50\/30,
+body.lumiere-v2 .bg-purple-50\/50,
+body.lumiere-v2 .bg-purple-50\/70,
+body.lumiere-v2 .bg-purple-50\/80,
+body.lumiere-v2 .from-purple-50 {
+    background-color: #f8f5ea;
+}
+
+body.lumiere-v2 .border-purple-100,
+body.lumiere-v2 .border-purple-200,
+body.lumiere-v2 .divide-purple-100 > :not([hidden]) ~ :not([hidden]) {
+    border-color: #e5e7eb;
+}
+
+body.lumiere-v2 #tab-btn-desc[aria-selected="true"],
+body.lumiere-v2 #tab-btn-specs[aria-selected="true"],
+body.lumiere-v2 #tab-btn-routine[aria-selected="true"],
+body.lumiere-v2 #tab-btn-reviews[aria-selected="true"] {
+    color: #0b132b;
+    border-color: #d4af37;
 }
 
 @media (prefers-reduced-motion: reduce) {

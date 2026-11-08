@@ -28,10 +28,10 @@ class StorefrontDemoSeeder extends Seeder
 
     private function brandSettings(): void
     {
-        SiteSettings::set('site_name', 'Quick Bazar', 'site');
+        SiteSettings::set('site_name', 'Shop Pakistan', 'site');
         SiteSettings::set('site_tagline', 'Verified products, delivered across Pakistan', 'site');
-        SiteSettings::set('default_meta_title', 'Quick Bazar — Shop verified products across Pakistan', 'seo');
-        SiteSettings::set('default_meta_description', 'Shop original products on Quick Bazar with PKR prices, cash on delivery, nationwide shipping, and verified customer reviews.', 'seo');
+        SiteSettings::set('default_meta_title', 'Shop Pakistan — Shop verified products across Pakistan', 'seo');
+        SiteSettings::set('default_meta_description', 'Shop original products on Shop Pakistan with PKR prices, cash on delivery, nationwide shipping, and verified customer reviews.', 'seo');
         SiteSettings::set('default_robots', 'index,follow', 'seo');
 
         $footer = SiteSettings::get('footer_settings', []);
@@ -42,7 +42,7 @@ class StorefrontDemoSeeder extends Seeder
                 }
                 $value = str_replace(
                     ['Beautage PVT Ltd.', 'Beautage', 'BEAUTAGE'],
-                    ['Quick Bazar', 'Quick Bazar', 'QUICK BAZAR'],
+                    ['Shop Pakistan', 'Shop Pakistan', 'SHOP PAKISTAN'],
                     $value,
                 );
             });
@@ -53,17 +53,17 @@ class StorefrontDemoSeeder extends Seeder
     private function categorySeo(): void
     {
         $copy = [
-            'Skincare' => 'Shop serums, creams, and daily skincare on Quick Bazar with cash on delivery across Pakistan.',
-            'Beauty Tech' => 'Shop LED masks and at-home beauty devices on Quick Bazar, with PKR prices and nationwide delivery.',
-            'Hair Care' => 'Shop shampoos, oils, and scalp care on Quick Bazar. Original products, clear prices, cash on delivery.',
-            'Fragrance' => 'Shop everyday and evening fragrances on Quick Bazar. Compare prices and read verified reviews.',
-            'Wellness & Spa' => 'Shop spa tools and wellness essentials on Quick Bazar, delivered across Pakistan.',
+            'Skincare' => 'Shop serums, creams, and daily skincare on Shop Pakistan with cash on delivery across Pakistan.',
+            'Beauty Tech' => 'Shop LED masks and at-home beauty devices on Shop Pakistan, with PKR prices and nationwide delivery.',
+            'Hair Care' => 'Shop shampoos, oils, and scalp care on Shop Pakistan. Original products, clear prices, cash on delivery.',
+            'Fragrance' => 'Shop everyday and evening fragrances on Shop Pakistan. Compare prices and read verified reviews.',
+            'Wellness & Spa' => 'Shop spa tools and wellness essentials on Shop Pakistan, delivered across Pakistan.',
         ];
 
         foreach ($copy as $name => $description) {
             Category::query()->where('name', $name)->update([
                 'description' => $description,
-                'meta_title' => $name.' — Quick Bazar',
+                'meta_title' => $name.' — Shop Pakistan',
                 'meta_description' => $description,
                 'seo_focus_keyword' => Str::lower($name).' Pakistan',
                 'robots' => 'index,follow',
@@ -107,10 +107,10 @@ class StorefrontDemoSeeder extends Seeder
                 'routine_body' => $row['routine'],
                 'promo_label' => $row['discount'],
                 'units_left' => $row['units'],
-                'meta_title' => $row['name'].' | Quick Bazar',
+                'meta_title' => $row['name'].' | Shop Pakistan',
                 'meta_description' => $meta,
-                'meta_keywords' => $row['keyword'].', Quick Bazar, Pakistan, cash on delivery',
-                'og_title' => $row['name'].' | Quick Bazar',
+                'meta_keywords' => $row['keyword'].', Shop Pakistan, Pakistan, cash on delivery',
+                'og_title' => $row['name'].' | Shop Pakistan',
                 'og_description' => $meta,
                 'og_image' => $row['image'],
                 'seo_focus_keyword' => $row['keyword'],
@@ -159,9 +159,9 @@ class StorefrontDemoSeeder extends Seeder
                 'snippet' => $row['snippet'],
                 'content' => $row['content'],
                 'is_featured' => $row['featured'],
-                'meta_title' => $row['title'].' | Quick Bazar Journal',
+                'meta_title' => $row['title'].' | Shop Pakistan Journal',
                 'meta_description' => $meta,
-                'meta_keywords' => $row['category'].', Quick Bazar, Pakistan',
+                'meta_keywords' => $row['category'].', Shop Pakistan, Pakistan',
                 'og_title' => $row['title'],
                 'og_description' => $meta,
                 'og_image' => $row['image'],
@@ -339,7 +339,7 @@ class StorefrontDemoSeeder extends Seeder
     private function posts(): array
     {
         $img = fn (string $id): string => 'https://images.unsplash.com/'.$id.'?auto=format&fit=crop&q=80&w=1200';
-        $body = fn (string $lead, string $middle): string => '<p>'.$lead.'</p><p>'.$middle.'</p><p>Prices and stock on Quick Bazar can change. Check the product page before you checkout, and use cash on delivery where it is offered.</p>';
+        $body = fn (string $lead, string $middle): string => '<p>'.$lead.'</p><p>'.$middle.'</p><p>Prices and stock on Shop Pakistan can change. Check the product page before you checkout, and use cash on delivery where it is offered.</p>';
 
         return [
             [
@@ -429,7 +429,7 @@ class StorefrontDemoSeeder extends Seeder
                 'read' => '3 min read',
                 'date' => '2026-08-22',
                 'image' => $img('photo-1556228578-0d85b1a4d571'),
-                'author' => 'Quick Bazar Desk',
+                'author' => 'Shop Pakistan Desk',
                 'role' => 'Store guide',
                 'avatar' => 'QB',
                 'likes' => 96,

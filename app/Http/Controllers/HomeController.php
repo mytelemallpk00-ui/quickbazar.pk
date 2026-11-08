@@ -55,7 +55,7 @@ class HomeController extends Controller
                 'description' => filled($hero['description'] ?? null)
                     ? (string) $hero['description']
                     : 'Original catalog, clear PKR pricing, and support on WhatsApp when you need it.',
-                'image' => HomepageContent::imageUrl($hero['image_url'] ?? null, 'QuickBazar'),
+                'image' => HomepageContent::imageUrl($hero['image_url'] ?? null, 'Shop Pakistan'),
                 'image_alt' => filled($hero['image_alt'] ?? null) ? (string) $hero['image_alt'] : 'Featured product',
             ],
             'promoProduct' => $promoProduct ? $this->presentProduct($promoProduct) : null,
@@ -99,7 +99,7 @@ class HomeController extends Controller
                 'flash' => filter_var(data_get($homepage, 'layout.flash', true), FILTER_VALIDATE_BOOLEAN),
             ],
             'pageSeo' => $this->homeSeo(),
-            'whatsappUrl' => LiveChatSettings::whatsappUrl('Hi, I need help with an order on QuickBazar.'),
+            'whatsappUrl' => LiveChatSettings::whatsappUrl('Hi, I need help with an order on Shop Pakistan.'),
             'alpineAlreadyLoaded' => LiveChatSettings::isEnabled(),
         ]);
     }

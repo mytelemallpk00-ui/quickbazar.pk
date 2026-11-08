@@ -15,7 +15,7 @@
         : ($yieldedDescription !== '' ? $yieldedDescription : SiteSettings::get('default_meta_description', ''));
 
     if (blank($description)) {
-        $description = 'Shop original products on Quick Bazar with PKR prices, cash on delivery, nationwide shipping, and verified customer reviews.';
+        $description = 'Shop original products on Shop Pakistan with PKR prices, cash on delivery, nationwide shipping, and verified customer reviews.';
     }
 
     $description = Str::limit(strip_tags($description), 160, '');
@@ -42,7 +42,7 @@
 <meta name="robots" content="{{ e($robots) }}">
 <link rel="canonical" href="{{ e($canonical) }}">
 <meta property="og:type" content="{{ e($seo['og_type'] ?? 'website') }}">
-<meta property="og:site_name" content="{{ e(SiteSettings::get('site_name', 'Quick Bazar')) }}">
+<meta property="og:site_name" content="{{ e(SiteSettings::get('site_name', 'Shop Pakistan')) }}">
 <meta property="og:title" content="{{ e($ogTitle) }}">
 <meta property="og:description" content="{{ e($ogDescription) }}">
 <meta property="og:url" content="{{ e($canonical) }}">

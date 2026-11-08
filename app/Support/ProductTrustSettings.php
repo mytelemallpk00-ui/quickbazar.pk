@@ -41,7 +41,7 @@ class ProductTrustSettings
             'quality_section' => [
                 'badge' => 'QUALITY PROMISE',
                 'heading' => 'Our Quality Promise',
-                'intro' => 'We stand behind every Quick Bazar order with clear standards and responsive support.',
+                'intro' => 'We stand behind every Shop Pakistan order with clear standards and responsive support.',
                 'items' => [
                     [
                         'icon' => 'gem',

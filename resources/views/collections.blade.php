@@ -363,11 +363,11 @@ window.CATALOG_PAGE = {
                 const full = Math.max(0, Math.min(5, Math.round(Number(p.rating) || 0)));
                 const stars = '★'.repeat(full) + '☆'.repeat(5 - full);
                 const inStock = p.inStock !== false && p.inStock !== 0 && p.inStock !== '0';
-                const image = p.image || 'https://placehold.co/640x640/0B132B/D4AF37?text=Quick+Bazar';
+                const image = p.image || 'https://placehold.co/640x640/0B132B/D4AF37?text=Shop+Pakistan';
                 return `
                     <article class="lv2-product">
                         <a href="/products/${p.slug}" class="lv2-product-media">
-                            <img src="${image}" alt="${p.name}" width="480" height="480" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/640x640/0B132B/D4AF37?text=Quick+Bazar';">
+                            <img src="${image}" alt="${p.name}" width="480" height="480" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/640x640/0B132B/D4AF37?text=Shop+Pakistan';">
                             ${save ? `<span class="lv2-save">SAVE ${save}%</span>` : ''}
                         </a>
                         <div>

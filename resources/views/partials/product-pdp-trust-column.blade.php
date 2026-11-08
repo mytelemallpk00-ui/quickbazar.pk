@@ -18,7 +18,7 @@
                     @endif
                     <h2 class="mt-1 text-base font-bold text-slate-900">{{ $section['heading'] ?? '' }}</h2>
                     @if (filled($section['intro'] ?? null))
-                    <p class="mt-1 text-xs leading-relaxed text-slate-500">{{ str_ireplace('Beautage', 'Quick Bazar', (string) $section['intro']) }}</p>
+                    <p class="mt-1 text-xs leading-relaxed text-slate-500">{{ str_ireplace('Beautage', 'Shop Pakistan', (string) $section['intro']) }}</p>
                     @endif
                 </div>
                 <ul class="divide-y divide-slate-100">

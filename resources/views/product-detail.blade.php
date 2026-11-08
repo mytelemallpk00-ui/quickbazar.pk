@@ -16,7 +16,7 @@ class="lumiere-v2 bg-gray-50 text-gray-800 font-sans antialiased min-h-screen fl
 @endpush
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/pdp.css') }}?v=2026110817">
+    <link rel="stylesheet" href="{{ asset('css/pdp.css') }}?v=2026110819">
 @endpush
 
 @push('structured-data')
@@ -239,13 +239,13 @@ class="lumiere-v2 bg-gray-50 text-gray-800 font-sans antialiased min-h-screen fl
 
         @include('partials.product-pdp-trust-column')
 
-        @include('partials.product-bundle-section', ['bundlePayload' => $bundlePayload ?? null])
-
         @include('partials.recently-viewed-section', [
             'recentlyVariant' => 'pdp',
             'excludeProductId' => $product->id,
             'recentlyLimit' => 5,
         ])
+
+        @include('partials.product-bundle-section', ['bundlePayload' => $bundlePayload ?? null])
 
         <!-- COMPREHENSIVE TABS / ACCORDIONS FOR PRODUCT DETAILS -->
         <section class="w-full px-4 sm:px-6 lg:px-8 py-8" aria-labelledby="pdp-details-heading">
@@ -305,10 +305,10 @@ class="lumiere-v2 bg-gray-50 text-gray-800 font-sans antialiased min-h-screen fl
                         <div class="space-y-3">
                             @foreach ($productFaqs as $faqIndex => $faq)
                             @php
-                                $faqQuestion = str_ireplace('Beautage', 'Quick Bazar', (string) ($faq['question'] ?? ''));
+                                $faqQuestion = str_ireplace('Beautage', 'Shop Pakistan', (string) ($faq['question'] ?? ''));
                                 $faqAnswer = str_ireplace(
                                     ['Beautage', 'Rs 7,500', 'Rs. 7,500'],
-                                    ['Quick Bazar', MoneyFormat::pkr($freeShipAt), MoneyFormat::pkr($freeShipAt)],
+                                    ['Shop Pakistan', MoneyFormat::pkr($freeShipAt), MoneyFormat::pkr($freeShipAt)],
                                     (string) ($faq['answer'] ?? '')
                                 );
                             @endphp
@@ -1146,24 +1146,31 @@ class="lumiere-v2 bg-gray-50 text-gray-800 font-sans antialiased min-h-screen fl
             }
             container.innerHTML = items.map(p => {
                 const productUrl = p.slug ? `/products/${p.slug}` : '/collections';
-                const safeName = (p.name || '').replace(/'/g, "\\'");
-                const safeAlt = (p.name || 'Product').replace(/"/g, '&quot;');
+                const price = Number(p.price || 0);
+                const oldPrice = Number(p.oldPrice || 0);
+                const save = oldPrice > price && oldPrice > 0 ? Math.round((1 - price / oldPrice) * 100) : 0;
+                const full = Math.max(0, Math.min(5, Math.round(Number(p.rating) || 0)));
+                const stars = '★'.repeat(full) + '☆'.repeat(5 - full);
+                const inStock = p.inStock !== false && p.inStock !== 0 && p.inStock !== '0';
+                const image = p.image || 'https://placehold.co/640x640/0B132B/D4AF37?text=Shop+Pakistan';
+                const safeAlt = String(p.name || 'Product').replace(/"/g, '&quot;');
                 return `
-                <div class="bg-white rounded-2xl p-3 sm:p-4 border border-purple-100 hover:border-beautage-pink transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-y-1 flex flex-col justify-between group">
-                    <a href="${productUrl}" class="relative rounded-xl overflow-hidden bg-purple-50 mb-3 aspect-square block">
-                        <img src="${p.image}" alt="${safeAlt}" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0">
-                        <img src="${p.hoverImage || p.image}" alt="${safeAlt}" class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500 group-hover:opacity-100 group-hover:scale-105">
-                        <span class="absolute top-2 left-2 bg-beautage-purple text-white text-[9px] font-extrabold px-2 py-0.5 rounded-full uppercase">${p.badge || 'Flagship'}</span>
+                <article class="lv2-product">
+                    <a href="${productUrl}" class="lv2-product-media">
+                        <img src="${image}" alt="${safeAlt}" width="480" height="480" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/640x640/0B132B/D4AF37?text=Shop+Pakistan';">
+                        ${save ? `<span class="lv2-save">SAVE ${save}%</span>` : ''}
                     </a>
                     <div>
-                        <span class="text-[9px] uppercase font-bold text-beautage-pink tracking-widest">${p.category}</span>
-                        <h3 class="text-xs sm:text-sm font-bold text-beautage-purple mt-1 line-clamp-2 min-h-[2.5rem]"><a href="${productUrl}" class="hover:text-beautage-pink transition">${p.name}</a></h3>
+                        ${p.category ? `<p class="lv2-muted">${p.category}</p>` : ''}
+                        <h3><a href="${productUrl}">${p.name || 'Product'}</a></h3>
+                        ${Number(p.reviews) > 0 ? `<p class="lv2-stars">${stars} <span class="lv2-muted">(${p.reviews})</span></p>` : ''}
+                        <p class="lv2-price-row">
+                            <span class="lv2-price">${BeautageMoney.formatDecimal(price)}</span>
+                            ${oldPrice > price ? `<span class="lv2-old">${BeautageMoney.formatDecimal(oldPrice)}</span>` : ''}
+                        </p>
                     </div>
-                    <div class="mt-3 pt-3 border-t border-purple-50 flex items-center justify-between gap-2">
-                        <span class="text-sm font-black text-slate-800">${BeautageMoney.formatDecimal(p.price)}</span>
-                        <button type="button" onclick="addToCartDirect({id: ${p.id}, name: '${safeName}', price: ${p.price}, image: '${p.image}', qty: 1}); showToast('Added to bag');" class="px-3 py-2 rounded-xl bg-beautage-pink hover:bg-beautage-pinkHover text-white text-[11px] font-bold transition shadow-sm shrink-0">Add</button>
-                    </div>
-                </div>
+                    <button type="button" class="lv2-btn-navy" style="margin-top:0.8rem" onclick="addToCart(${p.id})" ${inStock ? '' : 'disabled'}>${inStock ? 'Add to cart' : 'Out of stock'}</button>
+                </article>
             `;
             }).join('');
             lucide.createIcons();

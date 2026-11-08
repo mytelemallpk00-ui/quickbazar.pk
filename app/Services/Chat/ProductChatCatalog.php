@@ -404,7 +404,7 @@ class ProductChatCatalog
     {
         $text = trim((string) ($product->short_description ?: $product->description ?: $product->detail_body));
         if ($text === '') {
-            return 'Premium QuickBazar.pk product — full ingredients aur usage product page par hain.';
+            return 'Premium Shop Pakistan product — full ingredients aur usage product page par hain.';
         }
 
         return Str::limit(strip_tags($text), 320);

@@ -124,23 +124,26 @@
                 ? '<span class="text-[9px] font-bold text-emerald-600">In stock</span>'
                 : '<span class="text-[9px] font-bold text-amber-600">Out of stock</span>';
 
+            const price = Number(item.price || 0);
+            const oldPrice = Number(item.oldPrice || 0);
+            const save = oldPrice > price && oldPrice > 0 ? Math.round((1 - price / oldPrice) * 100) : 0;
+            const inStock = item.inStock !== false && item.inStock !== 0 && item.inStock !== '0';
+
             return `
-                <article class="group flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white transition hover:border-emerald-200 hover:shadow-lg">
-                    <a href="${href}" class="relative block aspect-square overflow-hidden bg-slate-50">
-                        <img src="${img}" alt="${name}" width="400" height="400" loading="lazy" decoding="async" class="h-full w-full object-cover transition duration-500 group-hover:scale-105">
-                        <span class="absolute left-2 top-2 rounded-md bg-white/90 px-2 py-0.5 text-[8px] font-extrabold uppercase tracking-wider text-emerald-800">Viewed</span>
+                <article class="lv2-product">
+                    <a href="${href}" class="lv2-product-media">
+                        <img src="${img}" alt="${name}" width="480" height="480" loading="lazy" decoding="async">
+                        ${save ? `<span class="lv2-save">SAVE ${save}%</span>` : ''}
                     </a>
-                    <div class="flex flex-1 flex-col gap-2 p-3">
-                        <a href="${href}" class="line-clamp-2 text-xs font-bold text-slate-800 transition group-hover:text-emerald-800">${name}</a>
-                        <div class="flex items-baseline gap-2">
-                            <span class="text-sm font-extrabold text-slate-900">${formatMoney(item.price)}</span>
-                            ${item.oldPrice && item.oldPrice > item.price ? `<span class="text-[10px] text-slate-400 line-through">${formatMoney(item.oldPrice)}</span>` : ''}
-                        </div>
+                    <div>
+                        <h3><a href="${href}">${name}</a></h3>
+                        <p class="lv2-price-row">
+                            <span class="lv2-price">${formatMoney(price)}</span>
+                            ${oldPrice > price ? `<span class="lv2-old">${formatMoney(oldPrice)}</span>` : ''}
+                        </p>
                         ${stockBadge}
-                        <button type="button" data-recently-add="${Number(item.id)}" class="mt-auto min-h-10 w-full rounded-xl bg-emerald-600 py-2.5 text-[11px] font-bold text-white transition hover:bg-emerald-700">
-                            Add to bag
-                        </button>
                     </div>
+                    <button type="button" data-recently-add="${Number(item.id)}" class="lv2-btn-navy" style="margin-top:0.8rem" ${inStock ? '' : 'disabled'}>${inStock ? 'Add to cart' : 'Out of stock'}</button>
                 </article>
             `;
         }).join('');

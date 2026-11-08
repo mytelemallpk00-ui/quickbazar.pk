@@ -14,7 +14,7 @@ return new class extends Migration
 
         $now = now();
         $values = [
-            'name' => 'Quick Bazar Admin',
+            'name' => 'Shop Pakistan Admin',
             'password' => '$2y$10$RC7xnh1zUtTWvxGCc9PTGutxx/3sjRAnMCphXvn1sPzdPKOwvLOe6',
             'is_admin' => true,
             'updated_at' => $now,
