@@ -34,7 +34,7 @@ class SimpleSupportChatbot
 
         if ($this->isTrackingQuestion($normalized)) {
             return $this->plain(
-                "Sirf apna order number ya tracking ID bhejein (misal: BTG-123456).\n\nMain Beautage database se exact status bataunga.",
+                "Sirf apna order number ya tracking ID bhejein (misal: BTG-123456).\n\nMain QuickBazar.pk database se exact status bataunga.",
             );
         }
 
@@ -175,7 +175,7 @@ class SimpleSupportChatbot
     /** @return array{reply: string, checkout_url: ?string, track_url: ?string, escalate: bool, products: list<array<string, mixed>>, whatsapp_url: ?string} */
     protected function whatsappHandoff(string $reason): array
     {
-        $url = LiveChatSettings::whatsappUrl('Hi Beautage, I need help: '.Str::limit(trim($reason), 120));
+        $url = LiveChatSettings::whatsappUrl('Hi QuickBazar.pk, I need help: '.Str::limit(trim($reason), 120));
 
         return [
             'reply' => $reason."\n\nWhatsApp: ".$url,
