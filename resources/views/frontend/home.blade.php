@@ -36,7 +36,7 @@ class="lumiere-v2 qh-home bg-[#f4f7f6] text-gray-800 font-sans antialiased min-h
 @endpush
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/qb-home.css') }}?v=2026111037">
+<link rel="stylesheet" href="{{ asset('css/qb-home.css') }}?v=2026111041">
 @endpush
 
 @section('content')
@@ -141,20 +141,60 @@ class="lumiere-v2 qh-home bg-[#f4f7f6] text-gray-800 font-sans antialiased min-h
                     <span>Offer ends in</span>
                     <strong id="qh-deals-clock" data-ends="{{ now()->endOfDay()->toIso8601String() }}">00:00:00</strong>
                 </div>
-                <div class="qh-deals-grid">
+                <div class="qh-deals-grid qh-grid--shop">
                     @foreach ($dealProducts as $deal)
-                        @php $dealStars = max(0, min(5, (int) round((float) ($deal['rating'] ?? 4)))); @endphp
-                        <article class="qh-deal">
-                            <a href="{{ url($deal['url'] ?? '/collections') }}" class="qh-deal-media">
-                                @if (! empty($deal['save']))
-                                    <span class="qh-deal-save">{{ $deal['save'] }}</span>
+                        @php
+                            $dealName = (string) ($deal['name'] ?? 'Product');
+                            $dealUrl = url($deal['url'] ?? '/collections');
+                            $dealImage = $deal['image_url'] ?: $placeholder;
+                            $dealShort = trim((string) ($deal['short'] ?? ''));
+                            $dealCategory = trim((string) ($deal['category'] ?? ''));
+                            $dealPrice = $deal['price_value'] ?? null;
+                            $dealOld = $deal['old_price_value'] ?? null;
+                            $dealSave = (int) ($deal['save_percent'] ?? 0);
+                            if ($dealSave < 1 && preg_match('/(\d{1,2})/', (string) ($deal['save'] ?? ''), $dealSaveMatch) === 1) {
+                                $dealSave = (int) $dealSaveMatch[1];
+                            }
+                            if ($dealSave < 1 && is_numeric($dealPrice) && is_numeric($dealOld) && (float) $dealOld > (float) $dealPrice) {
+                                $dealSave = (int) round((1 - ((float) $dealPrice / (float) $dealOld)) * 100);
+                            }
+                            $dealStars = max(0, min(5, (int) round((float) ($deal['rating'] ?? 0))));
+                            $dealReviews = (int) ($deal['reviews'] ?? 0);
+                            $dealStock = ($deal['in_stock'] ?? true) ? '1' : '0';
+                        @endphp
+                        <article class="lv2-product">
+                            <a href="{{ $dealUrl }}" class="lv2-product-media">
+                                <img class="lv2-card-photo" src="{{ $dealImage }}" alt="{{ $dealName }}" width="640" height="640" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='{{ $placeholder }}';">
+                                @if ($dealSave > 0)
+                                    <span class="lv2-save">SAVE {{ $dealSave }}%</span>
                                 @endif
-                                <img src="{{ $deal['image_url'] ?: $placeholder }}" alt="{{ $deal['name'] ?? 'Deal' }}" width="480" height="480" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='{{ $placeholder }}';">
                             </a>
-                            <h3><a href="{{ url($deal['url'] ?? '/collections') }}">{{ $deal['name'] ?? '' }}</a></h3>
-                            <p class="qh-price"><strong>{{ $deal['price'] ?? '' }}</strong> @if (! empty($deal['old_price']))<s>{{ $deal['old_price'] }}</s>@endif</p>
-                            <p class="qh-deal-stars" aria-label="Rated {{ $dealStars }} out of 5">{{ str_repeat('★', $dealStars) }}{{ str_repeat('☆', 5 - $dealStars) }} <span>({{ $deal['reviews'] ?? '0' }})</span></p>
-                            <a class="qh-bag" href="{{ url($deal['url'] ?? '/collections') }}">Add to cart</a>
+                            <div class="lv2-product-copy">
+                                @if ($dealCategory !== '')
+                                    <p class="lv2-muted">{{ $dealCategory }}</p>
+                                @endif
+                                <h3><a href="{{ $dealUrl }}">{{ $dealName }}</a></h3>
+                                @if ($dealShort !== '')
+                                    <p class="lv2-card-desc">{{ $dealShort }}</p>
+                                @endif
+                                @if ($dealReviews > 0)
+                                    <p class="lv2-stars" aria-label="Rated {{ number_format((float) ($deal['rating'] ?? 0), 1) }} out of 5">{{ str_repeat('★', $dealStars) }}{{ str_repeat('☆', 5 - $dealStars) }} <span class="lv2-muted">({{ number_format($dealReviews) }})</span></p>
+                                @endif
+                                <p class="lv2-price-row">
+                                    <span class="lv2-price">{{ $deal['price'] ?? '' }}</span>
+                                    @if (! empty($deal['old_price']))
+                                        <span class="lv2-old">{{ $deal['old_price'] }}</span>
+                                    @endif
+                                </p>
+                            </div>
+                            <div class="lv2-card-actions">
+                                <button type="button" class="lv2-card-quick" data-quick-view data-id="{{ (int) ($deal['id'] ?? 0) }}" data-name="{{ $dealName }}" data-price="{{ $dealPrice }}" data-old="{{ $dealOld }}" data-image="{{ $dealImage }}" data-category="{{ $dealCategory }}" data-desc="{{ $dealShort }}" data-url="{{ $dealUrl }}" data-stock="{{ $dealStock }}">Quick view</button>
+                                @if ($dealStock === '1')
+                                    <button type="button" class="lv2-btn-navy" data-card-add data-id="{{ (int) ($deal['id'] ?? 0) }}" data-name="{{ $dealName }}" data-price="{{ $dealPrice }}" data-old="{{ $dealOld }}" data-image="{{ $dealImage }}" data-category="{{ $dealCategory }}" data-desc="{{ $dealShort }}" data-url="{{ $dealUrl }}" data-stock="1">Add to cart</button>
+                                @else
+                                    <button type="button" class="lv2-btn-navy" disabled>Out of stock</button>
+                                @endif
+                            </div>
                         </article>
                     @endforeach
                 </div>
