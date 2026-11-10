@@ -65,6 +65,7 @@ class HomeController extends Controller
             'shopPills' => array_values(is_array($homepage['shop_pills'] ?? null) ? $homepage['shop_pills'] : []),
             'showcaseGoals' => array_values(is_array($homepage['showcase_goals'] ?? null) ? $homepage['showcase_goals'] : []),
             'featuredCards' => array_values(is_array($homepage['featured_cards'] ?? null) ? $homepage['featured_cards'] : []),
+            'weeklyDeals' => is_array($homepage['weekly_deals'] ?? null) ? $homepage['weekly_deals'] : [],
             'brandCards' => array_values(is_array($homepage['brand_cards'] ?? null) ? $homepage['brand_cards'] : []),
             'featuredCategories' => $featuredCategories,
             'goalCards' => $this->goalCards($featuredCategories),

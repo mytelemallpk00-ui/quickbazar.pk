@@ -36,7 +36,7 @@ class="lumiere-v2 qh-home bg-[#f4f7f6] text-gray-800 font-sans antialiased min-h
 @endpush
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/qb-home.css') }}?v=2026111027">
+<link rel="stylesheet" href="{{ asset('css/qb-home.css') }}?v=2026111028">
 @endpush
 
 @section('content')
@@ -117,6 +117,52 @@ class="lumiere-v2 qh-home bg-[#f4f7f6] text-gray-800 font-sans antialiased min-h
     </section>
     @endif
 
+    @php
+        $weeklyDeals = is_array($weeklyDeals ?? null) ? $weeklyDeals : [];
+        $dealBanner = is_array($weeklyDeals['banner'] ?? null) ? $weeklyDeals['banner'] : [];
+        $dealProducts = array_values(array_filter(is_array($weeklyDeals['products'] ?? null) ? $weeklyDeals['products'] : [], 'is_array'));
+    @endphp
+    @if ($dealProducts !== [])
+    <section class="qh-wrap qh-section" aria-labelledby="home-deals-title">
+        <div class="qh-deals-head">
+            <h2 id="home-deals-title">{{ $weeklyDeals['title'] ?? 'Deals of the Week' }}</h2>
+            <a class="qh-text-link" href="{{ url($weeklyDeals['view_url'] ?? '/exclusive-offers') }}">{{ $weeklyDeals['view_label'] ?? 'View all' }}</a>
+        </div>
+        <div class="qh-deals">
+            <a class="qh-deals-banner" href="{{ url($dealBanner['url'] ?? '/collections') }}">
+                <img src="{{ $dealBanner['image_url'] ?? $placeholder }}" alt="{{ $dealBanner['title'] ?? 'Weekly spotlight' }}" width="720" height="960" loading="lazy" decoding="async">
+                <span>
+                    <small>{{ $dealBanner['kicker'] ?? 'Featured' }}</small>
+                    <strong>{{ $dealBanner['title'] ?? 'Weekly spotlight picks' }}</strong>
+                </span>
+            </a>
+            <div class="qh-deals-panel">
+                <div class="qh-deals-timer">
+                    <span>Offer ends in</span>
+                    <strong id="qh-deals-clock" data-ends="{{ now()->endOfDay()->toIso8601String() }}">00:00:00</strong>
+                </div>
+                <div class="qh-deals-grid">
+                    @foreach ($dealProducts as $deal)
+                        @php $dealStars = max(0, min(5, (int) round((float) ($deal['rating'] ?? 4)))); @endphp
+                        <article class="qh-deal">
+                            <a href="{{ url($deal['url'] ?? '/collections') }}" class="qh-deal-media">
+                                @if (! empty($deal['save']))
+                                    <span class="qh-deal-save">{{ $deal['save'] }}</span>
+                                @endif
+                                <img src="{{ $deal['image_url'] ?: $placeholder }}" alt="{{ $deal['name'] ?? 'Deal' }}" width="480" height="480" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='{{ $placeholder }}';">
+                            </a>
+                            <h3><a href="{{ url($deal['url'] ?? '/collections') }}">{{ $deal['name'] ?? '' }}</a></h3>
+                            <p class="qh-price"><strong>{{ $deal['price'] ?? '' }}</strong> @if (! empty($deal['old_price']))<s>{{ $deal['old_price'] }}</s>@endif</p>
+                            <p class="qh-deal-stars" aria-label="Rated {{ $dealStars }} out of 5">{{ str_repeat('★', $dealStars) }}{{ str_repeat('☆', 5 - $dealStars) }} <span>({{ $deal['reviews'] ?? '0' }})</span></p>
+                            <a class="qh-bag" href="{{ url($deal['url'] ?? '/collections') }}">Add to cart</a>
+                        </article>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </section>
+    @endif
+
     @if ($sections['categories'] ?? true)
     <section id="categories" class="qh-wrap qh-section" aria-labelledby="home-categories-title">
         <div class="qh-band">
@@ -178,7 +224,7 @@ class="lumiere-v2 qh-home bg-[#f4f7f6] text-gray-800 font-sans antialiased min-h
             <a class="qh-text-link" href="{{ route('collections') }}">Shop all →</a>
         </div>
         <div class="qh-grid">
-            @foreach ($featuredCards as $card)
+            @foreach (array_slice($featuredCards, 0, 12) as $card)
                 <article class="qh-card">
                     <a href="{{ url($card['url'] ?? '/collections') }}" class="qh-card-media">
                         <img src="{{ $card['image_url'] ?: $placeholder }}" alt="{{ $card['name'] ?? 'Product' }}" width="640" height="640" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='{{ $placeholder }}';">
@@ -372,6 +418,19 @@ class="lumiere-v2 qh-home bg-[#f4f7f6] text-gray-800 font-sans antialiased min-h
                 dot.addEventListener('click', function () { show(Number(dot.getAttribute('data-slider-dot'))); });
             });
             if (slides.length > 1) window.setInterval(function () { show(index + 1); }, 7000);
+        }
+        const clock = document.getElementById('qh-deals-clock');
+        if (clock) {
+            const ends = new Date(clock.getAttribute('data-ends')).getTime();
+            const tickDeals = function () {
+                const remaining = Math.max(0, Math.floor((ends - Date.now()) / 1000));
+                const hours = String(Math.floor(remaining / 3600)).padStart(2, '0');
+                const minutes = String(Math.floor((remaining % 3600) / 60)).padStart(2, '0');
+                const seconds = String(remaining % 60).padStart(2, '0');
+                clock.textContent = hours + ':' + minutes + ':' + seconds;
+            };
+            tickDeals();
+            window.setInterval(tickDeals, 1000);
         }
     })();
     (function () {
