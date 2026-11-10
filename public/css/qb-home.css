@@ -561,9 +561,26 @@ body.qh-home .qh-news h2,
 
 @media (min-width: 1024px) {
     .qh-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+    .qh-grid--shop { grid-template-columns: repeat(4, minmax(0, 1fr)); }
     .qh-grid .qh-card { padding: 0.45rem; }
     .qh-grid .qh-card h3 { font-size: 0.78rem; line-height: 1.3; }
     .qh-grid .qh-bag, .qh-grid .qh-quick { font-size: 0.68rem; padding: 0.4rem 0.25rem; }
+}
+.qh-grid--shop { align-items: stretch; }
+.qh-grid--shop .lv2-product { height: 100%; }
+.qh-grid--shop .lv2-product img { height: 100%; border-radius: 0; }
+.qh-grid--shop .lv2-price-row { flex-wrap: wrap; gap: 0.15rem 0.4rem; }
+.qh-grid--shop .lv2-price,
+.qh-grid--shop .lv2-old { white-space: nowrap; }
+body.qh-home .qh-grid--shop h3 { color: #12312c; font-size: 1rem; line-height: 1.3; }
+@media (max-width: 639px) {
+    .qh-grid--shop .lv2-card-quick,
+    .qh-grid--shop .lv2-card-actions .lv2-btn-navy {
+        font-size: 0.68rem;
+        white-space: nowrap;
+        padding-left: 0.25rem;
+        padding-right: 0.25rem;
+    }
 }
 
 @media (hover: hover) {

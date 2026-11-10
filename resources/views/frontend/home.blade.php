@@ -36,7 +36,7 @@ class="lumiere-v2 qh-home bg-[#f4f7f6] text-gray-800 font-sans antialiased min-h
 @endpush
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/qb-home.css') }}?v=2026111030">
+<link rel="stylesheet" href="{{ asset('css/qb-home.css') }}?v=2026111037">
 @endpush
 
 @section('content')
@@ -223,20 +223,56 @@ class="lumiere-v2 qh-home bg-[#f4f7f6] text-gray-800 font-sans antialiased min-h
             </div>
             <a class="qh-text-link" href="{{ route('collections') }}">Shop all →</a>
         </div>
-        <div class="qh-grid">
+        <div class="qh-grid qh-grid--shop">
             @foreach (array_slice($featuredCards, 0, 12) as $card)
-                <article class="qh-card">
-                    <a href="{{ url($card['url'] ?? '/collections') }}" class="qh-card-media">
-                        <img src="{{ $card['image_url'] ?: $placeholder }}" alt="{{ $card['name'] ?? 'Product' }}" width="640" height="640" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='{{ $placeholder }}';">
-                        <span class="qh-stock">In stock</span>
+                @php
+                    $cardName = (string) ($card['name'] ?? 'Product');
+                    $cardUrl = url($card['url'] ?? '/collections');
+                    $cardImage = $card['image_url'] ?: $placeholder;
+                    $cardShort = trim((string) ($card['short'] ?? ''));
+                    $cardCategory = trim((string) ($card['category'] ?? ''));
+                    $cardPrice = $card['price_value'] ?? null;
+                    $cardOld = $card['old_price_value'] ?? null;
+                    $cardSave = (int) ($card['save_percent'] ?? 0);
+                    if ($cardSave < 1 && is_numeric($cardPrice) && is_numeric($cardOld) && (float) $cardOld > (float) $cardPrice) {
+                        $cardSave = (int) round((1 - ((float) $cardPrice / (float) $cardOld)) * 100);
+                    }
+                    $cardStars = max(0, min(5, (int) round((float) ($card['rating'] ?? 0))));
+                    $cardReviews = (int) ($card['reviews'] ?? 0);
+                    $cardStock = ($card['in_stock'] ?? true) ? '1' : '0';
+                @endphp
+                <article class="lv2-product">
+                    <a href="{{ $cardUrl }}" class="lv2-product-media">
+                        <img class="lv2-card-photo" src="{{ $cardImage }}" alt="{{ $cardName }}" width="640" height="640" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='{{ $placeholder }}';">
+                        @if ($cardSave > 0)
+                            <span class="lv2-save">SAVE {{ $cardSave }}%</span>
+                        @endif
                     </a>
-                    <div class="qh-card-copy">
-                        <h3><a href="{{ url($card['url'] ?? '/collections') }}">{{ $card['name'] ?? '' }}</a></h3>
-                        <p class="qh-stars" aria-label="Rated {{ $card['rating'] ?? '0' }} out of 5">★★★★★ <span>({{ $card['reviews'] ?? '0' }})</span></p>
-                        <p class="qh-price"><strong>{{ $card['price'] ?? '' }}</strong> @if (! empty($card['old_price']))<s>{{ $card['old_price'] }}</s>@endif</p>
+                    <div class="lv2-product-copy">
+                        @if ($cardCategory !== '')
+                            <p class="lv2-muted">{{ $cardCategory }}</p>
+                        @endif
+                        <h3><a href="{{ $cardUrl }}">{{ $cardName }}</a></h3>
+                        @if ($cardShort !== '')
+                            <p class="lv2-card-desc">{{ $cardShort }}</p>
+                        @endif
+                        @if ($cardReviews > 0)
+                            <p class="lv2-stars" aria-label="Rated {{ number_format((float) ($card['rating'] ?? 0), 1) }} out of 5">{{ str_repeat('★', $cardStars) }}{{ str_repeat('☆', 5 - $cardStars) }} <span class="lv2-muted">({{ number_format($cardReviews) }})</span></p>
+                        @endif
+                        <p class="lv2-price-row">
+                            <span class="lv2-price">{{ $card['price'] ?? '' }}</span>
+                            @if (! empty($card['old_price']))
+                                <span class="lv2-old">{{ $card['old_price'] }}</span>
+                            @endif
+                        </p>
                     </div>
-                    <div class="qh-card-actions">
-                        <a class="qh-bag" href="{{ url($card['url'] ?? '/collections') }}">Add to Bag</a>
+                    <div class="lv2-card-actions">
+                        <button type="button" class="lv2-card-quick" data-quick-view data-id="{{ (int) ($card['id'] ?? 0) }}" data-name="{{ $cardName }}" data-price="{{ $cardPrice }}" data-old="{{ $cardOld }}" data-image="{{ $cardImage }}" data-category="{{ $cardCategory }}" data-desc="{{ $cardShort }}" data-url="{{ $cardUrl }}" data-stock="{{ $cardStock }}">Quick view</button>
+                        @if ($cardStock === '1')
+                            <button type="button" class="lv2-btn-navy" data-card-add data-id="{{ (int) ($card['id'] ?? 0) }}" data-name="{{ $cardName }}" data-price="{{ $cardPrice }}" data-old="{{ $cardOld }}" data-image="{{ $cardImage }}" data-category="{{ $cardCategory }}" data-desc="{{ $cardShort }}" data-url="{{ $cardUrl }}" data-stock="1">Add to cart</button>
+                        @else
+                            <button type="button" class="lv2-btn-navy" disabled>Out of stock</button>
+                        @endif
                     </div>
                 </article>
             @endforeach

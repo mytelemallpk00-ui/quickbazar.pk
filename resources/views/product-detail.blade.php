@@ -193,12 +193,6 @@ class="lumiere-v2 qh-pdp bg-gray-50 text-gray-800 font-sans antialiased min-h-sc
 
         @include('partials.product-pdp-tabs')
 
-        @include('partials.recently-viewed-section', [
-            'recentlyVariant' => 'pdp',
-            'excludeProductId' => $product->id,
-            'recentlyLimit' => 5,
-        ])
-
         @include('partials.product-bundle-section', ['bundlePayload' => $bundlePayload ?? null])
 
         <section class="pdp-related" aria-labelledby="pdp-related-title">

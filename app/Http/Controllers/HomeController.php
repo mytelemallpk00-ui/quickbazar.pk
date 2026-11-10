@@ -282,9 +282,27 @@ class HomeController extends Controller
                 return $card;
             }
 
+            $card['price_value'] = $this->moneyAmount((string) ($card['price'] ?? $card['price_label'] ?? ''));
+            $card['old_price_value'] = $this->moneyAmount((string) ($card['old_price'] ?? $card['old_price_label'] ?? ''));
+            $card['in_stock'] = $card['in_stock'] ?? true;
+
             $key = $this->productNameKey((string) ($card['name'] ?? ''));
             if ($key !== '' && isset($byName[$key])) {
-                $card['url'] = route('product.show', $byName[$key]);
+                $presented = $this->presentProduct($byName[$key]);
+                $card['id'] = $presented['id'];
+                $card['url'] = $presented['url'];
+                $card['category'] = $presented['category'] ?: ($card['category'] ?? '');
+                $card['short'] = $presented['short'] !== '' ? $presented['short'] : ($card['short'] ?? '');
+                $card['price'] = $presented['price_label'];
+                $card['old_price'] = $presented['old_price_label'] ?? '';
+                $card['price_value'] = $presented['price'];
+                $card['old_price_value'] = $presented['old_price'];
+                $card['in_stock'] = $presented['in_stock'];
+                $card['save_percent'] = $presented['discount_percent'];
+                if ((int) $presented['reviews'] > 0) {
+                    $card['rating'] = $presented['rating'];
+                    $card['reviews'] = $presented['reviews'];
+                }
             }
 
             return $card;
@@ -318,7 +336,7 @@ class HomeController extends Controller
         }
 
         $map = [];
-        foreach (Product::query()->get(['id', 'slug', 'name']) as $product) {
+        foreach (Product::query()->with('productCategory')->get() as $product) {
             $key = $this->productNameKey($product->name);
             if ($key !== '') {
                 $map[$key] = $product;
@@ -333,5 +351,12 @@ class HomeController extends Controller
         $name = mb_strtolower(trim($name));
 
         return preg_replace('/\s+/u', ' ', $name) ?? '';
+    }
+
+    private function moneyAmount(string $label): ?float
+    {
+        $digits = preg_replace('/[^\d.]/', '', $label) ?? '';
+
+        return $digits === '' ? null : (float) $digits;
     }
 }
