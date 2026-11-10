@@ -36,7 +36,7 @@ class="lumiere-v2 qh-home bg-[#f4f7f6] text-gray-800 font-sans antialiased min-h
 @endpush
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/qb-home.css') }}?v=2026111041">
+<link rel="stylesheet" href="{{ asset('css/qb-home.css') }}?v=2026111042">
 @endpush
 
 @section('content')
@@ -417,6 +417,77 @@ class="lumiere-v2 qh-home bg-[#f4f7f6] text-gray-800 font-sans antialiased min-h
     </section>
     @endif
 
+    @if (! empty($shelfProducts))
+    <section class="qh-wrap qh-section" aria-labelledby="home-shelf-title">
+        <div class="qh-head">
+            <div>
+                <p class="qh-kicker">Keep shopping</p>
+                <h2 id="home-shelf-title">More from the catalog</h2>
+            </div>
+            <div class="qh-shelf-tools">
+                <div class="qh-shelf-nav">
+                    <button type="button" data-shelf-prev aria-label="Previous products">‹</button>
+                    <button type="button" data-shelf-next aria-label="Next products">›</button>
+                </div>
+                <a class="qh-text-link" href="{{ route('collections') }}">Shop all →</a>
+            </div>
+        </div>
+        <div class="qh-shelf" id="qh-shelf">
+            <div class="qh-shelf-track">
+                @foreach ($shelfProducts as $card)
+                    @php
+                        $cardName = (string) ($card['name'] ?? 'Product');
+                        $cardUrl = url($card['url'] ?? '/collections');
+                        $cardImage = $card['image'] ?: $placeholder;
+                        $cardShort = trim((string) ($card['short'] ?? ''));
+                        $cardCategory = trim((string) ($card['category'] ?? ''));
+                        $cardPrice = $card['price'] ?? null;
+                        $cardOld = $card['old_price'] ?? null;
+                        $cardSave = (int) ($card['discount_percent'] ?? 0);
+                        $cardStars = max(0, min(5, (int) round((float) ($card['rating'] ?? 0))));
+                        $cardReviews = (int) ($card['reviews'] ?? 0);
+                        $cardStock = ($card['in_stock'] ?? true) ? '1' : '0';
+                    @endphp
+                    <article class="lv2-product">
+                        <a href="{{ $cardUrl }}" class="lv2-product-media">
+                            <img class="lv2-card-photo" src="{{ $cardImage }}" alt="{{ $cardName }}" width="640" height="640" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='{{ $placeholder }}';">
+                            @if ($cardSave > 0)
+                                <span class="lv2-save">SAVE {{ $cardSave }}%</span>
+                            @endif
+                        </a>
+                        <div class="lv2-product-copy">
+                            @if ($cardCategory !== '')
+                                <p class="lv2-muted">{{ $cardCategory }}</p>
+                            @endif
+                            <h3><a href="{{ $cardUrl }}">{{ $cardName }}</a></h3>
+                            @if ($cardShort !== '')
+                                <p class="lv2-card-desc">{{ $cardShort }}</p>
+                            @endif
+                            @if ($cardReviews > 0)
+                                <p class="lv2-stars" aria-label="Rated {{ number_format((float) ($card['rating'] ?? 0), 1) }} out of 5">{{ str_repeat('★', $cardStars) }}{{ str_repeat('☆', 5 - $cardStars) }} <span class="lv2-muted">({{ number_format($cardReviews) }})</span></p>
+                            @endif
+                            <p class="lv2-price-row">
+                                <span class="lv2-price">{{ $card['price_label'] ?? '' }}</span>
+                                @if (! empty($card['old_price_label']))
+                                    <span class="lv2-old">{{ $card['old_price_label'] }}</span>
+                                @endif
+                            </p>
+                        </div>
+                        <div class="lv2-card-actions">
+                            <button type="button" class="lv2-card-quick" data-quick-view data-id="{{ (int) ($card['id'] ?? 0) }}" data-name="{{ $cardName }}" data-price="{{ $cardPrice }}" data-old="{{ $cardOld }}" data-image="{{ $cardImage }}" data-category="{{ $cardCategory }}" data-desc="{{ $cardShort }}" data-url="{{ $cardUrl }}" data-stock="{{ $cardStock }}">Quick view</button>
+                            @if ($cardStock === '1')
+                                <button type="button" class="lv2-btn-navy" data-card-add data-id="{{ (int) ($card['id'] ?? 0) }}" data-name="{{ $cardName }}" data-price="{{ $cardPrice }}" data-old="{{ $cardOld }}" data-image="{{ $cardImage }}" data-category="{{ $cardCategory }}" data-desc="{{ $cardShort }}" data-url="{{ $cardUrl }}" data-stock="1">Add to cart</button>
+                            @else
+                                <button type="button" class="lv2-btn-navy" disabled>Out of stock</button>
+                            @endif
+                        </div>
+                    </article>
+                @endforeach
+            </div>
+        </div>
+    </section>
+    @endif
+
     <section class="qh-wrap qh-section" aria-labelledby="home-faq-title">
         <div class="qh-band">
         <div class="qh-head"><div><p class="qh-kicker">Help</p><h2 id="home-faq-title">Questions before you order</h2></div></div>
@@ -516,6 +587,26 @@ class="lumiere-v2 qh-home bg-[#f4f7f6] text-gray-800 font-sans antialiased min-h
                 dot.addEventListener('click', function () { show(Number(dot.getAttribute('data-slider-dot'))); });
             });
             if (slides.length > 1) window.setInterval(function () { show(index + 1); }, 7000);
+        }
+        const shelf = document.getElementById('qh-shelf');
+        if (shelf) {
+            const track = shelf.querySelector('.qh-shelf-track');
+            const step = function () {
+                const card = track.querySelector('.lv2-product');
+                return card ? card.getBoundingClientRect().width + 14 : track.clientWidth;
+            };
+            const move = function (direction) {
+                const max = track.scrollWidth - track.clientWidth;
+                const next = track.scrollLeft + (direction * step());
+                track.scrollTo({ left: next > max - 8 ? 0 : Math.max(0, next), behavior: 'smooth' });
+            };
+            document.querySelector('[data-shelf-prev]')?.addEventListener('click', function () { move(-1); });
+            document.querySelector('[data-shelf-next]')?.addEventListener('click', function () { move(1); });
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && track.scrollWidth > track.clientWidth + 8) {
+                let timer = window.setInterval(function () { move(1); }, 4500);
+                shelf.addEventListener('mouseenter', function () { window.clearInterval(timer); });
+                shelf.addEventListener('mouseleave', function () { timer = window.setInterval(function () { move(1); }, 4500); });
+            }
         }
         const clock = document.getElementById('qh-deals-clock');
         if (clock) {

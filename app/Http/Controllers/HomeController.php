@@ -72,6 +72,7 @@ class HomeController extends Controller
             'departmentCards' => $featuredCategories,
             'freeShippingLabel' => MoneyFormat::pkr((float) CheckoutSettings::all()['free_shipping_threshold']),
             'trendingProducts' => $trendingProducts->map(fn (Product $product): array => $this->presentProduct($product))->values(),
+            'shelfProducts' => $this->shelfProducts(),
             'trendingCopy' => [
                 'badge' => filled($trendingCopy['badge'] ?? null) ? (string) $trendingCopy['badge'] : 'Selling fast',
                 'heading' => filled($trendingCopy['heading'] ?? null) ? (string) $trendingCopy['heading'] : 'Trending right now',
@@ -215,6 +216,32 @@ class HomeController extends Controller
         }
 
         return $base->limit(8)->get();
+    }
+
+    /** @return list<array<string, mixed>> */
+    private function shelfProducts(): array
+    {
+        $products = Product::query()
+            ->with('productCategory:id,name,slug')
+            ->where('in_stock', true)
+            ->orderBy('sort_order')
+            ->orderBy('id')
+            ->limit(12)
+            ->get();
+
+        if ($products->isEmpty()) {
+            $products = Product::query()
+                ->with('productCategory:id,name,slug')
+                ->orderBy('sort_order')
+                ->orderBy('id')
+                ->limit(12)
+                ->get();
+        }
+
+        return $products
+            ->map(fn (Product $product): array => $this->presentProduct($product))
+            ->values()
+            ->all();
     }
 
     /** @return array<string, mixed> */

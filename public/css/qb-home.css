@@ -352,6 +352,57 @@ body.qh-home .qh-offer h2 { color: #fff; }
 .qh-review-title { font-weight: 800; color: var(--qh-ink) !important; }
 .qh-reviews a, .qh-faq-links a { color: var(--qh); font-weight: 800; }
 .qh-journal img { width: 100%; height: 10rem; object-fit: cover; border-radius: 0.8rem; background: #f4f7f6; }
+.qh-shelf-tools { display: flex; align-items: center; gap: 0.75rem; }
+.qh-shelf-nav { display: flex; gap: 0.4rem; }
+.qh-shelf-nav button {
+    width: 2.4rem;
+    height: 2.4rem;
+    border: 1px solid #d5e7e2;
+    border-radius: 999px;
+    background: #fff;
+    color: #0b5e52;
+    font-size: 1.35rem;
+    line-height: 1;
+    cursor: pointer;
+}
+.qh-shelf-nav button:hover { background: #0e7c6b; color: #fff; border-color: #0e7c6b; }
+.qh-shelf-track {
+    display: flex;
+    gap: 0.85rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+}
+.qh-shelf-track::-webkit-scrollbar { display: none; }
+.qh-shelf-track .lv2-product {
+    flex: 0 0 min(78%, 17.5rem);
+    scroll-snap-align: start;
+    height: auto;
+    border-color: #d5e7e2;
+    box-shadow: 0 14px 32px rgba(8, 70, 61, 0.06);
+}
+.qh-shelf-track .lv2-product img { height: 100%; border-radius: 0; }
+.qh-shelf-track .lv2-price,
+.qh-shelf-track .lv2-old { white-space: nowrap; }
+.qh-shelf-track .lv2-price-row { flex-wrap: wrap; }
+body.qh-home .qh-shelf-track h3 { color: #12312c; font-size: 0.95rem; line-height: 1.3; }
+@media (min-width: 720px) {
+    .qh-shelf-track .lv2-product { flex-basis: calc((100% - 1.7rem) / 3); }
+}
+@media (min-width: 1024px) {
+    .qh-shelf-track .lv2-product { flex-basis: calc((100% - 2.55rem) / 4); }
+}
+@media (max-width: 639px) {
+    .qh-shelf-track .lv2-card-quick,
+    .qh-shelf-track .lv2-card-actions .lv2-btn-navy {
+        font-size: 0.68rem;
+        white-space: nowrap;
+        padding-left: 0.25rem;
+        padding-right: 0.25rem;
+    }
+}
+
 .qh-faq { display: grid; gap: 0.55rem; }
 .qh-faq summary { cursor: pointer; font-weight: 800; list-style: none; }
 .qh-faq summary::-webkit-details-marker { display: none; }
