@@ -42,7 +42,7 @@
                 <span class="qb-trust-icon"><i data-lucide="shield-check" class="h-5 w-5"></i></span>
                 <span>
                     <span class="block text-sm font-extrabold text-white">Secure checkout</span>
-                    <span class="mt-0.5 block text-xs text-slate-400">Cash, wallet, card, and bank transfer</span>
+                    <span class="mt-0.5 block text-xs text-slate-400">Cash on delivery at your door</span>
                 </span>
             </div>
             <div class="qb-trust-card">

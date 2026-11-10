@@ -42,31 +42,7 @@ class CheckoutSettings
                     'short_label' => 'Cash on Delivery',
                     'icon' => 'banknote',
                     'enabled' => true,
-                    'instructions' => 'Pay with confidence in cash directly to our courier representative upon doorstep delivery.',
-                ],
-                [
-                    'id' => 'wallet',
-                    'label' => 'Mobile Wallet (Easypaisa / JazzCash)',
-                    'short_label' => 'Mobile Wallet',
-                    'icon' => 'smartphone',
-                    'enabled' => true,
-                    'instructions' => 'You will receive an OTP or wallet prompt on your mobile number after order confirmation.',
-                ],
-                [
-                    'id' => 'card',
-                    'label' => 'Credit / Debit Card',
-                    'short_label' => 'Credit / Debit Card',
-                    'icon' => 'credit-card',
-                    'enabled' => true,
-                    'instructions' => 'Card details are collected securely on this page. Payment is marked pending until verified.',
-                ],
-                [
-                    'id' => 'bank',
-                    'label' => 'Direct Bank Transfer',
-                    'short_label' => 'Bank Transfer',
-                    'icon' => 'landmark',
-                    'enabled' => true,
-                    'instructions' => 'Transfer the order total to Quick Bazar PVT Ltd — HBL Account: PK36HABB001234567890. Dispatch after payment confirmation.',
+                    'instructions' => 'Pay with cash when the courier delivers your order.',
                 ],
             ],
         ];
@@ -227,19 +203,23 @@ class CheckoutSettings
             if (! is_array($method)) {
                 continue;
             }
-            $id = trim((string) ($method['id'] ?? ('pay_'.$i)));
-            if ($id === '') {
+            $id = trim((string) ($method['id'] ?? ''));
+            if ($id !== 'cod') {
                 continue;
             }
-            $label = trim((string) ($method['label'] ?? 'Payment'));
+            $label = trim((string) ($method['label'] ?? 'Cash on Delivery'));
+            if ($label === '') {
+                $label = 'Cash on Delivery';
+            }
             $out[] = [
-                'id' => $id,
+                'id' => 'cod',
                 'label' => $label,
-                'short_label' => trim((string) ($method['short_label'] ?? $label)),
-                'icon' => trim((string) ($method['icon'] ?? 'credit-card')),
-                'enabled' => filter_var($method['enabled'] ?? true, FILTER_VALIDATE_BOOLEAN),
-                'instructions' => trim((string) ($method['instructions'] ?? '')),
+                'short_label' => 'Cash on Delivery',
+                'icon' => 'banknote',
+                'enabled' => true,
+                'instructions' => trim((string) ($method['instructions'] ?? 'Pay with cash when the courier delivers your order.')),
             ];
+            break;
         }
 
         return $out !== [] ? $out : $fallback;

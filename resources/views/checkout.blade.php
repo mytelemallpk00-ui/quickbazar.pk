@@ -155,101 +155,27 @@ class="qh-checkout bg-slate-50 text-slate-800 font-sans antialiased min-h-screen
                             </div>
                         </div>
 
-                        <!-- 3. PAYMENT METHOD (COD, MOBILE WALLET, CARD, BANK TRANSFER) -->
+                        <!-- 3. PAYMENT METHOD (CASH ON DELIVERY) -->
                         <div class="bg-white rounded-3xl p-6 sm:p-8 border border-purple-100 shadow-xl space-y-6">
                             <h3 class="text-base font-serif font-bold text-beautage-purple flex items-center gap-2 border-b border-purple-100 pb-4">
-                                <i data-lucide="credit-card" class="w-5 h-5 text-beautage-pink"></i> 3. Payment Method
+                                <i data-lucide="banknote" class="w-5 h-5 text-beautage-pink"></i> 3. Payment Method
                             </h3>
 
-                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
-                                @foreach($paymentMethods as $idx => $pay)
-                                <button type="button" onclick="switchPaymentTab('{{ $pay['id'] }}')" id="pay-tab-{{ $pay['id'] }}" data-pay-tab="{{ $pay['id'] }}" class="py-3 px-2 rounded-2xl border-2 {{ $idx === 0 ? 'border-beautage-purple bg-purple-50 text-beautage-purple' : 'border-purple-200 bg-white text-slate-700 hover:border-purple-300' }} font-bold text-[11px] sm:text-xs transition flex flex-col items-center justify-center gap-1 shadow-xs">
-                                    <i data-lucide="{{ $pay['icon'] ?? 'credit-card' }}" class="w-4 h-4 shrink-0"></i>
-                                    <span>{{ $pay['short_label'] ?? $pay['label'] }}</span>
-                                </button>
-                                @endforeach
-                            </div>
-
-                            @foreach($paymentMethods as $idx => $pay)
-                            @if($pay['id'] === 'cod')
-                            <div id="payment-panel-cod" class="p-5 rounded-2xl bg-purple-50/50 border border-purple-200 space-y-2 {{ $idx === 0 ? '' : 'hidden' }}">
+                            @php
+                                $codMethod = collect($paymentMethods)->first(fn ($method) => ($method['id'] ?? '') === 'cod') ?? [
+                                    'label' => 'Cash on Delivery',
+                                    'instructions' => 'Pay with cash when the courier delivers your order.',
+                                ];
+                            @endphp
+                            <div id="payment-panel-cod" class="p-5 rounded-2xl bg-purple-50/50 border border-purple-200 space-y-2">
                                 <div class="flex items-center gap-2 text-xs font-bold text-beautage-purple">
                                     <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i>
-                                    <span>{{ $pay['label'] }}</span>
+                                    <span>{{ $codMethod['label'] ?? 'Cash on Delivery' }}</span>
                                 </div>
-                                @if(! empty($pay['instructions']))
-                                <p class="text-[11px] text-slate-600 leading-relaxed">{{ $pay['instructions'] }}</p>
+                                @if(! empty($codMethod['instructions']))
+                                <p class="text-[11px] text-slate-600 leading-relaxed">{{ $codMethod['instructions'] }}</p>
                                 @endif
                             </div>
-                            @elseif($pay['id'] !== 'wallet' && $pay['id'] !== 'card')
-                            <div id="payment-panel-{{ $pay['id'] }}" class="p-5 rounded-2xl bg-amber-50/60 border border-amber-200 space-y-2.5 {{ $idx === 0 ? '' : 'hidden' }}">
-                                <div class="flex items-center gap-2 text-xs font-bold text-amber-900">
-                                    <i data-lucide="{{ $pay['icon'] ?? 'landmark' }}" class="w-4 h-4 text-amber-600"></i>
-                                    <span>{{ $pay['label'] }}</span>
-                                </div>
-                                @if(! empty($pay['instructions']))
-                                <p class="text-[11px] text-slate-700 leading-relaxed">{{ $pay['instructions'] }}</p>
-                                @endif
-                            </div>
-                            @endif
-                            @endforeach
-
-                            <!-- MOBILE WALLET PANEL -->
-                            @if(collect($paymentMethods)->contains(fn ($m) => ($m['id'] ?? '') === 'wallet'))
-                            <div id="payment-panel-wallet" class="p-5 rounded-2xl bg-purple-50/70 border border-purple-200 space-y-4 {{ ($paymentMethods[0]['id'] ?? '') === 'wallet' ? '' : 'hidden' }}">
-                                <div class="flex items-center justify-between">
-                                    <span class="text-xs font-extrabold text-beautage-purple uppercase tracking-wider">Select Mobile Wallet</span>
-                                    <span class="text-[10px] text-pink-600 font-bold bg-pink-50 px-2 py-0.5 rounded-full border border-pink-200">Instant Verification</span>
-                                </div>
-                                <div class="grid grid-cols-2 gap-3">
-                                    <label class="flex items-center gap-3 p-3 rounded-xl border-2 border-beautage-purple bg-white cursor-pointer transition shadow-xs" id="wallet-easypaisa-label" onclick="selectWalletProvider('Easypaisa')">
-                                        <input type="radio" name="wallet-provider" checked class="accent-beautage-pink w-4 h-4">
-                                        <div>
-                                            <span class="text-xs font-bold text-emerald-700 block">Easypaisa</span>
-                                            <span class="text-[10px] text-slate-500">Telenor Microfinance</span>
-                                        </div>
-                                    </label>
-                                    <label class="flex items-center gap-3 p-3 rounded-xl border-2 border-purple-200 bg-white cursor-pointer transition shadow-xs" id="wallet-jazzcash-label" onclick="selectWalletProvider('JazzCash')">
-                                        <input type="radio" name="wallet-provider" class="accent-beautage-pink w-4 h-4">
-                                        <div>
-                                            <span class="text-xs font-bold text-rose-600 block">JazzCash</span>
-                                            <span class="text-[10px] text-slate-500">Mobilink Microfinance</span>
-                                        </div>
-                                    </label>
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-extrabold text-slate-700 uppercase mb-1"><span id="wallet-name-label">Easypaisa</span> Account / Mobile Number</label>
-                                    <div class="relative flex items-center">
-                                        <input type="tel" id="wallet-number" placeholder="0300 1234567" class="w-full py-3 pl-4 pr-12 bg-white border border-purple-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-beautage-purple font-mono">
-                                        <span class="absolute right-3 text-beautage-pink"><i data-lucide="smartphone" class="w-4 h-4"></i></span>
-                                    </div>
-                                    <p class="text-[10px] text-slate-500 mt-1">An automated USSD push notification or OTP prompt will be sent to your mobile number upon order confirmation.</p>
-                                </div>
-                            </div>
-                            @endif
-
-                            <!-- CARD PANEL -->
-                            @if(collect($paymentMethods)->contains(fn ($m) => ($m['id'] ?? '') === 'card'))
-                            <div id="payment-panel-card" class="space-y-4 {{ ($paymentMethods[0]['id'] ?? '') === 'card' ? '' : 'hidden' }}">
-                                <div>
-                                    <label class="block text-xs font-extrabold text-slate-700 uppercase mb-1">Card Number</label>
-                                    <div class="relative flex items-center">
-                                        <input type="text" id="card-number" placeholder="4532 •••• •••• 8892" class="w-full py-3 pl-4 pr-10 bg-purple-50/50 border border-purple-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-beautage-purple font-mono">
-                                        <span class="absolute right-3 text-slate-400"><i data-lucide="credit-card" class="w-4 h-4"></i></span>
-                                    </div>
-                                </div>
-                                <div class="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <label class="block text-xs font-extrabold text-slate-700 uppercase mb-1">Expiration Date</label>
-                                        <input type="text" id="card-expiry" placeholder="MM / YY" class="w-full py-3 px-4 bg-purple-50/50 border border-purple-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-beautage-purple font-mono">
-                                    </div>
-                                    <div>
-                                        <label class="block text-xs font-extrabold text-slate-700 uppercase mb-1">Security Code (CVV)</label>
-                                        <input type="text" id="card-cvv" placeholder="CVC" class="w-full py-3 px-4 bg-purple-50/50 border border-purple-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-beautage-purple font-mono">
-                                    </div>
-                                </div>
-                            </div>
-                            @endif
                         </div>
 
                     </div>
@@ -494,19 +420,13 @@ const CHECKOUT_PREFILL = @json($prefillCustomer ?? null);
         let discountPercent = 0;
         let selectedShippingMethodId = (CHECKOUT_CONFIG.shipping_methods && CHECKOUT_CONFIG.shipping_methods[0]) ? CHECKOUT_CONFIG.shipping_methods[0].id : 'standard';
         let shippingRatesTimer = null;
-        let selectedPaymentMethodId = (CHECKOUT_CONFIG.payment_methods && CHECKOUT_CONFIG.payment_methods[0]) ? CHECKOUT_CONFIG.payment_methods[0].id : 'cod';
-        let selectedPaymentMethod = '';
-        let selectedWalletProvider = "Easypaisa";
-
-        const PAY_TAB_ACTIVE = "py-3 px-2 rounded-2xl border-2 border-beautage-purple bg-purple-50 text-beautage-purple font-bold text-[11px] sm:text-xs transition flex flex-col items-center justify-center gap-1 shadow-xs";
-        const PAY_TAB_INACTIVE = "py-3 px-2 rounded-2xl border-2 border-purple-200 bg-white text-slate-700 hover:border-purple-300 font-bold text-[11px] sm:text-xs transition flex flex-col items-center justify-center gap-1 shadow-xs";
+        let selectedPaymentMethodId = 'cod';
+        let selectedPaymentMethod = 'Cash on Delivery';
 
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
             loadCartFromStorage();
-            if (CHECKOUT_CONFIG.payment_methods && CHECKOUT_CONFIG.payment_methods.length) {
-                switchPaymentTab(CHECKOUT_CONFIG.payment_methods[0].id);
-            }
+            switchPaymentTab('cod');
             if (CHECKOUT_PREFILL) {
                 const map = { email: 'cust-email', first_name: 'cust-firstname', last_name: 'cust-lastname', phone: 'cust-phone', address: 'cust-address' };
                 Object.keys(map).forEach((key) => {
@@ -707,54 +627,14 @@ const CHECKOUT_PREFILL = @json($prefillCustomer ?? null);
             renderCheckoutSummary();
         }
 
-        function paymentMethodLabel(methodId) {
-            const method = (CHECKOUT_CONFIG.payment_methods || []).find((m) => m.id === methodId);
-            if (!method) {
-                return '';
-            }
-            if (methodId === 'wallet') {
-                return `Mobile Wallet (${selectedWalletProvider})`;
-            }
-            return method.label || '';
+        function paymentMethodLabel() {
+            const method = (CHECKOUT_CONFIG.payment_methods || []).find((m) => m.id === 'cod');
+            return (method && method.label) ? method.label : 'Cash on Delivery';
         }
 
-        function switchPaymentTab(methodId) {
-            selectedPaymentMethodId = methodId;
-            selectedPaymentMethod = paymentMethodLabel(methodId);
-
-            document.querySelectorAll('[data-pay-tab]').forEach((btn) => {
-                btn.className = PAY_TAB_INACTIVE;
-                if (btn.dataset.payTab === methodId) {
-                    btn.className = PAY_TAB_ACTIVE;
-                }
-            });
-
-            document.querySelectorAll('[id^="payment-panel-"]').forEach((panel) => panel.classList.add('hidden'));
-            const panel = document.getElementById('payment-panel-' + methodId);
-            if (panel) {
-                panel.classList.remove('hidden');
-            }
-        }
-
-        function selectWalletProvider(provider) {
-            selectedWalletProvider = provider;
-            selectedPaymentMethod = paymentMethodLabel('wallet');
-            document.getElementById('wallet-name-label').innerText = provider;
-
-            const easyLabel = document.getElementById('wallet-easypaisa-label');
-            const jazzLabel = document.getElementById('wallet-jazzcash-label');
-
-            if(provider === 'Easypaisa') {
-                easyLabel.className = "flex items-center gap-3 p-3 rounded-xl border-2 border-beautage-purple bg-white cursor-pointer transition shadow-xs";
-                easyLabel.querySelector('input').checked = true;
-                jazzLabel.className = "flex items-center gap-3 p-3 rounded-xl border-2 border-purple-200 bg-white cursor-pointer transition shadow-xs";
-                jazzLabel.querySelector('input').checked = false;
-            } else {
-                jazzLabel.className = "flex items-center gap-3 p-3 rounded-xl border-2 border-beautage-purple bg-white cursor-pointer transition shadow-xs";
-                jazzLabel.querySelector('input').checked = true;
-                easyLabel.className = "flex items-center gap-3 p-3 rounded-xl border-2 border-purple-200 bg-white cursor-pointer transition shadow-xs";
-                easyLabel.querySelector('input').checked = false;
-            }
+        function switchPaymentTab() {
+            selectedPaymentMethodId = 'cod';
+            selectedPaymentMethod = paymentMethodLabel();
         }
 
         function applyPromoCode() {

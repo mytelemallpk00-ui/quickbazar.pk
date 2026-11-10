@@ -5,6 +5,7 @@ namespace App\Filament\Pages;
 use App\Filament\Concerns\AuthorizesAdminPage;
 use App\Support\AdminPermissions;
 use App\Support\CheckoutSettings as CheckoutSettingsStore;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Textarea;
@@ -97,31 +98,12 @@ class CheckoutSettings extends Page implements HasForms
                                     ->columnSpanFull(),
                             ]),
                         Tabs\Tab::make('Payment methods')
-                            ->icon('heroicon-o-credit-card')
+                            ->icon('heroicon-o-banknotes')
                             ->schema([
-                                Repeater::make('payment_methods')
-                                    ->label('Payment options at checkout')
-                                    ->schema([
-                                        TextInput::make('id')->required()->maxLength(40),
-                                        TextInput::make('label')
-                                            ->label('Full label (saved on order)')
-                                            ->required()
-                                            ->maxLength(160),
-                                        TextInput::make('short_label')
-                                            ->label('Tab label')
-                                            ->maxLength(80),
-                                        TextInput::make('icon')
-                                            ->placeholder('banknote, smartphone, credit-card, landmark')
-                                            ->maxLength(40),
-                                        Textarea::make('instructions')
-                                            ->label('Customer instructions')
-                                            ->rows(3)
-                                            ->columnSpanFull(),
-                                        Toggle::make('enabled')->default(true),
-                                    ])
-                                    ->columns(2)
-                                    ->collapsible()
-                                    ->columnSpanFull(),
+                                Placeholder::make('cod_only_notice')
+                                    ->label('Active payment method')
+                                    ->content('Cash on Delivery is the only payment method. Mobile wallet, card, and bank transfer are turned off.')
+                                    ->dehydrated(false),
                             ]),
                         Tabs\Tab::make('Tax & currency')
                             ->icon('heroicon-o-calculator')
