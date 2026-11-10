@@ -18,7 +18,7 @@ class StoreAutomationSettings
                 'steps' => [
                     [
                         'delay_hours' => 1,
-                        'subject' => 'You left something in your Beautage bag',
+                        'subject' => 'You left something in your Quick Bazar bag',
                         'badge' => 'CART · REMINDER',
                         'headline' => 'Your favourites are waiting',
                         'body_html' => '<p>We saved your bag — complete checkout before items sell out.</p>',
@@ -27,7 +27,7 @@ class StoreAutomationSettings
                     ],
                     [
                         'delay_hours' => 24,
-                        'subject' => 'Still thinking? Your Beautage bag is reserved',
+                        'subject' => 'Still thinking? Your Quick Bazar bag is reserved',
                         'badge' => 'CART · 24H',
                         'headline' => 'Luxury skincare, one tap away',
                         'body_html' => '<p>Your selected products are still in your bag. Need help choosing? Reply to this email.</p>',
@@ -36,7 +36,7 @@ class StoreAutomationSettings
                     ],
                     [
                         'delay_hours' => 72,
-                        'subject' => 'Last call — your Beautage cart expires soon',
+                        'subject' => 'Last call — your Quick Bazar cart expires soon',
                         'badge' => 'CART · FINAL',
                         'headline' => 'Final reminder for your bag',
                         'body_html' => '<p>This is our last nudge — after this, you may need to re-add items.</p>',
@@ -50,7 +50,7 @@ class StoreAutomationSettings
                 'steps' => [
                     [
                         'delay_hours' => 0,
-                        'subject' => 'Thank you for your Beautage order',
+                        'subject' => 'Thank you for your Quick Bazar order',
                         'badge' => 'ORDER · CONFIRMED',
                         'headline' => 'We received your order',
                         'body_html' => '<p>Our team is preparing your parcel. You will get tracking details when it ships.</p>',
@@ -81,7 +81,7 @@ class StoreAutomationSettings
                 'enabled' => true,
                 'default_cycle_days' => 42,
                 'send_days_before' => 5,
-                'subject' => 'Time to replenish your Beautage essentials?',
+                'subject' => 'Time to replenish your Quick Bazar essentials?',
                 'badge' => 'REORDER · SMART',
                 'headline' => 'Your routine refill is due soon',
                 'body_html' => '<p>Based on your last purchase, you may be running low. Re-order in one click.</p>',
@@ -92,7 +92,7 @@ class StoreAutomationSettings
                 'enabled' => true,
                 'threshold' => 10,
                 'admin_emails' => 'admin@beautage.com.pk',
-                'subject' => 'Low stock alert — Beautage catalog',
+                'subject' => 'Low stock alert — Quick Bazar catalog',
                 'badge' => 'OPS · INVENTORY',
                 'headline' => 'Products need restocking',
                 'body_html' => '<p>The following SKUs are at or below your alert threshold.</p>',

@@ -19,7 +19,7 @@ class ProgrammaticSeoLandingController extends Controller
             '{location}' => (string) ($landing->location ?? ''),
             '{category}' => (string) ($landing->category?->name ?? 'Beauty'),
             '{use_case}' => (string) ($landing->use_case ?? ''),
-            '{brand}' => 'Beautage',
+            '{brand}' => 'Quick Bazar',
         ];
         $headline = $landing->applyTokens($landing->headline, $tokens);
         $introHtml = $landing->applyTokens((string) ($landing->intro_html ?? ''), $tokens);

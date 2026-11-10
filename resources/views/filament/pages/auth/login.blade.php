@@ -5,7 +5,7 @@
         <div class="sp-login-card">
             <p class="sp-login-kicker">Staff sign in</p>
             <h2 class="sp-login-title">Welcome back</h2>
-            <p class="sp-login-lead">Use your Shop Pakistan admin account to open the dashboard.</p>
+            <p class="sp-login-lead">Use your Quick Bazar admin account to open the dashboard.</p>
 
             <x-filament-panels::form id="form" wire:submit="authenticate" class="sp-login-form">
                 {{ $this->form }}

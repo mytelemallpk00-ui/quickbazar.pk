@@ -164,7 +164,7 @@ class StoreAutomations extends Page implements HasForms
 
         Notification::make()
             ->title('Store automations saved')
-            ->body('Emails use the Beautage store theme. Scheduler runs every 15 minutes.')
+            ->body('Emails use the Quick Bazar store theme. Scheduler runs every 15 minutes.')
             ->success()
             ->send();
     }

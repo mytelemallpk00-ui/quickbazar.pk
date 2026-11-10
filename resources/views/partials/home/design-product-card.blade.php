@@ -30,7 +30,7 @@
             <span class="text-xs text-gray-400">{{ $sku }}</span>
         </div>
         <a href="{{ $productUrl }}">
-            <img src="{{ $image }}" alt="{{ $name }}" class="w-full h-56 object-cover rounded-2xl mb-4 shadow" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/400x300/1C2541/F4E8C1?text=Beautage';">
+            <img src="{{ $image }}" alt="{{ $name }}" class="w-full h-56 object-cover rounded-2xl mb-4 shadow" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/400x300/1C2541/F4E8C1?text=Quick+Bazar';">
         </a>
         <h3 class="font-bold text-lg text-brand-navy"><a href="{{ $productUrl }}" class="hover:text-brand-accent">{{ $name }}</a></h3>
         @if ($desc !== '')
@@ -59,7 +59,7 @@
             <i class="fa-regular fa-heart text-xs sm:text-sm"></i>
         </button>
         <a href="{{ $productUrl }}">
-            <img src="{{ $image }}" alt="{{ $name }}" class="w-full h-40 sm:h-60 object-cover rounded-xl mb-3 sm:mb-4 group-hover:scale-105 transition duration-300" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/300x300/f8f9fa/1C2541?text=Beautage';">
+            <img src="{{ $image }}" alt="{{ $name }}" class="w-full h-40 sm:h-60 object-cover rounded-xl mb-3 sm:mb-4 group-hover:scale-105 transition duration-300" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/300x300/f8f9fa/1C2541?text=Quick+Bazar';">
         </a>
     </div>
     <div>

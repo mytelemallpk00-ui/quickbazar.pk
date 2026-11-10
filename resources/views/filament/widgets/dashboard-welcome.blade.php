@@ -29,7 +29,7 @@
                     </p>
                     <h2 class="beautage-saas-hero-title">Welcome back, {{ $firstName }}</h2>
                     <p class="beautage-saas-hero-subtitle">
-                        Your Beautage command center — sales, traffic, and storefront health at a glance.
+                        Your Quick Bazar command center — sales, traffic, and storefront health at a glance.
                     </p>
                 </div>
                 <div class="beautage-saas-hero-actions">

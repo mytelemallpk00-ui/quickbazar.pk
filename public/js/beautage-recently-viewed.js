@@ -7,7 +7,7 @@
             escapeHtml: (v) => String(v ?? ''),
             escapeAttr: (v) => String(v ?? ''),
             whenIdle: (cb) => window.setTimeout(cb, 1),
-            PLACEHOLDER_PRODUCT: 'https://placehold.co/400x400/5D267D/FFFFFF?text=Beautage',
+            PLACEHOLDER_PRODUCT: 'https://placehold.co/400x400/5D267D/FFFFFF?text=Quick+Bazar',
         };
     }
 

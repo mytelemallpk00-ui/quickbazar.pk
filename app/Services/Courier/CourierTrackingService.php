@@ -21,7 +21,7 @@ class CourierTrackingService
             return 'Courier live tracking: '.$live;
         }
 
-        return 'Courier live scan: jald add ho rahi hai — abhi status Beautage order database se hai (upar).';
+        return 'Courier live scan: jald add ho rahi hai — abhi status Quick Bazar order database se hai (upar).';
     }
 
     /**

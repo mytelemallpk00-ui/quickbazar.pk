@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'My account — Beautage')
+@section('title', 'My account — Quick Bazar')
 
 @section('content')
 <main class="w-full flex-1 py-8 px-4 sm:px-12 xl:px-20 space-y-8">

@@ -131,7 +131,7 @@ class AnalyticsPerformanceTracking extends Page implements HasForms
                                             ->columnSpanFull(),
                                     ]),
                                 Section::make('How automatic connection works')
-                                    ->description('Beautage injects tags + dataLayer on your storefront as soon as you save valid IDs — no theme edits.')
+                                    ->description('Quick Bazar injects tags + dataLayer on your storefront as soon as you save valid IDs — no theme edits.')
                                     ->schema([
                                         Placeholder::make('analytics_steps')
                                             ->label('')

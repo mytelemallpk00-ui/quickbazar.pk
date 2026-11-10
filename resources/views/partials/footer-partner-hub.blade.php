@@ -18,7 +18,7 @@
             </span>
             @endif
             <h2 id="partner-hub-heading" class="text-2xl sm:text-3xl font-serif font-bold text-white tracking-tight">
-                {{ $footer['partner_hub_title'] ?? 'Beautage PVT Ltd. Partner' }}
+                {{ $footer['partner_hub_title'] ?? 'Quick Bazar PVT Ltd. Partner' }}
             </h2>
             @if (filled($footer['partner_hub_subtitle'] ?? null))
             <p class="mt-2 text-xs sm:text-sm text-slate-300 leading-relaxed font-medium">{{ $footer['partner_hub_subtitle'] }}</p>

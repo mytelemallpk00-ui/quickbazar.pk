@@ -4,7 +4,7 @@
 
 Hello {{ $order->customerName() }},
 
-Thank you for shopping with **Beautage**. Here is a summary of your order.
+Thank you for shopping with **Quick Bazar**. Here is a summary of your order.
 
 **Payment method:** {{ $order->payment_method }}  
 **Order total:** {{ MoneyFormat::pkr($order->total) }}

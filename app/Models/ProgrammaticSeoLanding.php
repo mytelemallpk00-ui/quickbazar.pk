@@ -48,12 +48,12 @@ class ProgrammaticSeoLanding extends Model
             '{location}' => (string) ($this->location ?? ''),
             '{category}' => $categoryName,
             '{use_case}' => (string) ($this->use_case ?? ''),
-            '{brand}' => 'Beautage',
+            '{brand}' => 'Quick Bazar',
         ];
 
         $title = $this->applyTokens($this->meta_title ?: $this->headline, $replacements);
         $description = $this->applyTokens(
-            $this->meta_description ?: 'Shop '.$categoryName.' at Beautage Pakistan.',
+            $this->meta_description ?: 'Shop '.$categoryName.' at Quick Bazar Pakistan.',
             $replacements
         );
 

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Order '.$order->order_number.' — Beautage')
+@section('title', 'Order '.$order->order_number.' — Quick Bazar')
 
 @section('content')
 <main class="w-full flex-1 py-8 px-4 sm:px-12 xl:px-20 space-y-6 max-w-3xl mx-auto">

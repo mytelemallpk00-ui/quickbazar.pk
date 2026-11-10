@@ -55,7 +55,7 @@ class HomeController extends Controller
                 'description' => filled($hero['description'] ?? null)
                     ? (string) $hero['description']
                     : 'Original catalog, clear PKR pricing, and support on WhatsApp when you need it.',
-                'image' => HomepageContent::imageUrl($hero['image_url'] ?? null, 'Shop Pakistan'),
+                'image' => HomepageContent::imageUrl($hero['image_url'] ?? null, 'Quick Bazar'),
                 'image_alt' => filled($hero['image_alt'] ?? null) ? (string) $hero['image_alt'] : 'Featured product',
             ],
             'promoProduct' => $promoProduct ? $this->presentProduct($promoProduct) : null,
@@ -99,7 +99,7 @@ class HomeController extends Controller
                 'flash' => filter_var(data_get($homepage, 'layout.flash', true), FILTER_VALIDATE_BOOLEAN),
             ],
             'pageSeo' => $this->homeSeo(),
-            'whatsappUrl' => LiveChatSettings::whatsappUrl('Hi, I need help with an order on Shop Pakistan.'),
+            'whatsappUrl' => LiveChatSettings::whatsappUrl('Hi, I need help with an order on Quick Bazar.'),
             'alpineAlreadyLoaded' => LiveChatSettings::isEnabled(),
         ]);
     }
@@ -107,7 +107,7 @@ class HomeController extends Controller
     /** @return array<string, string> */
     private function homeSeo(): array
     {
-        $brand = trim((string) SiteSettings::get('site_name', 'Beautage')) ?: 'Beautage';
+        $brand = trim((string) SiteSettings::get('site_name', 'Quick Bazar')) ?: 'Quick Bazar';
         $title = trim((string) SiteSettings::get('default_meta_title', ''));
         $description = trim((string) SiteSettings::get('default_meta_description', ''));
 

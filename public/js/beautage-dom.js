@@ -1,5 +1,5 @@
 (function () {
-    const PLACEHOLDER_PRODUCT = 'https://placehold.co/400x400/5D267D/FFFFFF?text=Beautage';
+    const PLACEHOLDER_PRODUCT = 'https://placehold.co/400x400/5D267D/FFFFFF?text=Quick+Bazar';
     const PLACEHOLDER_THUMB = 'https://placehold.co/100x100/5D267D/FFFFFF?text=Item';
 
     function escapeHtml(value) {

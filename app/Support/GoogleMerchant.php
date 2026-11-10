@@ -33,9 +33,9 @@ class GoogleMerchant
             return $brand;
         }
 
-        $site = trim((string) SiteSettings::get('site_name', 'Beautage'));
+        $site = trim((string) SiteSettings::get('site_name', 'Quick Bazar'));
 
-        return $site !== '' ? $site : 'Beautage';
+        return $site !== '' ? $site : 'Quick Bazar';
     }
 
     public static function currencyCode(): string

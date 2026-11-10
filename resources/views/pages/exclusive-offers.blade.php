@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Exclusive Offers & Bundle Deals — Beautage')
+@section('title', 'Exclusive Offers & Bundle Deals — Quick Bazar')
 
 @section('body_attrs')
 class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-beautage-pink selection:text-white pb-36 md:pb-0 overflow-x-hidden"

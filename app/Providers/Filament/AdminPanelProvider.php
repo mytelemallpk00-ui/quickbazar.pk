@@ -66,7 +66,7 @@ class AdminPanelProvider extends PanelProvider
 
         return $panel
             ->profile(EditProfile::class, isSimple: false)
-            ->brandName(fn (): string => (string) SiteSettings::get('site_name', 'Beautage'))
+            ->brandName(fn (): string => (string) SiteSettings::get('site_name', 'Quick Bazar'))
             ->brandLogo(fn (): string => SiteSettings::logoUrl())
             ->brandLogoHeight('2rem')
             ->favicon(fn (): string => SiteSettings::faviconUrl())

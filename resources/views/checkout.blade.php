@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Secure Checkout — Beautage Flagship Store')
+@section('title', 'Secure Checkout — Quick Bazar Flagship Store')
 
 @section('body_attrs')
 class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-beautage-pink selection:text-white pb-36 md:pb-0 overflow-x-hidden"

@@ -45,7 +45,7 @@ class ProductImportMapper
     {
         return match ($source) {
             ProductImportBatch::SOURCE_DARAZ => [[
-                'Product Name' => 'Beautage LED Therapy Mask',
+                'Product Name' => 'Quick Bazar LED Therapy Mask',
                 'SellerSku' => 'DARAZ-SKU-001',
                 'Price' => '12999',
                 'Sale Price' => '9999',

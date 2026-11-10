@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', ($pageSeo['title'] ?? null) ?: ($product->name.' | Beautage'))
+@section('title', ($pageSeo['title'] ?? null) ?: ($product->name.' | Quick Bazar'))
 
 @section('body_attrs')
 class="lumiere-v2 bg-gray-50 text-gray-800 font-sans antialiased min-h-screen flex flex-col selection:bg-amber-200 selection:text-slate-900"
@@ -305,10 +305,10 @@ class="lumiere-v2 bg-gray-50 text-gray-800 font-sans antialiased min-h-screen fl
                         <div class="space-y-3">
                             @foreach ($productFaqs as $faqIndex => $faq)
                             @php
-                                $faqQuestion = str_ireplace('Beautage', 'Shop Pakistan', (string) ($faq['question'] ?? ''));
+                                $faqQuestion = str_ireplace(['Beautage', 'Shop Pakistan'], 'Quick Bazar', (string) ($faq['question'] ?? ''));
                                 $faqAnswer = str_ireplace(
-                                    ['Beautage', 'Rs 7,500', 'Rs. 7,500'],
-                                    ['Shop Pakistan', MoneyFormat::pkr($freeShipAt), MoneyFormat::pkr($freeShipAt)],
+                                    ['Beautage', 'Shop Pakistan', 'Rs 7,500', 'Rs. 7,500'],
+                                    ['Quick Bazar', 'Quick Bazar', MoneyFormat::pkr($freeShipAt), MoneyFormat::pkr($freeShipAt)],
                                     (string) ($faq['answer'] ?? '')
                                 );
                             @endphp

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', ($pageSeo['title'] ?? null) ?: 'Beautage — Elevate Your Natural Elegance')
+@section('title', ($pageSeo['title'] ?? null) ?: 'Quick Bazar — Elevate Your Natural Elegance')
 
 @section('body_attrs')
 class="lumiere-v2 bg-gray-50 text-gray-800 font-sans antialiased min-h-screen flex flex-col overflow-x-clip"
@@ -8,7 +8,7 @@ class="lumiere-v2 bg-gray-50 text-gray-800 font-sans antialiased min-h-screen fl
 
 @push('structured-data')
 @php
-    $brandName = \App\Support\SiteSettings::get('site_name', 'Beautage');
+    $brandName = \App\Support\SiteSettings::get('site_name', 'Quick Bazar');
     $homeUrl = route('home');
     $logo = \App\Support\SiteSettings::logoUrl();
     if (! str_starts_with($logo, 'http://') && ! str_starts_with($logo, 'https://')) {
@@ -38,7 +38,7 @@ class="lumiere-v2 bg-gray-50 text-gray-800 font-sans antialiased min-h-screen fl
 @section('content')
 @php
     $promo = $promoProduct;
-    $placeholder = 'https://placehold.co/640x640/0B132B/D4AF37?text=Beautage';
+    $placeholder = 'https://placehold.co/640x640/0B132B/D4AF37?text=Quick+Bazar';
     $heroName = (string) ($promo['name'] ?? '');
     $words = $heroName !== '' ? preg_split('/\s+/', $heroName) : [];
     $words = is_array($words) ? $words : [];

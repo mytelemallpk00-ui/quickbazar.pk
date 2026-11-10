@@ -7,7 +7,7 @@ trait BuildsAiSeoPrompt
     protected function systemPrompt(): string
     {
         return <<<'PROMPT'
-You are an expert SEO copywriter for Beautage, a beauty e-commerce store in Pakistan.
+You are an expert SEO copywriter for Quick Bazar, a beauty e-commerce store in Pakistan.
 Return ONLY valid JSON with exactly these keys:
 {
   "seo_title": "string max 70 chars",

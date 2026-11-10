@@ -6,7 +6,7 @@
     const priceCeil = Number(config.priceCeil ?? 0);
     const defaultTitle = config.defaultTitle || 'Collections & Categories';
     const defaultBlurb = config.defaultBlurb || '';
-    const placeholder = 'https://placehold.co/300x300/0B132B/D4AF37?text=Beautage';
+    const placeholder = 'https://placehold.co/300x300/0B132B/D4AF37?text=Quick+Bazar';
     const ingredients = [
         { id: 'biotin', label: 'Organic Biotin', test: /biotin/i },
         { id: 'argan', label: 'Argan Extract', test: /argan/i },

@@ -9,7 +9,7 @@
 @extends('mail.layouts.beautage', [
     'theme' => 'store',
     'preheader' => $broadcast->preheader,
-    'headline' => $broadcast->headline ?: 'This week at Beautage',
+    'headline' => $broadcast->headline ?: 'This week at Quick Bazar',
     'badge' => $payload['badge'] ?? 'STORE · PRODUCTS & SALES',
     'title' => $broadcast->subject,
     'footerNote' => 'Store newsletter — products, bundles & promotions.',

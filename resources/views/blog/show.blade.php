@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', ($pageSeo['title'] ?? null) ?: ($post->title.' — Shop Pakistan Journal'))
+@section('title', ($pageSeo['title'] ?? null) ?: ($post->title.' — Quick Bazar Journal'))
 
 @push('structured-data')
 <script type="application/ld+json">
@@ -12,7 +12,7 @@
     'image' => [$post->image],
     'datePublished' => optional($post->published_at)->toDateString(),
     'author' => ['@type' => 'Person', 'name' => $post->author],
-    'publisher' => ['@type' => 'Organization', 'name' => 'Shop Pakistan'],
+    'publisher' => ['@type' => 'Organization', 'name' => 'Quick Bazar'],
     'mainEntityOfPage' => route('blog.show', $post),
 ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
 </script>

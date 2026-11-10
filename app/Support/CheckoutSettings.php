@@ -66,7 +66,7 @@ class CheckoutSettings
                     'short_label' => 'Bank Transfer',
                     'icon' => 'landmark',
                     'enabled' => true,
-                    'instructions' => 'Transfer the order total to Beautage PVT Ltd — HBL Account: PK36HABB001234567890. Dispatch after payment confirmation.',
+                    'instructions' => 'Transfer the order total to Quick Bazar PVT Ltd — HBL Account: PK36HABB001234567890. Dispatch after payment confirmation.',
                 ],
             ],
         ];

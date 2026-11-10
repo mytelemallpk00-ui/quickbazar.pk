@@ -28,7 +28,7 @@ class MnpCourierClient extends AbstractCourierClient
         $weight = max(0.5, (float) config('courier.default_weight_kg', 0.5));
         $productSummary = $order->items->pluck('name')->take(3)->implode(', ');
         if ($productSummary === '') {
-            $productSummary = 'Beautage order';
+            $productSummary = 'Quick Bazar order';
         }
 
         return [
@@ -51,7 +51,7 @@ class MnpCourierClient extends AbstractCourierClient
             'productDetails' => substr($productSummary, 0, 50),
             'fragile' => 'NO',
             'service' => $this->credential('service') ?: 'Overnight',
-            'remarks' => 'Beautage storefront booking',
+            'remarks' => 'Quick Bazar storefront booking',
             'insuranceValue' => '0',
         ];
     }

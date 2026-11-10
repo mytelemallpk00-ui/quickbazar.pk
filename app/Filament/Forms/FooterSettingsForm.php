@@ -20,7 +20,7 @@ class FooterSettingsForm
                 ->schema([
                     AdminImageUpload::make('footer_logo_url', AdminImageUpload::PRESET_SITE_LOGO)
                         ->label('Footer logo')
-                        ->helperText('Round logo shown above the about text. Leave empty to use the default round Beautage logo.')
+                        ->helperText('Round logo shown above the about text. Leave empty to use the default round Quick Bazar logo.')
                         ->columnSpanFull(),
                     Textarea::make('footer_settings.about_text')
                         ->label('About text')
@@ -58,7 +58,7 @@ class FooterSettingsForm
                     TextInput::make('footer_settings.newsletter_placeholder')->label('Email placeholder'),
                     TextInput::make('footer_settings.newsletter_button')->label('Button label'),
                 ])->columns(2),
-            Section::make('Beautage PVT Ltd. Partner hub')
+            Section::make('Quick Bazar PVT Ltd. Partner hub')
                 ->description('Highlighted footer block: partner pill buttons and a separate briefing-list newsletter.')
                 ->schema([
                     Toggle::make('footer_settings.partner_hub_enabled')
@@ -67,7 +67,7 @@ class FooterSettingsForm
                     TextInput::make('footer_settings.partner_hub_badge')->label('Badge'),
                     TextInput::make('footer_settings.partner_hub_title')
                         ->label('Section title')
-                        ->default('Beautage PVT Ltd. Partner'),
+                        ->default('Quick Bazar PVT Ltd. Partner'),
                     Textarea::make('footer_settings.partner_hub_subtitle')->label('Subtitle')->rows(2)->columnSpanFull(),
                     Repeater::make('footer_settings.partner_hub_buttons')
                         ->label('Partner buttons')

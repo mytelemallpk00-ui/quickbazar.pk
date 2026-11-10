@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Our Story & Heritage — Beautage Flagship Store')
+@section('title', 'Our Story & Heritage — Quick Bazar Flagship Store')
 
 @section('body_attrs')
 class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-beautage-pink selection:text-white pb-36 md:pb-0 overflow-x-hidden"
@@ -25,7 +25,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
                     <span class="inline-block px-4 py-1 rounded-full text-[10px] uppercase font-extrabold tracking-widest bg-pink-500/30 text-pink-200 border border-pink-400/40">
                         ELEVATING NATURAL ELEGANCE SINCE 2018
                     </span>
-                    <h1 class="text-3xl sm:text-5xl font-serif font-bold text-white tracking-tight">The Beautage Philosophy</h1>
+                    <h1 class="text-3xl sm:text-5xl font-serif font-bold text-white tracking-tight">The Quick Bazar Philosophy</h1>
                     <p class="text-xs sm:text-sm text-purple-100 leading-relaxed font-medium">
                         We bridge the gap between advanced dermatological science and pure botanical luxury. Discover how our passion for uncompromising quality created Pakistan’s most trusted flagship beauty destination.
                     </p>
@@ -50,7 +50,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
                         Empowering Confidence Through Science & Botanical Purity
                     </h2>
                     <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-medium">
-                        At Beautage, we believe that true elegance is timeless and deeply personal. Founded by a coalition of dermatologists and organic chemists, our mission is to formulate and curate luxury skin elixirs and photon beauty devices that deliver visible, clinical results without compromise.
+                        At Quick Bazar, we believe that true elegance is timeless and deeply personal. Founded by a coalition of dermatologists and organic chemists, our mission is to formulate and curate luxury skin elixirs and photon beauty devices that deliver visible, clinical results without compromise.
                     </p>
                     <div class="grid grid-cols-2 gap-6 pt-4 border-t border-purple-100">
                         <div>
@@ -66,7 +66,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
 
                 <div class="lg:col-span-6 relative">
                     <div class="relative rounded-3xl overflow-hidden shadow-2xl border-2 border-purple-100 aspect-[4/3] bg-purple-50 group">
-                        <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&q=80&w=800" alt="Beautage Laboratory & Ingredients" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+                        <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&q=80&w=800" alt="Quick Bazar Laboratory & Ingredients" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
                         <div class="absolute inset-0 bg-gradient-to-t from-beautage-purpleDark/60 via-transparent to-transparent"></div>
                         <div class="absolute bottom-6 left-6 right-6 text-white">
                             <span class="text-[10px] font-extrabold uppercase tracking-widest text-amber-300 block">State of the Art</span>
@@ -120,7 +120,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
                     <span class="text-xs font-extrabold text-beautage-pink uppercase tracking-widest bg-pink-50 px-3 py-1 rounded-full border border-pink-200 inline-block">
                         Our Experts
                     </span>
-                    <h2 class="text-2xl sm:text-4xl font-serif font-bold text-beautage-purple">Meet the Minds Behind Beautage</h2>
+                    <h2 class="text-2xl sm:text-4xl font-serif font-bold text-beautage-purple">Meet the Minds Behind Quick Bazar</h2>
                     <p class="text-xs sm:text-sm text-slate-600 max-w-xl mx-auto">Dedicated scientists, dermatologists, and aestheticians driving skincare innovation.</p>
                 </div>
 
@@ -173,7 +173,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
                     </span>
                     <h2 class="text-2xl sm:text-4xl font-serif font-bold text-white">Sustainability at Our Core</h2>
                     <p class="text-xs sm:text-sm text-purple-100 leading-relaxed font-medium">
-                        We believe beautiful skin should never cost the Earth. All Beautage packaging is fully recyclable, cruelty-free certified, and sourced from ethically managed botanical reserves.
+                        We believe beautiful skin should never cost the Earth. All Quick Bazar packaging is fully recyclable, cruelty-free certified, and sourced from ethically managed botanical reserves.
                     </p>
                 </div>
                 <div class="lg:col-span-4 flex justify-lg-end">

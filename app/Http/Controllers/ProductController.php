@@ -24,7 +24,7 @@ class ProductController extends Controller
 
         $product->loadMissing('productCategory');
         $pageSeo = $product->toSeoArray();
-        $brand = trim((string) SiteSettings::get('site_name', 'Beautage')) ?: 'Beautage';
+        $brand = trim((string) SiteSettings::get('site_name', 'Quick Bazar')) ?: 'Quick Bazar';
         if (blank($product->meta_title) && blank($product->seo_title)) {
             $pageSeo['title'] = $product->name.' | '.$brand;
         }

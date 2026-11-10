@@ -175,7 +175,7 @@ class BulkProductImport extends Page implements HasForms
                     ->default(true),
                 Toggle::make('ai_seo')
                     ->label('Auto SEO & rewrite copy after import (recommended)')
-                    ->helperText('Rewrites title, meta, description and detail HTML for Beautage, then saves the product live. Smart SEO works without API keys; OpenAI/Gemini need keys under Settings → AI integration. Slower on large batches.')
+                    ->helperText('Rewrites title, meta, description and detail HTML for Quick Bazar, then saves the product live. Smart SEO works without API keys; OpenAI/Gemini need keys under Settings → AI integration. Slower on large batches.')
                     ->default(true),
                 TextInput::make('ai_target_keyword')
                     ->label('Default target SEO keyword (optional)')

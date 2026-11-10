@@ -18,7 +18,7 @@ class OrderInvoiceMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Invoice '.$this->order->order_number.' — Beautage',
+            subject: 'Invoice '.$this->order->order_number.' — Quick Bazar',
         );
     }
 

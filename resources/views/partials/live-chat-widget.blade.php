@@ -27,7 +27,7 @@
     >
         <div class="bg-gradient-to-r from-beautage-purple to-purple-900 text-white px-4 py-3 flex items-center justify-between">
             <div>
-                <p class="text-sm font-bold">Shop Pakistan</p>
+                <p class="text-sm font-bold">Quick Bazar</p>
                 <p class="text-[10px] text-purple-200">Usually replies instantly</p>
             </div>
             <button type="button" @click="open = false" class="p-1 rounded-lg hover:bg-white/10" aria-label="Close chat">

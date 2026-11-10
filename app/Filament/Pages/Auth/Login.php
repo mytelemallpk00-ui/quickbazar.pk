@@ -36,7 +36,7 @@ class Login extends BaseLogin
 
     public function getTitle(): string | Htmlable
     {
-        return 'Admin sign in — Shop Pakistan';
+        return 'Admin sign in — Quick Bazar';
     }
 
     public function getMaxWidth(): MaxWidth | string | null

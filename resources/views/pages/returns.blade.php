@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Returns & Exchanges — Beautage Flagship Store')
+@section('title', 'Returns & Exchanges — Quick Bazar Flagship Store')
 
 @section('body_attrs')
 class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-beautage-pink selection:text-white pb-36 md:pb-0 overflow-x-hidden"
@@ -27,7 +27,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
                     </span>
                     <h1 class="text-2xl sm:text-4xl lg:text-5xl font-serif font-bold text-white tracking-tight">Returns & Exchanges Portal</h1>
                     <p class="text-xs sm:text-sm text-purple-100 leading-relaxed">
-                        We want you to adore your Beautage luxury purchases. If anything isn't quite right, our streamlined portal makes returns, exchanges, or store credits effortless.
+                        We want you to adore your Quick Bazar luxury purchases. If anything isn't quite right, our streamlined portal makes returns, exchanges, or store credits effortless.
                     </p>
                 </div>
                 <div class="relative z-10 w-full md:w-auto">
@@ -193,7 +193,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
                             <i data-lucide="chevron-down" id="acc-3-icon" class="w-5 h-5 text-purple-400 transition-transform"></i>
                         </button>
                         <div id="acc-3-content" class="hidden px-6 pb-6 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-purple-50 pt-4">
-                            Yes! You can choose an instant exchange through our online portal or opt for Beautage Store Credit, which includes an additional 10% bonus credit applied immediately to your account for future purchases.
+                            Yes! You can choose an instant exchange through our online portal or opt for Quick Bazar Store Credit, which includes an additional 10% bonus credit applied immediately to your account for future purchases.
                         </div>
                     </div>
 

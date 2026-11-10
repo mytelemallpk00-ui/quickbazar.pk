@@ -1,6 +1,6 @@
 @php
     $payload = $payload ?? [];
-    $bodyHtml = $broadcast->body_html ?: ($payload['body_html'] ?? '<p>Latest partner update from Beautage PVT Ltd.</p>');
+    $bodyHtml = $broadcast->body_html ?: ($payload['body_html'] ?? '<p>Latest partner update from Quick Bazar PVT Ltd.</p>');
     $ctaLabel = $payload['cta_label'] ?? 'Read on beautage.com';
     $ctaUrl = $payload['cta_url'] ?? url('/press-releases');
     $sectionLabel = match ($payload['cms_page_type'] ?? null) {

@@ -1,5 +1,5 @@
 (function () {
-    const PLACEHOLDER = 'https://placehold.co/640x640/0B132B/D4AF37?text=Shop+Pakistan';
+    const PLACEHOLDER = 'https://placehold.co/640x640/0B132B/D4AF37?text=Quick+Bazar';
 
     function esc(value) {
         return String(value ?? '')

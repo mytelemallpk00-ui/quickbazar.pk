@@ -75,7 +75,7 @@ class StoreAutomationRunner
 
                     Mail::to($cart->email)->send(new StoreAutomationMail(
                         type: 'abandoned_cart',
-                            subjectLine: (string) ($step['subject'] ?? 'Your Beautage bag'),
+                            subjectLine: (string) ($step['subject'] ?? 'Your Quick Bazar bag'),
                         badge: (string) ($step['badge'] ?? 'CART'),
                         headline: (string) ($step['headline'] ?? 'Complete your order'),
                         bodyHtml: (string) ($step['body_html'] ?? ''),
@@ -141,7 +141,7 @@ class StoreAutomationRunner
 
                         Mail::to($order->customer_email)->send(new StoreAutomationMail(
                             type: 'post_purchase',
-                            subjectLine: (string) ($step['subject'] ?? 'Thank you — Beautage'),
+                            subjectLine: (string) ($step['subject'] ?? 'Thank you — Quick Bazar'),
                             badge: (string) ($step['badge'] ?? 'ORDER'),
                             headline: (string) ($step['headline'] ?? 'Thank you'),
                             bodyHtml: (string) ($step['body_html'] ?? ''),

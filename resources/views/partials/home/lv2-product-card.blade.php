@@ -2,7 +2,7 @@
     $card = $product ?? [];
     $name = (string) ($card['name'] ?? 'Product');
     $url = (string) ($card['url'] ?? route('collections'));
-    $image = $card['image'] ?: ($placeholder ?? 'https://placehold.co/640x640/0B132B/D4AF37?text=Shop+Pakistan');
+    $image = $card['image'] ?: ($placeholder ?? 'https://placehold.co/640x640/0B132B/D4AF37?text=Quick+Bazar');
     $hover = trim((string) ($card['hover_image'] ?? ''));
     if ($hover === $image) {
         $hover = '';
@@ -16,7 +16,7 @@
 @endphp
 <article class="lv2-product">
     <a href="{{ $url }}" class="lv2-product-media">
-        <img class="lv2-card-photo" src="{{ $image }}" alt="{{ $name }}" width="640" height="640" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://placehold.co/640x640/0B132B/D4AF37?text=Shop+Pakistan';">
+        <img class="lv2-card-photo" src="{{ $image }}" alt="{{ $name }}" width="640" height="640" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://placehold.co/640x640/0B132B/D4AF37?text=Quick+Bazar';">
         @if ($hover !== '')
             <img class="lv2-card-photo lv2-card-photo--alt" src="{{ $hover }}" alt="" width="640" height="640" loading="lazy" decoding="async">
         @endif

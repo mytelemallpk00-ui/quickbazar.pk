@@ -1,19 +1,19 @@
 @php
     use App\Support\MoneyFormat;
     $footerNotes = [
-        'abandoned_cart' => 'Cart reminder — Beautage store.',
-        'post_purchase' => 'Order updates & curated offers from Beautage.',
-        'reorder' => 'Smart reorder reminder — Beautage.',
-        'low_stock' => 'Internal inventory alert for Beautage admin.',
+        'abandoned_cart' => 'Cart reminder — Quick Bazar store.',
+        'post_purchase' => 'Order updates & curated offers from Quick Bazar.',
+        'reorder' => 'Smart reorder reminder — Quick Bazar.',
+        'low_stock' => 'Internal inventory alert for Quick Bazar admin.',
     ];
 @endphp
 @extends('mail.layouts.beautage', [
     'theme' => 'store',
     'preheader' => $headline ?? '',
-    'headline' => $headline ?? 'Beautage',
+    'headline' => $headline ?? 'Quick Bazar',
     'badge' => $badge ?? 'STORE',
-    'title' => $subject ?? 'Beautage',
-    'footerNote' => $footerNotes[$automationType ?? 'post_purchase'] ?? 'Beautage store.',
+    'title' => $subject ?? 'Quick Bazar',
+    'footerNote' => $footerNotes[$automationType ?? 'post_purchase'] ?? 'Quick Bazar store.',
 ])
 
 @section('content')

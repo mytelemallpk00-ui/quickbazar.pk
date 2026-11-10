@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Pakistan Domestic Shipping & Delivery — Beautage Flagship Store')
+@section('title', 'Pakistan Domestic Shipping & Delivery — Quick Bazar Flagship Store')
 
 @section('body_attrs')
 class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-beautage-pink selection:text-white pb-36 md:pb-0 overflow-x-hidden"
@@ -160,7 +160,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
                     </span>
                     <h2 class="text-2xl sm:text-3xl font-serif font-bold text-white">Track Your Pakistan Shipment</h2>
                     <p class="text-xs sm:text-sm text-purple-100 max-w-xl mx-auto">
-                        Enter your Beautage tracking ID (e.g. BTG-PK-9821) below to view live courier status.
+                        Enter your Quick Bazar tracking ID (e.g. BTG-PK-9821) below to view live courier status.
                     </p>
 
                     <div class="flex flex-col sm:flex-row items-center gap-3 max-w-xl mx-auto pt-2">
@@ -204,7 +204,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
                             <div class="flex items-start gap-3 opacity-60">
                                 <div class="w-2.5 h-2.5 rounded-full bg-purple-400 mt-1 shrink-0"></div>
                                 <div>
-                                    <strong class="text-white block">Dispatched from Beautage Flagship Warehouse</strong>
+                                    <strong class="text-white block">Dispatched from Quick Bazar Flagship Warehouse</strong>
                                     <span class="text-[11px] text-purple-200">Order Confirmed via Phone Verification</span>
                                 </div>
                             </div>
@@ -235,7 +235,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
                         <div class="w-10 h-10 rounded-xl bg-beautage-purple text-white flex items-center justify-center font-bold text-sm">2</div>
                         <h3 class="font-bold text-beautage-purple text-sm">Tamper-Proof Packaging</h3>
                         <p class="text-xs text-slate-600 leading-relaxed">
-                            All parcels are securely sealed in branded, tamper-evident Beautage polybags and boxes to ensure your luxury cosmetics and tech devices arrive pristine.
+                            All parcels are securely sealed in branded, tamper-evident Quick Bazar polybags and boxes to ensure your luxury cosmetics and tech devices arrive pristine.
                         </p>
                     </div>
 

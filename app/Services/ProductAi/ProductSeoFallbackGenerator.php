@@ -19,19 +19,19 @@ class ProductSeoFallbackGenerator
             $keyword = Str::limit($productName, 50, '');
         }
 
-        $category = trim((string) $categoryName) ?: 'Beautage';
+        $category = trim((string) $categoryName) ?: 'Quick Bazar';
         $slug = Str::limit(Str::slug($keyword !== '' ? $keyword : $productName), 80, '');
 
-        $short = "Shop {$productName} at Beautage Pakistan — authentic quality, fast nationwide delivery, and secure checkout.";
+        $short = "Shop {$productName} at Quick Bazar Pakistan — authentic quality, fast nationwide delivery, and secure checkout.";
         if ($keyword !== '') {
-            $short = "Discover {$productName} — optimized for {$keyword}. Beautage offers trusted beauty & wellness with COD across Pakistan.";
+            $short = "Discover {$productName} — optimized for {$keyword}. Quick Bazar offers trusted beauty & wellness with COD across Pakistan.";
         }
 
         $listing = Str::limit(strip_tags($short), 300, '');
 
         $html = '<h2>About this product</h2>'
-            .'<p>'.e($productName).' is available at Beautage with reliable delivery across Pakistan.</p>'
-            .'<h3>Why customers choose Beautage</h3>'
+            .'<p>'.e($productName).' is available at Quick Bazar with reliable delivery across Pakistan.</p>'
+            .'<h3>Why customers choose Quick Bazar</h3>'
             .'<ul>'
             .'<li><strong>Trusted catalog:</strong> Curated '.e($category).' products.</li>'
             .'<li><strong>Nationwide delivery:</strong> Major cities & remote towns.</li>'
@@ -52,15 +52,15 @@ class ProductSeoFallbackGenerator
         ])));
 
         return ProductAiContent::fromArray([
-            'seo_title' => Str::limit($productName.' | Buy Online in Pakistan — Beautage', 70, ''),
-            'meta_description' => Str::limit("Buy {$productName} online in Pakistan at Beautage. {$keyword}. Fast delivery & secure checkout.", 160, ''),
+            'seo_title' => Str::limit($productName.' | Buy Online in Pakistan — Quick Bazar', 70, ''),
+            'meta_description' => Str::limit("Buy {$productName} online in Pakistan at Quick Bazar. {$keyword}. Fast delivery & secure checkout.", 160, ''),
             'slug' => $slug,
             'short_description' => $short,
             'listing_summary' => $listing,
             'html_description' => $html,
             'detail_heading' => 'Product details',
             'bullet_features' => [
-                ['title' => 'Authentic quality', 'description' => 'Sourced for Beautage customers in Pakistan.'],
+                ['title' => 'Authentic quality', 'description' => 'Sourced for Quick Bazar customers in Pakistan.'],
                 ['title' => 'Fast delivery', 'description' => 'Dispatch from our fulfillment network nationwide.'],
                 ['title' => 'Easy returns policy', 'description' => 'See our returns page for eligibility.'],
             ],
@@ -75,7 +75,7 @@ class ProductSeoFallbackGenerator
     {
         $rows = [
             ['label' => 'Product', 'value' => $productName],
-            ['label' => 'Brand', 'value' => 'Beautage'],
+            ['label' => 'Brand', 'value' => 'Quick Bazar'],
             ['label' => 'Country of sale', 'value' => 'Pakistan'],
         ];
 

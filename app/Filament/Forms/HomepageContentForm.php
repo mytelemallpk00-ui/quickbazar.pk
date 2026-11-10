@@ -55,7 +55,7 @@ class HomepageContentForm
                         ->label('Gradient end'),
                     TextInput::make('homepage_content.hero.badge')
                         ->label('Badge text')
-                        ->placeholder('NEW BEAUTAGE TECH RELEASE')
+                        ->placeholder('NEW QUICK BAZAR TECH RELEASE')
                         ->maxLength(120),
                     TextInput::make('homepage_content.hero.title_line1')
                         ->label('Headline (first line)')

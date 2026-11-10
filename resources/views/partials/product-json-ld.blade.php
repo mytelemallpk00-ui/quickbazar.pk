@@ -9,7 +9,7 @@
         'description' => \Illuminate\Support\Str::limit(strip_tags((string) ($pageSeo['description'] ?? $product->short_description ?? $product->description ?? '')), 500),
         'image' => $galleryImages ?: [$product->image],
         'sku' => (string) ($product->external_sku ?: $product->slug ?: $product->id),
-        'brand' => ['@type' => 'Brand', 'name' => 'Beautage'],
+        'brand' => ['@type' => 'Brand', 'name' => 'Quick Bazar'],
         'offers' => [
             '@type' => 'Offer',
             'url' => route('product.show', $product),

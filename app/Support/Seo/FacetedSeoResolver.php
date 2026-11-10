@@ -35,7 +35,7 @@ final class FacetedSeoResolver
         }
 
         $canonical = route('collections', $canonicalQuery);
-        $brand = trim((string) SiteSettings::get('site_name', 'Beautage')) ?: 'Beautage';
+        $brand = trim((string) SiteSettings::get('site_name', 'Quick Bazar')) ?: 'Quick Bazar';
         $noindexExtras = (bool) (SeoAutomationSettings::all()['faceted_noindex_when_extra_filters'] ?? true);
         $cat = $request->query('cat');
         $category = null;

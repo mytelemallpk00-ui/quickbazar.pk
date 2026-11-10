@@ -70,9 +70,9 @@ class ThemeSettings extends Page implements HasForms
         $themeColors = SiteSettings::themeColors();
 
         $this->form->fill([
-            'site_name' => SiteSettings::get('site_name', 'Beautage'),
+            'site_name' => SiteSettings::get('site_name', 'Quick Bazar'),
             'site_tagline' => SiteSettings::get('site_tagline', 'Elevate Your Natural Elegance'),
-            'support_phone' => SiteSettings::get('support_phone', '+1 (800) BEAUTAGE'),
+            'support_phone' => SiteSettings::get('support_phone', '+1 (800) QUICK BAZAR'),
             'support_email' => SiteSettings::get('support_email', 'hello@beautage.com.pk'),
             'logo_url' => SiteSettings::fileUploadFormState(SiteSettings::get('logo_url')),
             'favicon_url' => SiteSettings::fileUploadFormState(SiteSettings::get('favicon_url')),
@@ -85,7 +85,7 @@ class ThemeSettings extends Page implements HasForms
             'footer_settings' => FooterSettings::forStorefront(),
             'footer_logo_url' => SiteSettings::fileUploadFormState(SiteSettings::get('footer_logo_url')),
             'default_seo_focus_keyword' => SiteSettings::get('default_seo_focus_keyword', ''),
-            'default_meta_title' => SiteSettings::get('default_meta_title', 'Beautage — Elevate Your Natural Elegance'),
+            'default_meta_title' => SiteSettings::get('default_meta_title', 'Quick Bazar — Elevate Your Natural Elegance'),
             'default_meta_description' => SiteSettings::get('default_meta_description', ''),
             'default_meta_keywords' => SiteSettings::get('default_meta_keywords', ''),
             'default_robots' => SiteSettings::get('default_robots', 'index,follow'),
@@ -144,7 +144,7 @@ class ThemeSettings extends Page implements HasForms
                                 Placeholder::make('homepage_google_preview')
                                     ->label('')
                                     ->content(function (Get $get): HtmlString {
-                                        $title = $get('default_meta_title') ?: ($get('site_name') ?: 'Beautage');
+                                        $title = $get('default_meta_title') ?: ($get('site_name') ?: 'Quick Bazar');
                                         $tagline = $get('site_tagline') ?: 'Elevate Your Natural Elegance';
                                         $description = $get('default_meta_description') ?: $tagline;
 

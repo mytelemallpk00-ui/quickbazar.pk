@@ -33,7 +33,7 @@ class NewsletterSubscribeController extends Controller
         );
 
         $message = $validated['list'] === NewsletterSubscriber::LIST_PARTNER
-            ? 'You are subscribed to Beautage partner updates.'
+            ? 'You are subscribed to Quick Bazar partner updates.'
             : 'Thank you for subscribing! Check your inbox for offers and new arrivals.';
 
         return response()->json(['message' => $message]);

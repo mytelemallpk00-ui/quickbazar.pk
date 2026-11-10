@@ -41,6 +41,6 @@ class LiveChatSettings
 
     public static function whatsappPrefill(): string
     {
-        return trim((string) SiteSettings::get('chat_whatsapp_prefill', 'Hi Shop Pakistan, I need help with my order.'));
+        return trim((string) SiteSettings::get('chat_whatsapp_prefill', 'Hi Quick Bazar, I need help with my order.'));
     }
 }

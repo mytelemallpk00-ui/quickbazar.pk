@@ -23,7 +23,7 @@
                 Real People. Real Reviews.
             </h2>
             <p class="text-sm sm:text-base text-purple-100/90 mt-4 leading-relaxed max-w-2xl mx-auto">
-                Join thousands of happy customers who trust Beautage for quality beauty essentials, honest prices, and reliable delivery across Pakistan.
+                Join thousands of happy customers who trust Quick Bazar for quality beauty essentials, honest prices, and reliable delivery across Pakistan.
             </p>
         </div>
 

@@ -20,7 +20,7 @@ class SocialContentGenerator
         }
 
         $prompt = <<<PROMPT
-You are a social media strategist for Beautage, a premium beauty & wellness store in Pakistan.
+You are a social media strategist for Quick Bazar, a premium beauty & wellness store in Pakistan.
 Generate exactly {$count} unique social posts for the category: "{$category}".
 
 Return ONLY valid JSON (no markdown): an array of objects with keys:
@@ -82,7 +82,7 @@ PROMPT;
         for ($i = 1; $i <= $count; $i++) {
             $items[] = [
                 'title' => "{$category} pick #{$i}",
-                'caption' => "Discover {$category} essentials at Beautage — curated quality, fast delivery across Pakistan. #Beautage #{$this->tagify($category)} #Pakistan #Beauty #ShopOnline",
+                'caption' => "Discover {$category} essentials at Quick Bazar — curated quality, fast delivery across Pakistan. #QuickBazar #{$this->tagify($category)} #Pakistan #Beauty #ShopOnline",
             ];
         }
 

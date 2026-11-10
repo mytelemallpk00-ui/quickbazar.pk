@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', ($pageSeo['title'] ?? null) ?: 'Journal — Shop Pakistan')
+@section('title', ($pageSeo['title'] ?? null) ?: 'Journal — Quick Bazar')
 
 @section('body_attrs')
 class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-beautage-pink selection:text-white pb-36 md:pb-0 overflow-x-hidden"
@@ -23,7 +23,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
                 <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-beautage-pink/20 rounded-full blur-3xl pointer-events-none"></div>
                 <div class="max-w-2xl relative z-10 space-y-3 text-center md:text-left">
                     <span class="inline-block px-3.5 py-1 rounded-full text-[10px] uppercase font-extrabold tracking-widest bg-pink-500/30 text-pink-200 border border-pink-400/40">
-                        SHOP PAKISTAN JOURNAL
+                        QUICK BAZAR JOURNAL
                     </span>
                     <h1 class="text-2xl sm:text-4xl lg:text-5xl font-serif font-bold text-white tracking-tight">Guides for everyday shopping</h1>
                     <p class="text-xs sm:text-sm text-purple-100 leading-relaxed">
@@ -215,7 +215,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
             container.innerHTML = filtered.map(a => `
                 <div class="bg-white rounded-3xl border border-purple-100 hover:border-beautage-pink shadow-sm hover:shadow-2xl transition-all duration-300 overflow-hidden flex flex-col justify-between group">
                     <div class="relative aspect-video overflow-hidden bg-purple-50 cursor-pointer" onclick="openArticleModal('${a.id}')">
-                        <img src="${a.image}" alt="${a.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.onerror=null; this.src='https://placehold.co/600x400/5E1F70/FFFFFF?text=Beautage+Journal';">
+                        <img src="${a.image}" alt="${a.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.onerror=null; this.src='https://placehold.co/600x400/5E1F70/FFFFFF?text=Quick+Bazar+Journal';">
                         <span class="absolute top-3 left-3 bg-beautage-purple text-white text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider shadow">
                             ${a.category}
                         </span>
@@ -338,7 +338,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
             event.preventDefault();
             const email = document.getElementById('blog-newsletter-email').value.trim();
             if(email) {
-                showToast(`Successfully subscribed ${email} to Beautage Expert Journal!`);
+                showToast(`Successfully subscribed ${email} to Quick Bazar Expert Journal!`);
                 document.getElementById('blog-newsletter-email').value = '';
             }
         }

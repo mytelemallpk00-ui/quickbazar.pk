@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', ($pageSeo['title'] ?? null) ?: 'Product Collections & Catalog — Beautage Flagship Store')
+@section('title', ($pageSeo['title'] ?? null) ?: 'Product Collections & Catalog — Quick Bazar Flagship Store')
 
 @section('body_attrs')
 class="lumiere-v2 bg-gray-50 text-gray-800 font-sans antialiased min-h-screen flex flex-col selection:bg-amber-200 selection:text-slate-900 pb-36 md:pb-0 overflow-x-hidden"

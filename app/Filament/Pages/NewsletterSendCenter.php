@@ -58,9 +58,9 @@ class NewsletterSendCenter extends Page implements HasForms
     {
         $this->form->fill([
             'store' => [
-                'subject' => 'New at Beautage — products, bundles & offers',
+                'subject' => 'New at Quick Bazar — products, bundles & offers',
                 'preheader' => 'Hand-picked products and bundle savings inside.',
-                'headline' => 'This week at Beautage',
+                'headline' => 'This week at Quick Bazar',
                 'sale_text' => 'Limited-time offers on flagship skincare & bundles.',
                 'intro_html' => '<p>Explore new arrivals, bundle deals, and exclusive newsletter-only highlights.</p>',
                 'product_ids' => [],
@@ -70,8 +70,8 @@ class NewsletterSendCenter extends Page implements HasForms
             ],
             'partner' => [
                 'cms_slug' => 'press-releases',
-                'subject' => 'Beautage partner update',
-                'preheader' => 'Corporate briefing from Beautage PVT Ltd.',
+                'subject' => 'Quick Bazar partner update',
+                'preheader' => 'Corporate briefing from Quick Bazar PVT Ltd.',
                 'headline' => 'Partner update',
                 'body_html' => '<p>Summary of the latest partner update.</p>',
                 'cta_label' => 'Read full update',
@@ -183,9 +183,9 @@ class NewsletterSendCenter extends Page implements HasForms
         $service = app(NewsletterBroadcastService::class);
 
         $payload = [
-            'subject' => $store['subject'] ?? 'Beautage store update',
+            'subject' => $store['subject'] ?? 'Quick Bazar store update',
             'preheader' => $store['preheader'] ?? null,
-            'headline' => $store['headline'] ?? 'Beautage',
+            'headline' => $store['headline'] ?? 'Quick Bazar',
             'body_html' => $store['intro_html'] ?? null,
             'intro_html' => $store['intro_html'] ?? null,
             'sale_text' => $store['sale_text'] ?? null,

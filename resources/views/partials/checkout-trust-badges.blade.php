@@ -41,7 +41,7 @@
 <div class="pt-5 mt-1 border-t border-purple-100 space-y-3" aria-label="Trust and security badges">
     <div class="text-center space-y-1">
         <p class="text-[10px] font-extrabold uppercase tracking-[0.2em] text-beautage-purple">Trust &amp; Security</p>
-        <p class="text-[11px] text-slate-500 leading-relaxed">Your payment and personal details are protected on every Beautage order.</p>
+        <p class="text-[11px] text-slate-500 leading-relaxed">Your payment and personal details are protected on every Quick Bazar order.</p>
     </div>
 
     <div class="grid grid-cols-2 gap-2.5">

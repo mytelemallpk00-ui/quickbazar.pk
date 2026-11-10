@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Track Your Order — Beautage Flagship Store')
+@section('title', 'Track Your Order — Quick Bazar Flagship Store')
 
 @section('body_attrs')
 class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-beautage-pink selection:text-white pb-36 md:pb-0 overflow-x-hidden"
@@ -211,7 +211,7 @@ const TRACK_ORDER_API = @json(route('orders.track'));
                 destination: "Bahawalpur, Pakistan",
                 amount: "$249.00",
                 milestones: [
-                    { title: "Order Confirmed & Verified", date: "October 21, 2026 - 10:15 AM", desc: "Your payment and order details have been successfully verified by Beautage Concierge.", completed: true },
+                    { title: "Order Confirmed & Verified", date: "October 21, 2026 - 10:15 AM", desc: "Your payment and order details have been successfully verified by Quick Bazar Concierge.", completed: true },
                     { title: "Dispatched from Flagship Hub", date: "October 22, 2026 - 02:30 PM", desc: "Package packed securely in tamper-evident branded box and handed over to Leopards Courier.", completed: true },
                     { title: "In Transit at Regional Sorting Facility", date: "October 23, 2026 - 08:00 AM", desc: "Shipment has arrived at destination sorting hub and is out for local delivery route.", completed: true },
                     { title: "Out for Final Delivery", date: "Expected Oct 24, 2026", desc: "Courier rider assigned for doorstep delivery with Cash on Delivery option.", completed: false }
@@ -231,7 +231,7 @@ const TRACK_ORDER_API = @json(route('orders.track'));
                     { title: "Order Confirmed & Verified", date: "October 18, 2026 - 11:00 AM", desc: "Order details verified successfully.", completed: true },
                     { title: "Dispatched from Flagship Hub", date: "October 19, 2026 - 04:00 PM", desc: "Handed over to TCS courier service.", completed: true },
                     { title: "Out for Final Delivery", date: "October 21, 2026 - 09:30 AM", desc: "Out for delivery with courier agent.", completed: true },
-                    { title: "Successfully Delivered", date: "October 21, 2026 - 02:14 PM", desc: "Package handed over to recipient. Thank you for shopping with Beautage!", completed: true }
+                    { title: "Successfully Delivered", date: "October 21, 2026 - 02:14 PM", desc: "Package handed over to recipient. Thank you for shopping with Quick Bazar!", completed: true }
                 ]
             }
         };
@@ -278,7 +278,7 @@ const TRACK_ORDER_API = @json(route('orders.track'));
                     const o = live.order;
                     const data = {
                         orderId: o.order_number,
-                        title: 'Beautage order',
+                        title: 'Quick Bazar order',
                         status: (o.tracking_number ? 'IN TRANSIT' : (o.fulfillment_status || 'PROCESSING')).toUpperCase(),
                         badgeBg: o.tracking_number ? 'bg-cyan-600 text-white' : 'bg-purple-600 text-white',
                         deliveryDate: o.shipping_city ? `Destination: ${o.shipping_city}` : 'Pakistan',

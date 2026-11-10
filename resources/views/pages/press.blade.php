@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Press & Media Center — Beautage Flagship Store')
+@section('title', 'Press & Media Center — Quick Bazar Flagship Store')
 
 @section('body_attrs')
 class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-beautage-pink selection:text-white pb-36 md:pb-0 overflow-x-hidden"
@@ -27,7 +27,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
                     </span>
                     <h1 class="text-2xl sm:text-4xl lg:text-5xl font-serif font-bold text-white tracking-tight">Shaping the Future of Luxury Beauty & Tech</h1>
                     <p class="text-xs sm:text-sm text-purple-100 leading-relaxed">
-                        Welcome to the Beautage Media Center. Explore our official brand press releases, high-resolution media kit assets, media coverage, and direct PR contacts for journalists and editors.
+                        Welcome to the Quick Bazar Media Center. Explore our official brand press releases, high-resolution media kit assets, media coverage, and direct PR contacts for journalists and editors.
                     </p>
                 </div>
                 <div class="relative z-10 flex flex-col sm:flex-row gap-3">
@@ -82,7 +82,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
                             <span>October 18, 2026</span>
                         </div>
                         <h3 class="text-base sm:text-lg font-serif font-bold text-beautage-purple group-hover:text-beautage-pink transition">
-                            Beautage Announces Global Flagship Expansion of Lumina Pro 7-Spectrum LED Mask
+                            Quick Bazar Announces Global Flagship Expansion of Lumina Pro 7-Spectrum LED Mask
                         </h3>
                         <p class="text-xs text-slate-600 leading-relaxed line-clamp-3">
                             The renowned beauty tech brand introduces its medical-grade photon light therapy engine to international markets, offering clinical skincare rejuvenation at home.
@@ -90,7 +90,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
                     </div>
                     <div class="mt-6 pt-4 border-t border-purple-50 flex items-center justify-between">
                         <span class="text-[11px] font-bold text-slate-400">Press Release #2026-04</span>
-                        <button onclick="downloadPressRelease('Beautage Lumina Pro Global Expansion PR')" class="text-xs font-bold text-beautage-pink hover:text-beautage-pinkHover flex items-center gap-1">
+                        <button onclick="downloadPressRelease('Quick Bazar Lumina Pro Global Expansion PR')" class="text-xs font-bold text-beautage-pink hover:text-beautage-pinkHover flex items-center gap-1">
                             <i data-lucide="download" class="w-3.5 h-3.5"></i> Download PDF
                         </button>
                     </div>
@@ -103,15 +103,15 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
                             <span>September 29, 2026</span>
                         </div>
                         <h3 class="text-base sm:text-lg font-serif font-bold text-beautage-purple group-hover:text-beautage-pink transition">
-                            Beautage Commits to 100% Biodegradable Botanical Packaging Across All Serums
+                            Quick Bazar Commits to 100% Biodegradable Botanical Packaging Across All Serums
                         </h3>
                         <p class="text-xs text-slate-600 leading-relaxed line-clamp-3">
-                            Reinforcing its luxury sustainability pledge, Beautage eliminates single-use plastics from its entire skincare line, transitioning to recycled amber glass and paper.
+                            Reinforcing its luxury sustainability pledge, Quick Bazar eliminates single-use plastics from its entire skincare line, transitioning to recycled amber glass and paper.
                         </p>
                     </div>
                     <div class="mt-6 pt-4 border-t border-purple-50 flex items-center justify-between">
                         <span class="text-[11px] font-bold text-slate-400">Press Release #2026-03</span>
-                        <button onclick="downloadPressRelease('Beautage Sustainability Pledge PR')" class="text-xs font-bold text-beautage-pink hover:text-beautage-pinkHover flex items-center gap-1">
+                        <button onclick="downloadPressRelease('Quick Bazar Sustainability Pledge PR')" class="text-xs font-bold text-beautage-pink hover:text-beautage-pinkHover flex items-center gap-1">
                             <i data-lucide="download" class="w-3.5 h-3.5"></i> Download PDF
                         </button>
                     </div>
@@ -127,12 +127,12 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
                             Celebrity Endorsement Milestone: Dananeer Mobeen & Fahad Sheikh Join Brand Routines
                         </h3>
                         <p class="text-xs text-slate-600 leading-relaxed line-clamp-3">
-                            Leading South Asian icons partner with Beautage to highlight organic hair care and dermatological wellness routines across digital media platforms.
+                            Leading South Asian icons partner with Quick Bazar to highlight organic hair care and dermatological wellness routines across digital media platforms.
                         </p>
                     </div>
                     <div class="mt-6 pt-4 border-t border-purple-50 flex items-center justify-between">
                         <span class="text-[11px] font-bold text-slate-400">Press Release #2026-02</span>
-                        <button onclick="downloadPressRelease('Beautage Celebrity Partnership PR')" class="text-xs font-bold text-beautage-pink hover:text-beautage-pinkHover flex items-center gap-1">
+                        <button onclick="downloadPressRelease('Quick Bazar Celebrity Partnership PR')" class="text-xs font-bold text-beautage-pink hover:text-beautage-pinkHover flex items-center gap-1">
                             <i data-lucide="download" class="w-3.5 h-3.5"></i> Download PDF
                         </button>
                     </div>

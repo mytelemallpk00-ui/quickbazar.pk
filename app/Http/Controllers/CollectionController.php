@@ -42,7 +42,7 @@ class CollectionController extends Controller
             ? $activeCategorySlug
             : null;
         $activeCategory = $singleSlug ? $shopCategories->firstWhere('slug', $singleSlug) : null;
-        $defaultBlurb = 'Browse the live Beautage catalog. Filter by department, price, rating, and availability, then add verified products to your bag.';
+        $defaultBlurb = 'Browse the live Quick Bazar catalog. Filter by department, price, rating, and availability, then add verified products to your bag.';
 
         return view('collections', [
             'pageSeo' => FacetedSeoResolver::forCollections($request),

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Careers & Opportunities — Beautage Flagship Store')
+@section('title', 'Careers & Opportunities — Quick Bazar Flagship Store')
 
 @section('body_attrs')
 class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-beautage-pink selection:text-white pb-36 md:pb-0 overflow-x-hidden"
@@ -44,7 +44,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
         <!-- 2. CULTURE & VALUES HIGHLIGHTS -->
         <section id="culture" class="w-full px-4 sm:px-12 xl:px-20 mb-14">
             <div class="text-center max-w-2xl mx-auto mb-10 space-y-2">
-                <span class="text-[10px] uppercase font-extrabold tracking-widest text-beautage-pink bg-pink-50 px-3 py-1 rounded-full border border-pink-200">Why Join Beautage</span>
+                <span class="text-[10px] uppercase font-extrabold tracking-widest text-beautage-pink bg-pink-50 px-3 py-1 rounded-full border border-pink-200">Why Join Quick Bazar</span>
                 <h2 class="text-2xl sm:text-3xl font-serif font-bold text-beautage-purple">Where Passion Meets Purpose</h2>
                 <p class="text-xs sm:text-sm text-slate-600">We cultivate a culture of excellence, holistic wellness, and continuous personal growth.</p>
             </div>
@@ -205,7 +205,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
             <div class="space-y-1 mb-6">
                 <span id="modal-dept" class="text-[10px] uppercase font-extrabold tracking-widest text-beautage-pink bg-pink-50 px-2.5 py-1 rounded-full border border-pink-200 inline-block">Department</span>
                 <h3 id="modal-role-title" class="text-xl font-serif font-bold text-beautage-purple mt-2">Apply for Role</h3>
-                <p class="text-xs text-slate-500">Please submit your credentials to join the Beautage Flagship talent network.</p>
+                <p class="text-xs text-slate-500">Please submit your credentials to join the Quick Bazar Flagship talent network.</p>
             </div>
 
             <form id="job-application-form" onsubmit="submitJobApplication(event)" class="space-y-4">
@@ -235,7 +235,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
                 </div>
 
                 <div>
-                    <label class="block text-xs font-extrabold text-beautage-purple uppercase tracking-wider mb-1">Cover Note / Why Beautage?</label>
+                    <label class="block text-xs font-extrabold text-beautage-purple uppercase tracking-wider mb-1">Cover Note / Why Quick Bazar?</label>
                     <textarea id="applicant-cover" required rows="3" placeholder="Tell us why you're a great fit for our luxury flagship store..." 
                               class="w-full py-3 px-4 bg-purple-50/60 border border-purple-200 rounded-xl text-xs font-medium text-slate-800 focus:outline-none focus:border-beautage-purple"></textarea>
                 </div>

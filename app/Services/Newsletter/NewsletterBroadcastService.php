@@ -36,7 +36,7 @@ class NewsletterBroadcastService
 
         $broadcast = NewsletterBroadcast::query()->create([
             'list' => $list,
-            'subject' => (string) ($payload['subject'] ?? 'Beautage update'),
+            'subject' => (string) ($payload['subject'] ?? 'Quick Bazar update'),
             'preheader' => $payload['preheader'] ?? null,
             'headline' => $payload['headline'] ?? null,
             'body_html' => $payload['body_html'] ?? null,

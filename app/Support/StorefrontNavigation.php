@@ -256,7 +256,7 @@ class StorefrontNavigation
     {
         return [
             'badge' => (string) ($featured['badge'] ?? 'Featured Innovation'),
-            'title' => (string) ($featured['title'] ?? 'Explore Beautage'),
+            'title' => (string) ($featured['title'] ?? 'Explore Quick Bazar'),
             'text' => (string) ($featured['text'] ?? 'Discover our curated flagship collections.'),
             'button_label' => (string) ($featured['button_label'] ?? 'Shop collections'),
             'button_url' => (string) ($featured['button_url'] ?? route('collections')),

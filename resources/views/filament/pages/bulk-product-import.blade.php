@@ -92,7 +92,7 @@
                     <li><strong>Category URL:</strong> pick <em>All products on this link (auto)</em> or <em>Custom number</em> (e.g. 6850). Auto keeps paging until the listing ends (max {{ number_format(\App\Services\ProductImport\CategoryListingFetcher::maxLimit()) }} per run).</li>
                     <li>Shopify collections use the public <code>products.json</code> API (most reliable).</li>
                     <li>Amazon/Daraz category pages depend on visible HTML links; use CSV if a run finds zero products.</li>
-                    <li><strong>Auto SEO:</strong> leave ON to rewrite product copy + meta tags for Beautage after each import (Smart SEO = no API key).</li>
+                    <li><strong>Auto SEO:</strong> leave ON to rewrite product copy + meta tags for Quick Bazar after each import (Smart SEO = no API key).</li>
                     <li><strong>Prices:</strong> default <em>PKR</em> keeps Rozzana/Daraz amounts as Rs. on your store. Only choose USD if the source site prices are in dollars.</li>
                     <li>Image fields must be full HTTPS URLs (same as manual product entry).</li>
                 </ul>

@@ -26,7 +26,7 @@ class HomepageContent
                 'enabled' => true,
                 'background_from' => null,
                 'background_to' => null,
-                'badge' => 'NEW BEAUTAGE TECH RELEASE',
+                'badge' => 'NEW QUICK BAZAR TECH RELEASE',
                 'title_line1' => 'Lumina Pro 7-Spectrum',
                 'title_accent' => 'LED Therapy Mask',
                 'description' => 'Medical-grade dermal light therapy engine. Targets collagen revival, deep pigment balancing, and targeted cellular radiance.',
@@ -63,7 +63,7 @@ class HomepageContent
                 ],
             ],
             'category_intro' => [
-                'badge' => 'BEAUTAGE FLAGSHIP STORE • 100% ORIGINAL & VERIFIED PRODUCTS',
+                'badge' => 'QUICK BAZAR FLAGSHIP STORE • 100% ORIGINAL & VERIFIED PRODUCTS',
                 'heading' => "Pakistan's Best Beauty Store: Shop Smart, Glow Gold Every Day",
                 'description' => 'Browse thousands of authentic beauty essentials at the best online shopping store in Pakistan, from professional LED devices and organic botanical serums to luxury fragrances and hair care rituals, all in one trusted place.',
                 'trust_badges' => [
@@ -152,7 +152,7 @@ class HomepageContent
                 'title' => 'Thermal Cryo Sculpting Engine',
                 'description' => 'Dual-action cryo-cooling and deep thermal vibration for pore tightening, lymphatic drainage, and immediate jawline definition.',
                 'product_id' => null,
-                'visual_title' => 'Beautage Thermal Cryo Wand',
+                'visual_title' => 'Quick Bazar Thermal Cryo Wand',
                 'visual_subtitle' => 'Ergonomic Rose-Gold Finish',
                 'visual_badge' => 'Clinical Grade',
                 'image_url' => '',

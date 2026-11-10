@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Professional Size & Specification Guide — Beautage Flagship Store')
+@section('title', 'Professional Size & Specification Guide — Quick Bazar Flagship Store')
 
 @section('body_attrs')
 class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-beautage-pink selection:text-white pb-36 md:pb-0 overflow-x-hidden"
@@ -25,7 +25,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
                     <span class="inline-block px-3.5 py-1 rounded-full text-[10px] uppercase font-extrabold tracking-widest bg-pink-500/30 text-pink-200 border border-pink-400/40">
                         PRECISION MEASUREMENT & FIT SPECIFICATIONS
                     </span>
-                    <h1 class="text-2xl sm:text-4xl lg:text-5xl font-serif font-bold text-white tracking-tight">Beautage Size & Specification Guide</h1>
+                    <h1 class="text-2xl sm:text-4xl lg:text-5xl font-serif font-bold text-white tracking-tight">Quick Bazar Size & Specification Guide</h1>
                     <p class="text-xs sm:text-sm text-purple-100 leading-relaxed">
                         Find exact volume dimensions for luxury skincare elixirs, ergonomic specs for LED photon masks & microcurrent wands, and apparel fit guides for our celebrity robes & spa wear.
                     </p>
@@ -324,7 +324,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
                             <i data-lucide="chevron-down" class="w-4 h-4 text-beautage-pink transition-transform"></i>
                         </h3>
                         <p class="text-xs text-slate-600 mt-3 leading-relaxed">
-                            No, all Beautage beauty devices such as the Lumina Pro Mask feature adjustable straps and universal ergonomic contours designed to fit all adult face shapes.
+                            No, all Quick Bazar beauty devices such as the Lumina Pro Mask feature adjustable straps and universal ergonomic contours designed to fit all adult face shapes.
                         </p>
                     </div>
 

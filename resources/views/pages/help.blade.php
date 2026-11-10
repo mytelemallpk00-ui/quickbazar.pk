@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Help Center & FAQ — Beautage Flagship Store')
+@section('title', 'Help Center & FAQ — Quick Bazar Flagship Store')
 
 @section('body_attrs')
 class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-beautage-pink selection:text-white pb-36 md:pb-0 overflow-x-hidden"
@@ -123,7 +123,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
                             <div class="w-9 h-9 rounded-xl bg-purple-50 text-beautage-purple flex items-center justify-center shrink-0">
                                 <i data-lucide="headphones" class="w-4 h-4"></i>
                             </div>
-                            <span>Hotline: <a href="tel:+18008886678" class="text-beautage-pink font-bold">+1 (800) BEAUTAGE</a></span>
+                            <span>Hotline: <a href="tel:+18008886678" class="text-beautage-pink font-bold">+1 (800) QUICK BAZAR</a></span>
                         </div>
                         <div class="flex items-center gap-3">
                             <div class="w-9 h-9 rounded-xl bg-purple-50 text-beautage-purple flex items-center justify-center shrink-0">
@@ -194,12 +194,12 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
                 id: 2,
                 category: "shipping",
                 question: "How can I track the status of my flagship order?",
-                answer: "Once your order is dispatched from our fulfillment center, you will receive an SMS and email containing a live tracking link. You can also view real-time status updates directly in your Beautage account dashboard."
+                answer: "Once your order is dispatched from our fulfillment center, you will receive an SMS and email containing a live tracking link. You can also view real-time status updates directly in your Quick Bazar account dashboard."
             },
             {
                 id: 3,
                 category: "returns",
-                question: "What is Beautage's return and refund policy?",
+                question: "What is Quick Bazar's return and refund policy?",
                 answer: "We offer a hassle-free 30-day money-back guarantee on all unopened skincare elixirs and a 1-year replacement warranty on Beauty Tech hardware devices like our Lumina Pro LED Mask. Simply contact support to initiate your return."
             },
             {
@@ -211,8 +211,8 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
             {
                 id: 5,
                 category: "products",
-                question: "Are all Beautage products 100% original and verified authentic?",
-                answer: "Yes, absolutely! Beautage is an authorized flagship brand store. Every product is 100% original, lab-tested, and imported with official brand warranties directly from our certified international laboratories."
+                question: "Are all Quick Bazar products 100% original and verified authentic?",
+                answer: "Yes, absolutely! Quick Bazar is an authorized flagship brand store. Every product is 100% original, lab-tested, and imported with official brand warranties directly from our certified international laboratories."
             },
             {
                 id: 6,

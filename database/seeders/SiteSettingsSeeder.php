@@ -10,7 +10,7 @@ class SiteSettingsSeeder extends Seeder
     public function run(): void
     {
         $defaults = [
-            'site_name' => 'Shop Pakistan',
+            'site_name' => 'Quick Bazar',
             'site_tagline' => 'Verified products, delivered across Pakistan',
             'support_phone' => '+92 300 5550199',
             'support_email' => 'hello@quickbazar.pk',

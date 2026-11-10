@@ -3,7 +3,7 @@
         <p class="beautage-page-intro-text">
             Professional lifecycle emails for your storefront: <strong>abandoned cart recovery</strong>,
             <strong>post-purchase upsell sequences</strong>, <strong>smart re-order reminders</strong>, and
-            <strong>daily low-stock alerts</strong> to your team. Templates match the purple &amp; pink Beautage mail theme.
+            <strong>daily low-stock alerts</strong> to your team. Templates match the purple &amp; pink Quick Bazar mail theme.
         </p>
     </div>
 

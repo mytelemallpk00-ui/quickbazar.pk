@@ -169,7 +169,7 @@ class SiteKnowledgeChat
         $email = trim((string) SiteSettings::get('support_email', SiteSettings::get('contact_email', '')));
         $wa = LiveChatSettings::whatsappUrl();
 
-        $lines = ['Shop Pakistan support:', ''];
+        $lines = ['Quick Bazar support:', ''];
         if ($phone !== '') {
             $lines[] = "Phone: {$phone}";
         }

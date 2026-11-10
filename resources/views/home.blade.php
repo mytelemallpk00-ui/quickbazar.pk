@@ -1,6 +1,6 @@
 ﻿@extends('layouts.app')
 
-@section('title', 'Beautage — Elevate Your Natural Elegance | Flagship Store')
+@section('title', 'Quick Bazar — Elevate Your Natural Elegance | Flagship Store')
 
 @section('body_attrs')
 class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-beautage-pink selection:text-white overflow-x-clip max-w-full"
@@ -475,8 +475,8 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
             return `
                 <div class="bg-white rounded-2xl p-4 border border-purple-100 hover:border-beautage-pink transition-all duration-300 shadow-sm hover:shadow-2xl hover:-translate-y-1.5 flex flex-col justify-between group">
                     <div class="relative rounded-xl overflow-hidden bg-purple-50 mb-4 aspect-square cursor-pointer" onclick="openQuickView(${p.id})">
-                        <img src="${p.image}" alt="${p.name}" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out group-hover:opacity-0" onerror="this.onerror=null; this.src='https://placehold.co/400x400/5E1F70/FFFFFF?text=Beautage';">
-                        <img src="${p.hoverImage}" alt="${p.name} Alternate View" class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500 ease-in-out group-hover:opacity-100 group-hover:scale-105" onerror="this.onerror=null; this.src='https://placehold.co/400x400/3B0764/FFFFFF?text=Beautage+Alt';">
+                        <img src="${p.image}" alt="${p.name}" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out group-hover:opacity-0" onerror="this.onerror=null; this.src='https://placehold.co/400x400/5E1F70/FFFFFF?text=Quick+Bazar';">
+                        <img src="${p.hoverImage}" alt="${p.name} Alternate View" class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500 ease-in-out group-hover:opacity-100 group-hover:scale-105" onerror="this.onerror=null; this.src='https://placehold.co/400x400/3B0764/FFFFFF?text=Quick+Bazar+Alt';">
                         
                         <span class="absolute top-2.5 left-2.5 bg-beautage-purple text-white text-[10px] font-extrabold px-2.5 py-1 rounded-full uppercase tracking-wider shadow z-10">
                             ${p.badge}

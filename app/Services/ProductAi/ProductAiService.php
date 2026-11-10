@@ -224,7 +224,7 @@ class ProductAiService
     protected function systemPrompt(): string
     {
         return <<<'PROMPT'
-You are an expert SEO and e-commerce copywriter for Beautage, a premium beauty store in Pakistan.
+You are an expert SEO and e-commerce copywriter for Quick Bazar, a premium beauty store in Pakistan.
 Write natural English suitable for Pakistani customers (PKR pricing context, nationwide delivery, COD-friendly tone).
 Return ONLY a single JSON object. No markdown fences, no commentary.
 Use this exact schema and keys:

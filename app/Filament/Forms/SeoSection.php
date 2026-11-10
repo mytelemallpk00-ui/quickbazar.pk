@@ -66,8 +66,8 @@ class SeoSection
             ->label('')
             ->content(function (Get $get, $record) use ($fallbackTitleField, $slugField, $descriptionFallbackField, $basePath): HtmlString {
                 $siteName = class_exists(SiteSettings::class)
-                    ? SiteSettings::get('site_name', 'Beautage')
-                    : 'Beautage';
+                    ? SiteSettings::get('site_name', 'Quick Bazar')
+                    : 'Quick Bazar';
 
                 $fallbackTitle = $fallbackTitleField ? $get($fallbackTitleField) : null;
                 if (! $fallbackTitle && $record && $fallbackTitleField) {
@@ -81,7 +81,7 @@ class SeoSection
                 if (! $desc && $descriptionFallbackField) {
                     $desc = $get($descriptionFallbackField);
                 }
-                $desc ??= 'Elevate Your Natural Elegance with Beautage.';
+                $desc ??= 'Elevate Your Natural Elegance with Quick Bazar.';
 
                 $slug = $slugField ? ($get($slugField) ?: 'press-releases') : 'press-releases';
                 $url = rtrim(config('app.url'), '/').'/'.ltrim($basePath ?? $slug, '/');

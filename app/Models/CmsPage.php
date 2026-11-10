@@ -92,7 +92,7 @@ class CmsPage extends Model
                 'page_type' => self::TYPE_PRESS_RELEASES,
                 'hero_badge' => 'MEDIA & ANNOUNCEMENTS',
                 'hero_title' => 'Press Releases',
-                'hero_subtitle' => 'Official Beautage announcements, product launches, and corporate news for media and partners.',
+                'hero_subtitle' => 'Official Quick Bazar announcements, product launches, and corporate news for media and partners.',
                 'content_html' => '<p>Manage this page from <strong>Admin → Content → Press Releases</strong>.</p>',
                 'meta_title' => 'Press Releases',
                 'is_published' => true,

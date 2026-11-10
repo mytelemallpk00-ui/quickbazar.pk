@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
-@section('title', 'Create customer account — Beautage')
+@section('title', 'Create customer account — Quick Bazar')
 
 @section('content')
 <main class="w-full flex-1 py-10 px-4 sm:px-12 xl:px-20">
     <div class="max-w-lg mx-auto bg-white rounded-3xl border border-purple-100 shadow-xl p-8 space-y-6">
         <div class="text-center space-y-1">
             <h1 class="text-2xl font-serif font-bold text-beautage-purple">Create shopping account</h1>
-            <p class="text-xs text-slate-500">For orders and checkout on the Beautage store.</p>
+            <p class="text-xs text-slate-500">For orders and checkout on the Quick Bazar store.</p>
         </div>
 
         @if ($errors->any())

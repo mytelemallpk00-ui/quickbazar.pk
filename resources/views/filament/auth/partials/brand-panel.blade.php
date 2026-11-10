@@ -1,6 +1,6 @@
 <aside class="sp-login-brand">
     <div class="sp-login-brand-top">
-        <a href="{{ url('/') }}" class="sp-login-mark">Shop <span>Pakistan</span></a>
+        <a href="{{ url('/') }}" class="sp-login-mark">Quick <span>Bazar</span></a>
         <p class="sp-login-eyebrow">Admin</p>
         <h1>Run the store from one place.</h1>
         <p class="sp-login-brand-copy">Products, orders, customers, and the pages customers see.</p>

@@ -103,7 +103,7 @@ class ProductBundleSeeder extends Seeder
             $bundle = ProductBundle::query()->create([
                 'product_id' => $host->id,
                 'badge_label' => 'SAVE WITH BUNDLE DEALS',
-                'subtitle' => 'Beautage bestseller pair — add both to your bag and save 15%.',
+                'subtitle' => 'Quick Bazar bestseller pair — add both to your bag and save 15%.',
                 'discount_type' => ProductBundle::DISCOUNT_PERCENT,
                 'discount_value' => 15.0,
                 'is_active' => true,

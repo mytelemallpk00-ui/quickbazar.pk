@@ -86,6 +86,6 @@ class ProductFrequentlyBoughtTogether
 
         return $image !== ''
             ? $image
-            : 'https://placehold.co/160x160/5E1F70/FFFFFF?text=Beautage';
+            : 'https://placehold.co/160x160/5E1F70/FFFFFF?text=Quick+Bazar';
     }
 }
