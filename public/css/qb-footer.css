@@ -1,12 +1,12 @@
 .qb-footer {
     width: 100%;
     max-width: 100%;
-    background: var(--qb-navy, #0b1220);
-    color: #cbd5e1;
+    background: #08463d;
+    color: #d7ebe4;
     overflow-x: clip;
 }
 .qb-footer-trust {
-    background: var(--qb-navy, #0b1220);
+    background: #0b5e52;
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 .qb-trust-card {
@@ -14,7 +14,7 @@
     align-items: center;
     gap: 0.85rem;
     border: 1px solid rgba(255, 255, 255, 0.08);
-    background: #121a2b;
+    background: rgba(255, 255, 255, 0.06);
     border-radius: 0.9rem;
     padding: 0.9rem 1rem;
 }
@@ -26,12 +26,13 @@
     align-items: center;
     justify-content: center;
     border-radius: 0.7rem;
-    background: rgba(249, 115, 22, 0.15);
-    color: #fb923c;
+    background: rgba(255, 255, 255, 0.12);
+    color: #d8f3ec;
 }
 .qb-footer .qb-wordmark { color: #fff; }
-.qb-footer .qb-kicker { color: #94a3b8; }
-.qb-footer .qb-logo-mark { background: var(--qb-orange, #f97316); color: #fff; }
+.qb-footer .qb-wordmark span,
+.qb-footer .qb-kicker { color: #d8f3ec; }
+.qb-footer .qb-logo-mark { background: #0e7c6b; color: #fff; }
 .qb-footer-link {
     display: inline-flex;
     align-items: center;

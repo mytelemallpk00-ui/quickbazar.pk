@@ -4,7 +4,7 @@ body {
     overflow-x: clip;
 }
 .qb-topbar {
-    background: var(--qb-navy, #0b1220);
+    background: #0b5e52;
     color: #e2e8f0;
     font-size: 12px;
     width: 100%;
@@ -20,8 +20,8 @@ body {
     font-weight: 700;
 }
 .qb-hot-badge {
-    background: var(--qb-orange, #f97316);
-    color: #fff;
+    background: #128f7a;
+    color: #d8f3ec;
     font-size: 10px;
     font-weight: 800;
     letter-spacing: 0.04em;
@@ -35,7 +35,7 @@ body {
     align-items: center;
     justify-content: center;
     border-radius: 0.7rem;
-    background: var(--qb-navy, #0b1220);
+    background: #0e7c6b;
     color: #fff;
     flex-shrink: 0;
 }
@@ -45,7 +45,7 @@ body {
     color: #0f172a;
     line-height: 1;
 }
-.qb-wordmark span { color: var(--qb-orange, #f97316); }
+.qb-wordmark span { color: #0e7c6b; }
 .qb-kicker {
     margin-top: 0.15rem;
     font-size: 9px;
@@ -90,15 +90,15 @@ body {
     width: 2.75rem;
     align-items: center;
     justify-content: center;
-    background: var(--qb-orange, #f97316);
+    background: #0e7c6b;
     color: #fff;
     border: 0;
 }
-.qb-search .qb-search-go:hover { background: var(--qb-orange-hover, #ea580c); }
+.qb-search .qb-search-go:hover { background: #0b5e52; }
 .qb-nav {
     width: 100%;
     max-width: none;
-    background: var(--qb-navy, #0b1220);
+    background: #0b5e52;
     color: #fff;
     position: relative;
 }

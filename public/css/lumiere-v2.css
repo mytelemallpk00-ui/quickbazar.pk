@@ -46,19 +46,41 @@ body.lumiere-v2 h1 { color: #0b132b; }
 body.lumiere-v2 .lv2-hero h1,
 body.lumiere-v2 .lv2-collection-hero h1 { color: #fff; }
 
-body.lumiere-v2 .qb-topbar {
-    background: #0b132b;
+body.lumiere-v2 .qb-topbar,
+body.lumiere-v2 .qb-nav {
+    background: #0b5e52;
     color: #fff;
 }
 
-body.lumiere-v2 .qb-logo-mark {
-    background: linear-gradient(135deg, #0b132b, #1c2541);
-    color: #d4af37;
+body.lumiere-v2 .qb-logo-mark,
+body.lumiere-v2 .qb-search .qb-search-go,
+body.lumiere-v2 .qb-footer .qb-logo-mark {
+    background: #0e7c6b;
+    color: #fff;
 }
 
 body.lumiere-v2 .qb-wordmark span,
 body.lumiere-v2 .qb-kicker {
-    color: #d4af37;
+    color: #0e7c6b;
+}
+
+body.lumiere-v2 .qb-footer .qb-wordmark span,
+body.lumiere-v2 .qb-footer .qb-kicker,
+body.lumiere-v2 .qb-hot-badge {
+    color: #d8f3ec;
+}
+
+body.lumiere-v2 .qb-hot-badge { background: #128f7a; }
+
+body.lumiere-v2 .qb-footer { background: #08463d; color: #d7ebe4; }
+body.lumiere-v2 .qb-footer-trust { background: #0b5e52; }
+body.lumiere-v2 .qb-trust-card {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+body.lumiere-v2 .qb-trust-icon {
+    background: rgba(255, 255, 255, 0.12);
+    color: #d8f3ec;
 }
 
 body.lumiere-v2 .qb-kicker {
@@ -72,13 +94,8 @@ body.lumiere-v2 .qb-search {
     border-radius: 0.85rem;
 }
 
-body.lumiere-v2 .qb-search .qb-search-go {
-    background: #0b132b;
-    color: #d4af37;
-}
-
-body.lumiere-v2 .qb-nav {
-    background: #0b132b;
+body.lumiere-v2 .qb-search .qb-search-go:hover {
+    background: #0b5e52;
 }
 
 .lv2-page {

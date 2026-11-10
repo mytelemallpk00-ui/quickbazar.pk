@@ -3,7 +3,7 @@
 @section('title', ($pageSeo['title'] ?? null) ?: ($product->name.' | Quick Bazar'))
 
 @section('body_attrs')
-class="lumiere-v2 bg-gray-50 text-gray-800 font-sans antialiased min-h-screen flex flex-col selection:bg-amber-200 selection:text-slate-900"
+class="lumiere-v2 qh-pdp bg-gray-50 text-gray-800 font-sans antialiased min-h-screen flex flex-col selection:bg-emerald-100 selection:text-slate-900"
 @endsection
 
 @push('head-preload')
@@ -16,7 +16,7 @@ class="lumiere-v2 bg-gray-50 text-gray-800 font-sans antialiased min-h-screen fl
 @endpush
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/pdp.css') }}?v=2026111027">
+    <link rel="stylesheet" href="{{ asset('css/pdp.css') }}?v=2026111032">
 @endpush
 
 @push('structured-data')
@@ -54,187 +54,141 @@ class="lumiere-v2 bg-gray-50 text-gray-800 font-sans antialiased min-h-screen fl
     use App\Support\MoneyFormat;
     $productSave = max(0, (float) $product->old_price - (float) $product->price);
     $freeShipAt = (float) \App\Support\CheckoutSettings::all()['free_shipping_threshold'];
+    $whatsappOrder = \App\Support\LiveChatSettings::whatsappUrl('Hi, I want to order '.$product->name.' from Quick Bazar.');
+    $deliveryStart = now('Asia/Karachi')->addDays(2);
+    $deliveryEnd = now('Asia/Karachi')->addDays(4);
 @endphp
-<main class="w-full flex-1 flex flex-col py-6">
+<main class="pdp">
+        <nav class="pdp-crumb" aria-label="Breadcrumb">
+            <a href="{{ route('home') }}">Home</a>
+            <span aria-hidden="true">/</span>
+            <a href="{{ route('collections') }}">Collections</a>
+            @if ($product->productCategory)
+                <span aria-hidden="true">/</span>
+                <a href="{{ $product->productCategory->collectionsUrl() }}">{{ $product->productCategory->displayNavLabel() }}</a>
+            @elseif (filled($product->category))
+                <span aria-hidden="true">/</span>
+                <a href="{{ route('collections') }}">{{ $product->category }}</a>
+            @endif
+            <span aria-hidden="true">/</span>
+            <span>{{ $product->name }}</span>
+        </nav>
 
-        <!-- 1. BREADCRUMB NAVIGATION -->
-        <div class="w-full px-4 sm:px-6 lg:px-8 mb-4 sm:mb-6 overflow-x-auto no-scrollbar">
-            <nav class="flex items-center gap-2 text-xs font-semibold text-slate-600 whitespace-nowrap">
-                <a href="{{ route('home') }}" class="hover:text-beautage-purple transition flex items-center gap-1">
-                    <i data-lucide="home" class="w-3.5 h-3.5"></i> Home
-                </a>
-                <i data-lucide="chevron-right" class="w-3 h-3 text-purple-300"></i>
-                <a href="{{ route('collections') }}" class="hover:text-beautage-purple transition">Collections</a>
-                @if ($product->productCategory)
-                    <i data-lucide="chevron-right" class="w-3 h-3 text-purple-300"></i>
-                    <a href="{{ $product->productCategory->collectionsUrl() }}" class="hover:text-beautage-purple transition">{{ $product->productCategory->displayNavLabel() }}</a>
-                @elseif (filled($product->category))
-                    <i data-lucide="chevron-right" class="w-3 h-3 text-purple-300"></i>
-                    <a href="{{ route('collections') }}" class="hover:text-beautage-purple transition">{{ $product->category }}</a>
-                @endif
-                <i data-lucide="chevron-right" class="w-3 h-3 text-purple-300"></i>
-                <span class="text-beautage-purple font-bold">{{ $product->name }}</span>
-            </nav>
-        </div>
-
-        <!-- PRODUCT MAIN SECTION (GALLERY + BUY BOX) -->
-        <section id="pdp-main-section" class="w-full px-4 sm:px-6 lg:px-8">
-            <div id="pdp-main-grid" class="grid grid-cols-1 items-start gap-6 lg:grid-cols-2 lg:gap-10">
-                
-                <!-- 2. IMAGE GALLERY (SPAN 5) — square; pins on desktop while buy column scrolls -->
-                <div id="pdp-gallery-col" class="min-w-0">
-                    <div id="pdp-gallery-pin" class="flex w-full flex-col-reverse gap-3 sm:flex-row sm:items-start lg:sticky lg:top-40 lg:z-[1]">
-                    <div class="flex sm:flex-col gap-3 overflow-x-auto sm:overflow-y-auto no-scrollbar shrink-0 py-1 max-h-[360px] sm:max-h-[420px] lg:max-h-[min(520px,calc(100vh-12rem))]">
-                        @foreach ($galleryImages as $index => $galleryUrl)
-                        <button type="button" onclick="switchMainImage({{ $index }})" aria-label="Show product image {{ $index + 1 }}" aria-pressed="{{ $index === 0 ? 'true' : 'false' }}" class="thumb-btn w-14 h-14 sm:w-16 sm:h-16 lg:w-[4.5rem] lg:h-[4.5rem] rounded-2xl border-2 {{ $index === 0 ? 'border-beautage-purple' : 'border-transparent hover:border-purple-300' }} overflow-hidden bg-purple-50 shadow-sm shrink-0 transition">
-                            <img src="{{ $galleryUrl }}" alt="{{ $product->name }} — view {{ $index + 1 }}" class="w-full h-full object-cover" width="72" height="72" loading="lazy" decoding="async">
-                        </button>
-                        @endforeach
-                        @if ($product->video_url)
-                        <button type="button" onclick="openVideoModal()" aria-label="Play product video" class="w-14 h-14 sm:w-16 sm:h-16 lg:w-[4.5rem] lg:h-[4.5rem] rounded-2xl border-2 border-dashed border-pink-400 bg-pink-50 hover:bg-pink-100 flex flex-col items-center justify-center text-beautage-pink shrink-0 transition shadow-sm group">
-                            <i data-lucide="play-circle" class="w-5 h-5 sm:w-6 sm:h-6 group-hover:scale-110 transition"></i>
-                            <span class="text-[8px] sm:text-[9px] font-black uppercase tracking-wider mt-0.5">Video</span>
-                        </button>
-                        @endif
-                    </div>
-
-                    <div id="pdp-gallery-stage" class="pdp-gallery-main relative aspect-square w-full min-w-0 flex-1 overflow-hidden rounded-2xl border border-slate-200 bg-white">
-                        <img id="main-product-img" src="{{ $galleryImages[0] ?? $product->image }}" alt="{{ $product->name }}" class="w-full h-full object-cover cursor-zoom-in" width="800" height="800" fetchpriority="high" decoding="async" onclick="openLightbox()">
-                        @if ($product->badge)
-                        <div class="absolute top-4 left-4 bg-beautage-purple text-white text-[10px] sm:text-xs font-black uppercase tracking-widest px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full shadow-lg">
-                            {{ $product->badge }}
-                        </div>
-                        @endif
-                        <button type="button" onclick="openLightbox()" class="absolute bottom-4 right-4 p-2.5 sm:p-3 rounded-2xl bg-white/90 backdrop-blur-md text-beautage-purple hover:bg-white shadow-lg transition flex items-center gap-2 text-xs font-bold">
-                            <i data-lucide="maximize-2" class="w-4 h-4"></i> Click to Zoom
-                        </button>
-                    </div>
-                    </div>
-                </div>
-
-                <!-- 3. PRODUCT HEADER, PRICING & BUY (SPAN 4) -->
-                <div id="pdp-buy-column" class="min-w-0 space-y-5 rounded-2xl border border-slate-200 bg-white p-4 sm:space-y-6 sm:p-6">
-                    
-                    <div>
-                        <div class="flex items-center gap-2 mb-2 flex-wrap">
-                            <span class="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-700 border border-emerald-200 px-3 py-1 rounded-full text-xs font-extrabold">
-                                <i data-lucide="shield-check" class="w-3.5 h-3.5"></i> 100% Original • Authorized Store
-                            </span>
-                            @if ($product->promo_label)
-                            <span class="bg-pink-50 text-beautage-pink border border-pink-200 px-3 py-1 rounded-full text-xs font-extrabold uppercase">
-                                {{ $product->promo_label }}
-                            </span>
-                            @endif
-                        </div>
-                        <h1 class="text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
-                            {{ $product->name }}
-                        </h1>
-                        @if ($product->short_description)
-                        <p class="text-sm text-slate-700 mt-2 leading-relaxed line-clamp-6">{{ $product->short_description }}</p>
-                        @elseif ($product->description)
-                        <p class="text-sm text-slate-700 mt-2 leading-relaxed line-clamp-4">{{ \Illuminate\Support\Str::limit(strip_tags($product->description), 280) }}</p>
-                        @endif
-                        <div class="flex items-center gap-3 mt-3 flex-wrap">
-                            @include('partials.product-star-rating', ['rating' => $product->rating, 'size' => 'w-4 h-4', 'showValue' => true])
-                            <span class="text-slate-300">•</span>
-                            <a href="#customer-reviews" onclick="switchTab('reviews')" class="text-xs font-semibold text-beautage-purple hover:underline">{{ number_format((int) $product->reviews) }} Verified Reviews</a>
-                        </div>
-                    </div>
-
-                    <!-- Pricing Row -->
-                    <div class="p-4 rounded-2xl bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 flex items-center justify-between">
-                        <div>
-                            <span class="text-[10px] text-slate-600 uppercase font-extrabold tracking-wider block">Special Introductory Price</span>
-                            <div class="flex items-baseline gap-3 mt-0.5">
-                                <span class="text-3xl font-black text-slate-900">{{ MoneyFormat::pkr($product->price) }}</span>
-                                <span class="text-base text-slate-400 line-through font-bold">{{ MoneyFormat::pkr($product->old_price) }}</span>
-                            </div>
-                        </div>
-                        <div class="text-right">
-                            <span class="text-xs font-bold text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full">You Save {{ MoneyFormat::pkr($productSave) }}</span>
-                        </div>
-                    </div>
-
-                    <!-- Urgency & Scarcity Tracker -->
-                    <div class="p-4 rounded-2xl bg-amber-50/80 border border-amber-200 space-y-2">
-                        <div class="flex items-center justify-between text-xs font-extrabold text-amber-900">
-                            @if ($product->units_left)
-                            <span class="flex items-center gap-1.5"><i data-lucide="flame" class="w-4 h-4 text-amber-600 fill-current"></i> Only {{ $product->units_left }} units left in stock</span>
-                            @endif
-                            @if ($product->claimed_percent)
-                            <span class="text-beautage-pink">{{ (int) $product->claimed_percent }}% claimed today</span>
-                            @endif
-                        </div>
-                        <div class="w-full h-2 rounded-full bg-amber-200 overflow-hidden">
-                            <div class="pdp-no-motion-pulse h-full bg-gradient-to-r from-beautage-pink to-amber-500 rounded-full animate-pulse" style="width: {{ min(100, max(0, (int) ($product->claimed_percent ?? 0))) }}%"></div>
-                        </div>
-                        <div class="flex items-center gap-2 text-[11px] text-amber-800 pt-1">
-                            <i data-lucide="timer" class="w-3.5 h-3.5"></i>
-                            <span>Flash deal timer: <strong id="pdp-countdown" class="font-mono text-beautage-purple">04:32:19</strong> (Order soon)</span>
-                        </div>
-                    </div>
-
-                    <!-- Quantity Selector & Add to Bag -->
-                    <div id="pdp-buy-actions" class="space-y-3 pt-2">
-                        <div class="flex items-center gap-4">
-                            <div class="flex items-center border-2 border-purple-200 rounded-2xl bg-white overflow-hidden shadow-sm">
-                                <button type="button" onclick="adjustQty(-1)" aria-label="Decrease quantity" class="px-4 py-3.5 text-sm font-extrabold text-slate-600 hover:bg-purple-50 transition min-h-[44px] min-w-[44px]">-</button>
-                                <span id="product-qty" class="w-10 text-center text-sm font-bold text-slate-800" aria-live="polite" aria-label="Quantity">1</span>
-                                <button type="button" onclick="adjustQty(1)" aria-label="Increase quantity" class="px-4 py-3.5 text-sm font-extrabold text-slate-600 hover:bg-purple-50 transition min-h-[44px] min-w-[44px]">+</button>
-                            </div>
-                            <button onclick="addCurrentProductToCart()" class="flex-1 bg-beautage-pink hover:bg-beautage-pinkHover text-white font-black py-4 px-6 rounded-2xl transition shadow-xl shadow-pink-500/30 flex items-center justify-center gap-3 text-xs uppercase tracking-wider">
-                                <i data-lucide="shopping-bag" class="w-5 h-5"></i> Add to Bag — <span id="btn-total-price">{{ MoneyFormat::pkr($product->price) }}</span>
+        <section id="pdp-main-section" class="pdp-stage">
+            <div id="pdp-main-grid" class="pdp-grid">
+                <div id="pdp-gallery-col" class="pdp-gallery">
+                    <div id="pdp-gallery-pin" class="pdp-gallery-pin">
+                        <div class="pdp-thumbs">
+                            @foreach ($galleryImages as $index => $galleryUrl)
+                            <button type="button" onclick="switchMainImage({{ $index }})" aria-label="Show product image {{ $index + 1 }}" aria-pressed="{{ $index === 0 ? 'true' : 'false' }}" class="thumb-btn {{ $index === 0 ? 'is-on' : '' }}">
+                                <img src="{{ $galleryUrl }}" alt="{{ $product->name }} — view {{ $index + 1 }}" width="72" height="72" loading="lazy" decoding="async">
                             </button>
+                            @endforeach
+                            @if ($product->video_url)
+                            <button type="button" onclick="openVideoModal()" aria-label="Play product video" class="pdp-video">
+                                <i data-lucide="play-circle" class="w-5 h-5"></i>
+                                <span>Video</span>
+                            </button>
+                            @endif
                         </div>
-                        <button onclick="buyNow()" class="w-full bg-beautage-purple hover:bg-beautage-purpleDark text-white font-extrabold py-3.5 px-6 rounded-2xl transition shadow-lg flex items-center justify-center gap-2 text-xs uppercase tracking-wider">
-                            <i data-lucide="zap" class="w-4 h-4 text-beautage-amber"></i> Buy Now with Express Checkout
-                        </button>
-                        <p class="flex items-center gap-2 text-xs font-semibold text-slate-500">
-                            <i data-lucide="lock" class="w-3.5 h-3.5 text-emerald-600"></i>
-                            Guaranteed Safe &amp; Secure Checkout
-                        </p>
-                    </div>
-
-                    <!-- Trust Badges & Delivery Checker -->
-                    <div class="p-5 rounded-2xl bg-white border border-purple-100 shadow-sm space-y-4">
-                        <div class="flex items-center gap-3">
-                            <div class="w-9 h-9 rounded-xl bg-purple-50 text-beautage-purple flex items-center justify-center shrink-0">
-                                <i data-lucide="truck" class="w-4 h-4"></i>
-                            </div>
-                            <div class="flex-1">
-                                <h4 class="text-xs font-bold text-beautage-purple">Cash on Delivery Available Across Pakistan</h4>
-                                <p class="text-[11px] text-slate-600">{{ $freeShipAt > 0 ? 'Free delivery on orders over '.MoneyFormat::pkr($freeShipAt) : 'Delivery charges are shown at checkout' }}</p>
-                            </div>
-                        </div>
-
-                        <div class="pt-3 border-t border-purple-50 space-y-2">
-                            <label for="postal-input" class="block text-[11px] font-extrabold text-slate-700 uppercase">Check Delivery / Postal Code:</label>
-                            <div class="flex items-center gap-2">
-                                <input type="text" id="postal-input" name="postal_code" inputmode="numeric" autocomplete="postal-code" placeholder="e.g. 54000 (Lahore / Karachi)" class="flex-1 py-2.5 px-3 bg-purple-50/50 border border-purple-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-beautage-purple">
-                                <button type="button" onclick="checkDelivery()" class="px-4 py-2.5 bg-beautage-purple text-white text-xs font-bold rounded-xl hover:bg-beautage-purpleDark transition min-h-[44px]">Check</button>
-                            </div>
-                            <div id="delivery-result" class="text-xs font-semibold text-emerald-600 hidden"></div>
-                        </div>
-
-                        <div class="grid grid-cols-3 gap-2 pt-2 text-center text-[10px] font-bold text-slate-600 border-t border-purple-50">
-                            <div class="p-2 rounded-xl bg-purple-50/50 flex flex-col items-center gap-1">
-                                <i data-lucide="truck" class="w-4 h-4 text-beautage-pink"></i>
-                                <span>Free Shipping</span>
-                            </div>
-                            <div class="p-2 rounded-xl bg-purple-50/50 flex flex-col items-center gap-1">
-                                <i data-lucide="rotate-ccw" class="w-4 h-4 text-emerald-600"></i>
-                                <span>30-Day Returns</span>
-                            </div>
-                            <div class="p-2 rounded-xl bg-purple-50/50 flex flex-col items-center gap-1">
-                                <i data-lucide="award" class="w-4 h-4 text-amber-600"></i>
-                                <span>Certified Safe</span>
-                            </div>
+                        <div id="pdp-gallery-stage" class="pdp-gallery-main">
+                            <img id="main-product-img" src="{{ $galleryImages[0] ?? $product->image }}" alt="{{ $product->name }}" width="800" height="800" fetchpriority="high" decoding="async" onclick="openLightbox()">
+                            @if ($product->badge)
+                            <span class="pdp-badge">{{ $product->badge }}</span>
+                            @endif
+                            <button type="button" onclick="openLightbox()" class="pdp-zoom">Zoom</button>
                         </div>
                     </div>
-
                 </div>
 
+                <div id="pdp-buy-column" class="pdp-panel">
+                    <p class="pdp-kicker">{{ $product->productCategory?->displayNavLabel() ?: ($product->category ?: 'Quick Bazar') }}</p>
+                    <div class="pdp-flags">
+                        <span>100% original</span>
+                        @if ($product->promo_label)
+                        <span>{{ $product->promo_label }}</span>
+                        @endif
+                        <span>{{ $product->in_stock ? 'In stock' : 'Out of stock' }}</span>
+                    </div>
+                    <h1>{{ $product->name }}</h1>
+                    @if ($product->short_description)
+                    <p class="pdp-lead">{{ $product->short_description }}</p>
+                    @elseif ($product->description)
+                    <p class="pdp-lead">{{ \Illuminate\Support\Str::limit(strip_tags($product->description), 220) }}</p>
+                    @endif
+                    <div class="pdp-rating">
+                        @include('partials.product-star-rating', ['rating' => $product->rating, 'size' => 'w-4 h-4', 'showValue' => true])
+                        <a href="#customer-reviews" onclick="switchTab('reviews')">{{ number_format((int) $product->reviews) }} verified reviews</a>
+                    </div>
+
+                    <div class="pdp-price">
+                        <div>
+                            <span>Price</span>
+                            <strong>{{ MoneyFormat::pkr($product->price) }}</strong>
+                            @if ($productSave > 0)
+                            <s>{{ MoneyFormat::pkr($product->old_price) }}</s>
+                            @endif
+                        </div>
+                        @if ($productSave > 0)
+                        <em>Save {{ MoneyFormat::pkr($productSave) }}</em>
+                        @endif
+                    </div>
+
+                    <p class="pdp-offer">Offer ends in <strong id="pdp-countdown">04:32:19</strong></p>
+
+                    <div id="pdp-buy-actions" class="pdp-actions">
+                        <div class="pdp-qty">
+                            <button type="button" onclick="adjustQty(-1)" aria-label="Decrease quantity">−</button>
+                            <span id="product-qty" aria-live="polite" aria-label="Quantity">1</span>
+                            <button type="button" onclick="adjustQty(1)" aria-label="Increase quantity">+</button>
+                        </div>
+                        <button type="button" onclick="addCurrentProductToCart()" class="pdp-add">Add to bag · <span id="btn-total-price">{{ MoneyFormat::pkr($product->price) }}</span></button>
+                        <button type="button" onclick="buyNow()" class="pdp-buy-now">Buy now</button>
+                    </div>
+
+                    <ul class="pdp-points">
+                        <li>Cash on delivery across Pakistan</li>
+                        <li>{{ $freeShipAt > 0 ? 'Free delivery over '.MoneyFormat::pkr($freeShipAt) : 'Delivery shown at checkout' }}</li>
+                        <li>30-day returns on eligible items</li>
+                    </ul>
+
+                    <div class="pdp-delivery">
+                        <label for="postal-input">Check delivery</label>
+                        <div>
+                            <input type="text" id="postal-input" name="postal_code" inputmode="numeric" autocomplete="postal-code" placeholder="Postal code, e.g. 54000">
+                            <button type="button" onclick="checkDelivery()">Check</button>
+                        </div>
+                        <p id="delivery-result" hidden></p>
+                    </div>
+
+                    <div class="pdp-eta">
+                        <div>
+                            <span>Estimated home delivery</span>
+                            <strong>{{ $deliveryStart->format('j M') }} – {{ $deliveryEnd->format('j M') }}</strong>
+                            <small>Cash on delivery available across Pakistan</small>
+                        </div>
+                        @if ($whatsappOrder)
+                        <a class="pdp-wa" href="{{ $whatsappOrder }}" target="_blank" rel="noopener">Order on WhatsApp</a>
+                        @endif
+                    </div>
+                </div>
             </div>
+        </section>
+
+        <section class="pdp-know" aria-label="Good to know">
+            <details open>
+                <summary>Product overview</summary>
+                <p>{{ $product->short_description ?: \Illuminate\Support\Str::limit(strip_tags((string) $product->description), 280) }}</p>
+            </details>
+            <details>
+                <summary>How to place your order</summary>
+                <p>Add {{ $product->name }} to the bag, or choose Buy now. Enter your name, city, and phone at checkout. Cash on delivery is available when your city is eligible.</p>
+            </details>
+            <details>
+                <summary>7-day easy returns</summary>
+                <p>Unused items in original packaging can be returned. Keep the order number and follow the returns page.</p>
+                <a href="{{ route('returns') }}">Returns policy</a>
+            </details>
         </section>
 
         @include('partials.product-pdp-trust-column')
@@ -467,35 +421,10 @@ class="lumiere-v2 bg-gray-50 text-gray-800 font-sans antialiased min-h-screen fl
             </div>
         </section>
 
-        <section class="lv2-ship" aria-labelledby="pdp-shipping-title">
-            <h2 id="pdp-shipping-title">Shipping and returns</h2>
-            <div class="lv2-ship-grid">
-                <article class="lv2-ship-card">
-                    <h3>Shipping {{ $product->name }}</h3>
-                    <p class="lv2-muted">This item ships nationwide in Pakistan. Cash on delivery is available when checkout offers it for your city.</p>
-                    <a class="lv2-link" href="{{ route('shipping') }}">Shipping details</a>
-                </article>
-                <article class="lv2-ship-card">
-                    <h3>30-day returns</h3>
-                    <p class="lv2-muted">If {{ $product->name }} is not right, start a return within 30 days and keep the order number.</p>
-                    <a class="lv2-link" href="{{ route('returns') }}">Returns policy</a>
-                </article>
-                <article class="lv2-ship-card">
-                    <h3>Secure checkout</h3>
-                    <p class="lv2-muted">Prices on this page are the catalog price in PKR. The bag and checkout use the same product record.</p>
-                    <a class="lv2-link" href="{{ route('checkout') }}">Go to checkout</a>
-                </article>
-            </div>
-        </section>
-
-        <!-- RELATED / YOU MAY ALSO LIKE PRODUCTS GRID -->
-        <section class="w-full px-4 sm:px-6 lg:px-8 py-12">
-            <div class="text-center max-w-2xl mx-auto mb-8">
-                <span class="inline-block px-3 py-1 rounded-full text-[10px] uppercase font-extrabold tracking-widest bg-purple-100 text-beautage-purple border border-purple-200 mb-2">
-                    COMPLETE YOUR ROUTINE
-                </span>
-                <h2 class="text-2xl sm:text-3xl font-serif font-bold text-beautage-purple">You May Also Like</h2>
-                <p class="mt-1 text-sm text-slate-500">More from this department, with the same PKR prices.</p>
+        <section class="pdp-related" aria-labelledby="pdp-related-title">
+            <div class="pdp-related-head">
+                <p class="pdp-kicker">More from this shelf</p>
+                <h2 id="pdp-related-title">You may also like</h2>
             </div>
 
             <div id="related-product-grid" class="lv2-grid lv2-grid-4"></div>
@@ -738,13 +667,9 @@ class="lumiere-v2 bg-gray-50 text-gray-800 font-sans antialiased min-h-screen fl
             }
             mainImg.src = images[index];
             document.querySelectorAll('.thumb-btn').forEach((btn, idx) => {
-                if (idx === index) {
-                    btn.classList.add('border-beautage-purple');
-                    btn.classList.remove('border-transparent');
-                } else {
-                    btn.classList.remove('border-beautage-purple');
-                    btn.classList.add('border-transparent');
-                }
+                const on = idx === index;
+                btn.classList.toggle('is-on', on);
+                btn.setAttribute('aria-pressed', on ? 'true' : 'false');
             });
         }
 

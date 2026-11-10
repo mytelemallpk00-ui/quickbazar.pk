@@ -219,7 +219,7 @@ class="lumiere-v2 qh-home bg-[#f4f7f6] text-gray-800 font-sans antialiased min-h
             <div>
                 <p class="qh-kicker">Bestselling derma essentials</p>
                 <h2 id="home-trending-title">Featured Derma &amp; Skincare Products</h2>
-                <p class="qh-muted">Sample prices from the storefront mock. Open a card to browse the live catalog.</p>
+                <p class="qh-muted">Open a card to see the product, the PKR price, and delivery details.</p>
             </div>
             <a class="qh-text-link" href="{{ route('collections') }}">Shop all →</a>
         </div>

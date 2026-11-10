@@ -64,8 +64,8 @@ class HomeController extends Controller
             'trustRow' => array_values(is_array($homepage['trust_row'] ?? null) ? $homepage['trust_row'] : []),
             'shopPills' => array_values(is_array($homepage['shop_pills'] ?? null) ? $homepage['shop_pills'] : []),
             'showcaseGoals' => array_values(is_array($homepage['showcase_goals'] ?? null) ? $homepage['showcase_goals'] : []),
-            'featuredCards' => array_values(is_array($homepage['featured_cards'] ?? null) ? $homepage['featured_cards'] : []),
-            'weeklyDeals' => is_array($homepage['weekly_deals'] ?? null) ? $homepage['weekly_deals'] : [],
+            'featuredCards' => $this->linkCardsToProducts(array_values(is_array($homepage['featured_cards'] ?? null) ? $homepage['featured_cards'] : [])),
+            'weeklyDeals' => $this->linkWeeklyDeals(is_array($homepage['weekly_deals'] ?? null) ? $homepage['weekly_deals'] : []),
             'brandCards' => array_values(is_array($homepage['brand_cards'] ?? null) ? $homepage['brand_cards'] : []),
             'featuredCategories' => $featuredCategories,
             'goalCards' => $this->goalCards($featuredCategories),
@@ -262,5 +262,76 @@ class HomeController extends Controller
         }
 
         return SiteSettings::assetUrl($image, 'images/beautagelogosquare2.png');
+    }
+
+    /** @var array<string, Product>|null */
+    private ?array $productsByName = null;
+
+    /**
+     * Homepage cards store a collections URL. Swap it for the product page when the catalog has the same name.
+     *
+     * @param  list<mixed>  $cards
+     * @return list<mixed>
+     */
+    private function linkCardsToProducts(array $cards): array
+    {
+        $byName = $this->productsByName();
+
+        return array_map(function (mixed $card) use ($byName): mixed {
+            if (! is_array($card)) {
+                return $card;
+            }
+
+            $key = $this->productNameKey((string) ($card['name'] ?? ''));
+            if ($key !== '' && isset($byName[$key])) {
+                $card['url'] = route('product.show', $byName[$key]);
+            }
+
+            return $card;
+        }, $cards);
+    }
+
+    /** @param  array<string, mixed>  $deals
+     * @return array<string, mixed>
+     */
+    private function linkWeeklyDeals(array $deals): array
+    {
+        $products = array_values(array_filter(
+            is_array($deals['products'] ?? null) ? $deals['products'] : [],
+            'is_array',
+        ));
+        $deals['products'] = $this->linkCardsToProducts($products);
+        $firstUrl = $deals['products'][0]['url'] ?? null;
+
+        if (is_array($deals['banner'] ?? null) && is_string($firstUrl) && $firstUrl !== '') {
+            $deals['banner']['url'] = $firstUrl;
+        }
+
+        return $deals;
+    }
+
+    /** @return array<string, Product> */
+    private function productsByName(): array
+    {
+        if ($this->productsByName !== null) {
+            return $this->productsByName;
+        }
+
+        $map = [];
+        foreach (Product::query()->get(['id', 'slug', 'name']) as $product) {
+            $key = $this->productNameKey($product->name);
+            if ($key !== '') {
+                $map[$key] = $product;
+            }
+        }
+
+        return $this->productsByName = $map;
+    }
+
+    private function productNameKey(string $name): string
+    {
+        $name = mb_strtolower(trim($name));
+
+        return preg_replace('/\s+/u', ' ', $name) ?? '';
     }
 }
