@@ -6,6 +6,14 @@ body.lumiere-v2 main {
     margin-left: 0;
     margin-right: 0;
 }
+@media (min-width: 1024px) {
+    body.lumiere-v2 main {
+        width: 80%;
+        max-width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
 
 .pdp-text-muted {
     color: var(--beautage-muted, #475569);

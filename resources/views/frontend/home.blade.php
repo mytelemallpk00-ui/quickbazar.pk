@@ -36,7 +36,7 @@ class="lumiere-v2 qh-home bg-[#f4f7f6] text-gray-800 font-sans antialiased min-h
 @endpush
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/qb-home.css') }}?v=2026111025">
+<link rel="stylesheet" href="{{ asset('css/qb-home.css') }}?v=2026111027">
 @endpush
 
 @section('content')
@@ -119,46 +119,50 @@ class="lumiere-v2 qh-home bg-[#f4f7f6] text-gray-800 font-sans antialiased min-h
 
     @if ($sections['categories'] ?? true)
     <section id="categories" class="qh-wrap qh-section" aria-labelledby="home-categories-title">
-        <div class="qh-head">
-            <div>
-                <p class="qh-kicker">Browse by category</p>
-                <h2 id="home-categories-title">Shop by Categories</h2>
+        <div class="qh-band">
+            <div class="qh-head">
+                <div>
+                    <p class="qh-kicker">Browse by category</p>
+                    <h2 id="home-categories-title">Shop by Categories</h2>
+                </div>
+                <a class="qh-text-link" href="{{ route('collections') }}">View all →</a>
             </div>
-            <a class="qh-text-link" href="{{ route('collections') }}">View all →</a>
-        </div>
-        <div class="qh-pills">
-            @foreach ($shopPills as $pill)
-                <a class="qh-pill-card" href="{{ url($pill['url'] ?? '/collections') }}">
-                    <span aria-hidden="true"><i data-lucide="{{ $pill['icon'] ?? 'tag' }}"></i></span>
-                    <span>
-                        <strong>{{ $pill['label'] ?? '' }}</strong>
-                        <small>{{ $pill['count'] ?? '' }}</small>
-                    </span>
-                </a>
-            @endforeach
+            <div class="qh-pills">
+                @foreach ($shopPills as $pill)
+                    <a class="qh-pill-card" href="{{ url($pill['url'] ?? '/collections') }}">
+                        <span class="qh-ico" aria-hidden="true"><i data-lucide="{{ $pill['icon'] ?? 'tag' }}"></i></span>
+                        <span class="qh-pill-copy">
+                            <strong>{{ $pill['label'] ?? '' }}</strong>
+                            <small>{{ $pill['count'] ?? '' }}</small>
+                        </span>
+                    </a>
+                @endforeach
+            </div>
         </div>
     </section>
     @endif
 
     @if (! empty($showcaseGoals))
     <section class="qh-wrap qh-section" aria-labelledby="home-goals-title">
-        <div class="qh-head">
-            <div>
-                <p class="qh-kicker">Shop by goal and concern</p>
-                <h2 id="home-goals-title">Find Products by Goal</h2>
+        <div class="qh-band qh-band--goals">
+            <div class="qh-head">
+                <div>
+                    <p class="qh-kicker">Shop by goal and concern</p>
+                    <h2 id="home-goals-title">Find Products by Goal</h2>
+                </div>
             </div>
-        </div>
-        <div class="qh-goals">
-            @foreach ($showcaseGoals as $goal)
-                <a class="qh-goal" href="{{ url($goal['url'] ?? '/collections') }}">
-                    <span aria-hidden="true"><i data-lucide="{{ $goal['icon'] ?? 'sparkles' }}"></i></span>
-                    <span>
-                        <strong>{{ $goal['title'] ?? '' }}</strong>
-                        <small>{{ $goal['text'] ?? '' }}</small>
-                        <em>Explore products →</em>
-                    </span>
-                </a>
-            @endforeach
+            <div class="qh-goals">
+                @foreach ($showcaseGoals as $goal)
+                    <a class="qh-goal" href="{{ url($goal['url'] ?? '/collections') }}">
+                        <span class="qh-ico" aria-hidden="true"><i data-lucide="{{ $goal['icon'] ?? 'sparkles' }}"></i></span>
+                        <span class="qh-goal-copy">
+                            <strong>{{ $goal['title'] ?? '' }}</strong>
+                            <small>{{ $goal['text'] ?? '' }}</small>
+                            <em>Explore products →</em>
+                        </span>
+                    </a>
+                @endforeach
+            </div>
         </div>
     </section>
     @endif
