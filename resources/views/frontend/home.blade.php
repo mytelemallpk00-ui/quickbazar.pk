@@ -36,7 +36,7 @@ class="lumiere-v2 qh-home bg-[#f4f7f6] text-gray-800 font-sans antialiased min-h
 @endpush
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/qb-home.css') }}?v=2026111028">
+<link rel="stylesheet" href="{{ asset('css/qb-home.css') }}?v=2026111030">
 @endpush
 
 @section('content')
@@ -273,32 +273,39 @@ class="lumiere-v2 qh-home bg-[#f4f7f6] text-gray-800 font-sans antialiased min-h
 
     @if (! empty($brandCards))
     <section class="qh-wrap qh-section" aria-labelledby="home-brands-title">
-        <div class="qh-head">
-            <div>
-                <p class="qh-kicker">Trusted derma labs and brands</p>
-                <h2 id="home-brands-title">Top Brands</h2>
+        <div class="qh-band">
+            <div class="qh-head">
+                <div>
+                    <p class="qh-kicker">Trusted derma labs and brands</p>
+                    <h2 id="home-brands-title">Top Brands</h2>
+                </div>
+                <a class="qh-text-link" href="{{ route('collections') }}">View all brands →</a>
             </div>
-            <a class="qh-text-link" href="{{ route('collections') }}">View all brands →</a>
-        </div>
-        <div class="qh-brands">
-            @foreach ($brandCards as $brand)
-                <a class="qh-brand" href="{{ url($brand['url'] ?? '/collections') }}">
-                    <strong>{{ $brand['name'] ?? '' }}</strong>
-                    <span>{{ $brand['count'] ?? '' }}</span>
-                </a>
-            @endforeach
+            <div class="qh-brands">
+                @foreach ($brandCards as $brand)
+                    <a class="qh-brand" href="{{ url($brand['url'] ?? '/collections') }}">
+                        <span class="qh-brand-mark" aria-hidden="true">{{ mb_strtoupper(mb_substr((string) ($brand['name'] ?? 'Q'), 0, 1)) }}</span>
+                        <span>
+                            <strong>{{ $brand['name'] ?? '' }}</strong>
+                            <small>{{ $brand['count'] ?? '' }}</small>
+                        </span>
+                    </a>
+                @endforeach
+            </div>
         </div>
     </section>
     @endif
 
     @if ($sections['steps'] ?? true)
     <section class="qh-wrap qh-section" aria-labelledby="home-steps-title">
-        <div class="qh-head"><div><p class="qh-kicker">Ordering</p><h2 id="home-steps-title">How it works</h2></div></div>
-        <ol class="qh-steps">
-            <li><span>1</span><h3>Choose a product</h3><p>Compare PKR prices and open any product page.</p></li>
-            <li><span>2</span><h3>Checkout your way</h3><p>Pay cash on delivery, or use the methods shown at checkout.</p></li>
-            <li><span>3</span><h3>Track the parcel</h3><p>Follow the order after it is placed.</p></li>
-        </ol>
+        <div class="qh-band qh-band--goals">
+            <div class="qh-head"><div><p class="qh-kicker">Ordering</p><h2 id="home-steps-title">How it works</h2></div></div>
+            <ol class="qh-steps">
+                <li><span>1</span><div><h3>Choose a product</h3><p>Compare PKR prices and open any product page.</p></div></li>
+                <li><span>2</span><div><h3>Checkout your way</h3><p>Pay cash on delivery, or use the methods shown at checkout.</p></div></li>
+                <li><span>3</span><div><h3>Track the parcel</h3><p>Follow the order after it is placed.</p></div></li>
+            </ol>
+        </div>
     </section>
     @endif
 
@@ -314,8 +321,13 @@ class="lumiere-v2 qh-home bg-[#f4f7f6] text-gray-800 font-sans antialiased min-h
         <div class="qh-reviews">
             @foreach ($latestReviews as $review)
                 <article>
-                    <p class="qh-stars" aria-hidden="true">{{ str_repeat('★', (int) round((float) $review->rating)) }}</p>
-                    <h3>{{ $review->author_name }}</h3>
+                    <header>
+                        <span class="qh-avatar" aria-hidden="true">{{ mb_strtoupper(mb_substr((string) $review->author_name, 0, 1)) }}</span>
+                        <span>
+                            <h3>{{ $review->author_name }}</h3>
+                            <p class="qh-stars" aria-label="Rated {{ (int) round((float) $review->rating) }} out of 5">{{ str_repeat('★', (int) round((float) $review->rating)) }}{{ str_repeat('☆', max(0, 5 - (int) round((float) $review->rating))) }}</p>
+                        </span>
+                    </header>
                     @if ($review->title)
                         <p class="qh-review-title">{{ $review->title }}</p>
                     @endif
@@ -330,6 +342,7 @@ class="lumiere-v2 qh-home bg-[#f4f7f6] text-gray-800 font-sans antialiased min-h
     @endif
 
     <section class="qh-wrap qh-section" aria-labelledby="home-faq-title">
+        <div class="qh-band">
         <div class="qh-head"><div><p class="qh-kicker">Help</p><h2 id="home-faq-title">Questions before you order</h2></div></div>
         <div class="qh-faq">
             <details open>
@@ -355,6 +368,7 @@ class="lumiere-v2 qh-home bg-[#f4f7f6] text-gray-800 font-sans antialiased min-h
             <a href="{{ route('track-order') }}">Track an order</a>
             <a href="{{ route('help') }}">Help</a>
         </p>
+        </div>
     </section>
 
     @if (($sections['journal'] ?? true) && $journalPosts->isNotEmpty())
@@ -381,18 +395,26 @@ class="lumiere-v2 qh-home bg-[#f4f7f6] text-gray-800 font-sans antialiased min-h
     <section class="qh-wrap qh-section" aria-labelledby="home-news-title">
         <div class="qh-news">
             <div>
+                <p class="qh-kicker qh-kicker--light">Store updates</p>
                 <h2 id="home-news-title">Offers and new arrivals</h2>
-                <p>Leave an email for store updates. No account required.</p>
+                <p>New products, delivery notes, and weekly offers. No account required.</p>
+                <ul>
+                    <li>New arrivals</li>
+                    <li>Delivery updates</li>
+                    <li>Weekly offers</li>
+                </ul>
             </div>
-            <form id="qh-newsletter" class="qh-news-form">
-                <label class="sr-only" for="qh-email">Email</label>
-                <input id="qh-email" name="email" type="email" required autocomplete="email" placeholder="Email address">
-                <button type="submit">Subscribe</button>
-                <p id="qh-news-note" role="status"></p>
-            </form>
-            @if (! empty($whatsappUrl))
-                <a class="qh-wa" href="{{ $whatsappUrl }}" target="_blank" rel="noopener">Order on WhatsApp</a>
-            @endif
+            <div class="qh-news-card">
+                <form id="qh-newsletter" class="qh-news-form">
+                    <label for="qh-email">Email address</label>
+                    <input id="qh-email" name="email" type="email" required autocomplete="email" placeholder="you@email.com">
+                    <button type="submit">Subscribe</button>
+                    <p id="qh-news-note" role="status"></p>
+                </form>
+                @if (! empty($whatsappUrl))
+                    <a class="qh-wa" href="{{ $whatsappUrl }}" target="_blank" rel="noopener">Order on WhatsApp</a>
+                @endif
+            </div>
         </div>
     </section>
 </main>
