@@ -100,16 +100,6 @@
                         <span class="beautage-admin-quicklink-title">Checkout settings</span>
                         <span class="beautage-admin-quicklink-desc">Delivery charges & payment methods</span>
                     </a>
-                    <a href="{{ route('filament.admin.pages.ai-integration') }}" class="beautage-admin-quicklink">
-                        <x-filament::icon icon="heroicon-o-cpu-chip" class="beautage-admin-quicklink-icon" />
-                        <span class="beautage-admin-quicklink-title">AI integration</span>
-                        <span class="beautage-admin-quicklink-desc">Gemini & OpenAI keys for product SEO</span>
-                    </a>
-                    <a href="{{ route('filament.admin.pages.analytics-performance-tracking') }}" class="beautage-admin-quicklink">
-                        <x-filament::icon icon="heroicon-o-chart-pie" class="beautage-admin-quicklink-icon" />
-                        <span class="beautage-admin-quicklink-title">Analytics & tracking</span>
-                        <span class="beautage-admin-quicklink-desc">GA4, webmaster tools & Merchant feed</span>
-                    </a>
                     @endif
                     @if($adminUser?->canManageAdminUsers())
                     <a href="{{ route('filament.admin.resources.users.index') }}" class="beautage-admin-quicklink">

@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreOrderRequest;
-use App\Jobs\BookCourierShipmentJob;
-use App\Services\Meta\MetaConversionsApi;
 use App\Models\Order;
 use App\Models\Product;
 use App\Services\Courier\CourierRateService;
@@ -121,17 +119,6 @@ class OrderController extends Controller
 
             return $order->load('items');
         });
-
-        if ($order->courier_code) {
-            BookCourierShipmentJob::dispatchSync($order);
-            $order->refresh();
-        }
-
-        app(MetaConversionsApi::class)->sendPurchase(
-            $order,
-            $request->ip(),
-            (string) $request->userAgent(),
-        );
 
         app(OrderAutomationPlanner::class)->afterOrderPlaced($order);
 

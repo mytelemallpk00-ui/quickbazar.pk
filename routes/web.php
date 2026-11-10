@@ -1,9 +1,5 @@
 <?php
 
-use App\Http\Controllers\Admin\AiSeoController;
-use App\Http\Controllers\Admin\GoogleIndexController;
-use App\Http\Controllers\Admin\ProductAiController;
-use App\Http\Controllers\Admin\SocialAutomationController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CheckoutController;
@@ -15,15 +11,12 @@ use App\Http\Controllers\TrackOrderController;
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\DeployFlushController;
 use App\Http\Controllers\ExclusiveOffersController;
-use App\Http\Controllers\GoogleMerchantFeedController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\IndexNowKeyController;
 use App\Http\Controllers\NewsletterSubscribeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductReviewController;
-use App\Http\Middleware\RecordStoreTraffic;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/robots.txt', function () {
@@ -37,7 +30,6 @@ Route::get('/robots.txt', function () {
         'Disallow: /account',
         '',
         'Sitemap: '.$base.'/sitemap_index.xml',
-        'Sitemap: '.$base.'/feeds/google-merchant.xml',
         '',
     ];
 
@@ -47,34 +39,8 @@ Route::get('/robots.txt', function () {
 Route::get('/_deploy/flush-cache', DeployFlushController::class)
     ->middleware('throttle:6,1');
 
-Route::middleware(['web', 'auth'])->group(function (): void {
-    Route::post('/admin/product-ai/generate', ProductAiController::class)
-        ->name('admin.product-ai.generate');
-
-    Route::prefix('admin/ai-seo')->name('admin.ai-seo.')->group(function (): void {
-        Route::post('/optimize/{product:id}', [AiSeoController::class, 'optimize'])->name('optimize');
-        Route::post('/optimize-bulk', [AiSeoController::class, 'optimizeBulk'])->name('optimize-bulk');
-        Route::post('/settings/provider', [AiSeoController::class, 'updateProvider'])->name('provider');
-    });
-
-    Route::post('/admin/social/posts/{scheduledPost}/retry', [SocialAutomationController::class, 'retry'])
-        ->name('admin.social.posts.retry');
-
-    Route::prefix('admin/google-index')->name('admin.google-index.')->group(function (): void {
-        Route::post('/publish', [GoogleIndexController::class, 'publish'])->name('publish');
-        Route::post('/products/{product}/analyze', [GoogleIndexController::class, 'analyzeProduct'])->name('analyze-product');
-    });
-});
-
-Route::middleware(RecordStoreTraffic::class)->group(function (): void {
+Route::middleware('web')->group(function (): void {
     Route::get('/', HomeController::class)->name('home');
-
-    Route::get('/feeds/google-merchant.xml', GoogleMerchantFeedController::class)
-        ->name('feeds.google-merchant');
-
-    Route::get('/{key}.txt', IndexNowKeyController::class)
-        ->where('key', '[a-fA-F0-9]{32,128}')
-        ->name('indexnow.key');
 
     Route::get('/collections', CollectionController::class)->name('collections');
     Route::get('/shop/{landing:slug}', \App\Http\Controllers\ProgrammaticSeoLandingController::class)

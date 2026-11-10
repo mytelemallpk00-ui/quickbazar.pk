@@ -33,6 +33,11 @@ use Illuminate\Support\HtmlString;
 class SocialGoogleIndexing extends Page implements HasForms, HasTable
 {
     use AuthorizesAdminPage;
+
+    public static function canAccess(): bool
+    {
+        return false;
+    }
     use InteractsWithForms;
     use InteractsWithGoogleIndex;
     use InteractsWithTable;

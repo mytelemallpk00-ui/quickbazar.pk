@@ -35,7 +35,6 @@
     <title>@yield('title', \App\Support\SiteSettings::get('default_meta_title', 'Quick Bazar'))</title>
     @stack('structured-data')
     @include('partials.seo-head', ['seo' => $pageSeo ?? null])
-    @include('partials.site-analytics-head')
     <link rel="icon" href="{{ $siteFaviconUrl }}" sizes="any">
     <link rel="apple-touch-icon" href="{{ $siteLogoUrl }}">
     @stack('head-preload')
@@ -308,7 +307,6 @@
 <script src="{{ asset('js/beautage-newsletter.js') }}?v=2026103020" defer></script>
 <script src="{{ asset('js/beautage-boot.js') }}?v=2026102920" defer></script>
 @include('partials.live-chat-widget')
-@include('partials.site-analytics')
 @stack('scripts')
 </body>
 </html>

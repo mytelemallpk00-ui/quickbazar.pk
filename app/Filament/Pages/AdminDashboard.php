@@ -5,7 +5,6 @@ namespace App\Filament\Pages;
 use App\Filament\Concerns\AuthorizesAdminPage;
 use App\Filament\Widgets\DashboardWelcomeWidget;
 use App\Filament\Widgets\ManageContentLinksWidget;
-use App\Filament\Widgets\StorePerformanceChartsWidget;
 use App\Support\AdminPermissions;
 use Filament\Pages\Dashboard;
 
@@ -23,7 +22,6 @@ class AdminDashboard extends Dashboard
     {
         return [
             DashboardWelcomeWidget::class,
-            StorePerformanceChartsWidget::class,
             ManageContentLinksWidget::class,
         ];
     }

@@ -33,6 +33,11 @@ use Filament\Tables\Table;
 class SocialPostScheduler extends Page implements HasForms, HasTable
 {
     use AuthorizesAdminPage;
+
+    public static function canAccess(): bool
+    {
+        return false;
+    }
     use InteractsWithForms;
     use InteractsWithTable;
 

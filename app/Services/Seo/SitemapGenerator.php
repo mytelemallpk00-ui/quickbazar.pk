@@ -101,7 +101,7 @@ class SitemapGenerator
             });
         }
 
-        if (! empty($settings['sitemap_include_pseo']) && Schema::hasTable('programmatic_seo_landings')) {
+        if (false && ! empty($settings['sitemap_include_pseo']) && Schema::hasTable('programmatic_seo_landings')) {
             ProgrammaticSeoLanding::query()
                 ->where('is_published', true)
                 ->orderBy('sort_order')

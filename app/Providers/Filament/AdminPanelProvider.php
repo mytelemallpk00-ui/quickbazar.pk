@@ -3,11 +3,6 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Pages\AdminDashboard;
-use App\Filament\Pages\AnalyticsPerformanceTracking;
-use App\Filament\Pages\CourierApiCredentials;
-use App\Filament\Pages\SocialApiCredentials;
-use App\Filament\Pages\SocialGoogleIndexing;
-use App\Filament\Pages\SocialPostScheduler;
 use App\Support\GoogleAnalytics;
 use App\Support\SiteSettings;
 use Filament\View\PanelsRenderHook;
@@ -93,24 +88,17 @@ class AdminPanelProvider extends PanelProvider
             ->navigationGroups([
                 NavigationGroup::make()->label('Overview')->icon('heroicon-o-home'),
                 NavigationGroup::make()->label('Categories')->icon('heroicon-o-tag'),
-                NavigationGroup::make()->label('AI SEO')->icon('heroicon-o-sparkles'),
                 NavigationGroup::make()->label('Catalog')->icon('heroicon-o-shopping-bag'),
                 NavigationGroup::make()->label('Bundle deals')->icon('heroicon-o-squares-plus'),
                 NavigationGroup::make()->label('Content')->icon('heroicon-o-document-text'),
                 NavigationGroup::make()->label('Orders')->icon('heroicon-o-shopping-cart'),
                 NavigationGroup::make()->label('Customer Reviews')->icon('heroicon-o-star'),
                 NavigationGroup::make()->label('Settings')->icon('heroicon-o-cog-6-tooth'),
-                NavigationGroup::make()->label('Social Automation')->icon('heroicon-o-share'),
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
                 AdminDashboard::class,
-                AnalyticsPerformanceTracking::class,
-                SocialPostScheduler::class,
-                SocialApiCredentials::class,
-                SocialGoogleIndexing::class,
-                CourierApiCredentials::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->middleware([

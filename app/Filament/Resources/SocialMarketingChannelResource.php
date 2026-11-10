@@ -24,6 +24,11 @@ class SocialMarketingChannelResource extends Resource
 {
     use AuthorizesAdminAccess;
 
+    public static function canViewAny(): bool
+    {
+        return false;
+    }
+
     protected static function adminPermissionModule(): string
     {
         return AdminPermissions::SOCIAL;

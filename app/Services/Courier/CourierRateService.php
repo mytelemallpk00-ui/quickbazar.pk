@@ -31,7 +31,7 @@ class CourierRateService
         $threshold = (float) CheckoutSettings::all()['free_shipping_threshold'];
         $methods = [];
 
-        if (config('courier.smart_shipping_enabled', true)) {
+        if (config('courier.smart_shipping_enabled', false)) {
             foreach ($this->clients() as $client) {
                 $platform = $client->platform();
                 $quote = $client->quote($city, $weightKg, $cod ? $discountedSubtotal : 0);

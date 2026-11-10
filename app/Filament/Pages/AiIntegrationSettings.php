@@ -18,6 +18,11 @@ use Illuminate\Support\HtmlString;
 class AiIntegrationSettings extends Page implements HasForms
 {
     use AuthorizesAdminPage;
+
+    public static function canAccess(): bool
+    {
+        return false;
+    }
     use InteractsWithForms;
 
     protected static function adminPermissionModule(): string

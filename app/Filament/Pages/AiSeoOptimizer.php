@@ -14,6 +14,11 @@ use Livewire\WithPagination;
 class AiSeoOptimizer extends Page
 {
     use AuthorizesAdminPage;
+
+    public static function canAccess(): bool
+    {
+        return false;
+    }
     use WithPagination;
 
     protected static function adminPermissionModule(): string

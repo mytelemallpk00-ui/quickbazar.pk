@@ -10,6 +10,7 @@ class ProgrammaticSeoLandingController extends Controller
 {
     public function __invoke(ProgrammaticSeoLanding $landing): View
     {
+        abort(404);
         abort_unless($landing->is_published, 404);
 
         $activeCategorySlug = $landing->category?->slug;

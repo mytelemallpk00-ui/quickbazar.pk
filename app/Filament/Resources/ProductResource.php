@@ -5,18 +5,11 @@ namespace App\Filament\Resources;
 use App\Filament\Concerns\AuthorizesAdminAccess;
 use App\Filament\Forms\AdminImageUpload;
 use App\Support\AdminPermissions;
-use App\Support\AiSettings;
 use App\Filament\Forms\SeoSection;
 use App\Filament\Resources\ProductResource\Pages;
 use App\Filament\Resources\ProductResource\RelationManagers\ProductReviewsRelationManager;
 use App\Models\Category;
 use App\Models\Product;
-use App\Models\GoogleIndexLog;
-use App\Services\GoogleIndex\GoogleIndexException;
-use App\Services\GoogleIndex\GoogleIndexService;
-use App\Services\GoogleIndex\GoogleIndexUrl;
-use App\Services\ProductAi\ProductAiService;
-use Filament\Notifications\Notification;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -51,74 +44,6 @@ class ProductResource extends Resource
                         Forms\Components\Tabs\Tab::make('Basics')
                             ->icon('heroicon-o-cube')
                             ->schema([
-                                Forms\Components\Section::make('AI SEO — auto-fill product & Google fields')
-                                    ->description('Smart SEO works with no API key. Gemini Flash (free tier) & Pro need a key from Settings → AI integration.')
-                                    ->icon('heroicon-o-sparkles')
-                                    ->extraAttributes(['class' => 'beautage-product-ai-panel'])
-                                    ->schema([
-                                        Forms\Components\Placeholder::make('ai_provider_status')
-                                            ->label('Status')
-                                            ->content(function (): \Illuminate\Support\HtmlString {
-                                                $parts = ['✓ Smart SEO (no key)'];
-                                                $parts[] = AiSettings::hasGeminiKey()
-                                                    ? '✓ Gemini API key saved'
-                                                    : '○ Gemini — add key in <a href="'.route('filament.admin.pages.ai-integration').'" class="text-primary-600 underline">AI integration</a>';
-                                                $parts[] = AiSettings::hasOpenAiKey()
-                                                    ? '✓ OpenAI key saved'
-                                                    : '○ OpenAI optional';
-
-                                                return new \Illuminate\Support\HtmlString(
-                                                    '<p class="text-sm text-gray-600 dark:text-gray-400">'.implode(' · ', $parts).'</p>'
-                                                );
-                                            })
-                                            ->columnSpanFull(),
-                                        Forms\Components\TextInput::make('ai_target_keyword')
-                                            ->label('Target SEO keyword (optional)')
-                                            ->maxLength(80)
-                                            ->dehydrated(false)
-                                            ->helperText('Example: beard growth oil Pakistan')
-                                            ->columnSpanFull(),
-                                        Forms\Components\Textarea::make('ai_specs_context')
-                                            ->label('Specs / features for AI (optional)')
-                                            ->rows(5)
-                                            ->dehydrated(false)
-                                            ->placeholder('Paste Daraz/Amazon bullet points or ingredients here.')
-                                            ->columnSpanFull(),
-                                        Forms\Components\Actions::make([
-                                            Forms\Components\Actions\Action::make('formGenerateSmart')
-                                                ->label('Smart SEO (Free · no API key)')
-                                                ->icon('heroicon-o-check-badge')
-                                                ->color('success')
-                                                ->extraAttributes(['type' => 'button'])
-                                                ->action(fn ($livewire) => $livewire->runProductAiGeneration(ProductAiService::PROVIDER_SMART)),
-                                            Forms\Components\Actions\Action::make('formGenerateGeminiFlash')
-                                                ->label('Gemini Flash (Free API tier)')
-                                                ->icon('heroicon-o-bolt')
-                                                ->color('info')
-                                                ->extraAttributes(['type' => 'button'])
-                                                ->requiresConfirmation()
-                                                ->action(fn ($livewire) => $livewire->runProductAiGeneration(ProductAiService::PROVIDER_GEMINI_FLASH)),
-                                            Forms\Components\Actions\Action::make('formGenerateGeminiPro')
-                                                ->label('Gemini Pro')
-                                                ->icon('heroicon-o-sparkles')
-                                                ->color('warning')
-                                                ->extraAttributes(['type' => 'button'])
-                                                ->requiresConfirmation()
-                                                ->modalDescription('Requires a Google AI Studio API key (not Gmail login). Add it under Settings → AI integration.')
-                                                ->action(fn ($livewire) => $livewire->runProductAiGeneration(ProductAiService::PROVIDER_GEMINI_PRO)),
-                                            Forms\Components\Actions\Action::make('formGenerateOpenAi')
-                                                ->label('OpenAI')
-                                                ->icon('heroicon-o-cpu-chip')
-                                                ->color('gray')
-                                                ->extraAttributes(['type' => 'button'])
-                                                ->requiresConfirmation()
-                                                ->action(fn ($livewire) => $livewire->runProductAiGeneration(ProductAiService::PROVIDER_OPENAI)),
-                                        ])
-                                            ->columnSpanFull()
-                                            ->extraAttributes(['class' => 'beautage-product-ai-actions']),
-                                    ])
-                                    ->columns(1)
-                                    ->columnSpanFull(),
                                 Forms\Components\Placeholder::make('product_details_divider')
                                     ->label('')
                                     ->content(new \Illuminate\Support\HtmlString('<div class="beautage-product-form-divider"><span>Product details</span></div>'))
@@ -271,25 +196,6 @@ class ProductResource extends Resource
             ])
             ->defaultSort('sort_order')
             ->actions([
-                Tables\Actions\Action::make('pushGoogleIndex')
-                    ->label('Google Index')
-                    ->icon('heroicon-o-rocket-launch')
-                    ->color('success')
-                    ->requiresConfirmation()
-                    ->modalDescription(fn (Product $record): string => GoogleIndexUrl::forProduct($record))
-                    ->action(function (Product $record): void {
-                        try {
-                            $result = app(GoogleIndexService::class)->publish(
-                                GoogleIndexUrl::forProduct($record),
-                                GoogleIndexLog::ACTION_UPDATED,
-                                $record,
-                                auth()->user(),
-                            );
-                            Notification::make()->title('Sent to Google')->body($result['message'])->success()->send();
-                        } catch (GoogleIndexException $e) {
-                            Notification::make()->title('Indexing failed')->body($e->getMessage())->danger()->send();
-                        }
-                    }),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([

@@ -27,6 +27,11 @@ use Illuminate\Validation\ValidationException;
 class AnalyticsPerformanceTracking extends Page implements HasForms
 {
     use AuthorizesAdminPage;
+
+    public static function canAccess(): bool
+    {
+        return false;
+    }
     use InteractsWithForms;
 
     protected static function adminPermissionModule(): string

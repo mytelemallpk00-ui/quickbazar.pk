@@ -7,7 +7,7 @@ return [
 
     'weight_per_item_kg' => (float) env('COURIER_WEIGHT_PER_ITEM_KG', 0.35),
 
-    'smart_shipping_enabled' => env('COURIER_SMART_SHIPPING', true),
+    'smart_shipping_enabled' => false,
 
     'platforms' => [
         'tcs' => [
