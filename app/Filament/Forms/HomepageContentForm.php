@@ -29,6 +29,34 @@ class HomepageContentForm
                     .'</p>'
                 ))
                 ->columnSpanFull(),
+            Section::make('Top bar')
+                ->description('The thin strip above the logo. These are the dummy lines from the storefront mock.')
+                ->schema([
+                    TextInput::make('homepage_content.top_bar.left')->label('Left message')->maxLength(160)->columnSpanFull(),
+                    TextInput::make('homepage_content.top_bar.center')->label('Center message')->maxLength(160),
+                    TextInput::make('homepage_content.top_bar.right')->label('Right message')->maxLength(160),
+                    TextInput::make('homepage_content.top_bar.phone_label')->label('Phone label')->maxLength(40),
+                    TextInput::make('homepage_content.top_bar.phone')->label('Phone number')->maxLength(40),
+                    TextInput::make('homepage_content.top_bar.about_label')->label('About link label')->maxLength(40),
+                    TextInput::make('homepage_content.top_bar.about_url')->label('About link URL')->maxLength(200),
+                ])->columns(2),
+            Section::make('Hero slider')
+                ->description('Full-width slides. Add, remove, or reorder. The storefront cycles them automatically.')
+                ->schema([
+                    Repeater::make('homepage_content.slides')
+                        ->schema([
+                            TextInput::make('badge')->label('Badge')->maxLength(80),
+                            TextInput::make('title')->label('Headline')->required()->maxLength(140)->columnSpanFull(),
+                            TextInput::make('accent')->label('Second line')->maxLength(140)->columnSpanFull(),
+                            Textarea::make('description')->rows(2)->columnSpanFull(),
+                            Textarea::make('checks')->label('Tick points, one per line')->rows(4)->columnSpanFull(),
+                            TextInput::make('button_label')->label('Button')->maxLength(40),
+                            TextInput::make('button_url')->label('Button URL')->maxLength(200),
+                            TextInput::make('price_line')->label('Price line')->maxLength(80),
+                            TextInput::make('image_url')->label('Image URL')->columnSpanFull(),
+                            TextInput::make('image_alt')->label('Image alt')->maxLength(120),
+                        ])->columns(2)->collapsible()->columnSpanFull(),
+                ]),
             Section::make('Homepage sections')
                 ->description('Turn each block of the homepage on or off. The header, mega menu, and footer stay in place.')
                 ->schema([

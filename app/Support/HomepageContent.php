@@ -22,6 +22,88 @@ class HomepageContent
                 'journal' => true,
                 'flash' => true,
             ],
+            'top_bar' => [
+                'left' => '100% Certified Authentic Skincare & Halal Health Essentials',
+                'center' => 'Free Nationwide Delivery on Orders Over Rs. 2,599',
+                'right' => 'Cash on Delivery Available',
+                'phone_label' => 'Specialist Care',
+                'phone' => '0300 1234567',
+                'about_label' => 'About Us',
+                'about_url' => '/our-story',
+            ],
+            'slides' => [
+                [
+                    'badge' => 'Dermatology approved',
+                    'title' => 'Clinically Proven Skincare,',
+                    'accent' => 'Crafted for Radiant Everyday Health',
+                    'description' => 'Authentic international serums, gentle cleansers and pure daily supplements with cash on delivery.',
+                    'checks' => "Gentle on Skin\nFast & Effective\nBarrier Protection\n100% Genuine",
+                    'button_label' => 'Explore Collection',
+                    'button_url' => '/collections',
+                    'price_line' => 'From Rs. 1,500 with Free COD',
+                    'image_url' => 'https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&q=80&w=800',
+                    'image_alt' => 'Hyaluronic serum bottle',
+                ],
+                [
+                    'badge' => 'Bundle offers · 30% off',
+                    'title' => 'Serums, sunscreens, and vitamins',
+                    'accent' => 'in one daily routine',
+                    'description' => 'Face serums, SPF 50+ sun care, and certified multivitamins with nationwide cash on delivery.',
+                    'checks' => "SPF 50+ daily sun care\nCertified multivitamins\nBaby & mom care\nWhitening care",
+                    'button_label' => 'Shop bundle offers',
+                    'button_url' => '/exclusive-offers',
+                    'price_line' => 'From Rs. 1,500 with Free COD',
+                    'image_url' => 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=800',
+                    'image_alt' => 'Skincare bottles',
+                ],
+                [
+                    'badge' => 'Halal health essentials',
+                    'title' => 'Hair, glow, and family care',
+                    'accent' => 'from trusted derma brands',
+                    'description' => 'Shampoos, brightening care, and baby formulas picked for everyday Pakistan delivery.',
+                    'checks' => "Hair fall care\nAcne and pore care\nDermatologist approved\nWhatsApp specialist support",
+                    'button_label' => 'Browse brands',
+                    'button_url' => '/collections',
+                    'price_line' => 'From Rs. 1,500 with Free COD',
+                    'image_url' => 'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?auto=format&fit=crop&q=80&w=800',
+                    'image_alt' => 'Daily skincare set',
+                ],
+            ],
+            'trust_row' => [
+                ['icon' => 'badge-check', 'title' => '100% Genuine Imports', 'text' => 'Direct from verified suppliers'],
+                ['icon' => 'shield-check', 'title' => 'Dermatologist Approved', 'text' => 'Clinical-grade formulas'],
+                ['icon' => 'truck', 'title' => 'Nationwide Cash on Delivery', 'text' => 'Pay when the parcel arrives'],
+                ['icon' => 'message-circle', 'title' => 'Specialist WhatsApp Support', 'text' => 'Ask before you order'],
+            ],
+            'shop_pills' => [
+                ['label' => 'Face Serums', 'count' => '128 products', 'icon' => 'droplet', 'url' => '/collections?cat=skincare'],
+                ['label' => 'Hair Shampoo', 'count' => '86 products', 'icon' => 'scissors', 'url' => '/collections?cat=hair-care'],
+                ['label' => 'Sun Protection', 'count' => '64 products', 'icon' => 'sun', 'url' => '/collections?cat=skincare'],
+                ['label' => 'Daily Vitamins', 'count' => '120 products', 'icon' => 'pill', 'url' => '/collections?cat=wellness-spa'],
+                ['label' => 'Baby & Mom Care', 'count' => '54 products', 'icon' => 'baby', 'url' => '/collections'],
+                ['label' => 'Whitening Care', 'count' => '96 products', 'icon' => 'sparkles', 'url' => '/collections?cat=skincare'],
+            ],
+            'showcase_goals' => [
+                ['title' => 'Skin Brightening & Glow', 'text' => 'Glutathione, Vitamin C & Niacinamide', 'icon' => 'sun', 'url' => '/collections?cat=skincare'],
+                ['title' => 'Hair Fall & Fast Regrowth', 'text' => 'Herbal Apple Shampoo & Biotin', 'icon' => 'scissors', 'url' => '/collections?cat=hair-care'],
+                ['title' => 'Acne & Pore Tightening', 'text' => 'Salicylic Acid & Centella Barrier Repair', 'icon' => 'sparkles', 'url' => '/collections?cat=skincare'],
+            ],
+            'featured_cards' => [
+                ['name' => 'Glutathione Whitening Pills 200mg', 'price' => 'Rs. 2,700', 'old_price' => 'Rs. 3,500', 'rating' => '4.7', 'reviews' => '128', 'image_url' => 'https://images.unsplash.com/photo-1584305574647-0cc949a2bb9f?auto=format&fit=crop&q=80&w=800', 'url' => '/collections?cat=skincare'],
+                ['name' => 'Apple Ammonia-Free Hair Shampoo', 'price' => 'Rs. 1,500', 'old_price' => 'Rs. 2,000', 'rating' => '4.5', 'reviews' => '86', 'image_url' => 'https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?auto=format&fit=crop&q=80&w=800', 'url' => '/collections?cat=hair-care'],
+                ['name' => 'CeraVe Moisturising Cream 340g', 'price' => 'Rs. 3,850', 'old_price' => 'Rs. 4,500', 'rating' => '4.8', 'reviews' => '214', 'image_url' => 'https://images.unsplash.com/photo-1556228578-8c89e6adf883?auto=format&fit=crop&q=80&w=800', 'url' => '/collections?cat=skincare'],
+                ['name' => 'Centella Water-Fit Sun Serum 50ml', 'price' => 'Rs. 3,650', 'old_price' => 'Rs. 4,200', 'rating' => '4.6', 'reviews' => '97', 'image_url' => 'https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?auto=format&fit=crop&q=80&w=800', 'url' => '/collections?cat=skincare'],
+            ],
+            'brand_cards' => [
+                ['name' => 'CeraVe', 'count' => '32+ products', 'url' => '/collections'],
+                ['name' => 'The Ordinary', 'count' => '42+ products', 'url' => '/collections'],
+                ['name' => 'NutriFactor', 'count' => '18+ products', 'url' => '/collections'],
+                ['name' => 'Dr. Rashel', 'count' => '67+ products', 'url' => '/collections'],
+                ['name' => 'Apple Hair Color', 'count' => '11+ products', 'url' => '/collections?cat=hair-care'],
+                ['name' => 'Yardlie Beauty', 'count' => '12+ products', 'url' => '/collections'],
+                ['name' => 'Cetaphil', 'count' => '16+ products', 'url' => '/collections?cat=skincare'],
+                ['name' => 'Lichen Herbal', 'count' => '22+ products', 'url' => '/collections'],
+            ],
             'hero' => [
                 'enabled' => true,
                 'background_from' => null,
@@ -195,6 +277,12 @@ class HomepageContent
 
         if (! is_array($merged['category_intro']['trust_badges'] ?? null) || $merged['category_intro']['trust_badges'] === []) {
             $merged['category_intro']['trust_badges'] = $defaults['category_intro']['trust_badges'];
+        }
+
+        foreach (['slides', 'shop_pills', 'showcase_goals', 'featured_cards', 'brand_cards', 'trust_row'] as $key) {
+            if (! is_array($merged[$key] ?? null) || $merged[$key] === []) {
+                $merged[$key] = $defaults[$key];
+            }
         }
 
         foreach (['aesthetics_gallery.cards', 'endorsements.cards'] as $path) {

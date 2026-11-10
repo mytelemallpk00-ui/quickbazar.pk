@@ -36,7 +36,7 @@ class="lumiere-v2 qh-home bg-[#f4f7f6] text-gray-800 font-sans antialiased min-h
 @endpush
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/qb-home.css') }}?v=2026111020">
+<link rel="stylesheet" href="{{ asset('css/qb-home.css') }}?v=2026111022">
 @endpush
 
 @section('content')
@@ -50,37 +50,53 @@ class="lumiere-v2 qh-home bg-[#f4f7f6] text-gray-800 font-sans antialiased min-h
     $reviewAverage = (float) ($reviewSummary['average'] ?? 0);
 @endphp
 <main class="qh">
-    @if ($sections['hero'] ?? true)
-    <section class="qh-wrap" aria-labelledby="home-hero-title">
-        <div class="qh-hero">
-            <div class="qh-hero-copy">
-                <span class="qh-pill">{{ $hero['badge'] ?? 'Ready to ship' }}</span>
-                <h1 id="home-hero-title">{{ $hero['title'] ?? 'Everyday care, priced in PKR' }} <span>{{ $hero['accent'] ?? '' }}</span></h1>
-                <p>{{ $hero['description'] ?? '' }}</p>
-                <ul class="qh-checks">
-                    <li>Live catalog prices in PKR</li>
-                    <li>Cash on delivery at checkout</li>
-                    <li>Nationwide shipping</li>
-                </ul>
-                <div class="qh-hero-actions">
-                    <a class="qh-btn" href="{{ route('collections') }}">Explore collection <span aria-hidden="true">→</span></a>
-                    @if ($fromPrice)
-                        <p class="qh-from">From {{ $fromPrice }} with cash on delivery</p>
-                    @endif
-                </div>
-            </div>
-            <div class="qh-hero-visual">
-                @if ($promo)
-                    <a href="{{ $promo['url'] }}" class="qh-hero-product">
-                        <img src="{{ $heroImage ?: $placeholder }}" alt="{{ $heroAlt }}" width="520" height="520" fetchpriority="high" decoding="async" onerror="this.onerror=null;this.src='{{ $placeholder }}';">
-                        <span>{{ $promo['name'] }}</span>
-                    </a>
-                @else
-                    <div class="qh-hero-product">
-                        <img src="{{ $placeholder }}" alt="Quick Bazar" width="520" height="520">
+    @if (($sections['hero'] ?? true) && ! empty($slides))
+    <section class="qh-wrap" aria-roledescription="carousel" aria-label="Featured offers">
+        <div class="qh-slider" id="qh-slider">
+            @foreach ($slides as $index => $slide)
+                @php
+                    $checks = preg_split('/\r\n|\r|\n/', (string) ($slide['checks'] ?? '')) ?: [];
+                    $checks = array_values(array_filter(array_map('trim', $checks)));
+                @endphp
+                <article class="qh-hero qh-slide {{ $index === 0 ? 'is-on' : '' }}" data-slide>
+                    <div class="qh-hero-copy">
+                        @if (filled($slide['badge'] ?? null))
+                            <span class="qh-pill">{{ $slide['badge'] }}</span>
+                        @endif
+                        <h1 @if ($index === 0) id="home-hero-title" @endif>{{ $slide['title'] ?? '' }} <span>{{ $slide['accent'] ?? '' }}</span></h1>
+                        @if (filled($slide['description'] ?? null))
+                            <p>{{ $slide['description'] }}</p>
+                        @endif
+                        @if ($checks !== [])
+                            <ul class="qh-checks">
+                                @foreach ($checks as $check)
+                                    <li>{{ $check }}</li>
+                                @endforeach
+                            </ul>
+                        @endif
+                        <div class="qh-hero-actions">
+                            <a class="qh-btn" href="{{ url($slide['button_url'] ?? '/collections') }}">{{ $slide['button_label'] ?? 'Explore Collection' }} <span aria-hidden="true">→</span></a>
+                            @if (filled($slide['price_line'] ?? null))
+                                <p class="qh-from">{{ $slide['price_line'] }}</p>
+                            @endif
+                        </div>
                     </div>
-                @endif
-            </div>
+                    <div class="qh-hero-visual">
+                        <div class="qh-hero-product">
+                            <img src="{{ $slide['image_url'] ?: $placeholder }}" alt="{{ $slide['image_alt'] ?? ($slide['title'] ?? 'Quick Bazar') }}" width="520" height="520" @if ($index === 0) fetchpriority="high" @endif decoding="async" onerror="this.onerror=null;this.src='{{ $placeholder }}';">
+                        </div>
+                    </div>
+                </article>
+            @endforeach
+            @if (count($slides) > 1)
+                <button type="button" class="qh-arrow qh-arrow--prev" data-slider-prev aria-label="Previous slide">‹</button>
+                <button type="button" class="qh-arrow qh-arrow--next" data-slider-next aria-label="Next slide">›</button>
+                <div class="qh-dots">
+                    @foreach ($slides as $index => $slide)
+                        <button type="button" class="{{ $index === 0 ? 'is-on' : '' }}" data-slider-dot="{{ $index }}" aria-label="Slide {{ $index + 1 }}"></button>
+                    @endforeach
+                </div>
+            @endif
         </div>
     </section>
     @else
@@ -91,22 +107,12 @@ class="lumiere-v2 qh-home bg-[#f4f7f6] text-gray-800 font-sans antialiased min-h
     <section class="qh-wrap" aria-labelledby="home-trust-title">
         <h2 id="home-trust-title" class="sr-only">Why shop here</h2>
         <div class="qh-trust">
-            <article>
-                <span aria-hidden="true"><i data-lucide="badge-check"></i></span>
-                <div><h3>Catalog you can browse</h3><p>Prices and stock come from the live store.</p></div>
-            </article>
-            <article>
-                <span aria-hidden="true"><i data-lucide="shield-check"></i></span>
-                <div><h3>Checkout you control</h3><p>Cash on delivery and the methods shown at checkout.</p></div>
-            </article>
-            <article>
-                <span aria-hidden="true"><i data-lucide="truck"></i></span>
-                <div><h3>Nationwide delivery</h3><p>Free shipping from {{ $freeShippingLabel ?? 'the checkout threshold' }}.</p></div>
-            </article>
-            <article>
-                <span aria-hidden="true"><i data-lucide="message-circle"></i></span>
-                <div><h3>WhatsApp support</h3><p>Ask about an order before you buy.</p></div>
-            </article>
+            @foreach ($trustRow as $item)
+                <article>
+                    <span aria-hidden="true"><i data-lucide="{{ $item['icon'] ?? 'badge-check' }}"></i></span>
+                    <div><h3>{{ $item['title'] ?? '' }}</h3><p>{{ $item['text'] ?? '' }}</p></div>
+                </article>
+            @endforeach
         </div>
     </section>
     @endif
@@ -116,43 +122,39 @@ class="lumiere-v2 qh-home bg-[#f4f7f6] text-gray-800 font-sans antialiased min-h
         <div class="qh-head">
             <div>
                 <p class="qh-kicker">Browse by category</p>
-                <h2 id="home-categories-title">Shop by category</h2>
+                <h2 id="home-categories-title">Shop by Categories</h2>
             </div>
             <a class="qh-text-link" href="{{ route('collections') }}">View all →</a>
         </div>
-        @if ($featuredCategories->isEmpty())
-            <p class="qh-empty">Categories will show here once they are published.</p>
-        @else
-            <div class="qh-pills">
-                @foreach ($featuredCategories as $category)
-                    <a class="qh-pill-card" href="{{ $category->collectionsUrl() }}">
-                        <span aria-hidden="true"><i data-lucide="{{ $category->iconName() }}"></i></span>
-                        <span>
-                            <strong>{{ $category->displayNavLabel() }}</strong>
-                            <small>{{ number_format($category->products_count) }} {{ $category->products_count === 1 ? 'product' : 'products' }}</small>
-                        </span>
-                    </a>
-                @endforeach
-            </div>
-        @endif
+        <div class="qh-pills">
+            @foreach ($shopPills as $pill)
+                <a class="qh-pill-card" href="{{ url($pill['url'] ?? '/collections') }}">
+                    <span aria-hidden="true"><i data-lucide="{{ $pill['icon'] ?? 'tag' }}"></i></span>
+                    <span>
+                        <strong>{{ $pill['label'] ?? '' }}</strong>
+                        <small>{{ $pill['count'] ?? '' }}</small>
+                    </span>
+                </a>
+            @endforeach
+        </div>
     </section>
     @endif
 
-    @if (! empty($goalCards))
+    @if (! empty($showcaseGoals))
     <section class="qh-wrap qh-section" aria-labelledby="home-goals-title">
         <div class="qh-head">
             <div>
                 <p class="qh-kicker">Shop by goal and concern</p>
-                <h2 id="home-goals-title">Find products by goal</h2>
+                <h2 id="home-goals-title">Find Products by Goal</h2>
             </div>
         </div>
         <div class="qh-goals">
-            @foreach ($goalCards as $goal)
-                <a class="qh-goal" href="{{ $goal['url'] }}">
-                    <span aria-hidden="true"><i data-lucide="{{ $goal['icon'] }}"></i></span>
+            @foreach ($showcaseGoals as $goal)
+                <a class="qh-goal" href="{{ url($goal['url'] ?? '/collections') }}">
+                    <span aria-hidden="true"><i data-lucide="{{ $goal['icon'] ?? 'sparkles' }}"></i></span>
                     <span>
-                        <strong>{{ $goal['title'] }}</strong>
-                        <small>{{ $goal['text'] }}</small>
+                        <strong>{{ $goal['title'] ?? '' }}</strong>
+                        <small>{{ $goal['text'] ?? '' }}</small>
                         <em>Explore products →</em>
                     </span>
                 </a>
@@ -165,21 +167,30 @@ class="lumiere-v2 qh-home bg-[#f4f7f6] text-gray-800 font-sans antialiased min-h
     <section id="trending" class="qh-wrap qh-section" aria-labelledby="home-trending-title">
         <div class="qh-head">
             <div>
-                <p class="qh-kicker">{{ $trendingCopy['badge'] ?? 'Bestselling' }}</p>
-                <h2 id="home-trending-title">{{ $trendingCopy['heading'] ?? 'Featured products' }}</h2>
-                <p class="qh-muted">{{ $trendingCopy['description'] ?? '' }}</p>
+                <p class="qh-kicker">Bestselling derma essentials</p>
+                <h2 id="home-trending-title">Featured Derma &amp; Skincare Products</h2>
+                <p class="qh-muted">Sample prices from the storefront mock. Open a card to browse the live catalog.</p>
             </div>
             <a class="qh-text-link" href="{{ route('collections') }}">Shop all →</a>
         </div>
-        @if (collect($trendingProducts)->isEmpty())
-            <p class="qh-empty">No products are published yet.</p>
-        @else
-            <div class="qh-grid">
-                @foreach (collect($trendingProducts)->take(8) as $product)
-                    @include('partials.home.qh-product-card', ['product' => $product, 'placeholder' => $placeholder])
-                @endforeach
-            </div>
-        @endif
+        <div class="qh-grid">
+            @foreach ($featuredCards as $card)
+                <article class="qh-card">
+                    <a href="{{ url($card['url'] ?? '/collections') }}" class="qh-card-media">
+                        <img src="{{ $card['image_url'] ?: $placeholder }}" alt="{{ $card['name'] ?? 'Product' }}" width="640" height="640" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='{{ $placeholder }}';">
+                        <span class="qh-stock">In stock</span>
+                    </a>
+                    <div class="qh-card-copy">
+                        <h3><a href="{{ url($card['url'] ?? '/collections') }}">{{ $card['name'] ?? '' }}</a></h3>
+                        <p class="qh-stars" aria-label="Rated {{ $card['rating'] ?? '0' }} out of 5">★★★★★ <span>({{ $card['reviews'] ?? '0' }})</span></p>
+                        <p class="qh-price"><strong>{{ $card['price'] ?? '' }}</strong> @if (! empty($card['old_price']))<s>{{ $card['old_price'] }}</s>@endif</p>
+                    </div>
+                    <div class="qh-card-actions">
+                        <a class="qh-bag" href="{{ url($card['url'] ?? '/collections') }}">Add to Bag</a>
+                    </div>
+                </article>
+            @endforeach
+        </div>
     </section>
     @endif
 
@@ -210,20 +221,20 @@ class="lumiere-v2 qh-home bg-[#f4f7f6] text-gray-800 font-sans antialiased min-h
     </section>
     @endif
 
-    @if ($departmentCards->isNotEmpty())
+    @if (! empty($brandCards))
     <section class="qh-wrap qh-section" aria-labelledby="home-brands-title">
         <div class="qh-head">
             <div>
-                <p class="qh-kicker">Departments</p>
-                <h2 id="home-brands-title">Shop the full catalog</h2>
+                <p class="qh-kicker">Trusted derma labs and brands</p>
+                <h2 id="home-brands-title">Top Brands</h2>
             </div>
-            <a class="qh-text-link" href="{{ route('collections') }}">View all →</a>
+            <a class="qh-text-link" href="{{ route('collections') }}">View all brands →</a>
         </div>
         <div class="qh-brands">
-            @foreach ($departmentCards as $category)
-                <a class="qh-brand" href="{{ $category->collectionsUrl() }}">
-                    <strong>{{ $category->displayNavLabel() }}</strong>
-                    <span>{{ number_format($category->products_count) }} {{ $category->products_count === 1 ? 'product' : 'products' }}</span>
+            @foreach ($brandCards as $brand)
+                <a class="qh-brand" href="{{ url($brand['url'] ?? '/collections') }}">
+                    <strong>{{ $brand['name'] ?? '' }}</strong>
+                    <span>{{ $brand['count'] ?? '' }}</span>
                 </a>
             @endforeach
         </div>
@@ -340,6 +351,25 @@ class="lumiere-v2 qh-home bg-[#f4f7f6] text-gray-800 font-sans antialiased min-h
 @push('scripts')
 <script>
     window.products = @json($productsCatalog);
+    (function () {
+        const root = document.getElementById('qh-slider');
+        if (root) {
+            const slides = Array.from(root.querySelectorAll('[data-slide]'));
+            const dots = Array.from(root.querySelectorAll('[data-slider-dot]'));
+            let index = 0;
+            const show = function (next) {
+                index = (next + slides.length) % slides.length;
+                slides.forEach(function (slide, i) { slide.classList.toggle('is-on', i === index); });
+                dots.forEach(function (dot, i) { dot.classList.toggle('is-on', i === index); });
+            };
+            root.querySelector('[data-slider-prev]')?.addEventListener('click', function () { show(index - 1); });
+            root.querySelector('[data-slider-next]')?.addEventListener('click', function () { show(index + 1); });
+            dots.forEach(function (dot) {
+                dot.addEventListener('click', function () { show(Number(dot.getAttribute('data-slider-dot'))); });
+            });
+            if (slides.length > 1) window.setInterval(function () { show(index + 1); }, 7000);
+        }
+    })();
     (function () {
         const ends = new Date(@json($flash['ends_at'] ?? now()->toIso8601String())).getTime();
         const hours = document.getElementById('hours');

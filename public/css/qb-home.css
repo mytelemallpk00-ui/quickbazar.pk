@@ -48,6 +48,28 @@ body.qh-home .qb-trust-icon { background: rgba(255, 255, 255, 0.12); color: #d8f
 .qh-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
 .qh-text-link { color: var(--qh); font-weight: 800; white-space: nowrap; }
 
+.qh-slider { position: relative; }
+.qh-slide { display: none; }
+.qh-slide.is-on { display: grid; }
+.qh-arrow {
+    position: absolute;
+    top: 50%;
+    z-index: 2;
+    width: 2.4rem;
+    height: 2.4rem;
+    border: 0;
+    border-radius: 999px;
+    background: #fff;
+    color: var(--qh-deep);
+    font-size: 1.4rem;
+    cursor: pointer;
+    transform: translateY(-50%);
+}
+.qh-arrow--prev { left: 0.6rem; }
+.qh-arrow--next { right: 0.6rem; }
+.qh-dots { position: absolute; left: 0; right: 0; bottom: 0.8rem; display: flex; justify-content: center; gap: 0.4rem; }
+.qh-dots button { width: 0.55rem; height: 0.55rem; border: 0; border-radius: 999px; background: rgba(255,255,255,0.45); cursor: pointer; }
+.qh-dots button.is-on { background: #fff; width: 1.3rem; }
 .qh-hero {
     display: grid;
     padding-right: 0.4rem;
@@ -104,6 +126,8 @@ body.qh-home .qh-offer h2 { color: #fff; }
     text-align: center;
     font-weight: 700;
 }
+.qh-hero.qh-slide { display: none; }
+.qh-hero.qh-slide.is-on { display: grid; }
 .qh-hero-product img {
     width: 100%;
     aspect-ratio: 1;

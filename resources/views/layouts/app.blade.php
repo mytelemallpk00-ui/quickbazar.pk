@@ -7,7 +7,7 @@
     @php
         use App\Support\StorefrontAssets;
         $storefrontCss = StorefrontAssets::compiledStylesheet();
-        $storefrontCssVersion = '2026110816';
+        $storefrontCssVersion = '2026111022';
         $supportEmail = \App\Support\SiteSettings::get('support_email', 'support@quickbazar.pk');
         if (! is_string($supportEmail) || $supportEmail === '' || str_contains(strtolower($supportEmail), 'beautage')) {
             $supportEmail = 'support@quickbazar.pk';
@@ -16,13 +16,15 @@
         $siteFaviconUrl = \App\Support\SiteSettings::faviconUrl();
         $footerLogoUrl = \App\Support\SiteSettings::footerLogoUrl();
         $siteTagline = \App\Support\SiteSettings::get('site_tagline', 'Elevate Your Natural Elegance');
+        $homeBanners = \App\Support\SiteSettings::homepage();
+        $topBar = is_array($homeBanners['top_bar'] ?? null) ? $homeBanners['top_bar'] : [];
         $marqueeItems = \App\Support\SiteSettings::get('marquee_items', []);
         if (! is_array($marqueeItems) || $marqueeItems === []) {
             $marqueeItems = [
-                ['text' => 'Free Express Worldwide Shipping Over Rs 7,500'],
-                ['text' => 'Luxury Flash Sale: Up to 50% OFF Selected Flagship Items'],
-                ['text' => 'Authorized Brand Store • 100% Original Verified Products'],
-                ['text' => 'Cash on Delivery Available Across Pakistan'],
+                ['text' => '100% Certified Authentic Skincare & Halal Health Essentials'],
+                ['text' => 'Free Nationwide Delivery on Orders Over Rs. 2,599'],
+                ['text' => 'Cash on Delivery Available'],
+                ['text' => 'Dermatologist Approved Formulas'],
             ];
         }
         $supportPhone = \App\Support\SiteSettings::get('support_phone', '+92 300 5550199');
@@ -67,28 +69,26 @@
     <div id="site-header-sticky" class="sticky top-0 z-40 w-full bg-white shadow-sm">
     <div class="qb-topbar">
         <div class="flex w-full items-center justify-between gap-3 px-4 py-2 sm:px-6 lg:px-8">
-            <div class="flex min-w-0 items-center gap-3 sm:gap-4">
-                <a href="tel:{{ $supportPhoneTel }}" class="inline-flex items-center gap-1.5 font-semibold">
-                    <i data-lucide="phone" class="h-3.5 w-3.5 text-orange-400"></i>
-                    <span class="truncate">{{ $supportPhone }}</span>
-                </a>
-                <a href="mailto:{{ $supportEmail }}" class="hidden items-center gap-1.5 font-semibold sm:inline-flex">
-                    <i data-lucide="mail" class="h-3.5 w-3.5 text-orange-400"></i>
-                    {{ $supportEmail }}
-                </a>
-            </div>
-            <p class="qb-hot hidden md:inline-flex">
-                <span class="qb-hot-badge">HOT</span>
-                {{ $storefrontNav['topbarText'] ?? 'Free nationwide delivery on orders over Rs. 2,500' }}
+            <p class="hidden min-w-0 truncate font-semibold md:block">{{ $topBar['left'] ?? '100% Certified Authentic Skincare & Halal Health Essentials' }}</p>
+            <p class="qb-hot min-w-0 truncate">
+                {{ $topBar['center'] ?? ($storefrontNav['topbarText'] ?? 'Free Nationwide Delivery on Orders Over Rs. 2,599') }}
             </p>
             <div class="flex items-center gap-3">
-                <a href="{{ route('track-order') }}" class="inline-flex items-center gap-1 font-semibold">
-                    <i data-lucide="map-pin" class="h-3.5 w-3.5 text-orange-400"></i>
-                    <span class="hidden sm:inline">Track order</span>
+                <span class="hidden font-semibold lg:inline">{{ $topBar['right'] ?? 'Cash on Delivery Available' }}</span>
+                <a href="tel:{{ preg_replace('/[^\d+]/', '', (string) ($topBar['phone'] ?? $supportPhoneTel)) }}" class="inline-flex items-center gap-1.5 font-semibold">
+                    <i data-lucide="phone" class="h-3.5 w-3.5 text-orange-400"></i>
+                    <span class="hidden sm:inline">{{ $topBar['phone_label'] ?? 'Specialist Care' }}</span>
+                    <span>{{ $topBar['phone'] ?? $supportPhone }}</span>
                 </a>
-                <span class="hidden font-semibold lg:inline">PKR (Rs)</span>
-                <span class="hidden font-semibold lg:inline">ENG</span>
+                <a href="{{ url($topBar['about_url'] ?? route('our-story')) }}" class="hidden font-semibold lg:inline">{{ $topBar['about_label'] ?? 'About Us' }}</a>
             </div>
+        </div>
+    </div>
+    <div class="qb-marquee" aria-label="Store announcements">
+        <div class="qb-marquee-track">
+            @foreach (array_merge($marqueeItems, $marqueeItems) as $item)
+                <span>{{ is_array($item) ? ($item['text'] ?? '') : $item }}</span>
+            @endforeach
         </div>
     </div>
 
@@ -104,7 +104,7 @@
                     </span>
                     <span class="min-w-0">
                         <span class="qb-wordmark block text-lg sm:text-xl">Quick <span>Bazar</span></span>
-                        <span class="qb-kicker hidden sm:block">Express shopping</span>
+                        <span class="qb-kicker hidden sm:block">Authentic skin &amp; health wellness</span>
                     </span>
                 </a>
 
@@ -116,7 +116,7 @@
                             <option value="{{ $searchCategory->slug }}">{{ $searchCategory->displayNavLabel() }}</option>
                             @endforeach
                         </select>
-                        <input type="text" id="main-search-input" placeholder="Search for products, brands, or categories" autocomplete="off">
+                        <input type="text" id="main-search-input" placeholder="Search for serums, sunblocks, cleansers, multivitamins" autocomplete="off">
                         <button id="clear-search" class="hidden px-2 text-slate-400" type="button" aria-label="Clear search">
                             <i data-lucide="x" class="h-4 w-4"></i>
                         </button>
