@@ -6,6 +6,7 @@ use App\Models\BlogPost;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductReview;
+use App\Support\CheckoutSettings;
 use App\Support\HomepageContent;
 use App\Support\LiveChatSettings;
 use App\Support\MoneyFormat;
@@ -49,17 +50,20 @@ class HomeController extends Controller
         return view('frontend.home', [
             'productsCatalog' => Product::catalogForJs(),
             'hero' => [
-                'badge' => filled($hero['badge'] ?? null) ? (string) $hero['badge'] : 'Pakistan · Cash on delivery',
-                'title' => filled($hero['title_line1'] ?? null) ? (string) $hero['title_line1'] : 'Shop verified products',
-                'accent' => filled($hero['title_accent'] ?? null) ? (string) $hero['title_accent'] : 'delivered nationwide',
+                'badge' => filled($hero['badge'] ?? null) ? (string) $hero['badge'] : 'Ready to ship',
+                'title' => filled($hero['title_line1'] ?? null) ? (string) $hero['title_line1'] : 'Everyday care, priced in PKR',
+                'accent' => filled($hero['title_accent'] ?? null) ? (string) $hero['title_accent'] : 'and delivered nationwide',
                 'description' => filled($hero['description'] ?? null)
                     ? (string) $hero['description']
-                    : 'Original catalog, clear PKR pricing, and support on WhatsApp when you need it.',
+                    : 'Skincare, hair care, fragrance, and wellness tools from the live catalog, with cash on delivery.',
                 'image' => HomepageContent::imageUrl($hero['image_url'] ?? null, 'Quick Bazar'),
                 'image_alt' => filled($hero['image_alt'] ?? null) ? (string) $hero['image_alt'] : 'Featured product',
             ],
             'promoProduct' => $promoProduct ? $this->presentProduct($promoProduct) : null,
             'featuredCategories' => $featuredCategories,
+            'goalCards' => $this->goalCards($featuredCategories),
+            'departmentCards' => $featuredCategories,
+            'freeShippingLabel' => MoneyFormat::pkr((float) CheckoutSettings::all()['free_shipping_threshold']),
             'trendingProducts' => $trendingProducts->map(fn (Product $product): array => $this->presentProduct($product))->values(),
             'trendingCopy' => [
                 'badge' => filled($trendingCopy['badge'] ?? null) ? (string) $trendingCopy['badge'] : 'Selling fast',
@@ -154,6 +158,37 @@ class HomeController extends Controller
             'count' => $count,
             'bars' => $bars,
         ];
+    }
+
+    /** @param  Collection<int, Category>  $categories
+     * @return list<array{title: string, text: string, icon: string, url: string, count: int}>
+     */
+    private function goalCards(Collection $categories): array
+    {
+        $copy = [
+            'skincare' => ['Skin Brightening & Glow', 'Serums and creams from the skincare shelf.', 'sparkles'],
+            'hair-care' => ['Hair Shine & Repair', 'Oils, shampoo, and masks for everyday hair care.', 'scissors'],
+            'beauty-tech' => ['At-home Beauty Tools', 'Devices that make cleansing and glow routines faster.', 'zap'],
+            'fragrance' => ['Daily Fragrance', 'Scents for skin, fabric, and the room.', 'flower-2'],
+            'wellness-spa' => ['Calm & Recovery', 'Spa tools and soaks for an evening reset.', 'moon'],
+        ];
+
+        return $categories
+            ->filter(fn (Category $category): bool => $category->products_count > 0)
+            ->take(3)
+            ->map(function (Category $category) use ($copy): array {
+                $preset = $copy[$category->slug] ?? null;
+
+                return [
+                    'title' => $preset[0] ?? $category->displayNavLabel(),
+                    'text' => $preset[1] ?? ($category->description ?: 'Shop this part of the catalog.'),
+                    'icon' => $preset[2] ?? $category->iconName(),
+                    'url' => $category->collectionsUrl(),
+                    'count' => (int) $category->products_count,
+                ];
+            })
+            ->values()
+            ->all();
     }
 
     /** @return Collection<int, Product> */

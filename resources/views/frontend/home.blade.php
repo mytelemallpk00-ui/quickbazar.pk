@@ -3,7 +3,7 @@
 @section('title', ($pageSeo['title'] ?? null) ?: 'Quick Bazar — Elevate Your Natural Elegance')
 
 @section('body_attrs')
-class="lumiere-v2 bg-gray-50 text-gray-800 font-sans antialiased min-h-screen flex flex-col overflow-x-clip"
+class="lumiere-v2 qh-home bg-[#f4f7f6] text-gray-800 font-sans antialiased min-h-screen flex flex-col overflow-x-clip"
 @endsection
 
 @push('structured-data')
@@ -35,85 +35,51 @@ class="lumiere-v2 bg-gray-50 text-gray-800 font-sans antialiased min-h-screen fl
 @include('partials.json-ld-script', ['jsonLd' => $homeJsonLd])
 @endpush
 
+@push('styles')
+<link rel="stylesheet" href="{{ asset('css/qb-home.css') }}?v=2026111020">
+@endpush
+
 @section('content')
 @php
     $promo = $promoProduct;
-    $placeholder = 'https://placehold.co/640x640/0B132B/D4AF37?text=Quick+Bazar';
-    $heroName = (string) ($promo['name'] ?? '');
-    $words = $heroName !== '' ? preg_split('/\s+/', $heroName) : [];
-    $words = is_array($words) ? $words : [];
-    if (count($words) > 1) {
-        $heroLead = implode(' ', array_slice($words, 0, -1));
-        $heroAccentWord = (string) end($words);
-    } else {
-        $heroLead = $heroName !== '' ? $heroName : (string) ($hero['title'] ?? 'Shop the catalog');
-        $heroAccentWord = $heroName !== '' ? '' : (string) ($hero['accent'] ?? '');
-    }
-    $heroText = filled($promo['category'] ?? null)
-        ? trim((string) ($hero['description'] ?? ''))
-        : (string) ($hero['description'] ?? '');
-    if ($heroText === '') {
-        $heroText = 'Original products, PKR prices, cash on delivery, and nationwide shipping from the live catalog.';
-    }
-    $flashCards = collect($trendingProducts ?? [])->filter(fn ($row) => ! empty($row['discount_percent']))->take(4)->values();
-    if ($flashCards->isEmpty()) {
-        $flashCards = collect($trendingProducts ?? [])->take(4)->values();
-    }
-    $bestCards = collect($trendingProducts ?? [])->count() > 4
-        ? collect($trendingProducts)->slice(4, 4)->values()
-        : collect($trendingProducts ?? [])->take(4)->values();
-    $wideProduct = $flashProduct && (int) ($flashProduct['id'] ?? 0) !== (int) ($promo['id'] ?? 0)
-        ? $flashProduct
-        : ($bestCards->first() ?: $promo);
+    $placeholder = 'https://placehold.co/640x640/0e6b5c/ffffff?text=Quick+Bazar';
+    $heroImage = $promo['image'] ?? ($hero['image'] ?? $placeholder);
+    $heroAlt = $promo['name'] ?? ($hero['image_alt'] ?? 'Featured product');
+    $fromPrice = $promo['price_label'] ?? null;
     $reviewCount = (int) ($reviewSummary['count'] ?? 0);
     $reviewAverage = (float) ($reviewSummary['average'] ?? 0);
 @endphp
-<main class="lv2-page">
+<main class="qh">
     @if ($sections['hero'] ?? true)
-    <section class="lv2-wrap" aria-labelledby="home-hero-title">
-        <div class="lv2-hero">
-            <div class="lv2-hero-grid">
-                <div>
-                    <span class="lv2-kicker">{{ $hero['badge'] ?? 'Flagship catalog' }}</span>
-                    <h1 id="home-hero-title" class="lv2-h1">
-                        {{ $heroLead }}
-                        @if ($heroAccentWord !== '')
-                            <span class="lv2-accent">{{ $heroAccentWord }}</span>
-                        @endif
-                    </h1>
-                    <p class="lv2-lead">{{ $heroText }}</p>
-                    <div class="lv2-actions">
-                        <a class="lv2-btn" href="{{ $promo['url'] ?? route('collections') }}">Shop Now</a>
-                        <a class="lv2-btn-ghost" href="#bestsellers">Explore Formula</a>
-                    </div>
-                </div>
-                <div class="lv2-hero-card">
-                    @if ($promo)
-                        @if (! empty($promo['discount_percent']))
-                            <span class="lv2-save">SAVE {{ (int) $promo['discount_percent'] }}%</span>
-                        @endif
-                        <img src="{{ $promo['image'] ?: $placeholder }}" alt="{{ $promo['name'] }}" width="640" height="640" fetchpriority="high" decoding="async" onerror="this.onerror=null;this.src='{{ $placeholder }}';">
-                        <p class="lv2-card-name">{{ $promo['name'] }}</p>
-                        @if (($promo['reviews'] ?? 0) > 0)
-                            <p class="lv2-stars">★★★★★ <span style="color:#d1d5db">({{ number_format((float) $promo['rating'], 1) }} / {{ number_format((int) $promo['reviews']) }} reviews)</span></p>
-                        @endif
-                        <p class="lv2-price-row">
-                            <span class="lv2-price">{{ $promo['price_label'] }}</span>
-                            @if (! empty($promo['old_price_label']))
-                                <span class="lv2-old">{{ $promo['old_price_label'] }}</span>
-                            @endif
-                        </p>
-                        @if (! empty($promo['in_stock']))
-                            <button type="button" class="lv2-btn" style="width:100%;margin-top:0.8rem" onclick="addToCart({{ (int) $promo['id'] }})">Add To Cart</button>
-                        @else
-                            <a class="lv2-btn" style="width:100%;margin-top:0.8rem" href="{{ $promo['url'] }}">View product</a>
-                        @endif
-                    @else
-                        <h2>Shop the live catalog</h2>
-                        <p class="lv2-lead">Products appear here as soon as they are published.</p>
-                        <a class="lv2-btn" href="{{ route('collections') }}">Browse collections</a>
+    <section class="qh-wrap" aria-labelledby="home-hero-title">
+        <div class="qh-hero">
+            <div class="qh-hero-copy">
+                <span class="qh-pill">{{ $hero['badge'] ?? 'Ready to ship' }}</span>
+                <h1 id="home-hero-title">{{ $hero['title'] ?? 'Everyday care, priced in PKR' }} <span>{{ $hero['accent'] ?? '' }}</span></h1>
+                <p>{{ $hero['description'] ?? '' }}</p>
+                <ul class="qh-checks">
+                    <li>Live catalog prices in PKR</li>
+                    <li>Cash on delivery at checkout</li>
+                    <li>Nationwide shipping</li>
+                </ul>
+                <div class="qh-hero-actions">
+                    <a class="qh-btn" href="{{ route('collections') }}">Explore collection <span aria-hidden="true">→</span></a>
+                    @if ($fromPrice)
+                        <p class="qh-from">From {{ $fromPrice }} with cash on delivery</p>
                     @endif
                 </div>
+            </div>
+            <div class="qh-hero-visual">
+                @if ($promo)
+                    <a href="{{ $promo['url'] }}" class="qh-hero-product">
+                        <img src="{{ $heroImage ?: $placeholder }}" alt="{{ $heroAlt }}" width="520" height="520" fetchpriority="high" decoding="async" onerror="this.onerror=null;this.src='{{ $placeholder }}';">
+                        <span>{{ $promo['name'] }}</span>
+                    </a>
+                @else
+                    <div class="qh-hero-product">
+                        <img src="{{ $placeholder }}" alt="Quick Bazar" width="520" height="520">
+                    </div>
+                @endif
             </div>
         </div>
     </section>
@@ -122,47 +88,49 @@ class="lumiere-v2 bg-gray-50 text-gray-800 font-sans antialiased min-h-screen fl
     @endif
 
     @if ($sections['trust'] ?? true)
-    <section class="lv2-wrap" aria-labelledby="home-trust-title">
-        <h2 id="home-trust-title" class="sr-only">Shop with confidence</h2>
-        <div class="lv2-trust">
+    <section class="qh-wrap" aria-labelledby="home-trust-title">
+        <h2 id="home-trust-title" class="sr-only">Why shop here</h2>
+        <div class="qh-trust">
             <article>
-                <span class="lv2-icon" aria-hidden="true"><i data-lucide="truck"></i></span>
-                <div><h3>Express Shipping</h3><p>Nationwide delivery</p></div>
+                <span aria-hidden="true"><i data-lucide="badge-check"></i></span>
+                <div><h3>Catalog you can browse</h3><p>Prices and stock come from the live store.</p></div>
             </article>
             <article>
-                <span class="lv2-icon" aria-hidden="true"><i data-lucide="rotate-ccw"></i></span>
-                <div><h3>30-Day Guarantee</h3><p>Hassle-free returns</p></div>
+                <span aria-hidden="true"><i data-lucide="shield-check"></i></span>
+                <div><h3>Checkout you control</h3><p>Cash on delivery and the methods shown at checkout.</p></div>
             </article>
             <article>
-                <span class="lv2-icon" aria-hidden="true"><i data-lucide="headphones"></i></span>
-                <div><h3>24/7 Support</h3><p>Dedicated expert team</p></div>
+                <span aria-hidden="true"><i data-lucide="truck"></i></span>
+                <div><h3>Nationwide delivery</h3><p>Free shipping from {{ $freeShippingLabel ?? 'the checkout threshold' }}.</p></div>
             </article>
             <article>
-                <span class="lv2-icon" aria-hidden="true"><i data-lucide="award"></i></span>
-                <div><h3>Certified Safe</h3><p>Original catalog products</p></div>
+                <span aria-hidden="true"><i data-lucide="message-circle"></i></span>
+                <div><h3>WhatsApp support</h3><p>Ask about an order before you buy.</p></div>
             </article>
         </div>
     </section>
     @endif
 
     @if ($sections['categories'] ?? true)
-    <section id="categories" class="lv2-wrap lv2-section" aria-labelledby="home-categories-title">
-        <div class="lv2-head">
+    <section id="categories" class="qh-wrap qh-section" aria-labelledby="home-categories-title">
+        <div class="qh-head">
             <div>
-                <h2 id="home-categories-title">Shop By Category</h2>
-                <p class="lv2-muted">Explore our curated collections for head-to-toe radiance</p>
+                <p class="qh-kicker">Browse by category</p>
+                <h2 id="home-categories-title">Shop by category</h2>
             </div>
-            <a class="lv2-link" href="{{ route('collections') }}">View All</a>
+            <a class="qh-text-link" href="{{ route('collections') }}">View all →</a>
         </div>
         @if ($featuredCategories->isEmpty())
-            <p class="lv2-empty">Categories will show here once they are published in the catalog.</p>
+            <p class="qh-empty">Categories will show here once they are published.</p>
         @else
-            <div class="lv2-cats">
+            <div class="qh-pills">
                 @foreach ($featuredCategories as $category)
-                    <a class="lv2-cat" href="{{ $category->collectionsUrl() }}">
-                        <span class="lv2-cat-icon" aria-hidden="true"><i data-lucide="{{ $category->iconName() }}"></i></span>
-                        <h3>{{ $category->displayNavLabel() }}</h3>
-                        <span class="lv2-muted">{{ number_format($category->products_count) }} {{ $category->products_count === 1 ? 'item' : 'items' }}</span>
+                    <a class="qh-pill-card" href="{{ $category->collectionsUrl() }}">
+                        <span aria-hidden="true"><i data-lucide="{{ $category->iconName() }}"></i></span>
+                        <span>
+                            <strong>{{ $category->displayNavLabel() }}</strong>
+                            <small>{{ number_format($category->products_count) }} {{ $category->products_count === 1 ? 'product' : 'products' }}</small>
+                        </span>
                     </a>
                 @endforeach
             </div>
@@ -170,118 +138,129 @@ class="lumiere-v2 bg-gray-50 text-gray-800 font-sans antialiased min-h-screen fl
     </section>
     @endif
 
-    @if ($sections['flash'] ?? true)
-    <section class="lv2-wrap lv2-section" aria-labelledby="home-flash-title">
-        <div class="lv2-flash">
+    @if (! empty($goalCards))
+    <section class="qh-wrap qh-section" aria-labelledby="home-goals-title">
+        <div class="qh-head">
             <div>
-                <span class="lv2-kicker">Limited Time</span>
-                <h2 id="home-flash-title">Flash Deals of the Day</h2>
-                <p>{{ $flash['description'] ?? 'Grab top sellers before stocks run out.' }}</p>
-            </div>
-            <div class="lv2-timer" aria-live="polite">
-                <div><strong id="hours">{{ $flash['hours'] }}</strong><span>Hours</span></div>
-                <div><strong id="minutes">{{ $flash['minutes'] }}</strong><span>Minutes</span></div>
-                <div><strong id="seconds">{{ $flash['seconds'] }}</strong><span>Seconds</span></div>
+                <p class="qh-kicker">Shop by goal and concern</p>
+                <h2 id="home-goals-title">Find products by goal</h2>
             </div>
         </div>
-        @if ($flashCards->isEmpty())
-            <p class="lv2-empty">Flash deals appear when discounted products are in the catalog.</p>
-        @else
-            <div class="lv2-grid lv2-grid-4">
-                @foreach ($flashCards as $product)
-                    @include('partials.home.lv2-product-card', ['product' => $product, 'placeholder' => $placeholder])
-                @endforeach
-            </div>
-        @endif
+        <div class="qh-goals">
+            @foreach ($goalCards as $goal)
+                <a class="qh-goal" href="{{ $goal['url'] }}">
+                    <span aria-hidden="true"><i data-lucide="{{ $goal['icon'] }}"></i></span>
+                    <span>
+                        <strong>{{ $goal['title'] }}</strong>
+                        <small>{{ $goal['text'] }}</small>
+                        <em>Explore products →</em>
+                    </span>
+                </a>
+            @endforeach
+        </div>
     </section>
     @endif
 
     @if ($sections['trending'] ?? true)
-    <section id="trending" class="lv2-wrap lv2-section" aria-labelledby="home-trending-title">
-        <div class="lv2-head">
+    <section id="trending" class="qh-wrap qh-section" aria-labelledby="home-trending-title">
+        <div class="qh-head">
             <div>
-                <h2 id="home-trending-title">{{ $trendingCopy['heading'] ?? 'Trending now' }}</h2>
-                <p class="lv2-muted">{{ $trendingCopy['description'] ?? '' }}</p>
+                <p class="qh-kicker">{{ $trendingCopy['badge'] ?? 'Bestselling' }}</p>
+                <h2 id="home-trending-title">{{ $trendingCopy['heading'] ?? 'Featured products' }}</h2>
+                <p class="qh-muted">{{ $trendingCopy['description'] ?? '' }}</p>
             </div>
-            <a class="lv2-link" href="{{ route('collections') }}">View All</a>
+            <a class="qh-text-link" href="{{ route('collections') }}">Shop all →</a>
         </div>
         @if (collect($trendingProducts)->isEmpty())
-            <p class="lv2-empty">No products are published yet.</p>
+            <p class="qh-empty">No products are published yet.</p>
         @else
-            <div class="lv2-grid lv2-grid-4">
+            <div class="qh-grid">
                 @foreach (collect($trendingProducts)->take(8) as $product)
-                    @include('partials.home.lv2-product-card', ['product' => $product, 'placeholder' => $placeholder])
+                    @include('partials.home.qh-product-card', ['product' => $product, 'placeholder' => $placeholder])
                 @endforeach
             </div>
         @endif
     </section>
     @endif
 
-    @if ($wideProduct)
-    <section id="bundles" class="lv2-wrap">
-        <div class="lv2-wide">
+    @if (($sections['flash'] ?? true) && $flashProduct)
+    <section class="qh-wrap qh-section" aria-labelledby="home-offer-title">
+        <div class="qh-offer">
             <div>
-                <span class="lv2-kicker">Bundle the routine</span>
-                <h2>{{ $wideProduct['name'] }}</h2>
-                <p class="lv2-lead">Pair it with the rest of the catalog. Prices stay in PKR, and checkout still supports cash on delivery.</p>
-                <div class="lv2-actions">
-                    <a class="lv2-btn" href="{{ $wideProduct['url'] }}">View this product</a>
-                    <a class="lv2-btn-ghost" href="{{ route('exclusive-offers') }}">See offers</a>
+                <p class="qh-kicker qh-kicker--light">{{ $flash['badge'] ?? 'Today' }}</p>
+                <h2 id="home-offer-title">{{ $flashProduct['name'] }}</h2>
+                <p>{{ $flash['description'] ?? 'A current catalog price, ready to add to the bag.' }}</p>
+                <p class="qh-offer-price">
+                    <strong>{{ $flashProduct['price_label'] }}</strong>
+                    @if (! empty($flashProduct['old_price_label']))
+                        <s>{{ $flashProduct['old_price_label'] }}</s>
+                    @endif
+                </p>
+                <div class="qh-timer" aria-live="polite">
+                    <div><strong id="hours">{{ $flash['hours'] }}</strong><span>Hours</span></div>
+                    <div><strong id="minutes">{{ $flash['minutes'] }}</strong><span>Minutes</span></div>
+                    <div><strong id="seconds">{{ $flash['seconds'] }}</strong><span>Seconds</span></div>
                 </div>
+                <a class="qh-btn qh-btn--light" href="{{ $flashProduct['url'] }}">View this offer</a>
             </div>
-            <img src="{{ $wideProduct['image'] ?: $placeholder }}" alt="{{ $wideProduct['name'] }}" width="720" height="480" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='{{ $placeholder }}';">
+            <a href="{{ $flashProduct['url'] }}" class="qh-offer-photo">
+                <img src="{{ $flashProduct['image'] ?: $placeholder }}" alt="{{ $flashProduct['name'] }}" width="640" height="640" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='{{ $placeholder }}';">
+            </a>
         </div>
     </section>
     @endif
 
-    <section id="bestsellers" class="lv2-wrap lv2-section" aria-labelledby="home-best-title">
-        <div class="lv2-head">
+    @if ($departmentCards->isNotEmpty())
+    <section class="qh-wrap qh-section" aria-labelledby="home-brands-title">
+        <div class="qh-head">
             <div>
-                <h2 id="home-best-title">Best Sellers</h2>
-                <p class="lv2-muted">Highest-rated products currently in the catalog.</p>
+                <p class="qh-kicker">Departments</p>
+                <h2 id="home-brands-title">Shop the full catalog</h2>
             </div>
-            <a class="lv2-link" href="{{ route('collections') }}">View All</a>
+            <a class="qh-text-link" href="{{ route('collections') }}">View all →</a>
         </div>
-        @if ($bestCards->isEmpty())
-            <p class="lv2-empty">Best sellers will show here when products are published.</p>
-        @else
-            <div class="lv2-grid lv2-grid-4">
-                @foreach ($bestCards as $product)
-                    @include('partials.home.lv2-product-card', ['product' => $product, 'placeholder' => $placeholder])
-                @endforeach
-            </div>
-        @endif
+        <div class="qh-brands">
+            @foreach ($departmentCards as $category)
+                <a class="qh-brand" href="{{ $category->collectionsUrl() }}">
+                    <strong>{{ $category->displayNavLabel() }}</strong>
+                    <span>{{ number_format($category->products_count) }} {{ $category->products_count === 1 ? 'product' : 'products' }}</span>
+                </a>
+            @endforeach
+        </div>
     </section>
+    @endif
 
     @if ($sections['steps'] ?? true)
-    <section class="lv2-wrap lv2-section" aria-labelledby="home-steps-title">
-        <div class="lv2-head"><h2 id="home-steps-title">How it works</h2></div>
-        <ol class="lv2-steps">
-            <li class="lv2-step"><span class="lv2-step-no">1</span><h3>Choose a product</h3><p class="lv2-muted">Browse departments, compare PKR prices, and open any product page.</p></li>
-            <li class="lv2-step"><span class="lv2-step-no">2</span><h3>Checkout your way</h3><p class="lv2-muted">Pay cash on delivery, or use the methods shown at checkout.</p></li>
-            <li class="lv2-step"><span class="lv2-step-no">3</span><h3>Track the parcel</h3><p class="lv2-muted">Nationwide shipping with order tracking after the order is placed.</p></li>
+    <section class="qh-wrap qh-section" aria-labelledby="home-steps-title">
+        <div class="qh-head"><div><p class="qh-kicker">Ordering</p><h2 id="home-steps-title">How it works</h2></div></div>
+        <ol class="qh-steps">
+            <li><span>1</span><h3>Choose a product</h3><p>Compare PKR prices and open any product page.</p></li>
+            <li><span>2</span><h3>Checkout your way</h3><p>Pay cash on delivery, or use the methods shown at checkout.</p></li>
+            <li><span>3</span><h3>Track the parcel</h3><p>Follow the order after it is placed.</p></li>
         </ol>
     </section>
     @endif
 
     @if (($sections['reviews'] ?? true) && $latestReviews->isNotEmpty())
-    <section id="reviews" class="lv2-wrap lv2-section" aria-labelledby="home-reviews-title">
-        <div class="lv2-center">
-            <p class="lv2-stars" aria-hidden="true">★★★★★</p>
-            <h2 id="home-reviews-title">Loved by our customers</h2>
-            <p class="lv2-muted">{{ number_format($reviewAverage, 1) }} average from {{ number_format($reviewCount) }} published {{ $reviewCount === 1 ? 'review' : 'reviews' }}.</p>
+    <section id="reviews" class="qh-wrap qh-section" aria-labelledby="home-reviews-title">
+        <div class="qh-head">
+            <div>
+                <p class="qh-kicker">{{ number_format($reviewAverage, 1) }} average</p>
+                <h2 id="home-reviews-title">Loved by customers</h2>
+                <p class="qh-muted">{{ number_format($reviewCount) }} published {{ $reviewCount === 1 ? 'review' : 'reviews' }}.</p>
+            </div>
         </div>
-        <div class="lv2-reviews">
+        <div class="qh-reviews">
             @foreach ($latestReviews as $review)
-                <article class="lv2-review">
+                <article>
+                    <p class="qh-stars" aria-hidden="true">{{ str_repeat('★', (int) round((float) $review->rating)) }}</p>
                     <h3>{{ $review->author_name }}</h3>
-                    <p class="lv2-stars">{{ str_repeat('★', (int) round((float) $review->rating)) }}</p>
                     @if ($review->title)
-                        <p style="margin:0.4rem 0 0;font-weight:700;color:#0b132b">{{ $review->title }}</p>
+                        <p class="qh-review-title">{{ $review->title }}</p>
                     @endif
-                    <p class="lv2-muted" style="font-size:0.9rem;line-height:1.55">{{ $review->body }}</p>
+                    <p>{{ $review->body }}</p>
                     @if ($review->product)
-                        <a class="lv2-link" href="{{ route('product.show', $review->product) }}">{{ $review->product->name }}</a>
+                        <a href="{{ route('product.show', $review->product) }}">{{ $review->product->name }}</a>
                     @endif
                 </article>
             @endforeach
@@ -289,66 +268,72 @@ class="lumiere-v2 bg-gray-50 text-gray-800 font-sans antialiased min-h-screen fl
     </section>
     @endif
 
-    <section class="lv2-wrap lv2-section" aria-labelledby="home-shipping-title">
-        <div class="lv2-head"><h2 id="home-shipping-title">Shipping and returns</h2></div>
-        <div class="lv2-ship-grid">
-            <article class="lv2-ship-card">
-                <h3>Nationwide shipping</h3>
-                <p class="lv2-muted">Orders ship across Pakistan. Delivery timing depends on the city you enter at checkout.</p>
-                <a class="lv2-link" href="{{ route('shipping') }}">Shipping details</a>
-            </article>
-            <article class="lv2-ship-card">
-                <h3>30-day returns</h3>
-                <p class="lv2-muted">Start a return from the returns page if an item is not right. Keep the order number handy.</p>
-                <a class="lv2-link" href="{{ route('returns') }}">Returns policy</a>
-            </article>
-            <article class="lv2-ship-card">
-                <h3>Cash on delivery</h3>
-                <p class="lv2-muted">Pay in PKR when the parcel arrives, or choose another method shown at checkout.</p>
-                <a class="lv2-link" href="{{ route('checkout') }}">Go to checkout</a>
-            </article>
-        </div>
-    </section>
-
-    <section class="lv2-wrap lv2-section" aria-labelledby="home-faq-title">
-        <div class="lv2-head"><h2 id="home-faq-title">Frequently asked questions</h2></div>
-        <div class="lv2-faq-list">
-            <details class="lv2-faq" open>
+    <section class="qh-wrap qh-section" aria-labelledby="home-faq-title">
+        <div class="qh-head"><div><p class="qh-kicker">Help</p><h2 id="home-faq-title">Questions before you order</h2></div></div>
+        <div class="qh-faq">
+            <details open>
                 <summary>Do you deliver across Pakistan?</summary>
-                <p>Yes. The store ships nationwide. You can check a city during checkout and follow the parcel from the track-order page.</p>
+                <p>Yes. Shipping runs nationwide. The city you enter at checkout sets the delivery options.</p>
             </details>
-            <details class="lv2-faq">
+            <details>
                 <summary>Can I pay cash on delivery?</summary>
-                <p>Cash on delivery is available for eligible orders. The checkout page shows the payment choices for your cart.</p>
+                <p>Cash on delivery is available for eligible orders. Checkout lists the payment choices for your cart.</p>
             </details>
-            <details class="lv2-faq">
+            <details>
+                <summary>When is delivery free?</summary>
+                <p>Free shipping starts at {{ $freeShippingLabel ?? 'the amount shown at checkout' }} on eligible methods.</p>
+            </details>
+            <details>
                 <summary>How do returns work?</summary>
-                <p>Most items can be returned within 30 days. Open the returns page, keep your order number, and follow the steps listed there.</p>
-            </details>
-            <details class="lv2-faq">
-                <summary>Are the prices the live catalog prices?</summary>
-                <p>Yes. Product cards and the product page use the PKR prices stored on each product. A crossed-out price appears only when the catalog has a higher previous price.</p>
+                <p>Most items can be returned within 30 days. Keep the order number and follow the returns page.</p>
             </details>
         </div>
+        <p class="qh-faq-links">
+            <a href="{{ route('shipping') }}">Shipping</a>
+            <a href="{{ route('returns') }}">Returns</a>
+            <a href="{{ route('track-order') }}">Track an order</a>
+            <a href="{{ route('help') }}">Help</a>
+        </p>
     </section>
 
     @if (($sections['journal'] ?? true) && $journalPosts->isNotEmpty())
-    <section class="lv2-wrap lv2-section" aria-labelledby="home-journal-title">
-        <div class="lv2-head">
-            <h2 id="home-journal-title">Guides from the store</h2>
-            <a class="lv2-link" href="{{ route('blog.index') }}">Read the journal</a>
+    <section class="qh-wrap qh-section" aria-labelledby="home-journal-title">
+        <div class="qh-head">
+            <div>
+                <p class="qh-kicker">Journal</p>
+                <h2 id="home-journal-title">Guides from the store</h2>
+            </div>
+            <a class="qh-text-link" href="{{ route('blog.index') }}">Read the journal →</a>
         </div>
-        <div class="lv2-grid lv2-grid-3">
+        <div class="qh-journal">
             @foreach ($journalPosts as $post)
-                <a class="lv2-product" href="{{ route('blog.show', $post) }}">
-                    <img src="{{ $post->image }}" alt="{{ $post->title }}" width="640" height="360" loading="lazy" decoding="async">
+                <a href="{{ route('blog.show', $post) }}">
+                    <img src="{{ $post->image }}" alt="" width="640" height="360" loading="lazy" decoding="async">
                     <h3>{{ $post->title }}</h3>
-                    <p class="lv2-muted">{{ $post->snippet }}</p>
+                    <p>{{ $post->snippet }}</p>
                 </a>
             @endforeach
         </div>
     </section>
     @endif
+
+    <section class="qh-wrap qh-section" aria-labelledby="home-news-title">
+        <div class="qh-news">
+            <div>
+                <h2 id="home-news-title">Offers and new arrivals</h2>
+                <p>Leave an email for store updates. No account required.</p>
+            </div>
+            <form id="qh-newsletter" class="qh-news-form">
+                <label class="sr-only" for="qh-email">Email</label>
+                <input id="qh-email" name="email" type="email" required autocomplete="email" placeholder="Email address">
+                <button type="submit">Subscribe</button>
+                <p id="qh-news-note" role="status"></p>
+            </form>
+            @if (! empty($whatsappUrl))
+                <a class="qh-wa" href="{{ $whatsappUrl }}" target="_blank" rel="noopener">Order on WhatsApp</a>
+            @endif
+        </div>
+    </section>
 </main>
 @endsection
 
@@ -360,15 +345,41 @@ class="lumiere-v2 bg-gray-50 text-gray-800 font-sans antialiased min-h-screen fl
         const hours = document.getElementById('hours');
         const minutes = document.getElementById('minutes');
         const seconds = document.getElementById('seconds');
-        if (!hours || !minutes || !seconds) return;
-        const tick = function () {
-            const remaining = Math.max(0, Math.floor((ends - Date.now()) / 1000));
-            hours.textContent = String(Math.floor(remaining / 3600)).padStart(2, '0');
-            minutes.textContent = String(Math.floor((remaining % 3600) / 60)).padStart(2, '0');
-            seconds.textContent = String(remaining % 60).padStart(2, '0');
-        };
-        tick();
-        window.setInterval(tick, 1000);
+        if (hours && minutes && seconds) {
+            const tick = function () {
+                const remaining = Math.max(0, Math.floor((ends - Date.now()) / 1000));
+                hours.textContent = String(Math.floor(remaining / 3600)).padStart(2, '0');
+                minutes.textContent = String(Math.floor((remaining % 3600) / 60)).padStart(2, '0');
+                seconds.textContent = String(remaining % 60).padStart(2, '0');
+            };
+            tick();
+            window.setInterval(tick, 1000);
+        }
+
+        const form = document.getElementById('qh-newsletter');
+        const note = document.getElementById('qh-news-note');
+        if (!form) return;
+        form.addEventListener('submit', async function (event) {
+            event.preventDefault();
+            const email = new FormData(form).get('email');
+            note.textContent = 'Saving…';
+            try {
+                const response = await fetch(@json(route('newsletter.subscribe')), {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                    },
+                    body: JSON.stringify({ email: email, list: 'store' })
+                });
+                const data = await response.json();
+                note.textContent = data.message || (response.ok ? 'Subscribed.' : 'Try again.');
+                if (response.ok) form.reset();
+            } catch (error) {
+                note.textContent = 'Could not subscribe just now.';
+            }
+        });
     })();
 </script>
 @endpush
