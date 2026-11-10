@@ -121,9 +121,11 @@ main,
 @media (min-width: 640px) {
     .qb-reviews { padding: 1.4rem 1.5rem; }
 }
-@media (min-width: 1024px) {
-    main,
-    .qb-highlights > .grid { width: 80%; max-width: 80%; }
+main,
+.qb-highlights,
+.qb-highlights > .grid {
+    width: 100%;
+    max-width: 100%;
 }
 .qb-hero {
     display: grid;

@@ -7,7 +7,7 @@
     @php
         use App\Support\StorefrontAssets;
         $storefrontCss = StorefrontAssets::compiledStylesheet();
-        $storefrontCssVersion = '2026111023';
+        $storefrontCssVersion = '2026111025';
         $supportEmail = \App\Support\SiteSettings::get('support_email', 'support@quickbazar.pk');
         if (! is_string($supportEmail) || $supportEmail === '' || str_contains(strtolower($supportEmail), 'beautage')) {
             $supportEmail = 'support@quickbazar.pk';
@@ -28,10 +28,11 @@
             ];
         }
         $supportPhone = \App\Support\SiteSettings::get('support_phone', '+92 300 5550199');
-        if (! is_string($supportPhone) || $supportPhone === '' || str_contains(strtolower($supportPhone), 'beautage')) {
+        $supportDigits = preg_replace('/\D/', '', (string) $supportPhone);
+        if (! is_string($supportPhone) || $supportPhone === '' || str_contains(strtolower($supportPhone), 'beautage') || strlen((string) $supportDigits) < 10) {
             $supportPhone = '+92 300 5550199';
         }
-        $supportPhoneTel = preg_replace('/[^\d+]/', '', (string) $supportPhone) ?: '+18008886678';
+        $supportPhoneTel = preg_replace('/[^\d+]/', '', (string) $supportPhone) ?: '+923005550199';
         $footerSettings = \App\Support\FooterSettings::forStorefront();
     @endphp
     <title>@yield('title', \App\Support\SiteSettings::get('default_meta_title', 'Quick Bazar'))</title>
@@ -52,7 +53,7 @@
     <link rel="stylesheet" href="{{ asset('css/qb-header.css') }}?v={{ $storefrontCssVersion }}">
     <link rel="stylesheet" href="{{ asset('css/qb-footer.css') }}?v={{ $storefrontCssVersion }}">
     <link rel="stylesheet" href="{{ asset('css/qb-theme.css') }}?v={{ $storefrontCssVersion }}">
-    <link rel="stylesheet" href="{{ asset('css/lumiere-v2.css') }}?v=2026110823">
+    <link rel="stylesheet" href="{{ asset('css/lumiere-v2.css') }}?v={{ $storefrontCssVersion }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Playfair+Display:wght@600;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
@@ -68,12 +69,12 @@
 
     <div id="site-header-sticky" class="sticky top-0 z-40 w-full bg-white shadow-sm">
     <div class="qb-topbar">
-        <div class="flex w-full items-center justify-between gap-3 px-4 py-2 sm:px-6 lg:px-8">
-            <p class="hidden min-w-0 truncate font-semibold md:block">{{ $topBar['left'] ?? '100% Certified Authentic Skincare & Halal Health Essentials' }}</p>
-            <p class="qb-hot min-w-0 truncate">
+        <div class="flex w-full min-w-0 items-center gap-3 overflow-hidden px-4 py-2 sm:px-6 lg:px-8">
+            <p class="hidden min-w-0 flex-1 truncate font-semibold xl:block">{{ $topBar['left'] ?? '100% Certified Authentic Skincare & Halal Health Essentials' }}</p>
+            <p class="qb-hot min-w-0 flex-1 truncate">
                 {{ $topBar['center'] ?? ($storefrontNav['topbarText'] ?? 'Free Nationwide Delivery on Orders Over Rs. 2,599') }}
             </p>
-            <div class="flex items-center gap-3">
+            <div class="flex shrink-0 items-center gap-3">
                 <span class="hidden font-semibold lg:inline">{{ $topBar['right'] ?? 'Cash on Delivery Available' }}</span>
                 <a href="tel:{{ preg_replace('/[^\d+]/', '', (string) ($topBar['phone'] ?? $supportPhoneTel)) }}" class="inline-flex items-center gap-1.5 font-semibold">
                     <i data-lucide="phone" class="h-3.5 w-3.5 text-orange-400"></i>

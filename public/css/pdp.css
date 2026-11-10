@@ -1,10 +1,10 @@
 /* Product detail — brand contrast + stable layout (CWV-friendly) */
 
 body.lumiere-v2 main {
-    width: 80%;
-    max-width: 80%;
-    margin-left: auto;
-    margin-right: auto;
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
 }
 
 .pdp-text-muted {
@@ -29,12 +29,6 @@ body.lumiere-v2 main {
     align-items: flex-start;
 }
 
-@media (max-width: 639px) {
-    body.lumiere-v2 main {
-        width: 100%;
-        max-width: 100%;
-    }
-}
 
 body.lumiere-v2 .text-beautage-purple,
 body.lumiere-v2 .hover\:text-beautage-purple:hover {

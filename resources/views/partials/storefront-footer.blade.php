@@ -10,7 +10,8 @@
         $supportEmail = 'support@quickbazar.pk';
     }
     $supportPhone = SiteSettings::get('support_phone', '+92 300 5550199');
-    if (! is_string($supportPhone) || $supportPhone === '' || str_contains(strtolower($supportPhone), 'beautage')) {
+    $supportDigits = preg_replace('/\D/', '', (string) $supportPhone);
+    if (! is_string($supportPhone) || $supportPhone === '' || str_contains(strtolower($supportPhone), 'beautage') || strlen((string) $supportDigits) < 10) {
         $supportPhone = '+92 300 5550199';
     }
     $supportPhoneTel = preg_replace('/[^\d+]/', '', (string) $supportPhone) ?: '+923005550199';
