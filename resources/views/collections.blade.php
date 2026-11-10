@@ -3,7 +3,7 @@
 @section('title', ($pageSeo['title'] ?? null) ?: 'Product Collections & Catalog — Quick Bazar Flagship Store')
 
 @section('body_attrs')
-class="lumiere-v2 bg-gray-50 text-gray-800 font-sans antialiased min-h-screen flex flex-col selection:bg-amber-200 selection:text-slate-900 pb-36 md:pb-0 overflow-x-hidden"
+class="lumiere-v2 qh-shop bg-[#f3f7f6] text-gray-800 font-sans antialiased min-h-screen flex flex-col selection:bg-emerald-100 selection:text-slate-900 pb-36 md:pb-0 overflow-x-hidden"
 @endsection
 
 @push('structured-data')
@@ -29,6 +29,10 @@ class="lumiere-v2 bg-gray-50 text-gray-800 font-sans antialiased min-h-screen fl
 @include('partials.json-ld-script', ['jsonLd' => $collectionJsonLd])
 @endpush
 
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/collections.css') }}?v=2026111038">
+@endpush
+
 @section('content')
 <main class="lv2-page">
 
@@ -43,7 +47,7 @@ class="lumiere-v2 bg-gray-50 text-gray-800 font-sans antialiased min-h-screen fl
                 @endif
             </nav>
             <section class="lv2-collection-hero" aria-labelledby="collection-heading">
-                <span class="lv2-kicker">Professional Botanical Collection</span>
+                <span class="lv2-kicker">Quick Bazar catalog</span>
                 <h1 id="collection-heading">{{ $heroTitle ?? 'Collections & Categories' }}</h1>
                 <p>{{ $heroBlurb ?? 'Browse the live catalog. Filter by department, price, rating, and availability.' }}</p>
                 <div class="lv2-meta">
@@ -145,8 +149,6 @@ class="lumiere-v2 bg-gray-50 text-gray-800 font-sans antialiased min-h-screen fl
 
             </div>
         </section>
-
-        @include('partials.recently-viewed-section', ['recentlyVariant' => 'collections', 'recentlyLimit' => 8])
 
     </main>
 @endsection

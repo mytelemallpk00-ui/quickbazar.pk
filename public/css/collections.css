@@ -1,0 +1,182 @@
+/* Collections — same teal panels as the homepage and product page */
+
+body.qh-shop {
+    background: #f3f7f6;
+    color: #12312c;
+}
+
+body.qh-shop main.lv2-page {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 1.25rem clamp(0.75rem, 2.5vw, 2rem) 3rem;
+    box-sizing: border-box;
+}
+
+@media (min-width: 1024px) {
+    body.lumiere-v2.qh-shop main.lv2-page {
+        width: 80%;
+        max-width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+body.qh-shop .lv2-wrap,
+body.qh-shop .lv2-wrap.lv2-collection,
+body.qh-shop .lv2-section {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+body.qh-shop .lv2-section { margin-top: 1.25rem; }
+
+body.qh-shop .lv2-crumbs {
+    color: #5d726c;
+    font-weight: 700;
+}
+body.qh-shop .lv2-crumbs a { color: #0e7c6b; }
+body.qh-shop .lv2-crumbs a:hover { color: #0b5e52; }
+
+body.qh-shop .lv2-collection-hero {
+    border-radius: 1.35rem;
+    padding: clamp(1.4rem, 3vw, 2.4rem);
+    color: #fff;
+    background:
+        radial-gradient(circle at 100% 0%, rgba(216, 243, 236, 0.22), transparent 42%),
+        linear-gradient(135deg, #08463d 0%, #0b5e52 48%, #0e7c6b 100%);
+    box-shadow: 0 18px 40px rgba(8, 70, 61, 0.16);
+}
+
+body.qh-shop .lv2-kicker {
+    border-color: rgba(216, 243, 236, 0.35);
+    background: rgba(255, 255, 255, 0.12);
+    color: #d8f3ec;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+body.lumiere-v2.qh-shop .lv2-collection-hero h1 {
+    color: #fff;
+    max-width: 36rem;
+}
+
+body.qh-shop .lv2-collection-hero p {
+    color: #d7ebe4;
+}
+
+body.qh-shop .lv2-meta {
+    gap: 0.55rem;
+    color: #fff;
+}
+
+body.qh-shop .lv2-meta span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    min-height: 2rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.12);
+}
+
+body.qh-shop .lv2-filters,
+body.qh-shop .lv2-toolbar {
+    border: 1px solid #d5e7e2;
+    border-radius: 1.2rem;
+    background: #fff;
+    box-shadow: 0 14px 32px rgba(8, 70, 61, 0.06);
+}
+
+body.qh-shop .lv2-filters-head {
+    border-bottom-color: #e7f6f2;
+}
+
+body.qh-shop .lv2-filters-head h2,
+body.qh-shop .lv2-filter-label,
+body.qh-shop .lv2-sort {
+    color: #12312c;
+}
+
+body.qh-shop .lv2-filters-head button {
+    color: #0e7c6b;
+    font-weight: 800;
+}
+
+body.qh-shop .lv2-filters-head button:hover { color: #0b5e52; }
+
+body.qh-shop .lv2-filter-options label,
+body.qh-shop .lv2-check {
+    min-height: 2.15rem;
+    padding: 0.2rem 0.45rem;
+    border-radius: 0.7rem;
+    color: #12312c;
+}
+
+body.qh-shop .lv2-filter-options label:hover,
+body.qh-shop .lv2-check:hover {
+    background: #f4fbf8;
+}
+
+body.qh-shop .lv2-filters input[type="radio"],
+body.qh-shop .lv2-filters input[type="checkbox"],
+body.qh-shop .lv2-filters input[type="range"] {
+    accent-color: #0e7c6b;
+}
+
+body.qh-shop .lv2-filter-label span:last-child {
+    color: #0e7c6b;
+    background: none;
+}
+
+body.qh-shop .lv2-filters select,
+body.qh-shop .lv2-sort select {
+    border: 1px solid #d5e7e2;
+    border-radius: 999px;
+    background: #f4fbf8;
+    color: #12312c;
+}
+
+body.qh-shop .lv2-filters select:focus,
+body.qh-shop .lv2-sort select:focus {
+    outline: 2px solid rgba(14, 124, 107, 0.25);
+    border-color: #0e7c6b;
+}
+
+body.qh-shop .catalog-quick-cat {
+    border-color: #d5e7e2;
+    color: #0b5e52;
+}
+
+body.qh-shop .catalog-quick-cat.is-on {
+    border-color: #0e7c6b;
+    background: #0e7c6b;
+    color: #fff;
+}
+
+body.qh-shop .lv2-toolbar {
+    background: linear-gradient(180deg, #f4fbf8, #fff);
+}
+
+body.qh-shop .lv2-muted { color: #5d726c; }
+body.qh-shop .lv2-muted strong { color: #12312c; }
+
+body.qh-shop .lv2-empty {
+    border: 1px dashed #b7ddd4;
+    background: #f4fbf8;
+    color: #5d726c;
+    text-align: center;
+}
+
+@media (max-width: 720px) {
+    body.qh-shop .lv2-toolbar {
+        align-items: stretch;
+        flex-direction: column;
+    }
+    body.qh-shop .lv2-sort,
+    body.qh-shop .lv2-sort select { width: 100%; min-width: 0; }
+}
