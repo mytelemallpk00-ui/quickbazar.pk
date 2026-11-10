@@ -303,11 +303,72 @@ body.qh-pdp .pdp-panel h1 {
 .pdp-know p { margin: 0.55rem 0 0; color: #5d726c; line-height: 1.5; }
 .pdp-know a { color: #0e7c6b; font-weight: 800; }
 
-body.qh-pdp #pdp-trust-column article,
-body.qh-pdp #pdp-details-heading + .w-full,
-body.qh-pdp section[aria-labelledby="pdp-details-heading"] > div {
-    border-color: #d5e7e2;
-    box-shadow: none;
+.pdp-tabs { margin-top: 1.5rem; }
+.pdp-tabs-card {
+    overflow: hidden;
+    border: 1px solid #d5e7e2;
+    border-radius: 1.35rem;
+    background: #fff;
+    box-shadow: 0 16px 40px rgba(8, 70, 61, 0.06);
+}
+.pdp-tabs-bar {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    background: linear-gradient(180deg, #f4fbf8, #e7f6f2);
+    border-bottom: 1px solid #d5e7e2;
+}
+.pdp-tabs-bar button {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    color: #5d726c;
+    min-height: 3.35rem;
+    padding: 0.8rem 0.4rem;
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+}
+.pdp-tabs-bar button.is-on {
+    background: #fff;
+    color: #0b5e52;
+    box-shadow: inset 0 -3px 0 #0e7c6b;
+}
+.pdp-tabs h3,
+.pdp-tabs h4,
+.pdp-tabs .text-beautage-purple { color: #12312c !important; }
+.pdp-tabs .text-beautage-pink,
+.pdp-tabs .text-purple-600 { color: #0e7c6b !important; }
+.pdp-tabs .bg-beautage-purple,
+.pdp-tabs .bg-beautage-pink,
+.pdp-tabs .hover\:bg-beautage-purpleDark:hover,
+.pdp-tabs .hover\:bg-beautage-pinkHover:hover {
+    background: #0e7c6b !important;
+    color: #fff !important;
+}
+.pdp-tabs .border-purple-100,
+.pdp-tabs .border-purple-200,
+.pdp-tabs .divide-purple-100 > :not([hidden]) ~ :not([hidden]) { border-color: #d5e7e2 !important; }
+.pdp-tabs .bg-purple-50\/30,
+.pdp-tabs .bg-purple-50\/40,
+.pdp-tabs .bg-purple-50\/50,
+.pdp-tabs .bg-purple-50\/80,
+.pdp-tabs .from-purple-50\/80 { background-color: #f4fbf8 !important; }
+.pdp-tabs input,
+.pdp-tabs textarea { border-color: #d5e7e2 !important; }
+.pdp-tabs input:focus,
+.pdp-tabs textarea:focus {
+    border-color: #0e7c6b !important;
+    outline: 2px solid rgba(14, 124, 107, 0.22);
+    outline-offset: 1px;
+}
+@media (min-width: 720px) {
+    .pdp-tabs-bar { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 .pdp-related { margin-top: 2.5rem; }
 .pdp-related-head { margin-bottom: 1rem; }
