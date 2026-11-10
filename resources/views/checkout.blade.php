@@ -3,8 +3,12 @@
 @section('title', 'Secure Checkout — Quick Bazar Flagship Store')
 
 @section('body_attrs')
-class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-beautage-pink selection:text-white pb-36 md:pb-0 overflow-x-hidden"
+class="qh-checkout bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-emerald-100 selection:text-slate-900 pb-36 md:pb-0 overflow-x-hidden"
 @endsection
+
+@push('styles')
+<link rel="stylesheet" href="{{ asset('css/checkout.css') }}?v=2026111040">
+@endpush
 
 @section('content')
 <main class="w-full flex-1 flex flex-col py-6 sm:py-10">
@@ -15,10 +19,10 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
                 <a href="{{ route('home') }}" class="hover:text-beautage-purple transition flex items-center gap-1">
                     <i data-lucide="home" class="w-3.5 h-3.5"></i> Home
                 </a>
-                <i data-lucide="chevron-right" class="w-3 h-3 text-purple-300"></i>
-                <a href="{{ route('product.show', ['product' => 'lumina-pro-led-mask']) }}" class="hover:text-beautage-purple transition">Product & Bag</a>
-                <i data-lucide="chevron-right" class="w-3 h-3 text-purple-300"></i>
-                <span class="text-beautage-purple font-bold">Secure Checkout</span>
+                <i data-lucide="chevron-right" class="w-3 h-3"></i>
+                <a href="{{ route('collections') }}" class="hover:text-beautage-purple transition">Catalog</a>
+                <i data-lucide="chevron-right" class="w-3 h-3"></i>
+                <span class="font-bold">Secure Checkout</span>
             </nav>
         </div>
 
@@ -28,7 +32,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
                     $shippingMethods = $checkoutConfig['shipping_methods'] ?? [];
                     $paymentMethods = $checkoutConfig['payment_methods'] ?? [];
                 @endphp
-                <div class="mb-8">
+                <div class="co-hero mb-8">
                     <span class="inline-block px-3.5 py-1 rounded-full text-[10px] uppercase font-extrabold tracking-widest bg-pink-50 text-beautage-pink border border-pink-200 mb-2">
                         {{ $checkoutConfig['page_badge'] ?? 'Secure checkout' }}
                     </span>
@@ -84,7 +88,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
                             <div class="space-y-4">
                                 <div>
                                     <label class="block text-xs font-extrabold text-slate-700 uppercase mb-1">Email Address (for order receipt & tracking)</label>
-                                    <input type="email" id="cust-email" required placeholder="e.g. saboor.khan@beautage.pk" class="w-full py-3 px-4 bg-purple-50/50 border border-purple-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-beautage-purple font-medium">
+                                    <input type="email" id="cust-email" required placeholder="you@email.com" class="w-full py-3 px-4 bg-purple-50/50 border border-purple-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-beautage-purple font-medium">
                                 </div>
 
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -126,7 +130,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
                                 <i data-lucide="truck" class="w-5 h-5 text-emerald-600"></i> 2. Delivery Method
                             </h3>
 
-                            <p id="shipping-rates-hint" class="text-[11px] text-slate-500">City likhte hi TCS / Leopards / BlueEx / M&amp;P rates load honge.</p>
+                            <p id="shipping-rates-hint" class="text-[11px] text-slate-500">Enter your city to load TCS, Leopards, BlueEx, and M&amp;P rates.</p>
                             <div id="shipping-methods-container" class="space-y-3">
                                 @forelse($shippingMethods as $idx => $ship)
                                 <label class="flex items-center justify-between p-4 rounded-2xl border-2 {{ $idx === 0 ? 'border-beautage-purple bg-purple-50/70' : 'border-purple-200 bg-white hover:border-purple-300' }} cursor-pointer transition">
@@ -258,7 +262,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
                                 <h3 class="text-base font-serif font-bold text-beautage-purple flex items-center gap-2">
                                     <i data-lucide="shopping-bag" class="w-5 h-5 text-beautage-pink"></i> Order Summary
                                 </h3>
-                                <a href="{{ route('product.show', ['product' => 'lumina-pro-led-mask']) }}" class="text-xs font-bold text-beautage-pink hover:underline">Edit Bag</a>
+                                <a href="{{ route('collections') }}" class="text-xs font-bold text-beautage-pink hover:underline">Continue shopping</a>
                             </div>
 
                             <!-- Cart Items List container -->
@@ -270,7 +274,7 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
                             <div class="pt-3 border-t border-purple-100 space-y-2">
                                 <label class="block text-xs font-extrabold text-slate-700 uppercase">Promo / Discount Code:</label>
                                 <div class="flex items-center gap-2">
-                                    <input type="text" id="promo-input" placeholder="e.g. BEAUTAGE15" class="flex-1 py-2.5 px-3 bg-purple-50/50 border border-purple-200 rounded-xl text-xs uppercase placeholder-slate-400 focus:outline-none focus:border-beautage-purple font-bold">
+                                    <input type="text" id="promo-input" placeholder="e.g. WELCOME" class="flex-1 py-2.5 px-3 bg-purple-50/50 border border-purple-200 rounded-xl text-xs uppercase placeholder-slate-400 focus:outline-none focus:border-beautage-purple font-bold">
                                     <button type="button" onclick="applyPromoCode()" class="px-4 py-2.5 bg-beautage-purple hover:bg-beautage-purpleDark text-white text-xs font-bold rounded-xl transition">Apply</button>
                                 </div>
                                 <div id="promo-message" class="text-xs font-semibold hidden"></div>
@@ -307,10 +311,8 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
 
                             <div class="flex items-center justify-center gap-2 text-[11px] text-slate-500 pt-1">
                                 <i data-lucide="lock" class="w-3.5 h-3.5 text-beautage-purple"></i>
-                                <span>Encrypted & Protected by 256-Bit SSL Security</span>
+                                <span>Encrypted checkout. Your details stay on this order.</span>
                             </div>
-
-                            @include('partials.checkout-trust-badges')
                         </div>
 
                     </div>
@@ -319,104 +321,78 @@ class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-c
             </div>
         </div>
 
-        <!-- "YOU MAY ALSO LIKE" SECTION RIGHT BEFORE FOOTER -->
-        <section class="w-full px-4 sm:px-12 xl:px-20 mt-20 mb-12">
-            <div class="w-full">
-                <div class="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 mb-8">
-                    <div>
-                        <span class="inline-block px-3.5 py-1 rounded-full text-[10px] uppercase font-extrabold tracking-widest bg-pink-50 text-beautage-pink border border-pink-200 mb-2">
-                            RECOMMENDED FOR YOU
-                        </span>
-                        <h2 class="text-2xl sm:text-3xl font-serif font-bold text-beautage-purple tracking-tight">You May Also Like</h2>
-                    </div>
-                    <a href="{{ route('home') }}#" class="text-xs font-bold text-beautage-pink hover:underline flex items-center gap-1">
-                        Explore Full Flagship Catalog <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                    </a>
+        @php
+            $alsoProducts = \App\Models\Product::query()
+                ->with('productCategory')
+                ->orderBy('sort_order')
+                ->orderBy('id')
+                ->limit(4)
+                ->get();
+            $alsoPlaceholder = 'https://placehold.co/640x640/0e6b5c/ffffff?text=Quick+Bazar';
+        @endphp
+        @if ($alsoProducts->isNotEmpty())
+        <section class="co-also" aria-labelledby="checkout-also-title">
+            <div class="co-also-head">
+                <div>
+                    <p class="co-kicker">From the catalog</p>
+                    <h2 id="checkout-also-title">You may also like</h2>
                 </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <!-- Product 1 -->
-                    <div class="bg-white rounded-3xl p-4 border border-purple-100 shadow-xl flex flex-col justify-between group hover:border-beautage-purple transition duration-300">
-                        <div class="relative overflow-hidden rounded-2xl aspect-square bg-purple-50">
-                            <img src="https://images.unsplash.com/photo-1608248597359-f21953257962?auto=format&fit=crop&q=80&w=400" alt="Hyaluronic Serum" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.onerror=null; this.src='https://placehold.co/400x400/5E1F70/FFFFFF?text=Serum';">
-                            <span class="absolute top-3 left-3 bg-beautage-pink text-white text-[10px] font-extrabold px-2.5 py-1 rounded-full shadow">BESTSELLER</span>
+                <a href="{{ route('collections') }}">Shop all →</a>
+            </div>
+            <div class="co-also-grid">
+                @foreach ($alsoProducts as $also)
+                    @php
+                        $alsoName = (string) $also->name;
+                        $alsoUrl = route('product.show', ['product' => $also->slug]);
+                        $alsoImage = $also->image ?: $alsoPlaceholder;
+                        $alsoCategory = trim((string) ($also->productCategory->name ?? $also->category ?? ''));
+                        $alsoShort = $also->cardExcerpt();
+                        $alsoPrice = (float) $also->price;
+                        $alsoOld = (float) ($also->old_price ?? 0);
+                        $alsoSave = ($alsoOld > $alsoPrice && $alsoPrice > 0) ? (int) round((1 - ($alsoPrice / $alsoOld)) * 100) : 0;
+                        $alsoStars = max(0, min(5, (int) round((float) ($also->rating ?? 0))));
+                        $alsoReviews = (int) ($also->reviews ?? 0);
+                        $alsoStock = $also->in_stock ? '1' : '0';
+                    @endphp
+                    <article class="lv2-product">
+                        <a href="{{ $alsoUrl }}" class="lv2-product-media">
+                            <img class="lv2-card-photo" src="{{ $alsoImage }}" alt="{{ $alsoName }}" width="640" height="640" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='{{ $alsoPlaceholder }}';">
+                            @if ($alsoSave > 0)
+                                <span class="lv2-save">SAVE {{ $alsoSave }}%</span>
+                            @endif
+                        </a>
+                        <div class="lv2-product-copy">
+                            @if ($alsoCategory !== '')
+                                <p class="lv2-muted">{{ $alsoCategory }}</p>
+                            @endif
+                            <h3><a href="{{ $alsoUrl }}">{{ $alsoName }}</a></h3>
+                            @if ($alsoShort !== '')
+                                <p class="lv2-card-desc">{{ $alsoShort }}</p>
+                            @endif
+                            @if ($alsoReviews > 0)
+                                <p class="lv2-stars" aria-label="Rated {{ number_format((float) $also->rating, 1) }} out of 5">{{ str_repeat('★', $alsoStars) }}{{ str_repeat('☆', 5 - $alsoStars) }} <span class="lv2-muted">({{ number_format($alsoReviews) }})</span></p>
+                            @endif
+                            <p class="lv2-price-row">
+                                <span class="lv2-price">{{ \App\Support\MoneyFormat::pkr($alsoPrice) }}</span>
+                                @if ($alsoOld > $alsoPrice)
+                                    <span class="lv2-old">{{ \App\Support\MoneyFormat::pkr($alsoOld) }}</span>
+                                @endif
+                            </p>
                         </div>
-                        <div class="mt-4 space-y-1">
-                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Hydration Elixir</span>
-                            <h3 class="text-sm font-bold text-beautage-purple line-clamp-1">Hyaluronic Acid Hydration Boost</h3>
-                            <div class="flex items-center gap-1 text-amber-400 text-xs">
-                                <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
-                                <span class="font-bold text-slate-700">4.9 (310)</span>
-                            </div>
+                        <div class="lv2-card-actions">
+                            <button type="button" class="lv2-card-quick" data-quick-view data-id="{{ $also->id }}" data-name="{{ $alsoName }}" data-price="{{ $alsoPrice }}" data-old="{{ $alsoOld }}" data-image="{{ $alsoImage }}" data-category="{{ $alsoCategory }}" data-desc="{{ $alsoShort }}" data-url="{{ $alsoUrl }}" data-stock="{{ $alsoStock }}">Quick view</button>
+                            @if ($alsoStock === '1')
+                                <button type="button" class="lv2-btn-navy" data-card-add data-id="{{ $also->id }}" data-name="{{ $alsoName }}" data-price="{{ $alsoPrice }}" data-old="{{ $alsoOld }}" data-image="{{ $alsoImage }}" data-category="{{ $alsoCategory }}" data-desc="{{ $alsoShort }}" data-url="{{ $alsoUrl }}" data-stock="1">Add to cart</button>
+                            @else
+                                <button type="button" class="lv2-btn-navy" disabled>Out of stock</button>
+                            @endif
                         </div>
-                        <div class="mt-4 flex items-center justify-between pt-3 border-t border-purple-100">
-                            <span class="text-base font-black text-beautage-purple">Rs. 65</span>
-                            <a href="{{ route('product.show', ['product' => 'lumina-pro-led-mask']) }}" class="px-4 py-2 bg-purple-100 hover:bg-beautage-purple hover:text-white text-beautage-purple font-bold text-xs rounded-xl transition shadow-sm">View Item</a>
-                        </div>
-                    </div>
-
-                    <!-- Product 2 -->
-                    <div class="bg-white rounded-3xl p-4 border border-purple-100 shadow-xl flex flex-col justify-between group hover:border-beautage-purple transition duration-300">
-                        <div class="relative overflow-hidden rounded-2xl aspect-square bg-purple-50">
-                            <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&q=80&w=400" alt="Facial Sculptor" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.onerror=null; this.src='https://placehold.co/400x400/5E1F70/FFFFFF?text=Sculptor';">
-                            <span class="absolute top-3 left-3 bg-emerald-600 text-white text-[10px] font-extrabold px-2.5 py-1 rounded-full shadow">NEW TECH</span>
-                        </div>
-                        <div class="mt-4 space-y-1">
-                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Microcurrent Device</span>
-                            <h3 class="text-sm font-bold text-beautage-purple line-clamp-1">Sculpting Microcurrent Wand</h3>
-                            <div class="flex items-center gap-1 text-amber-400 text-xs">
-                                <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
-                                <span class="font-bold text-slate-700">4.8 (184)</span>
-                            </div>
-                        </div>
-                        <div class="mt-4 flex items-center justify-between pt-3 border-t border-purple-100">
-                            <span class="text-base font-black text-beautage-purple">Rs. 129</span>
-                            <a href="{{ route('product.show', ['product' => 'lumina-pro-led-mask']) }}" class="px-4 py-2 bg-purple-100 hover:bg-beautage-purple hover:text-white text-beautage-purple font-bold text-xs rounded-xl transition shadow-sm">View Item</a>
-                        </div>
-                    </div>
-
-                    <!-- Product 3 -->
-                    <div class="bg-white rounded-3xl p-4 border border-purple-100 shadow-xl flex flex-col justify-between group hover:border-beautage-purple transition duration-300">
-                        <div class="relative overflow-hidden rounded-2xl aspect-square bg-purple-50">
-                            <img src="https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&q=80&w=400" alt="Velvet Blossom" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.onerror=null; this.src='https://placehold.co/400x400/5E1F70/FFFFFF?text=Perfume';">
-                            <span class="absolute top-3 left-3 bg-rose-500 text-white text-[10px] font-extrabold px-2.5 py-1 rounded-full shadow">SIGNATURE</span>
-                        </div>
-                        <div class="mt-4 space-y-1">
-                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Eau de Parfum</span>
-                            <h3 class="text-sm font-bold text-beautage-purple line-clamp-1">Velvet Blossom Eau de Parfum</h3>
-                            <div class="flex items-center gap-1 text-amber-400 text-xs">
-                                <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
-                                <span class="font-bold text-slate-700">5.0 (420)</span>
-                            </div>
-                        </div>
-                        <div class="mt-4 flex items-center justify-between pt-3 border-t border-purple-100">
-                            <span class="text-base font-black text-beautage-purple">Rs. 110</span>
-                            <a href="{{ route('product.show', ['product' => 'lumina-pro-led-mask']) }}" class="px-4 py-2 bg-purple-100 hover:bg-beautage-purple hover:text-white text-beautage-purple font-bold text-xs rounded-xl transition shadow-sm">View Item</a>
-                        </div>
-                    </div>
-
-                    <!-- Product 4 -->
-                    <div class="bg-white rounded-3xl p-4 border border-purple-100 shadow-xl flex flex-col justify-between group hover:border-beautage-purple transition duration-300">
-                        <div class="relative overflow-hidden rounded-2xl aspect-square bg-purple-50">
-                            <img src="https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?auto=format&fit=crop&q=80&w=400" alt="Keratin Oil" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.onerror=null; this.src='https://placehold.co/400x400/5E1F70/FFFFFF?text=Hair';">
-                            <span class="absolute top-3 left-3 bg-amber-500 text-white text-[10px] font-extrabold px-2.5 py-1 rounded-full shadow">CELEBRITY</span>
-                        </div>
-                        <div class="mt-4 space-y-1">
-                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Hair Repair</span>
-                            <h3 class="text-sm font-bold text-beautage-purple line-clamp-1">Botanical Scalp & Hair Repair Oil</h3>
-                            <div class="flex items-center gap-1 text-amber-400 text-xs">
-                                <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
-                                <span class="font-bold text-slate-700">4.9 (145)</span>
-                            </div>
-                        </div>
-                        <div class="mt-4 flex items-center justify-between pt-3 border-t border-purple-100">
-                            <span class="text-base font-black text-beautage-purple">Rs. 48</span>
-                            <a href="{{ route('product.show', ['product' => 'lumina-pro-led-mask']) }}" class="px-4 py-2 bg-purple-100 hover:bg-beautage-purple hover:text-white text-beautage-purple font-bold text-xs rounded-xl transition shadow-sm">View Item</a>
-                        </div>
-                    </div>
-                </div>
+                    </article>
+                @endforeach
             </div>
         </section>
+        @endif
+
     </main>
 @endsection
 
@@ -551,6 +527,16 @@ const CHECKOUT_PREFILL = @json($prefillCustomer ?? null);
             updateShippingDisplay();
             renderCheckoutSummary();
             startCountdownTimer();
+
+            document.addEventListener('click', (event) => {
+                if (!event.target.closest('[data-card-add]')) {
+                    return;
+                }
+                setTimeout(() => {
+                    loadCartFromStorage();
+                    renderCheckoutSummary();
+                }, 40);
+            });
         });
 
         function scheduleShippingRatesRefresh() {
@@ -599,7 +585,7 @@ const CHECKOUT_PREFILL = @json($prefillCustomer ?? null);
                 }
                 renderShippingMethods(result.shipping_methods);
                 if (hint) {
-                    hint.innerText = 'Live courier rates for ' + city + ' (TCS / Leopards / BlueEx / M&P).';
+                    hint.innerText = 'Live courier rates for ' + city + '.';
                 }
             } catch (e) {
                 if (hint) {
@@ -780,7 +766,7 @@ const CHECKOUT_PREFILL = @json($prefillCustomer ?? null);
                 discountPercent = 15;
                 msg.classList.remove('hidden');
                 msg.className = 'text-xs font-semibold text-emerald-600';
-                msg.innerText = '✓ Promo code "BEAUTAGE15" applied (15% OFF)!';
+                msg.innerText = 'Promo code ' + code + ' applied (15% off).';
                 document.getElementById('discount-row').classList.remove('hidden');
                 document.getElementById('discount-code-name').innerText = code;
                 showToast('15% discount applied successfully!');
@@ -790,7 +776,7 @@ const CHECKOUT_PREFILL = @json($prefillCustomer ?? null);
                 discountPercent = 10;
                 msg.classList.remove('hidden');
                 msg.className = 'text-xs font-semibold text-emerald-600';
-                msg.innerText = '✓ Promo code "WELCOME" applied (10% OFF)!';
+                msg.innerText = 'Promo code WELCOME applied (10% off).';
                 document.getElementById('discount-row').classList.remove('hidden');
                 document.getElementById('discount-code-name').innerText = code;
                 showToast('10% discount applied successfully!');
@@ -799,7 +785,7 @@ const CHECKOUT_PREFILL = @json($prefillCustomer ?? null);
             } else {
                 msg.classList.remove('hidden');
                 msg.className = 'text-xs font-semibold text-rose-600';
-                msg.innerText = 'Invalid promo code. Try BEAUTAGE15.';
+                msg.innerText = 'Invalid promo code. Try WELCOME.';
                 showToast('Invalid promo code');
             }
         }
@@ -859,7 +845,7 @@ const CHECKOUT_PREFILL = @json($prefillCustomer ?? null);
         function expressCheckoutAction(provider) {
             showToast(`Connecting securely to ${provider} express gateway...`);
             setTimeout(() => {
-                document.getElementById('cust-email').value = 'express.user@beautage.pk';
+                document.getElementById('cust-email').value = 'you@email.com';
                 document.getElementById('cust-firstname').value = 'Valued';
                 document.getElementById('cust-lastname').value = 'Customer';
                 document.getElementById('cust-address').value = 'Express Portal Verified Address';

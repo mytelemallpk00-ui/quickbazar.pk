@@ -1,0 +1,245 @@
+/* Checkout — same teal panels as the homepage and product page */
+
+body.qh-checkout {
+    background: #f3f7f6;
+    color: #12312c;
+}
+
+body.qh-checkout main {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 1.25rem clamp(0.75rem, 2.5vw, 2rem) 3rem;
+    box-sizing: border-box;
+}
+
+@media (min-width: 1024px) {
+    body.qh-checkout main {
+        width: 80%;
+        max-width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+body.qh-checkout main .px-4,
+body.qh-checkout main .sm\:px-12,
+body.qh-checkout main .xl\:px-20 {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+body.qh-checkout h1,
+body.qh-checkout h2,
+body.qh-checkout h3,
+body.qh-checkout .text-beautage-purple,
+body.qh-checkout .hover\:text-beautage-purple:hover {
+    color: #12312c;
+    font-family: Inter, "Plus Jakarta Sans", sans-serif;
+}
+
+body.qh-checkout .text-beautage-pink,
+body.qh-checkout .text-emerald-600,
+body.qh-checkout .text-emerald-700,
+body.qh-checkout .text-pink-600,
+body.qh-checkout #wallet-jazzcash-label .text-rose-600 {
+    color: #0e7c6b;
+}
+
+body.qh-checkout a.text-beautage-pink,
+body.qh-checkout a.text-beautage-purple,
+body.qh-checkout a.hover\:text-beautage-purple {
+    color: #0e7c6b;
+    font-weight: 800;
+}
+
+body.qh-checkout nav {
+    color: #5d726c;
+    font-weight: 700;
+}
+
+body.qh-checkout nav a { color: #0e7c6b; }
+body.qh-checkout nav a:hover { color: #0b5e52; }
+body.qh-checkout nav span { color: #12312c; }
+
+body.qh-checkout .co-hero {
+    border-radius: 1.35rem;
+    padding: clamp(1.4rem, 3vw, 2.2rem);
+    margin-bottom: 1.25rem;
+    color: #fff;
+    background:
+        radial-gradient(circle at 100% 0%, rgba(216, 243, 236, 0.22), transparent 42%),
+        linear-gradient(135deg, #08463d 0%, #0b5e52 48%, #0e7c6b 100%);
+    box-shadow: 0 18px 40px rgba(8, 70, 61, 0.16);
+}
+
+body.qh-checkout .co-hero h1 { color: #fff; }
+
+body.qh-checkout .co-hero p { color: #d7ebe4; }
+
+body.qh-checkout .co-hero > span {
+    background: rgba(255, 255, 255, 0.12);
+    color: #d8f3ec;
+    border-color: rgba(216, 243, 236, 0.35);
+}
+
+body.qh-checkout .rounded-3xl.bg-white,
+body.qh-checkout .bg-white.rounded-3xl {
+    border: 1px solid #d5e7e2;
+    border-radius: 1.35rem;
+    box-shadow: 0 16px 40px rgba(8, 70, 61, 0.06);
+}
+
+body.qh-checkout .border-purple-100,
+body.qh-checkout .border-purple-200,
+body.qh-checkout .border-purple-300,
+body.qh-checkout .hover\:border-purple-300:hover,
+body.qh-checkout .divide-purple-100 > :not([hidden]) ~ :not([hidden]) {
+    border-color: #d5e7e2;
+}
+
+body.qh-checkout .border-beautage-purple,
+body.qh-checkout .hover\:border-beautage-purple:hover {
+    border-color: #0e7c6b;
+}
+
+body.qh-checkout .bg-purple-50,
+body.qh-checkout .bg-purple-50\/50,
+body.qh-checkout .bg-purple-50\/70,
+body.qh-checkout .bg-purple-50\/80,
+body.qh-checkout .bg-pink-50,
+body.qh-checkout .bg-amber-50\/60 {
+    background-color: #f4fbf8;
+}
+
+body.qh-checkout .border-amber-200 { border-color: #d5e7e2; }
+body.qh-checkout .text-amber-900,
+body.qh-checkout .text-amber-600 { color: #0b5e52; }
+
+body.qh-checkout input:not([type="radio"]):not([type="checkbox"]),
+body.qh-checkout select,
+body.qh-checkout textarea {
+    background: #f4fbf8;
+    border-color: #d5e7e2;
+    color: #12312c;
+    border-radius: 0.9rem;
+}
+
+body.qh-checkout input:focus,
+body.qh-checkout select:focus,
+body.qh-checkout textarea:focus {
+    border-color: #0e7c6b;
+    outline: 2px solid rgba(14, 124, 107, 0.22);
+    outline-offset: 1px;
+}
+
+body.qh-checkout input[type="radio"],
+body.qh-checkout input[type="checkbox"] {
+    accent-color: #0e7c6b;
+}
+
+body.qh-checkout .bg-beautage-pink,
+body.qh-checkout .bg-beautage-purple,
+body.qh-checkout .bg-purple-900,
+body.qh-checkout button[type="submit"] {
+    background: #0e7c6b;
+    color: #fff;
+    box-shadow: none;
+}
+
+body.qh-checkout .hover\:bg-beautage-pinkHover:hover,
+body.qh-checkout .hover\:bg-beautage-purpleDark:hover,
+body.qh-checkout .hover\:bg-purple-950:hover,
+body.qh-checkout button[type="submit"]:hover {
+    background: #0b5e52;
+    color: #fff;
+}
+
+body.qh-checkout #checkout-form button[type="submit"] {
+    border: 0;
+    border-radius: 999px;
+    min-height: 3.15rem;
+    letter-spacing: 0.04em;
+}
+
+body.qh-checkout #promo-input + button {
+    border-radius: 999px;
+    background: #0e7c6b;
+    color: #fff;
+}
+
+body.qh-checkout #summary-grandtotal,
+body.qh-checkout #receipt-total {
+    color: #0e7c6b;
+}
+
+body.qh-checkout #success-modal {
+    background: rgba(8, 70, 61, 0.72);
+}
+
+body.qh-checkout .co-also { margin-top: 2.75rem; }
+
+body.qh-checkout .co-also-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+body.qh-checkout .co-kicker {
+    margin: 0 0 0.3rem;
+    color: #0e7c6b;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+body.qh-checkout .co-also h2 { margin: 0; color: #12312c; }
+
+body.qh-checkout .co-also-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.85rem;
+}
+
+@media (min-width: 900px) {
+    body.qh-checkout .co-also-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+body.qh-checkout .co-also .lv2-product {
+    height: 100%;
+    border-color: #d5e7e2;
+    box-shadow: 0 14px 32px rgba(8, 70, 61, 0.06);
+}
+
+body.qh-checkout .co-also .lv2-product h3 { color: #12312c; font-size: 0.95rem; }
+body.qh-checkout .co-also .lv2-muted { color: #5d726c; }
+body.qh-checkout .co-also .lv2-price { color: #12312c; font-size: 1rem; white-space: nowrap; }
+body.qh-checkout .co-also .lv2-old { white-space: nowrap; }
+body.qh-checkout .co-also .lv2-price-row { flex-wrap: wrap; }
+
+body.qh-checkout .co-also .lv2-card-quick {
+    border-color: #0e7c6b;
+    color: #0b5e52;
+    border-radius: 999px;
+}
+
+body.qh-checkout .co-also .lv2-card-actions .lv2-btn-navy {
+    background: #0e7c6b;
+    border-radius: 999px;
+}
+
+body.qh-checkout .co-also .lv2-card-actions .lv2-btn-navy:hover { background: #0b5e52; }
+
+@media (max-width: 639px) {
+    body.qh-checkout .co-also .lv2-card-quick,
+    body.qh-checkout .co-also .lv2-card-actions .lv2-btn-navy {
+        font-size: 0.68rem;
+        white-space: nowrap;
+        padding-left: 0.25rem;
+        padding-right: 0.25rem;
+    }
+}
