@@ -1,6 +1,9 @@
 .qb-footer {
+    width: 100%;
+    max-width: none;
     background: var(--qb-navy, #0b1220);
     color: #cbd5e1;
+    overflow-x: clip;
 }
 .qb-footer-trust {
     background: var(--qb-navy, #0b1220);

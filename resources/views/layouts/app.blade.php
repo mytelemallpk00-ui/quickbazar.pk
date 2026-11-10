@@ -7,7 +7,7 @@
     @php
         use App\Support\StorefrontAssets;
         $storefrontCss = StorefrontAssets::compiledStylesheet();
-        $storefrontCssVersion = '2026111022';
+        $storefrontCssVersion = '2026111023';
         $supportEmail = \App\Support\SiteSettings::get('support_email', 'support@quickbazar.pk');
         if (! is_string($supportEmail) || $supportEmail === '' || str_contains(strtolower($supportEmail), 'beautage')) {
             $supportEmail = 'support@quickbazar.pk';
