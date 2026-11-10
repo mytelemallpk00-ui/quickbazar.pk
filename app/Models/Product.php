@@ -252,14 +252,28 @@ class Product extends Model
     }
 
     /** @return array<int, array<string, mixed>> */
-    public function relatedForJs(int $limit = 6): array
+    public function relatedForJs(int $limit = 12): array
     {
-        return static::query()
+        $related = static::query()
             ->where('category', $this->category)
             ->whereKeyNot($this->id)
             ->orderBy('sort_order')
+            ->orderBy('id')
             ->limit($limit)
-            ->get()
+            ->get();
+
+        if ($related->count() < $limit) {
+            $extra = static::query()
+                ->whereKeyNot($this->id)
+                ->whereNotIn('id', $related->modelKeys())
+                ->orderBy('sort_order')
+                ->orderBy('id')
+                ->limit($limit - $related->count())
+                ->get();
+            $related = $related->concat($extra);
+        }
+
+        return $related
             ->map(fn (Product $product) => [
                 'id' => $product->id,
                 'slug' => $product->slug,

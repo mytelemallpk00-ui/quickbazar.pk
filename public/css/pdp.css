@@ -373,6 +373,22 @@ body.qh-pdp .pdp-panel h1 {
 .pdp-related { margin-top: 2.5rem; }
 .pdp-related-head { margin-bottom: 1rem; }
 body.qh-pdp .pdp-related h2 { margin: 0.2rem 0 0; color: #12312c; }
+.pdp-related-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (min-width: 1024px) {
+    .pdp-related-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 0.7rem; }
+    .pdp-related-grid .lv2-product { padding: 0.55rem; }
+    .pdp-related-grid .lv2-card-actions { grid-template-columns: 1fr; }
+    .pdp-related-grid .lv2-card-quick,
+    .pdp-related-grid .lv2-card-actions .lv2-btn-navy {
+        min-height: 2.15rem;
+        font-size: 0.68rem;
+        white-space: nowrap;
+    }
+    .pdp-related-grid h3 { font-size: 0.82rem; line-height: 1.3; }
+    .pdp-related-grid .lv2-price,
+    .pdp-related-grid .lv2-old { white-space: nowrap; font-size: 0.78rem; }
+    .pdp-related-grid .lv2-price-row { flex-wrap: wrap; gap: 0.1rem 0.35rem; }
+}
 
 #pdp-sticky-checkout .bg-beautage-pink,
 #pdp-sticky-checkout .bg-gradient-to-r {

@@ -42,7 +42,7 @@ class ProductController extends Controller
             'product' => $product,
             'pageSeo' => $pageSeo,
             'currentProductCatalog' => $product->toDetailCatalogArray(),
-            'relatedProductsCatalog' => $product->relatedForJs(6),
+            'relatedProductsCatalog' => $product->relatedForJs(12),
             'galleryImages' => $product->gallery_images ?? [$product->image],
             'publishedReviews' => $publishedReviews,
             'bundlePayload' => $bundlePayload,

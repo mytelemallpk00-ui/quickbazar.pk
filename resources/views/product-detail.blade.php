@@ -16,7 +16,7 @@ class="lumiere-v2 qh-pdp bg-gray-50 text-gray-800 font-sans antialiased min-h-sc
 @endpush
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/pdp.css') }}?v=2026111034">
+    <link rel="stylesheet" href="{{ asset('css/pdp.css') }}?v=2026111044">
 @endpush
 
 @push('structured-data')
@@ -201,7 +201,7 @@ class="lumiere-v2 qh-pdp bg-gray-50 text-gray-800 font-sans antialiased min-h-sc
                 <h2 id="pdp-related-title">You may also like</h2>
             </div>
 
-            <div id="related-product-grid" class="lv2-grid lv2-grid-4"></div>
+            <div id="related-product-grid" class="lv2-grid pdp-related-grid"></div>
         </section>
 
     </main>
@@ -836,7 +836,7 @@ class="lumiere-v2 qh-pdp bg-gray-50 text-gray-800 font-sans antialiased min-h-sc
 
         function renderRelatedProducts() {
             const container = document.getElementById('related-product-grid');
-            const items = (relatedProducts || []).slice(0, 6);
+            const items = (relatedProducts || []).slice(0, 12);
             if (items.length === 0) {
                 container.innerHTML = '<p class="col-span-full text-center text-sm text-slate-500 py-8">More products in this category coming soon.</p>';
                 return;
