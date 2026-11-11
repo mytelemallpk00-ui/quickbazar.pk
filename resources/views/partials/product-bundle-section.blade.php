@@ -22,7 +22,7 @@
 
                 <div class="w-full flex-1 space-y-2.5 text-left" id="bundle-checkbox-list">
                     @foreach ($bundlePayload['items'] as $index => $item)
-                    <div class="flex items-start gap-2">
+                    <div class="flex items-center gap-2">
                         <input
                             type="checkbox"
                             id="bundle-check-{{ $index }}"
@@ -30,8 +30,9 @@
                             @checked(true)
                             @disabled($item['required'])
                             @if (! $item['required']) onchange="updateBundleTotal()" @endif
-                            class="mt-0.5 h-4 w-4 shrink-0 accent-[#0b132b] {{ $item['required'] ? '' : 'cursor-pointer' }}"
+                            class="h-4 w-4 shrink-0 accent-[#0b132b] {{ $item['required'] ? '' : 'cursor-pointer' }}"
                         >
+                        <img src="{{ $item['image'] }}" alt="" width="64" height="64" loading="lazy" decoding="async" class="h-16 w-16 shrink-0 rounded-xl border border-white object-cover shadow-sm" onerror="this.onerror=null; this.src='https://placehold.co/100x100/0b132b/d4af37?text=Item';">
                         <label for="bundle-check-{{ $index }}" class="cursor-pointer text-sm leading-snug {{ $item['required'] ? 'font-bold text-[#0b132b]' : 'font-medium text-slate-600' }}">
                             {{ $item['name'] }}
                             <span class="font-semibold text-[#0b132b]">({{ \App\Support\MoneyFormat::pkr($item['price']) }})</span>

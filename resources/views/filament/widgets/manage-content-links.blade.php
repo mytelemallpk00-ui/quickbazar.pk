@@ -29,11 +29,6 @@
                         <span class="beautage-admin-quicklink-title">Products</span>
                         <span class="beautage-admin-quicklink-desc">Pricing, images, flash deals, SEO</span>
                     </a>
-                    <a href="{{ route('filament.admin.pages.bulk-product-import') }}" class="beautage-admin-quicklink">
-                        <x-filament::icon icon="heroicon-o-arrow-down-tray" class="beautage-admin-quicklink-icon" />
-                        <span class="beautage-admin-quicklink-title">Bulk import</span>
-                        <span class="beautage-admin-quicklink-desc">Daraz, Amazon, Shopify, Walmart</span>
-                    </a>
                     @endif
                     @if($can(AdminPermissions::CATEGORIES))
                     <a href="{{ route('filament.admin.resources.categories.index') }}" class="beautage-admin-quicklink">

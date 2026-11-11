@@ -12,7 +12,7 @@ return new class extends Migration
         $colors = BrandPalette::themeDefaults();
         $rows = [
             'logo_url' => ['site', 'images/quick-bazar-logo.png'],
-            'favicon_url' => ['site', 'images/quick-bazar-logo.png'],
+            'favicon_url' => ['site', 'images/quick-bazar-favicon.png'],
             'footer_logo_url' => ['site', 'images/quick-bazar-logo.png'],
             'theme_color_purple' => ['theme', $colors['purple']],
             'theme_color_purple_dark' => ['theme', $colors['purpleDark']],

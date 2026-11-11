@@ -38,8 +38,8 @@
     <title>@yield('title', \App\Support\SiteSettings::get('default_meta_title', 'Quick Bazar'))</title>
     @stack('structured-data')
     @include('partials.seo-head', ['seo' => $pageSeo ?? null])
-    <link rel="icon" href="{{ $siteFaviconUrl }}" sizes="any">
-    <link rel="apple-touch-icon" href="{{ $siteLogoUrl }}">
+    <link rel="icon" href="{{ $siteFaviconUrl }}" type="image/png" sizes="any">
+    <link rel="apple-touch-icon" href="{{ $siteFaviconUrl }}">
     @stack('head-preload')
     @if ($storefrontCss)
         <link rel="preload" as="style" href="{{ $storefrontCss }}?v={{ $storefrontCssVersion }}">
@@ -100,7 +100,7 @@
                     <i data-lucide="menu" class="h-5 w-5"></i>
                 </button>
                 <a href="{{ route('home') }}" class="qb-brand" aria-label="Quick Bazar">
-                    <img src="{{ $siteLogoUrl }}?v=2026111103" alt="Quick Bazar" class="qb-brand-logo" width="280" height="72">
+                    <img src="{{ $siteLogoUrl }}" alt="Quick Bazar" class="qb-brand-logo" width="664" height="202">
                 </a>
 
                 <div class="relative hidden min-w-0 flex-1 lg:block">

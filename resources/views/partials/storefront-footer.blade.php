@@ -66,7 +66,7 @@
     <div class="grid w-full grid-cols-1 gap-10 px-4 py-12 sm:px-6 md:grid-cols-2 lg:grid-cols-12 lg:px-8">
         <div class="lg:col-span-4">
             <a href="{{ route('home') }}" class="qb-brand" aria-label="Quick Bazar">
-                <img src="{{ \App\Support\SiteSettings::footerLogoUrl() }}?v=2026111103" alt="Quick Bazar" class="qb-brand-logo" width="280" height="72">
+                <img src="{{ \App\Support\SiteSettings::footerLogoUrl() }}" alt="Quick Bazar" class="qb-brand-logo" width="664" height="202">
             </a>
             <p class="mt-4 max-w-sm text-sm leading-relaxed text-slate-400">Verified products delivered across Pakistan, with cash on delivery and tracked door-to-door shipping.</p>
             <ul class="mt-5 space-y-2 text-sm">

@@ -28,7 +28,7 @@ class AdminPermissions
         return [
             self::OVERVIEW => 'Dashboard & overview',
             self::CATEGORIES => 'Categories & navigation',
-            self::CATALOG => 'Catalog (products & bulk import)',
+            self::CATALOG => 'Catalog (products)',
             self::BUNDLES => 'Bundle deals',
             self::CONTENT => 'Content (pages, blog, careers, partner hub)',
             self::ORDERS => 'Orders',

@@ -36,14 +36,18 @@ class SiteSettings
 
     public const BRAND_LOGO = 'images/quick-bazar-logo.png';
 
+    public const BRAND_FAVICON = 'images/quick-bazar-favicon.png';
+
+    public const BRAND_ASSET_VERSION = '2026111105';
+
     public static function logoUrl(string $default = self::BRAND_LOGO): string
     {
-        return static::mediaUrl(static::brandAsset(static::get('logo_url', '')), $default);
+        return static::versionedBrandUrl(static::brandPublicUrl(static::brandAsset(static::get('logo_url', '')), $default));
     }
 
-    public static function faviconUrl(string $default = self::BRAND_LOGO): string
+    public static function faviconUrl(string $default = self::BRAND_FAVICON): string
     {
-        return static::mediaUrl(static::brandAsset(static::get('favicon_url', '')), $default);
+        return static::versionedBrandUrl(static::brandPublicUrl(static::faviconAsset(static::get('favicon_url', '')), $default));
     }
 
     public static function stringMediaReference(mixed $value): string
@@ -231,18 +235,65 @@ class SiteSettings
     /** @return array<string, string> */
     public static function footerLogoUrl(string $default = self::BRAND_LOGO): string
     {
-        return static::mediaUrl(static::brandAsset(static::get('footer_logo_url', '')), $default);
+        return static::versionedBrandUrl(static::brandPublicUrl(static::brandAsset(static::get('footer_logo_url', '')), $default));
+    }
+
+    public static function brandPublicUrl(string $path, string $default): string
+    {
+        $lower = strtolower($path);
+        if (str_ends_with($lower, 'quick-bazar-logo.png')) {
+            return '/images/quick-bazar-logo.png';
+        }
+        if (str_ends_with($lower, 'quick-bazar-favicon.png')) {
+            return '/images/quick-bazar-favicon.png';
+        }
+
+        return static::mediaUrl($path, $default);
     }
 
     public static function brandAsset(mixed $value): string
     {
         $path = static::stringMediaReference($value);
-        $lower = strtolower($path);
-        if ($path === '' || str_contains($lower, 'beautage') || str_contains($lower, 'logosquare') || str_contains($lower, 'shop-pakistan')) {
+        if (static::isRetiredBrandPath($path)) {
             return self::BRAND_LOGO;
         }
 
         return $path;
+    }
+
+    public static function faviconAsset(mixed $value): string
+    {
+        $path = static::stringMediaReference($value);
+        $lower = strtolower($path);
+        if (static::isRetiredBrandPath($path) || str_contains($lower, 'quick-bazar-logo')) {
+            return self::BRAND_FAVICON;
+        }
+
+        return $path;
+    }
+
+    public static function versionedBrandUrl(string $url): string
+    {
+        if (! str_contains($url, 'quick-bazar-logo') && ! str_contains($url, 'quick-bazar-favicon')) {
+            return $url;
+        }
+
+        $join = str_contains($url, '?') ? '&' : '?';
+
+        return $url.$join.'v='.self::BRAND_ASSET_VERSION;
+    }
+
+    protected static function isRetiredBrandPath(string $path): bool
+    {
+        if ($path === '') {
+            return true;
+        }
+
+        $lower = strtolower($path);
+
+        return str_contains($lower, 'beautage')
+            || str_contains($lower, 'logosquare')
+            || str_contains($lower, 'shop-pakistan');
     }
 
     public static function themeColors(): array

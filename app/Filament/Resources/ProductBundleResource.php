@@ -8,9 +8,11 @@ use App\Support\AdminPermissions;
 use App\Models\Product;
 use App\Models\ProductBundle;
 use App\Support\MoneyFormat;
+use App\Support\ProductFrequentlyBoughtTogether;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
+use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -59,7 +61,34 @@ class ProductBundleResource extends Resource
                             ->searchable()
                             ->required()
                             ->unique(ignoreRecord: true)
-                            ->live(),
+                            ->live()
+                            ->afterStateUpdated(function ($state, Set $set, Get $get): void {
+                                if (! $state) {
+                                    return;
+                                }
+
+                                $current = $get('bundleItems');
+                                $alreadyPicked = collect(is_array($current) ? $current : [])
+                                    ->contains(fn ($row) => is_array($row) && filled($row['product_id'] ?? null));
+                                if ($alreadyPicked) {
+                                    return;
+                                }
+
+                                $host = Product::query()->find($state);
+                                if (! $host) {
+                                    return;
+                                }
+
+                                $ids = ProductFrequentlyBoughtTogether::suggestedCompanionIds($host, 2);
+                                if ($ids === []) {
+                                    return;
+                                }
+
+                                $set('bundleItems', array_map(
+                                    fn (int $id) => ['product_id' => $id],
+                                    $ids,
+                                ));
+                            }),
                         Forms\Components\Toggle::make('is_active')
                             ->label('Active on storefront')
                             ->default(true)

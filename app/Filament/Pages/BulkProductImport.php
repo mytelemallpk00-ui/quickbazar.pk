@@ -48,6 +48,16 @@ class BulkProductImport extends Page implements HasForms
 
     protected static string $view = 'filament.pages.bulk-product-import';
 
+    public static function canAccess(): bool
+    {
+        return false;
+    }
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return false;
+    }
+
     /** @var array<string, mixed>|null */
     public ?array $data = [];
 

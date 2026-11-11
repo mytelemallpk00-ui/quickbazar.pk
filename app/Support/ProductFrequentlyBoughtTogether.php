@@ -26,28 +26,7 @@ class ProductFrequentlyBoughtTogether
     /** @return array<string, mixed>|null */
     protected static function catalogFallback(Product $host): ?array
     {
-        $companions = Product::query()
-            ->when(
-                $host->category_id,
-                fn ($query) => $query->where('category_id', $host->category_id),
-                fn ($query) => $query->where('category', $host->category),
-            )
-            ->whereKeyNot($host->id)
-            ->orderByDesc('in_stock')
-            ->orderByDesc('is_flash')
-            ->orderBy('sort_order')
-            ->orderBy('id')
-            ->limit(2)
-            ->get();
-
-        if ($companions->isEmpty()) {
-            $companions = Product::query()
-                ->whereKeyNot($host->id)
-                ->orderByDesc('in_stock')
-                ->orderBy('sort_order')
-                ->limit(2)
-                ->get();
-        }
+        $companions = static::suggestedCompanions($host, 2);
 
         if ($companions->isEmpty()) {
             return null;
@@ -80,12 +59,48 @@ class ProductFrequentlyBoughtTogether
         ];
     }
 
+    /** @return array<int, int> */
+    public static function suggestedCompanionIds(Product $host, int $limit = 2): array
+    {
+        return static::suggestedCompanions($host, $limit)
+            ->pluck('id')
+            ->map(fn ($id) => (int) $id)
+            ->all();
+    }
+
     public static function imageUrl(Product $product): string
     {
-        $image = trim((string) $product->image);
+        return SiteSettings::assetUrl(
+            trim((string) $product->image),
+            'images/quick-bazar-favicon.png',
+        );
+    }
 
-        return $image !== ''
-            ? $image
-            : 'https://placehold.co/160x160/5E1F70/FFFFFF?text=Quick+Bazar';
+    protected static function suggestedCompanions(Product $host, int $limit)
+    {
+        $companions = Product::query()
+            ->when(
+                $host->category_id,
+                fn ($query) => $query->where('category_id', $host->category_id),
+                fn ($query) => $query->where('category', $host->category),
+            )
+            ->whereKeyNot($host->id)
+            ->orderByDesc('in_stock')
+            ->orderByDesc('is_flash')
+            ->orderBy('sort_order')
+            ->orderBy('id')
+            ->limit($limit)
+            ->get();
+
+        if ($companions->isNotEmpty()) {
+            return $companions;
+        }
+
+        return Product::query()
+            ->whereKeyNot($host->id)
+            ->orderByDesc('in_stock')
+            ->orderBy('sort_order')
+            ->limit($limit)
+            ->get();
     }
 }
