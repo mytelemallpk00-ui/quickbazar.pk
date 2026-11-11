@@ -4,5 +4,5 @@ Disallow: /admin
 Disallow: /checkout
 Disallow: /account
 
-Sitemap: https://lightgrey-panther-710834.hostingersite.com/sitemap_index.xml
-Sitemap: https://lightgrey-panther-710834.hostingersite.com/feeds/google-merchant.xml
+Sitemap: https://quickbazar.pk/sitemap_index.xml
+Sitemap: https://quickbazar.pk/feeds/google-merchant.xml

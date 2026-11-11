@@ -30,7 +30,7 @@ Place source HTML files in the uploads directory configured in that script.
 
 ## Hostinger deploy
 
-Pushes to `main` deploy the live site `https://lightgrey-panther-710834.hostingersite.com` through `.github/workflows/deploy-hostinger.yml`. The workflow resets that domain folder to `origin/main` and runs `bash scripts/deploy-hostinger.sh --no-seed`.
+Pushes to `main` deploy the live site `https://quickbazar.pk` through `.github/workflows/deploy-hostinger.yml`. The workflow resets that domain folder to `origin/main` and runs `bash scripts/deploy-hostinger.sh --no-seed`.
 
 On the server, from the project root (the domain folder, not `public_html`):
 

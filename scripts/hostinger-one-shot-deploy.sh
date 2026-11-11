@@ -6,8 +6,8 @@
 #
 set -euo pipefail
 
-DOMAIN_ROOT="${DOMAIN_ROOT:-/home/u662960912/domains/lightgrey-panther-710834.hostingersite.com}"
-GITHUB_REPO="${GITHUB_REPO:-https://github.com/mytelemallpk00-ui/beautage-laravel.git}"
+DOMAIN_ROOT="${DOMAIN_ROOT:-/home/u662960912/domains/quickbazar.pk}"
+GITHUB_REPO="${GITHUB_REPO:-https://github.com/mytelemallpk00-ui/quickbazar.pk.git}"
 PHP_BIN="${PHP_BIN:-/usr/bin/php}"
 COMPOSER_BIN="${COMPOSER_BIN:-/usr/local/bin/composer}"
 
@@ -74,5 +74,5 @@ echo "==> Cache & permissions"
 chmod -R 755 storage bootstrap/cache public_html
 
 APP_URL=$(grep -E '^APP_URL=' .env | cut -d= -f2- | tr -d '"' | tr -d "'")
-echo "==> DONE. Visit: ${APP_URL:-https://lightgrey-panther-710834.hostingersite.com}"
+echo "==> DONE. Visit: ${APP_URL:-https://quickbazar.pk}"
 echo "    File Manager: public_html should contain index.php, css/, js/ — NOT resources/"
