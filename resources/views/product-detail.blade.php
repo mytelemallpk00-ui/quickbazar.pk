@@ -16,7 +16,7 @@ class="lumiere-v2 qh-pdp bg-gray-50 text-gray-800 font-sans antialiased min-h-sc
 @endpush
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/pdp.css') }}?v=2026111044">
+    <link rel="stylesheet" href="{{ asset('css/pdp.css') }}?v=2026111102">
 @endpush
 
 @push('structured-data')

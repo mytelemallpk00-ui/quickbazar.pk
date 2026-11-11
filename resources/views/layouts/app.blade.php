@@ -7,7 +7,7 @@
     @php
         use App\Support\StorefrontAssets;
         $storefrontCss = StorefrontAssets::compiledStylesheet();
-        $storefrontCssVersion = '2026111035';
+        $storefrontCssVersion = '2026111103';
         $supportEmail = \App\Support\SiteSettings::get('support_email', 'support@quickbazar.pk');
         if (! is_string($supportEmail) || $supportEmail === '' || str_contains(strtolower($supportEmail), 'beautage')) {
             $supportEmail = 'support@quickbazar.pk';
@@ -99,14 +99,8 @@
                 <button onclick="toggleMobileNav()" class="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-slate-800 hover:bg-slate-100 lg:hidden" aria-label="Open Menu">
                     <i data-lucide="menu" class="h-5 w-5"></i>
                 </button>
-                <a href="{{ route('home') }}" class="flex min-w-0 items-center gap-2.5">
-                    <span class="qb-logo-mark" aria-hidden="true">
-                        <i data-lucide="shopping-bag" class="h-5 w-5"></i>
-                    </span>
-                    <span class="min-w-0">
-                        <span class="qb-wordmark block text-lg sm:text-xl">Quick <span>Bazar</span></span>
-                        <span class="qb-kicker hidden sm:block">Authentic skin &amp; health wellness</span>
-                    </span>
+                <a href="{{ route('home') }}" class="qb-brand" aria-label="Quick Bazar">
+                    <img src="{{ $siteLogoUrl }}?v=2026111103" alt="Quick Bazar" class="qb-brand-logo" width="280" height="72">
                 </a>
 
                 <div class="relative hidden min-w-0 flex-1 lg:block">

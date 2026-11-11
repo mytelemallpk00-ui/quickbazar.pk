@@ -1,6 +1,6 @@
 .beautage-auth-layout {
     min-height: 100vh;
-    background: #0b132b;
+    background: var(--qb-navy-deep, #0039B5);
 }
 
 .sp-login {
@@ -20,8 +20,8 @@
     padding: 3rem 3.25rem;
     color: #f8f5ea;
     background:
-        radial-gradient(circle at 12% 18%, rgba(212, 175, 55, 0.22), transparent 32%),
-        linear-gradient(165deg, #121a36 0%, #0b132b 58%, #080e20 100%);
+        radial-gradient(circle at 12% 18%, color-mix(in srgb, var(--qb-red, #F02424) 28%, transparent), transparent 32%),
+        linear-gradient(165deg, var(--qb-navy, #0054F0) 0%, var(--qb-navy-deep, #0039B5) 58%, #04266e 100%);
     overflow: hidden;
 }
 
@@ -32,26 +32,30 @@
     bottom: -4rem;
     width: 16rem;
     height: 16rem;
-    border: 1px solid rgba(212, 175, 55, 0.28);
+    border: 1px solid rgba(240, 36, 36, 0.28);
     border-radius: 50%;
 }
 
 .sp-login-mark {
-    display: inline-block;
-    color: #fff;
-    font-size: 1.35rem;
-    font-weight: 650;
-    letter-spacing: -0.03em;
+    display: inline-flex;
+    align-items: center;
     text-decoration: none;
 }
 
-.sp-login-mark span {
-    color: #d4af37;
+.sp-login-logo {
+    display: block;
+    height: 3.4rem;
+    width: auto;
+    max-width: 16rem;
+    background: #fff;
+    border-radius: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    object-fit: contain;
 }
 
 .sp-login-eyebrow {
     margin: 3.5rem 0 0.75rem;
-    color: #d4af37;
+    color: var(--qb-red, #F02424);
     font-size: 0.75rem;
     font-weight: 700;
     letter-spacing: 0.22em;
@@ -99,15 +103,15 @@
     width: 0.55rem;
     height: 0.55rem;
     border-radius: 50%;
-    background: #d4af37;
-    box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.16);
+    background: var(--qb-red, #F02424);
+    box-shadow: 0 0 0 4px rgba(240, 36, 36, 0.16);
 }
 
 .sp-login-back {
     position: relative;
     z-index: 1;
     width: fit-content;
-    color: #d4af37;
+    color: var(--qb-red, #F02424);
     font-size: 0.92rem;
     font-weight: 650;
     text-decoration: none;
@@ -177,8 +181,8 @@
 }
 
 .sp-login .fi-input-wrp:focus-within {
-    border-color: #d4af37 !important;
-    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.28) !important;
+    border-color: var(--qb-red, #F02424) !important;
+    box-shadow: 0 0 0 3px rgba(240, 36, 36, 0.28) !important;
 }
 
 .sp-login .fi-input {
@@ -197,7 +201,7 @@
     margin-top: 0.45rem;
     border: 0 !important;
     border-radius: 999px !important;
-    background: #0b132b !important;
+    background: var(--qb-red, #F02424) !important;
     color: #fff !important;
     font-weight: 680 !important;
     letter-spacing: 0.01em;
@@ -206,8 +210,8 @@
 
 .sp-login .fi-btn:hover,
 .sp-login button[type="submit"]:hover {
-    background: #d4af37 !important;
-    color: #0b132b !important;
+    background: var(--qb-red-hover, #CC1212) !important;
+    color: #fff !important;
 }
 
 .sp-login .fi-icon,

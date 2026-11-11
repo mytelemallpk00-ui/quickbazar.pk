@@ -7,7 +7,7 @@ class="qh-checkout bg-slate-50 text-slate-800 font-sans antialiased min-h-screen
 @endsection
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/checkout.css') }}?v=2026111040">
+<link rel="stylesheet" href="{{ asset('css/checkout.css') }}?v=2026111102">
 @endpush
 
 @section('content')

@@ -4,7 +4,7 @@ body {
     overflow-x: clip;
 }
 .qb-topbar {
-    background: #0b5e52;
+    background: var(--qb-navy);
     color: #e2e8f0;
     font-size: 12px;
     width: 100%;
@@ -20,8 +20,8 @@ body {
     font-weight: 700;
 }
 .qb-hot-badge {
-    background: #128f7a;
-    color: #d8f3ec;
+    background: var(--qb-orange);
+    color: #fff;
     font-size: 10px;
     font-weight: 800;
     letter-spacing: 0.04em;
@@ -35,9 +35,28 @@ body {
     align-items: center;
     justify-content: center;
     border-radius: 0.7rem;
-    background: #0e7c6b;
+    background: var(--qb-navy);
     color: #fff;
     flex-shrink: 0;
+}
+.qb-brand {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    flex-shrink: 1;
+}
+.qb-brand-logo {
+    display: block;
+    height: 3.4rem;
+    width: auto;
+    max-width: 18rem;
+    object-fit: contain;
+}
+@media (min-width: 640px) {
+    .qb-brand-logo {
+        height: 4rem;
+        max-width: 22rem;
+    }
 }
 .qb-wordmark {
     font-weight: 800;
@@ -45,7 +64,7 @@ body {
     color: #0f172a;
     line-height: 1;
 }
-.qb-wordmark span { color: #0e7c6b; }
+.qb-wordmark span { color: var(--qb-navy); }
 .qb-kicker {
     margin-top: 0.15rem;
     font-size: 9px;
@@ -90,15 +109,15 @@ body {
     width: 2.75rem;
     align-items: center;
     justify-content: center;
-    background: #0e7c6b;
+    background: var(--qb-orange);
     color: #fff;
     border: 0;
 }
-.qb-search .qb-search-go:hover { background: #0b5e52; }
+.qb-search .qb-search-go:hover { background: var(--qb-orange-hover); }
 .qb-nav {
     width: 100%;
     max-width: none;
-    background: #0b5e52;
+    background: var(--qb-navy);
     color: #fff;
     position: relative;
 }
@@ -210,9 +229,9 @@ main {
     overflow: hidden;
     width: 100%;
     max-width: 100%;
-    background: #f4fbf8;
-    color: #0b5e52;
-    border-bottom: 1px solid #d7ebe4;
+    background: #f3f6fd;
+    color: var(--qb-navy);
+    border-bottom: 1px solid var(--qb-chrome-muted);
 }
 .qb-marquee-track {
     display: flex;
@@ -225,7 +244,7 @@ main {
     font-weight: 700;
 }
 .qb-marquee-track span { white-space: nowrap; }
-.qb-marquee-track span::before { content: "• "; color: #128f7a; }
+.qb-marquee-track span::before { content: "• "; color: var(--qb-navy); }
 @keyframes qb-marquee {
     from { transform: translateX(0); }
     to { transform: translateX(-50%); }

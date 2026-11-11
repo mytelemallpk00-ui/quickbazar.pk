@@ -2,21 +2,14 @@
 
 /* Navy and gold storefront treatment for the homepage, collections, and product pages. */
 body.lumiere-v2 {
-    --qb-navy: #0b132b;
-    --qb-navy-deep: #1c2541;
-    --qb-orange: #d4af37;
-    --qb-orange-hover: #c4a033;
-    --qb-highlight: #f4e8c1;
-    --qb-soft: #f4e8c1;
-    --qb-line: #e5e7eb;
-    --lv2-navy: #0b132b;
-    --lv2-dark: #1c2541;
-    --lv2-gold: #d4af37;
-    --lv2-gold-soft: #f4e8c1;
-    --lv2-accent: #4361ee;
+    --lv2-navy: var(--qb-navy);
+    --lv2-dark: var(--qb-navy-deep);
+    --lv2-gold: var(--qb-orange);
+    --lv2-gold-soft: var(--qb-soft);
+    --lv2-accent: var(--qb-navy);
     --lv2-muted: #6b7280;
     font-family: Inter, "Plus Jakarta Sans", sans-serif;
-    background: #f9fafb;
+    background: #f5f7fb;
     color: #1f2937;
 }
 
@@ -48,39 +41,38 @@ body.lumiere-v2 .lv2-collection-hero h1 { color: #fff; }
 
 body.lumiere-v2 .qb-topbar,
 body.lumiere-v2 .qb-nav {
-    background: #0b5e52;
+    background: var(--qb-navy);
     color: #fff;
 }
 
-body.lumiere-v2 .qb-logo-mark,
 body.lumiere-v2 .qb-search .qb-search-go,
 body.lumiere-v2 .qb-footer .qb-logo-mark {
-    background: #0e7c6b;
+    background: var(--qb-orange);
     color: #fff;
 }
 
 body.lumiere-v2 .qb-wordmark span,
 body.lumiere-v2 .qb-kicker {
-    color: #0e7c6b;
+    color: var(--qb-navy);
 }
 
 body.lumiere-v2 .qb-footer .qb-wordmark span,
 body.lumiere-v2 .qb-footer .qb-kicker,
 body.lumiere-v2 .qb-hot-badge {
-    color: #d8f3ec;
+    color: var(--qb-chrome-text);
 }
 
-body.lumiere-v2 .qb-hot-badge { background: #128f7a; }
+body.lumiere-v2 .qb-hot-badge { background: var(--qb-orange); color: #fff; }
 
-body.lumiere-v2 .qb-footer { background: #08463d; color: #d7ebe4; }
-body.lumiere-v2 .qb-footer-trust { background: #0b5e52; }
+body.lumiere-v2 .qb-footer { background: var(--qb-navy-deep); color: var(--qb-chrome-muted); }
+body.lumiere-v2 .qb-footer-trust { background: var(--qb-navy); }
 body.lumiere-v2 .qb-trust-card {
     background: rgba(255, 255, 255, 0.06);
     border-color: rgba(255, 255, 255, 0.08);
 }
 body.lumiere-v2 .qb-trust-icon {
     background: rgba(255, 255, 255, 0.12);
-    color: #d8f3ec;
+    color: var(--qb-chrome-text);
 }
 
 body.lumiere-v2 .qb-kicker {
@@ -95,7 +87,7 @@ body.lumiere-v2 .qb-search {
 }
 
 body.lumiere-v2 .qb-search .qb-search-go:hover {
-    background: #0b5e52;
+    background: var(--qb-orange-hover);
 }
 
 .lv2-page {
@@ -202,11 +194,11 @@ body.lumiere-v2 .qb-search .qb-search-go:hover {
 }
 
 .lv2-btn {
-    background: #d4af37;
-    color: #0b132b;
+    background: var(--qb-orange);
+    color: #fff;
 }
 
-.lv2-btn:hover { background: #e6c35c; }
+.lv2-btn:hover { background: var(--qb-orange-hover); }
 
 .lv2-btn-ghost {
     background: transparent;
@@ -215,12 +207,12 @@ body.lumiere-v2 .qb-search .qb-search-go:hover {
 }
 
 .lv2-btn-navy {
-    background: #0b132b;
+    background: var(--qb-orange);
     color: #fff;
     width: 100%;
 }
 
-.lv2-btn-navy:hover { background: #4361ee; }
+.lv2-btn-navy:hover { background: var(--qb-orange-hover); }
 
 .lv2-hero-card {
     position: relative;

@@ -13,7 +13,9 @@ body .hover\:bg-beautage-pinkHover:hover {
 }
 body .text-emerald-600,
 body .text-teal-600,
-body .text-teal-700,
+body .text-teal-700 {
+    color: var(--qb-highlight);
+}
 body .text-beautage-pink {
     color: var(--qb-orange);
 }
@@ -92,7 +94,7 @@ main,
     box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
 }
 .qb-stars { color: #e2e8f0; letter-spacing: 0.08em; font-size: 0.95rem; }
-.qb-stars .is-on { color: var(--qb-orange); }
+.qb-stars .is-on { color: #f5b301; }
 .qb-bar {
     display: block;
     height: 0.45rem;
@@ -227,9 +229,9 @@ main,
     align-items: flex-start;
     min-width: 0;
     padding: 1.15rem 1.15rem 1.2rem;
-    border: 1px solid #d5e7e2;
+    border: 1px solid #d9e2f5;
     border-radius: 1.2rem;
-    background: linear-gradient(180deg, #f4fbf8 0%, #fff 70%);
+    background: linear-gradient(180deg, #f3f6fd 0%, #fff 70%);
     box-shadow: 0 14px 32px rgba(8, 70, 61, 0.07);
 }
 .qb-assure-ico {
@@ -239,13 +241,13 @@ main,
     height: 2.85rem;
     flex: none;
     border-radius: 0.95rem;
-    background: #0e7c6b;
+    background: var(--qb-navy);
     color: #fff;
 }
 .qb-assure-ico svg { width: 1.2rem; height: 1.2rem; }
 .qb-assure p {
     margin: 0;
-    color: #0e7c6b;
+    color: var(--qb-navy);
     font-size: 0.72rem;
     font-weight: 800;
     letter-spacing: 0.08em;
@@ -275,4 +277,23 @@ main,
         padding: 2.5rem;
         border-radius: 1.5rem;
     }
+}
+
+body .qb-search .qb-search-go,
+body .pdp-add,
+body .pdp-buy-now,
+body .lv2-btn-navy,
+body .bg-orange-400,
+body .bg-orange-500,
+body.qh-checkout #checkout-form button[type="submit"] {
+    background: var(--qb-orange);
+    color: #fff;
+}
+body .qb-search .qb-search-go:hover,
+body .pdp-add:hover,
+body .pdp-buy-now:hover,
+body .lv2-btn-navy:hover,
+body.qh-checkout #checkout-form button[type="submit"]:hover {
+    background: var(--qb-orange-hover);
+    color: #fff;
 }

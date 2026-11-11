@@ -3,6 +3,7 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Pages\AdminDashboard;
+use App\Support\BrandPalette;
 use App\Support\GoogleAnalytics;
 use App\Support\SiteSettings;
 use Filament\View\PanelsRenderHook;
@@ -39,7 +40,7 @@ class AdminPanelProvider extends PanelProvider
             ),
             Css::make(
                 'shop-pakistan-admin-login',
-                asset('css/filament-admin-login.css?v=2026110816'),
+                asset('css/filament-admin-login.css?v=2026111102'),
             ),
             Js::make(
                 'chartjs',
@@ -59,19 +60,26 @@ class AdminPanelProvider extends PanelProvider
             ? $panel->login(Login::class)
             : $panel->login();
 
+        $brand = BrandPalette::themeDefaults();
+        try {
+            $brand = SiteSettings::themeColors();
+        } catch (\Throwable) {
+            $brand = BrandPalette::themeDefaults();
+        }
+
         return $panel
             ->profile(EditProfile::class, isSimple: false)
             ->brandName(fn (): string => (string) SiteSettings::get('site_name', 'Quick Bazar'))
             ->brandLogo(fn (): string => SiteSettings::logoUrl())
-            ->brandLogoHeight('2rem')
+            ->brandLogoHeight('2.75rem')
             ->favicon(fn (): string => SiteSettings::faviconUrl())
             ->colors([
-                'primary' => Color::hex('#5D267D'),
-                'danger' => Color::Rose,
+                'primary' => Color::hex($brand['purple']),
+                'danger' => Color::hex($brand['pink']),
                 'gray' => Color::Zinc,
-                'info' => Color::hex('#6366F1'),
-                'success' => Color::hex('#10B981'),
-                'warning' => Color::hex('#F59E0B'),
+                'info' => Color::hex($brand['purpleDark']),
+                'success' => Color::hex($brand['amber']),
+                'warning' => Color::hex('#F5B301'),
             ])
             ->darkMode(true)
             ->defaultThemeMode(ThemeMode::Light)
@@ -79,6 +87,10 @@ class AdminPanelProvider extends PanelProvider
             ->sidebarWidth('16.5rem')
             ->maxContentWidth(MaxWidth::Full)
             ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
+            ->renderHook(
+                PanelsRenderHook::HEAD_END,
+                fn (): string => view('partials.theme-brand-vars')->render(),
+            )
             ->renderHook(
                 PanelsRenderHook::GLOBAL_SEARCH_AFTER,
                 fn (): string => view('filament.hooks.visit-store-button', [

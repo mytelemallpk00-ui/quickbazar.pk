@@ -30,7 +30,7 @@ class="lumiere-v2 qh-shop bg-[#f3f7f6] text-gray-800 font-sans antialiased min-h
 @endpush
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/collections.css') }}?v=2026111038">
+    <link rel="stylesheet" href="{{ asset('css/collections.css') }}?v=2026111102">
 @endpush
 
 @section('content')

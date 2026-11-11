@@ -123,11 +123,15 @@ class ThemeSettings extends Page implements HasForms
                         Tabs\Tab::make('Colors')
                             ->icon('heroicon-o-swatch')
                             ->schema([
-                                ColorPicker::make('theme_color_purple')->label('Navy'),
-                                ColorPicker::make('theme_color_purple_dark')->label('Deep navy'),
-                                ColorPicker::make('theme_color_pink')->label('Accent'),
-                                ColorPicker::make('theme_color_pink_hover')->label('Accent hover'),
-                                ColorPicker::make('theme_color_amber')->label('Highlight'),
+                                Placeholder::make('color_scheme_help')
+                                    ->label('Logo colors')
+                                    ->content('Blue, red, and green from the Quick Bazar logo. Saving here updates the header, buttons, links, and footer.')
+                                    ->columnSpanFull(),
+                                ColorPicker::make('theme_color_purple')->label('Blue'),
+                                ColorPicker::make('theme_color_purple_dark')->label('Deep blue'),
+                                ColorPicker::make('theme_color_pink')->label('Red'),
+                                ColorPicker::make('theme_color_pink_hover')->label('Red hover'),
+                                ColorPicker::make('theme_color_amber')->label('Green'),
                             ])->columns(2),
                         Tabs\Tab::make('Marquee')
                             ->icon('heroicon-o-megaphone')

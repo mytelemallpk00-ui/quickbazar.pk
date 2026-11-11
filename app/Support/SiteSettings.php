@@ -34,14 +34,16 @@ class SiteSettings
         Cache::forget('site_settings.all');
     }
 
-    public static function logoUrl(string $default = 'images/beautagelogosquare2.png'): string
+    public const BRAND_LOGO = 'images/quick-bazar-logo.png';
+
+    public static function logoUrl(string $default = self::BRAND_LOGO): string
     {
-        return static::mediaUrl(static::stringMediaReference(static::get('logo_url', '')), $default);
+        return static::mediaUrl(static::brandAsset(static::get('logo_url', '')), $default);
     }
 
-    public static function faviconUrl(string $default = 'images/beautagelogosquare2.png'): string
+    public static function faviconUrl(string $default = self::BRAND_LOGO): string
     {
-        return static::mediaUrl(static::stringMediaReference(static::get('favicon_url', '')), $default);
+        return static::mediaUrl(static::brandAsset(static::get('favicon_url', '')), $default);
     }
 
     public static function stringMediaReference(mixed $value): string
@@ -227,11 +229,20 @@ class SiteSettings
     }
 
     /** @return array<string, string> */
-    public static function footerLogoUrl(string $default = 'images/beautage-logo-round.png'): string
+    public static function footerLogoUrl(string $default = self::BRAND_LOGO): string
     {
-        $configured = static::stringMediaReference(static::get('footer_logo_url', ''));
+        return static::mediaUrl(static::brandAsset(static::get('footer_logo_url', '')), $default);
+    }
 
-        return static::mediaUrl($configured !== '' ? $configured : $default, $default);
+    public static function brandAsset(mixed $value): string
+    {
+        $path = static::stringMediaReference($value);
+        $lower = strtolower($path);
+        if ($path === '' || str_contains($lower, 'beautage') || str_contains($lower, 'logosquare') || str_contains($lower, 'shop-pakistan')) {
+            return self::BRAND_LOGO;
+        }
+
+        return $path;
     }
 
     public static function themeColors(): array

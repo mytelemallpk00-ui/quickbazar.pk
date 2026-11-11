@@ -36,7 +36,7 @@ class="lumiere-v2 qh-home bg-[#f4f7f6] text-gray-800 font-sans antialiased min-h
 @endpush
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/qb-home.css') }}?v=2026111042">
+<link rel="stylesheet" href="{{ asset('css/qb-home.css') }}?v=2026111102">
 @endpush
 
 @section('content')

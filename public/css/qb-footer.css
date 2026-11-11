@@ -1,12 +1,12 @@
 .qb-footer {
     width: 100%;
     max-width: 100%;
-    background: #08463d;
-    color: #d7ebe4;
+    background: var(--qb-navy-deep);
+    color: var(--qb-chrome-muted);
     overflow-x: clip;
 }
 .qb-footer-trust {
-    background: #0b5e52;
+    background: var(--qb-navy);
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 .qb-trust-card {
@@ -27,12 +27,19 @@
     justify-content: center;
     border-radius: 0.7rem;
     background: rgba(255, 255, 255, 0.12);
-    color: #d8f3ec;
+    color: var(--qb-chrome-text);
 }
 .qb-footer .qb-wordmark { color: #fff; }
 .qb-footer .qb-wordmark span,
-.qb-footer .qb-kicker { color: #d8f3ec; }
-.qb-footer .qb-logo-mark { background: #0e7c6b; color: #fff; }
+.qb-footer .qb-kicker { color: var(--qb-chrome-text); }
+.qb-footer .qb-logo-mark { background: var(--qb-navy); color: #fff; }
+.qb-footer .qb-brand-logo {
+    height: 3.35rem;
+    max-width: 16.5rem;
+    background: #fff;
+    border-radius: 0.75rem;
+    padding: 0.2rem 0.5rem;
+}
 .qb-footer-link {
     display: inline-flex;
     align-items: center;
