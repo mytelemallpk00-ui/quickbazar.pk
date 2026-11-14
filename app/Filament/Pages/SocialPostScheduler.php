@@ -108,7 +108,7 @@ class SocialPostScheduler extends Page implements HasForms, HasTable
                             ->directory('social-queue')
                             ->acceptedFileTypes(['image/*', 'video/mp4', 'video/quicktime'])
                             ->maxSize(20480)
-                            ->helperText('Instagram ke liye image zaroori. YouTube ke liye video file choose karein.')
+                            ->helperText('Image 1080 × 1080 px, or an MP4 video. Max 20 MB.')
                             ->columnSpanFull(),
                     ])
                     ->columns(2),

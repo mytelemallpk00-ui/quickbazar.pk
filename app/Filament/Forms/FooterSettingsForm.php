@@ -20,7 +20,7 @@ class FooterSettingsForm
                 ->schema([
                     AdminImageUpload::make('footer_logo_url', AdminImageUpload::PRESET_SITE_LOGO)
                         ->label('Footer logo')
-                        ->helperText('Round logo shown above the about text. Leave empty to use the default round Quick Bazar logo.')
+                        ->helperText('Wide logo, 1400 × 430 px, transparent PNG. Max 2 MB. Leave empty to use the Quick Bazar logo.')
                         ->columnSpanFull(),
                     Textarea::make('footer_settings.about_text')
                         ->label('About text')

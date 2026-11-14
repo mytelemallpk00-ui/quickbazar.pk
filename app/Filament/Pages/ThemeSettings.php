@@ -108,11 +108,11 @@ class ThemeSettings extends Page implements HasForms
                                 TextInput::make('site_tagline')->label('Site tagline')->required()->live(debounce: 400),
                                 AdminImageUpload::make('logo_url', AdminImageUpload::PRESET_SITE_LOGO)
                                     ->label('Site logo')
-                                    ->helperText('Header, footer, and admin panel. Use square PNG/SVG-friendly PNG, 512×512 px.')
+                                    ->helperText('Header, footer, and admin panel. Wide PNG, 1400 × 430 px, transparent background. Max 2 MB.')
                                     ->required(fn (): bool => blank(SiteSettings::get('logo_url'))),
                                 AdminImageUpload::make('favicon_url', AdminImageUpload::PRESET_FAVICON)
                                     ->label('Favicon')
-                                    ->helperText('Browser tab icon. 64×64 px PNG works best.')
+                                    ->helperText('Browser tab icon. Square PNG, 512 × 512 px. Max 500 KB.')
                                     ->required(fn (): bool => blank(SiteSettings::get('favicon_url'))),
                                 TextInput::make('support_phone')->label('Support phone'),
                                 TextInput::make('support_email')->label('Support email')->email()->required(),

@@ -33,17 +33,37 @@ class AdminImageUpload
 
     public const PRESET_HOME_GALLERY = 'home_gallery';
 
+    /**
+     * Crop ratios for the free in-admin editor. Logo and favicon stay out
+     * because those uploads can be SVG or ICO, which the crop tool cannot edit.
+     *
+     * @var array<string, list<string>>
+     */
+    private const EDITOR_RATIOS = [
+        self::PRESET_OG => ['1.91:1'],
+        self::PRESET_PRODUCT_MAIN => ['1:1'],
+        self::PRESET_PRODUCT_HOVER => ['1:1'],
+        self::PRESET_PRODUCT_GALLERY => ['1:1'],
+        self::PRESET_CATEGORY => ['1:1'],
+        self::PRESET_BLOG_HERO => ['16:9'],
+        self::PRESET_REVIEW_PHOTO => ['1:1'],
+        self::PRESET_ADMIN_AVATAR => ['1:1'],
+        self::PRESET_HOME_HERO => ['1:1'],
+        self::PRESET_HOME_CATEGORY_TILE => ['1:1'],
+        self::PRESET_HOME_GALLERY => ['4:5'],
+    ];
+
     /** @var array<string, array{directory: string, max_kb: int, hint: string}> */
     private const PRESETS = [
         self::PRESET_SITE_LOGO => [
             'directory' => 'site-branding/logo',
             'max_kb' => 2048,
-            'hint' => '512 × 512 px (square). PNG or SVG with transparent background. Max 2 MB.',
+            'hint' => '1400 × 430 px, wide PNG, transparent background. Max 2 MB.',
         ],
         self::PRESET_FAVICON => [
             'directory' => 'site-branding/favicon',
             'max_kb' => 512,
-            'hint' => '64 × 64 px (or 32 × 32 px). PNG or ICO. Max 500 KB.',
+            'hint' => '512 × 512 px square PNG. Max 500 KB.',
         ],
         self::PRESET_OG => [
             'directory' => 'site-branding/og',
@@ -112,7 +132,8 @@ class AdminImageUpload
             ->directory($config['directory'])
             ->visibility('public')
             ->maxSize($config['max_kb'])
-            ->helperText('Recommended upload size: '.$config['hint'])
+            ->hint('Size: '.$config['hint'])
+            ->helperText('Upload size: '.$config['hint'].(isset(self::EDITOR_RATIOS[$preset]) ? ' Use the pencil icon to crop, rotate, or flip.' : ''))
             ->downloadable()
             ->openable()
             ->afterStateHydrated(function (FileUpload $component, mixed $state) use ($multiple): void {
@@ -192,6 +213,13 @@ class AdminImageUpload
 
         if ($multiple) {
             $field->multiple()->reorderable();
+        }
+
+        if (isset(self::EDITOR_RATIOS[$preset])) {
+            $field
+                ->imageEditor()
+                ->imageEditorMode(1)
+                ->imageEditorAspectRatios(self::EDITOR_RATIOS[$preset]);
         }
 
         return $field;
