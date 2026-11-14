@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Support\AdminPermissions;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
+use Illuminate\Validation\ValidationException;
 
 class EditUser extends EditRecord
 {
@@ -48,10 +49,13 @@ class EditUser extends EditRecord
         }
 
         $record = $this->getRecord();
-        $isSuper = ($data['admin_role'] ?? 'admin') === 'super';
+        $role = $data['admin_role'] ?? ($record->isSuperAdmin() ? 'super' : 'admin');
+        $isSuper = $role === 'super';
 
         if ($record->isSuperAdmin() && ! $isSuper && ! User::superAdminExists($record->id)) {
-            throw new \RuntimeException('At least one super admin is required.');
+            throw ValidationException::withMessages([
+                'data.admin_role' => 'At least one super admin is required.',
+            ]);
         }
 
         if ($isSuper && ! $record->isSuperAdmin()) {

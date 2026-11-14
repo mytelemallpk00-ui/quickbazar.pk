@@ -12,7 +12,6 @@ use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 
 class UserResource extends Resource
@@ -125,7 +124,6 @@ class UserResource extends Resource
                             ->required()
                             ->live()
                             ->native(false)
-                            ->dehydrated(false)
                             ->disabled(fn (?User $record): bool => $record?->isSuperAdmin() && ! User::superAdminExists($record->id)),
                         Forms\Components\CheckboxList::make('admin_permissions')
                             ->label('Allowed admin sections')
@@ -145,7 +143,6 @@ class UserResource extends Resource
                             ->revealable()
                             ->rule(Password::default())
                             ->dehydrated(fn (?string $state): bool => filled($state))
-                            ->dehydrateStateUsing(fn (string $state): string => Hash::make($state))
                             ->required(fn (string $operation): bool => $operation === 'create'),
                         Forms\Components\TextInput::make('password_confirmation')
                             ->password()
