@@ -36,7 +36,7 @@ class="lumiere-v2 qh-home bg-[#f4f7f6] text-gray-800 font-sans antialiased min-h
 @endpush
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/qb-home.css') }}?v=2026111701">
+<link rel="stylesheet" href="{{ asset('css/qb-home.css') }}?v=2026111702">
 @endpush
 
 @section('content')
@@ -50,59 +50,42 @@ class="lumiere-v2 qh-home bg-[#f4f7f6] text-gray-800 font-sans antialiased min-h
     $reviewAverage = (float) ($reviewSummary['average'] ?? 0);
 @endphp
 <main class="qh">
-    @if (($sections['hero'] ?? true) && ! empty($slides))
+    @if ($sections['hero'] ?? true)
+    @php
+        $bannerFallbacks = ['/images/home-banner-1.png', '/images/home-banner-2.png', '/images/home-banner-3.png'];
+        $bannerSlides = array_values(is_array($slides) ? $slides : []);
+        if ($bannerSlides === []) {
+            $bannerSlides = [
+                ['banner_image' => $bannerFallbacks[0], 'button_url' => '/collections', 'image_alt' => 'Quick Bazar'],
+            ];
+        }
+    @endphp
     <section class="qh-wrap" aria-roledescription="carousel" aria-label="Featured offers">
+        <h1 class="sr-only">{{ $pageSeo['title'] ?? 'Quick Bazar' }}</h1>
         <div class="qh-slider" id="qh-slider">
-            @foreach ($slides as $index => $slide)
+            @foreach ($bannerSlides as $index => $slide)
                 @php
-                    $checks = preg_split('/\r\n|\r|\n/', (string) ($slide['checks'] ?? '')) ?: [];
-                    $checks = array_values(array_filter(array_map('trim', $checks)));
                     $bannerImage = trim((string) ($slide['banner_image'] ?? ''));
-                    $bannerUrl = $bannerImage !== '' ? \App\Support\HomepageContent::imageUrl($bannerImage, $slide['title'] ?? 'Banner') : '';
+                    if ($bannerImage === '') {
+                        $bannerImage = $bannerFallbacks[$index % count($bannerFallbacks)];
+                    }
+                    $bannerUrl = \App\Support\HomepageContent::imageUrl($bannerImage, 'Banner');
+                    $bannerLink = trim((string) ($slide['button_url'] ?? ''));
+                    if ($bannerLink === '') {
+                        $bannerLink = '/collections';
+                    }
                 @endphp
-                @if ($bannerUrl !== '')
                 <article class="qh-slide qh-slide--banner {{ $index === 0 ? 'is-on' : '' }}" data-slide>
-                    <a href="{{ url($slide['button_url'] ?? '/collections') }}">
-                        <img src="{{ $bannerUrl }}" alt="{{ $slide['image_alt'] ?? ($slide['title'] ?? 'Quick Bazar') }}" width="1600" height="560" @if ($index === 0) fetchpriority="high" @endif decoding="async">
+                    <a href="{{ url($bannerLink) }}">
+                        <img src="{{ $bannerUrl }}" alt="{{ $slide['image_alt'] ?? 'Quick Bazar' }}" width="1600" height="560" @if ($index === 0) fetchpriority="high" @endif decoding="async">
                     </a>
                 </article>
-                @else
-                <article class="qh-hero qh-slide {{ $index === 0 ? 'is-on' : '' }}" data-slide>
-                    <div class="qh-hero-copy">
-                        @if (filled($slide['badge'] ?? null))
-                            <span class="qh-pill">{{ $slide['badge'] }}</span>
-                        @endif
-                        <h1 @if ($index === 0) id="home-hero-title" @endif>{{ $slide['title'] ?? '' }} <span>{{ $slide['accent'] ?? '' }}</span></h1>
-                        @if (filled($slide['description'] ?? null))
-                            <p>{{ $slide['description'] }}</p>
-                        @endif
-                        @if ($checks !== [])
-                            <ul class="qh-checks">
-                                @foreach ($checks as $check)
-                                    <li>{{ $check }}</li>
-                                @endforeach
-                            </ul>
-                        @endif
-                        <div class="qh-hero-actions">
-                            <a class="qh-btn" href="{{ url($slide['button_url'] ?? '/collections') }}">{{ $slide['button_label'] ?? 'Explore Collection' }} <span aria-hidden="true">→</span></a>
-                            @if (filled($slide['price_line'] ?? null))
-                                <p class="qh-from">{{ $slide['price_line'] }}</p>
-                            @endif
-                        </div>
-                    </div>
-                    <div class="qh-hero-visual">
-                        <div class="qh-hero-product">
-                            <img src="{{ $slide['image_url'] ?: $placeholder }}" alt="{{ $slide['image_alt'] ?? ($slide['title'] ?? 'Quick Bazar') }}" width="520" height="520" @if ($index === 0) fetchpriority="high" @endif decoding="async" onerror="this.onerror=null;this.src='{{ $placeholder }}';">
-                        </div>
-                    </div>
-                </article>
-                @endif
             @endforeach
-            @if (count($slides) > 1)
+            @if (count($bannerSlides) > 1)
                 <button type="button" class="qh-arrow qh-arrow--prev" data-slider-prev aria-label="Previous slide">‹</button>
                 <button type="button" class="qh-arrow qh-arrow--next" data-slider-next aria-label="Next slide">›</button>
                 <div class="qh-dots">
-                    @foreach ($slides as $index => $slide)
+                    @foreach ($bannerSlides as $index => $slide)
                         <button type="button" class="{{ $index === 0 ? 'is-on' : '' }}" data-slider-dot="{{ $index }}" aria-label="Slide {{ $index + 1 }}"></button>
                     @endforeach
                 </div>

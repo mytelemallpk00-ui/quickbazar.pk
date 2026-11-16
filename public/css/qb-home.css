@@ -142,10 +142,23 @@ body.qh-home .qh-offer h2 { color: #fff; }
     background: rgba(255,255,255,0.18);
     box-shadow: 0 20px 40px rgba(0,0,0,0.16);
 }
-.qh-slide--banner { display: none; margin-top: 1.25rem; }
+.qh-slide--banner { display: none; margin-top: 1rem; }
 .qh-slide--banner.is-on { display: block; }
-.qh-slide--banner a { display: block; border-radius: 1.6rem; overflow: hidden; background: var(--qb-navy); }
-.qh-slide--banner img { display: block; width: 100%; height: auto; aspect-ratio: 1600 / 560; object-fit: cover; }
+.qh-slide--banner a { display: block; width: 100%; border-radius: 1rem; overflow: hidden; background: var(--qb-navy); }
+.qh-slide--banner img { display: block; width: 100%; max-width: 100%; height: auto; aspect-ratio: 1600 / 560; object-fit: cover; object-position: center; }
+.qh-slider .qh-dots button { box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.28); }
+@media (max-width: 719px) {
+    .qh-slide--banner { margin-top: 0.75rem; }
+    .qh-slide--banner a { border-radius: 0.75rem; }
+    .qh-arrow { width: 2rem; height: 2rem; font-size: 1.15rem; }
+    .qh-arrow--prev { left: 0.35rem; }
+    .qh-arrow--next { right: 0.35rem; }
+    .qh-dots { bottom: 0.45rem; }
+}
+@media (min-width: 1024px) {
+    .qh-slide--banner { margin-top: 1.25rem; }
+    .qh-slide--banner a { border-radius: 1.4rem; }
+}
 
 .qh-trust, .qh-goals, .qh-steps, .qh-reviews, .qh-journal, .qh-brands, .qh-grid {
     display: grid;

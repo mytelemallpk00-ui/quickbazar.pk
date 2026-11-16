@@ -3,7 +3,6 @@
 namespace App\Filament\Forms;
 
 use App\Models\Product;
-use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
@@ -41,28 +40,20 @@ class HomepageContentForm
                     TextInput::make('homepage_content.top_bar.about_url')->label('About link URL')->maxLength(200),
                 ])->columns(2),
             Section::make('Hero slider')
-                ->description('Each slide is one banner image, 1600 × 560 px. Add more slides to rotate them. Leave the banner empty to keep the text layout.')
+                ->description('Image slider only. Each slide is one banner, 1600 × 560 px. The storefront shows a dummy banner until you upload one.')
                 ->schema([
                     Repeater::make('homepage_content.slides')
                         ->schema([
                             AdminImageUpload::make('banner_image', AdminImageUpload::PRESET_HOME_BANNER)
                                 ->label('Banner image')
                                 ->columnSpanFull(),
-                            TextInput::make('button_url')->label('Banner link')->maxLength(200)->placeholder('/collections')->columnSpanFull(),
-                            TextInput::make('badge')->label('Badge')->maxLength(80),
-                            TextInput::make('title')->label('Headline')->maxLength(140)->columnSpanFull(),
-                            TextInput::make('accent')->label('Second line')->maxLength(140)->columnSpanFull(),
-                            Textarea::make('description')->rows(2)->columnSpanFull(),
-                            Textarea::make('checks')->label('Tick points, one per line')->rows(4)->columnSpanFull(),
-                            TextInput::make('button_label')->label('Button')->maxLength(40),
-                            TextInput::make('price_line')->label('Price line')->maxLength(80),
-                            TextInput::make('image_url')->label('Image URL')->columnSpanFull(),
+                            TextInput::make('button_url')->label('Banner link')->maxLength(200)->placeholder('/collections'),
                             TextInput::make('image_alt')->label('Image alt')->maxLength(120),
                         ])
                         ->columns(2)
                         ->collapsible()
                         ->reorderable()
-                        ->itemLabel(fn (array $state): ?string => filled($state['title'] ?? null) ? (string) $state['title'] : 'Banner image')
+                        ->itemLabel(fn (array $state): ?string => filled($state['image_alt'] ?? null) ? (string) $state['image_alt'] : 'Banner image')
                         ->columnSpanFull(),
                 ]),
             Section::make('Homepage sections')
@@ -78,58 +69,6 @@ class HomepageContentForm
                     Toggle::make('homepage_content.layout.flash')->label('Flash deals')->default(true),
                 ])
                 ->columns(2),
-            Section::make('Main hero banner')
-                ->description('Purple banner: badge, headline, prices, CTA, and right-side product image.')
-                ->schema([
-                    Toggle::make('homepage_content.hero.enabled')
-                        ->label('Show hero banner')
-                        ->default(true),
-                    ColorPicker::make('homepage_content.hero.background_from')
-                        ->label('Gradient start')
-                        ->helperText('Optional — leave empty for theme purple gradient.'),
-                    ColorPicker::make('homepage_content.hero.background_to')
-                        ->label('Gradient end'),
-                    TextInput::make('homepage_content.hero.badge')
-                        ->label('Badge text')
-                        ->placeholder('NEW QUICK BAZAR TECH RELEASE')
-                        ->maxLength(120),
-                    TextInput::make('homepage_content.hero.title_line1')
-                        ->label('Headline (first line)')
-                        ->maxLength(120)
-                        ->columnSpanFull(),
-                    TextInput::make('homepage_content.hero.title_accent')
-                        ->label('Headline accent (gradient line)')
-                        ->maxLength(120)
-                        ->columnSpanFull(),
-                    Textarea::make('homepage_content.hero.description')
-                        ->label('Description')
-                        ->rows(3)
-                        ->columnSpanFull(),
-                    TextInput::make('homepage_content.hero.price_label')
-                        ->label('Price label')
-                        ->placeholder('Special Intro Price'),
-                    TextInput::make('homepage_content.hero.price_display')
-                        ->label('Sale price (numbers only)')
-                        ->helperText('Displayed as Rs. on the site.'),
-                    TextInput::make('homepage_content.hero.compare_price_display')
-                        ->label('Compare-at price (optional)'),
-                    TextInput::make('homepage_content.hero.button_label')
-                        ->label('Button label')
-                        ->placeholder('Reserve Order'),
-                    Select::make('homepage_content.hero.product_id')
-                        ->label('Add to bag product')
-                        ->options(fn () => Product::query()->orderBy('name')->pluck('name', 'id'))
-                        ->searchable()
-                        ->native(false)
-                        ->placeholder('Optional — links to Collections if empty'),
-                    AdminImageUpload::make('homepage_content.hero.image_url', AdminImageUpload::PRESET_HOME_HERO)
-                        ->label('Hero product image')
-                        ->columnSpanFull(),
-                    TextInput::make('homepage_content.hero.image_alt')
-                        ->label('Image alt text')
-                        ->maxLength(160)
-                        ->columnSpanFull(),
-                ])->columns(2),
             Section::make('Side promo cards')
                 ->description('Two cards on the right of the hero (desktop).')
                 ->schema([
