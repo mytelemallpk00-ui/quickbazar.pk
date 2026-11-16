@@ -36,7 +36,7 @@ class="lumiere-v2 qh-home bg-[#f4f7f6] text-gray-800 font-sans antialiased min-h
 @endpush
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/qb-home.css') }}?v=2026111102">
+<link rel="stylesheet" href="{{ asset('css/qb-home.css') }}?v=2026111701">
 @endpush
 
 @section('content')
@@ -57,7 +57,16 @@ class="lumiere-v2 qh-home bg-[#f4f7f6] text-gray-800 font-sans antialiased min-h
                 @php
                     $checks = preg_split('/\r\n|\r|\n/', (string) ($slide['checks'] ?? '')) ?: [];
                     $checks = array_values(array_filter(array_map('trim', $checks)));
+                    $bannerImage = trim((string) ($slide['banner_image'] ?? ''));
+                    $bannerUrl = $bannerImage !== '' ? \App\Support\HomepageContent::imageUrl($bannerImage, $slide['title'] ?? 'Banner') : '';
                 @endphp
+                @if ($bannerUrl !== '')
+                <article class="qh-slide qh-slide--banner {{ $index === 0 ? 'is-on' : '' }}" data-slide>
+                    <a href="{{ url($slide['button_url'] ?? '/collections') }}">
+                        <img src="{{ $bannerUrl }}" alt="{{ $slide['image_alt'] ?? ($slide['title'] ?? 'Quick Bazar') }}" width="1600" height="560" @if ($index === 0) fetchpriority="high" @endif decoding="async">
+                    </a>
+                </article>
+                @else
                 <article class="qh-hero qh-slide {{ $index === 0 ? 'is-on' : '' }}" data-slide>
                     <div class="qh-hero-copy">
                         @if (filled($slide['badge'] ?? null))
@@ -87,6 +96,7 @@ class="lumiere-v2 qh-home bg-[#f4f7f6] text-gray-800 font-sans antialiased min-h
                         </div>
                     </div>
                 </article>
+                @endif
             @endforeach
             @if (count($slides) > 1)
                 <button type="button" class="qh-arrow qh-arrow--prev" data-slider-prev aria-label="Previous slide">‹</button>

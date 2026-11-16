@@ -41,21 +41,29 @@ class HomepageContentForm
                     TextInput::make('homepage_content.top_bar.about_url')->label('About link URL')->maxLength(200),
                 ])->columns(2),
             Section::make('Hero slider')
-                ->description('Full-width slides. Add, remove, or reorder. The storefront cycles them automatically.')
+                ->description('Each slide is one banner image, 1600 × 560 px. Add more slides to rotate them. Leave the banner empty to keep the text layout.')
                 ->schema([
                     Repeater::make('homepage_content.slides')
                         ->schema([
+                            AdminImageUpload::make('banner_image', AdminImageUpload::PRESET_HOME_BANNER)
+                                ->label('Banner image')
+                                ->columnSpanFull(),
+                            TextInput::make('button_url')->label('Banner link')->maxLength(200)->placeholder('/collections')->columnSpanFull(),
                             TextInput::make('badge')->label('Badge')->maxLength(80),
-                            TextInput::make('title')->label('Headline')->required()->maxLength(140)->columnSpanFull(),
+                            TextInput::make('title')->label('Headline')->maxLength(140)->columnSpanFull(),
                             TextInput::make('accent')->label('Second line')->maxLength(140)->columnSpanFull(),
                             Textarea::make('description')->rows(2)->columnSpanFull(),
                             Textarea::make('checks')->label('Tick points, one per line')->rows(4)->columnSpanFull(),
                             TextInput::make('button_label')->label('Button')->maxLength(40),
-                            TextInput::make('button_url')->label('Button URL')->maxLength(200),
                             TextInput::make('price_line')->label('Price line')->maxLength(80),
                             TextInput::make('image_url')->label('Image URL')->columnSpanFull(),
                             TextInput::make('image_alt')->label('Image alt')->maxLength(120),
-                        ])->columns(2)->collapsible()->columnSpanFull(),
+                        ])
+                        ->columns(2)
+                        ->collapsible()
+                        ->reorderable()
+                        ->itemLabel(fn (array $state): ?string => filled($state['title'] ?? null) ? (string) $state['title'] : 'Banner image')
+                        ->columnSpanFull(),
                 ]),
             Section::make('Homepage sections')
                 ->description('Turn each block of the homepage on or off. The header, mega menu, and footer stay in place.')

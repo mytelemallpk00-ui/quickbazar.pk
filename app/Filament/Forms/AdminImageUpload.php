@@ -29,6 +29,8 @@ class AdminImageUpload
 
     public const PRESET_HOME_HERO = 'home_hero';
 
+    public const PRESET_HOME_BANNER = 'home_banner';
+
     public const PRESET_HOME_CATEGORY_TILE = 'home_category_tile';
 
     public const PRESET_HOME_GALLERY = 'home_gallery';
@@ -49,6 +51,7 @@ class AdminImageUpload
         self::PRESET_REVIEW_PHOTO => ['1:1'],
         self::PRESET_ADMIN_AVATAR => ['1:1'],
         self::PRESET_HOME_HERO => ['1:1'],
+        self::PRESET_HOME_BANNER => ['20:7'],
         self::PRESET_HOME_CATEGORY_TILE => ['1:1'],
         self::PRESET_HOME_GALLERY => ['4:5'],
     ];
@@ -109,6 +112,11 @@ class AdminImageUpload
             'directory' => 'site-branding/homepage/hero',
             'max_kb' => 4096,
             'hint' => '800 × 800 px or larger (product/hero shot). JPG, PNG, or WebP. Max 4 MB.',
+        ],
+        self::PRESET_HOME_BANNER => [
+            'directory' => 'site-branding/homepage/banners',
+            'max_kb' => 4096,
+            'hint' => '1600 × 560 px. One wide banner per slide. JPG, PNG, or WebP. Max 4 MB.',
         ],
         self::PRESET_HOME_CATEGORY_TILE => [
             'directory' => 'site-branding/homepage/category-tiles',

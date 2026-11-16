@@ -142,6 +142,10 @@ body.qh-home .qh-offer h2 { color: #fff; }
     background: rgba(255,255,255,0.18);
     box-shadow: 0 20px 40px rgba(0,0,0,0.16);
 }
+.qh-slide--banner { display: none; margin-top: 1.25rem; }
+.qh-slide--banner.is-on { display: block; }
+.qh-slide--banner a { display: block; border-radius: 1.6rem; overflow: hidden; background: var(--qb-navy); }
+.qh-slide--banner img { display: block; width: 100%; height: auto; aspect-ratio: 1600 / 560; object-fit: cover; }
 
 .qh-trust, .qh-goals, .qh-steps, .qh-reviews, .qh-journal, .qh-brands, .qh-grid {
     display: grid;

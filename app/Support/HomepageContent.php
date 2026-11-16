@@ -381,6 +381,18 @@ class HomepageContent
             }
         }
 
+        $slides = data_get($incoming, 'slides', []);
+        if (is_array($slides)) {
+            foreach ($slides as $index => $slide) {
+                if (! is_array($slide) || blank($slide['banner_image'] ?? null)) {
+                    $prev = data_get($previous, "slides.{$index}.banner_image");
+                    if ($prev) {
+                        data_set($incoming, "slides.{$index}.banner_image", $prev);
+                    }
+                }
+            }
+        }
+
         $featuredImage = data_get($incoming, 'featured_promo.image_url');
         if (blank($featuredImage)) {
             data_set($incoming, 'featured_promo.image_url', data_get($previous, 'featured_promo.image_url'));
