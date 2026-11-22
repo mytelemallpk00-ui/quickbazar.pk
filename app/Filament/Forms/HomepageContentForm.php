@@ -46,6 +46,7 @@ class HomepageContentForm
                         ->schema([
                             AdminImageUpload::make('banner_image', AdminImageUpload::PRESET_HOME_BANNER)
                                 ->label('Banner image')
+                                ->extraFieldWrapperAttributes(['class' => 'qb-banner-upload'])
                                 ->columnSpanFull(),
                             TextInput::make('button_url')->label('Banner link')->maxLength(200)->placeholder('/collections'),
                             TextInput::make('image_alt')->label('Image alt')->maxLength(120),

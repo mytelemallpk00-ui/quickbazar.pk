@@ -36,7 +36,7 @@ class AdminPanelProvider extends PanelProvider
         FilamentAsset::register([
             Css::make(
                 'beautage-admin-theme',
-                asset('css/filament-beautage-admin.css?v=2026103112'),
+                asset('css/filament-beautage-admin.css?v=2026112301'),
             ),
             Css::make(
                 'shop-pakistan-admin-login',

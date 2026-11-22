@@ -68,9 +68,25 @@ class HomepageSettings extends Page implements HasForms
         }
 
         $content = HomepageContent::preserveImageFields($content, $previous);
+        if (isset($content['slides']) && is_array($content['slides'])) {
+            $content['slides'] = array_values($content['slides']);
+            foreach ($content['slides'] as $index => $slide) {
+                if (! is_array($slide)) {
+                    continue;
+                }
+                $banner = $slide['banner_image'] ?? null;
+                if (is_string($banner) && preg_match('#images/home-banner-(\d+)\.png$#', $banner, $match) === 1) {
+                    $content['slides'][$index]['banner_image'] = '/images/home-banner-'.$match[1].'.png';
+                }
+            }
+        }
         $content = HomepageContent::mergeWithDefaults($content);
 
         SiteSettings::setHomepage($content);
+
+        $this->form->fill([
+            'homepage_content' => SiteSettings::homepage(),
+        ]);
 
         Notification::make()
             ->title('Homepage saved')

@@ -2,8 +2,12 @@
 
 namespace App\Filament\Forms;
 
+use App\Support\SiteSettings;
 use Filament\Forms\Components\FileUpload;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
 class AdminImageUpload
 {
@@ -51,7 +55,7 @@ class AdminImageUpload
         self::PRESET_REVIEW_PHOTO => ['1:1'],
         self::PRESET_ADMIN_AVATAR => ['1:1'],
         self::PRESET_HOME_HERO => ['1:1'],
-        self::PRESET_HOME_BANNER => ['20:7'],
+        self::PRESET_HOME_BANNER => ['20:7', '1600:560'],
         self::PRESET_HOME_CATEGORY_TILE => ['1:1'],
         self::PRESET_HOME_GALLERY => ['4:5'],
     ];
@@ -144,79 +148,30 @@ class AdminImageUpload
             ->helperText('Upload size: '.$config['hint'].(isset(self::EDITOR_RATIOS[$preset]) ? ' Use the pencil icon to crop, rotate, or flip.' : ''))
             ->downloadable()
             ->openable()
-            ->afterStateHydrated(function (FileUpload $component, mixed $state) use ($multiple): void {
-                if ($multiple) {
-                    if (is_string($state) && $state !== '') {
-                        $component->state([self::pathForUpload($state) ?? ltrim($state, '/')]);
-                    } elseif (! is_array($state)) {
-                        $component->state([]);
-                    }
-
-                    return;
-                }
-
-                if (is_string($state) && $state !== '') {
-                    $component->state([self::pathForUpload($state) ?? ltrim($state, '/')]);
-                } elseif (! is_array($state)) {
-                    $component->state([]);
-                }
-            })
             ->formatStateUsing(function (mixed $state) use ($multiple): array {
-                if ($multiple) {
-                    if (is_string($state) && $state !== '') {
-                        return array_values(array_filter([self::pathForUpload($state) ?? ltrim($state, '/')]));
-                    }
-
-                    if (! is_array($state)) {
-                        return [];
-                    }
-
-                    return array_values(array_filter(array_map(
-                        fn ($item) => self::pathForUpload((string) $item) ?? ltrim((string) $item, '/'),
-                        $state,
-                    )));
+                $paths = self::existingDiskPaths($state);
+                if (! $multiple && $paths !== []) {
+                    $paths = [end($paths)];
                 }
 
-                if (is_string($state) && $state !== '') {
-                    return [self::pathForUpload($state) ?? ltrim($state, '/')];
+                $keyed = [];
+                foreach ($paths as $path) {
+                    $keyed[(string) Str::uuid()] = $path;
                 }
 
-                if (! is_array($state)) {
-                    return [];
-                }
-
-                return array_values(array_filter(array_map(
-                    fn ($item) => self::pathForUpload((string) $item) ?? ltrim((string) $item, '/'),
-                    $state,
-                )));
+                return $keyed;
             })
             ->dehydrateStateUsing(function (mixed $state) use ($multiple): array|string|null {
+                $stored = [];
+                foreach (self::existingDiskPaths($state) as $path) {
+                    $stored[] = self::toStoredUrl($path);
+                }
+
                 if ($multiple) {
-                    if (is_string($state) && $state !== '') {
-                        return [self::toStoredUrl($state)];
-                    }
-
-                    if (! is_array($state)) {
-                        return [];
-                    }
-
-                    return array_values(array_filter(array_map(
-                        fn ($item) => self::toStoredUrl((string) $item),
-                        $state,
-                    )));
+                    return $stored;
                 }
 
-                if (is_string($state)) {
-                    return $state !== '' ? self::toStoredUrl($state) : null;
-                }
-
-                if (! is_array($state)) {
-                    return null;
-                }
-
-                $file = (string) (reset($state) ?: '');
-
-                return $file !== '' ? self::toStoredUrl($file) : null;
+                return $stored === [] ? null : $stored[array_key_last($stored)];
             });
 
         if ($multiple) {
@@ -233,26 +188,32 @@ class AdminImageUpload
         return $field;
     }
 
-    private static function pathForUpload(?string $value): ?string
+    /** @return list<string> */
+    private static function existingDiskPaths(mixed $state): array
     {
-        if (! $value) {
-            return null;
+        $paths = [];
+        foreach (Arr::wrap($state) as $item) {
+            if ($item instanceof TemporaryUploadedFile || ! is_string($item)) {
+                continue;
+            }
+
+            $diskPath = SiteSettings::fileUploadDiskPath($item);
+            if ($diskPath === null || $diskPath === '' || str_contains($diskPath, 'livewire-tmp')) {
+                continue;
+            }
+
+            try {
+                if (! Storage::disk('public')->exists($diskPath)) {
+                    continue;
+                }
+            } catch (\Throwable) {
+                continue;
+            }
+
+            $paths[] = $diskPath;
         }
 
-        if (! str_contains($value, '://') && ! str_starts_with($value, '/')) {
-            return $value;
-        }
-
-        $path = parse_url($value, PHP_URL_PATH);
-        if (! is_string($path)) {
-            return null;
-        }
-
-        if (str_starts_with($path, '/storage/')) {
-            return ltrim(substr($path, strlen('/storage/')), '/');
-        }
-
-        return null;
+        return array_values(array_unique($paths));
     }
 
     private static function toStoredUrl(string $path): string

@@ -158,6 +158,10 @@ class SiteSettings
             return static::publicAsset($default);
         }
 
+        if (preg_match('#(?:^|/)images/home-banner-(\d+)\.png$#', $path, $banner) === 1) {
+            return '/images/home-banner-'.$banner[1].'.png';
+        }
+
         if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
             $host = parse_url($path, PHP_URL_HOST);
             if (is_string($host) && (str_contains($host, 'localhost') || str_contains($host, '127.0.0.1'))) {

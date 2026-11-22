@@ -1652,3 +1652,50 @@
 }
 
 /* END AI SEO module — do not append duplicate rules below */
+
+.qb-banner-upload {
+    margin-bottom: 0.35rem;
+    padding: 0.85rem 0.9rem 1rem;
+    border: 2px solid #0054f0;
+    border-radius: 1rem;
+    background: #eef4ff;
+    box-shadow: 0 0 0 4px rgba(0, 84, 240, 0.12);
+}
+
+.qb-banner-upload .fi-fo-field-wrp-label span,
+.qb-banner-upload .fi-fo-field-wrp-label {
+    color: #0039b5;
+    font-weight: 800;
+}
+
+.qb-banner-upload .fi-fo-file-upload {
+    min-height: 9.5rem;
+}
+
+.qb-banner-upload .filepond--panel-root {
+    background: #fff;
+    border: 2px dashed #0054f0;
+    border-radius: 0.85rem;
+}
+
+.qb-banner-upload .filepond--drop-label {
+    color: #0039b5;
+    font-weight: 700;
+}
+
+.dark .qb-banner-upload {
+    border-color: #7aa7ff;
+    background: rgba(0, 84, 240, 0.16);
+    box-shadow: 0 0 0 4px rgba(122, 167, 255, 0.16);
+}
+
+.dark .qb-banner-upload .fi-fo-field-wrp-label,
+.dark .qb-banner-upload .fi-fo-field-wrp-label span,
+.dark .qb-banner-upload .filepond--drop-label {
+    color: #d6e4ff;
+}
+
+.dark .qb-banner-upload .filepond--panel-root {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: #7aa7ff;
+}
