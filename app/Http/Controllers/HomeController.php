@@ -64,8 +64,8 @@ class HomeController extends Controller
             'trustRow' => array_values(is_array($homepage['trust_row'] ?? null) ? $homepage['trust_row'] : []),
             'shopPills' => array_values(is_array($homepage['shop_pills'] ?? null) ? $homepage['shop_pills'] : []),
             'showcaseGoals' => array_values(is_array($homepage['showcase_goals'] ?? null) ? $homepage['showcase_goals'] : []),
-            'featuredCards' => $this->linkCardsToProducts(array_values(is_array($homepage['featured_cards'] ?? null) ? $homepage['featured_cards'] : [])),
-            'weeklyDeals' => $this->linkWeeklyDeals(is_array($homepage['weekly_deals'] ?? null) ? $homepage['weekly_deals'] : []),
+            'featuredCards' => $this->catalogCards($this->listedProducts(12)),
+            'weeklyDeals' => $this->liveWeeklyDeals(is_array($homepage['weekly_deals'] ?? null) ? $homepage['weekly_deals'] : []),
             'brandCards' => array_values(is_array($homepage['brand_cards'] ?? null) ? $homepage['brand_cards'] : []),
             'featuredCategories' => $featuredCategories,
             'goalCards' => $this->goalCards($featuredCategories),
@@ -197,6 +197,86 @@ class HomeController extends Controller
             })
             ->values()
             ->all();
+    }
+
+    /** @return Collection<int, Product> */
+    private function listedProducts(int $limit): Collection
+    {
+        $query = Product::query()
+            ->with('productCategory:id,name,slug')
+            ->orderBy('sort_order')
+            ->orderBy('id');
+
+        $inStock = (clone $query)->where('in_stock', true)->limit($limit)->get();
+
+        return $inStock->isNotEmpty() ? $inStock : $query->limit($limit)->get();
+    }
+
+    /** @return Collection<int, Product> */
+    private function dealProducts(int $limit): Collection
+    {
+        $discounted = Product::query()
+            ->with('productCategory:id,name,slug')
+            ->where('in_stock', true)
+            ->whereNotNull('old_price')
+            ->whereColumn('old_price', '>', 'price')
+            ->orderBy('sort_order')
+            ->orderBy('id')
+            ->limit($limit)
+            ->get();
+
+        return $discounted->isNotEmpty() ? $discounted : $this->listedProducts($limit);
+    }
+
+    /**
+     * @param  Collection<int, Product>  $products
+     * @return list<array<string, mixed>>
+     */
+    private function catalogCards(Collection $products): array
+    {
+        return $products
+            ->map(function (Product $product): array {
+                $presented = $this->presentProduct($product);
+
+                return [
+                    'id' => $presented['id'],
+                    'name' => $presented['name'],
+                    'category' => $presented['category'],
+                    'short' => $presented['short'],
+                    'price' => $presented['price_label'],
+                    'old_price' => $presented['old_price_label'] ?? '',
+                    'price_value' => $presented['price'],
+                    'old_price_value' => $presented['old_price'],
+                    'save_percent' => $presented['discount_percent'] ?? 0,
+                    'image_url' => $presented['image'] ?: '',
+                    'rating' => $presented['rating'],
+                    'reviews' => $presented['reviews'],
+                    'in_stock' => $presented['in_stock'],
+                    'url' => $presented['url'],
+                ];
+            })
+            ->values()
+            ->all();
+    }
+
+    /** @param  array<string, mixed>  $deals
+     * @return array<string, mixed>
+     */
+    private function liveWeeklyDeals(array $deals): array
+    {
+        $cards = $this->catalogCards($this->dealProducts(6));
+        $deals['products'] = $cards;
+        $first = $cards[0] ?? null;
+
+        if (is_array($deals['banner'] ?? null) && is_array($first)) {
+            $deals['banner']['url'] = $first['url'];
+            $deals['banner']['title'] = $first['name'];
+            if (filled($first['image_url'] ?? null)) {
+                $deals['banner']['image_url'] = $first['image_url'];
+            }
+        }
+
+        return $deals;
     }
 
     /** @return Collection<int, Product> */
